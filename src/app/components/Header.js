@@ -1,20 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../../public/images/logo.png";
+import { MenuIcon } from "lucide-react";
 
 const Links = [
   { label: "Home", href: "/" },
   { label: "Blogs", href: "/Blogs" },
-  { label: "Featured Post", href: "/" },
-  { label: "Latest Post", href: "/" },
   { label: "About", href: "/" },
 ];
 
 function Header() {
   return (
-    <header>
+    <header className="absolute left-0 roght-0 w-full">
       {/* container */}
-      <div className="flex justify-between items-center container mx-auto rounded-full my-8 bg-black">
+      <div className="flex justify-between items-center container mx-auto rounded-full mt-6 bg-black/80 backdrop-blur-md">
         <div className="flex gap-10 items-center">
           {/* logo */}
           <div className="ml-6">
@@ -32,13 +31,15 @@ function Header() {
         </div>
         {/* sign in buttons */}
         <div className="lg:flex items-center mr-2 gap-2 hidden">
-          <button className="font-sans font-medium tracking-wider py-2 px-4 bg-gray-100 hover:bg-gray-300 transition- duration-200 text-black rounded-full my-2 active:scale-105">
+          <button className="font-sans font-medium tracking-wider py-2 px-4 bg-gray-100 hover:bg-gray-300 transition-all duration-200 text-black rounded-full my-2 active:scale-105">
             Register
           </button>
           <button className="font-sans font-medium tracking-wider py-2 px-4 bg-accent hover:bg-hover transition-all duration-200 text-indigo-50 rounded-full my-2 active:scale-105">
             Sign in
           </button>
         </div>
+        {/* Burger menu Icon */}
+        <MenuIcon className="lg:hidden text-white mr-6" />
       </div>
     </header>
   );
@@ -48,7 +49,7 @@ function Li({ children, href }) {
     <li>
       <Link
         href={href}
-        className="hover:text-indigo-500 transition-all duration-200"
+        className="hover:text-hover transition-all duration-200"
       >
         {children}
       </Link>
