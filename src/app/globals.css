@@ -8,4 +8,15 @@
   --color-accent: #6366f1;
   --color-hover: #8b5cf6;
   --color-border: #1f2937;
+
+  --font-inter: var(--font-inter);
+
+  /* This maps 'font-sora' */
+  --font-sora: var(--font-sora);
+
+  /* This maps 'font-space' */
+  --font-space: var(--font-spaceGrotesk);
+
+  /* Optional: Override the default sans font for the whole app */
+  --font-sans: var(--font-inter);
 }
