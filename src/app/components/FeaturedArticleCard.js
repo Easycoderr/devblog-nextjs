@@ -47,7 +47,7 @@ function ArticleCard({ article }) {
               href="/"
               className="group flex text-md items-center gap-2 bg-accent px-3 py-1.5 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
             >
-              See Article{" "}
+              Read Article{" "}
               <ArrowRight className="group-hover:translate-x-0.5 transition duration-200" />
             </Link>
           </div>
