@@ -3,6 +3,7 @@ import HeroSection from "./ui/HeroSection";
 import FeaturedArticle from "./ui/FeaturedArticle";
 import LatestArticle from "./ui/LatestArticle";
 import AboutSection from "./ui/AboutSection";
+import Footer from "./ui/Footer";
 // fake data
 export const posts = [
   {
@@ -109,7 +110,10 @@ export default function Home() {
         <FeaturedArticle posts={posts} />
         {/* Latest Article */}
         <LatestArticle posts={posts} />
+        {/* about devBlog website */}
         <AboutSection />
+        {/* footer  */}
+        <Footer />
       </div>
     </div>
   );
