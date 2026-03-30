@@ -3,14 +3,16 @@ import Link from "next/link";
 import { MenuIcon, XIcon } from "lucide-react";
 import Logo from "../components/Logo";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Links = [
   { label: "Home", href: "/" },
   { label: "Blogs", href: "/Blogs" },
-  { label: "About", href: "/" },
+  // { label: "About", href: "#about" },
 ];
 
 function Header() {
+  const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
   return (
     <header className="absolute px-2 md:px-0  left-0 right-0 w-full container 2xl:px-10 mx-auto ">
@@ -25,7 +27,7 @@ function Header() {
             <nav className="hidden lg:block">
               <ul className="flex text-text items-center truncate gap-6 font-sans text-md font-medium tracking-wider">
                 {Links.map((link, index) => (
-                  <Li key={index} href={link.href}>
+                  <Li key={index} href={link.href} pathname={pathname}>
                     {link.label}
                   </Li>
                 ))}
@@ -70,12 +72,12 @@ function Header() {
     </header>
   );
 }
-function Li({ children, href }) {
+function Li({ children, href, pathname }) {
   return (
     <li>
       <Link
         href={href}
-        className="hover:text-hover transition-all duration-200"
+        className={`${href === pathname && "active"} hover:text-hover transition-all duration-200`}
       >
         {children}
       </Link>
