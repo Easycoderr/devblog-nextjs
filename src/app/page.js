@@ -1,10 +1,9 @@
 import Header from "./ui/Header";
 import HeroSection from "./ui/HeroSection";
 import FeaturedArticle from "./ui/FeaturedArticle";
-import Image from "next/image";
-import { ArrowRight, Calendar } from "lucide-react";
-import Link from "next/link";
 import LatestArticle from "./ui/LatestArticle";
+import AboutSection from "./ui/AboutSection";
+// fake data
 export const posts = [
   {
     id: 1,
@@ -110,6 +109,7 @@ export default function Home() {
         <FeaturedArticle posts={posts} />
         {/* Latest Article */}
         <LatestArticle posts={posts} />
+        <AboutSection />
       </div>
     </div>
   );
