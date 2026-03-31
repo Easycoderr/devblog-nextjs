@@ -1,7 +1,7 @@
 import { LucideCircleArrowRight } from "lucide-react";
 function HeroSection() {
   return (
-    <section className="h-screen bg-gray-50 pb-16 flex items-center">
+    <section id="home" className="h-screen bg-gray-50 pb-16 flex items-center">
       <div className="container 2xl:px-10 mx-auto">
         <div className="flex items-center justify-center flex-col gap-8">
           <div className="bg-gradient-to-l from-transparent via-purple-800/20 to-transparent flex items-center justify-center">

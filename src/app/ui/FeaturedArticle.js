@@ -3,7 +3,10 @@ import ArticleCard from "../components/FeaturedArticleCard";
 function FeaturedArticle({ posts }) {
   const featuredPosts = posts.filter((post) => post.isFeatured)[0];
   return (
-    <section className="h-screen py-16 bg-gray-100 flex  flex-col">
+    <section
+      id="featured"
+      className="h-screen py-16 bg-gray-100 flex  flex-col"
+    >
       <div className="container 2xl:px-10 mx-auto flex flex-col gap-16">
         {/* head */}
         <div className="space-y-3">

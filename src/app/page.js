@@ -103,7 +103,7 @@ export default function Home() {
   return (
     <div className="relative w-full">
       <Header />
-      <div className="grid grid-cols-1">
+      <main className="grid grid-cols-1">
         {/* hero */}
         <HeroSection />
         {/* Featured Article */}
@@ -114,7 +114,7 @@ export default function Home() {
         <AboutSection />
         {/* footer  */}
         <Footer />
-      </div>
+      </main>
     </div>
   );
 }

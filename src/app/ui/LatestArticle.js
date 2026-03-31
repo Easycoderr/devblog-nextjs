@@ -3,7 +3,7 @@ import ArticleCard from "../components/ArticleCard";
 function LatestArticle({ posts }) {
   const latestPosts = posts.slice(0, 6);
   return (
-    <section className="min-h-screen py-16 bg-gray-50 flex  flex-col">
+    <section id="home" className="min-h-screen py-16 bg-gray-50 flex  flex-col">
       <div className="container 2xl:px-10 mx-auto flex flex-col gap-16">
         {/* head */}
         <div className="space-y-3">

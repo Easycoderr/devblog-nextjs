@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
+      className={`${sora.variable} ${spaceGrotesk.variable} ${inter.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col font-inter">{children}</body>
     </html>
