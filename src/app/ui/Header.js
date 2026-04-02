@@ -5,15 +5,15 @@ import Logo from "../components/Logo";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import useActiveSection from "../hooks/useActiveSection";
-const sectionIds = ["home", "about", "blog"];
+
 const Links = [
   { id: "home", label: "Home", href: "/" },
-  { id: "blogs", label: "Blogs", href: "/Blogs" },
+  { id: "blogs", label: "Blogs", href: "/blogs" },
   { id: "about", label: "About", href: "#about" },
 ];
 
 function Header() {
-  const activeSection = useActiveSection(sectionIds);
+  const activeSection = useActiveSection(Links);
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
   const [sticky, setSticky] = useState(false);
@@ -25,7 +25,9 @@ function Header() {
       });
     });
     const id = document.getElementById("home");
-    observer.observe(id);
+    if (id) {
+      observer.observe(id);
+    }
     return () => observer.disconnect();
   }, [sticky]);
 
@@ -85,7 +87,13 @@ function Header() {
           ></div>
           <ul className="flex text-text flex-col items-center truncate gap-6 font-sans text-md font-medium tracking-wider">
             {Links.map((link, index) => (
-              <Li key={index} href={link.href}>
+              <Li
+                key={index}
+                id={link.id}
+                activeSection={activeSection}
+                href={link.href}
+                pathname={pathname}
+              >
                 {link.label}
               </Li>
             ))}
@@ -100,7 +108,7 @@ function Li({ children, href, pathname, id, activeSection }) {
     <li>
       <Link
         href={href}
-        className={`${id === activeSection && "active"} hover:text-hover transition-all duration-200`}
+        className={`${id === activeSection || (pathname === href && "active")} hover:text-hover transition-all duration-200`}
       >
         {children}
       </Link>
