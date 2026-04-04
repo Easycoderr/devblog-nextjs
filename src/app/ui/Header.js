@@ -9,7 +9,7 @@ import useActiveSection from "../hooks/useActiveSection";
 const Links = [
   { id: "home", label: "Home", href: "/" },
   { id: "blogs", label: "Blogs", href: "/blogs" },
-  { id: "about", label: "About", href: "#about" },
+  { id: "about", label: "About", href: "/#about" },
 ];
 
 function Header() {
@@ -33,7 +33,7 @@ function Header() {
 
   return (
     <header
-      className={`${!sticky && "sticky z-60 right-0 left-0 top-6"} px-2 md:px-0  left-0 right-0 w-full container 2xl:px-10 mx-auto`}
+      className={`${!sticky && "sticky z-60 right-0 left-0 top-6"} z-100 px-2 md:px-0  left-0 right-0 w-full container 2xl:px-10 mx-auto`}
     >
       {/* container */}
       <div className="transition-all duration-200 rounded-4xl lg:rounded-full mt-6 bg-black/80 backdrop-blur-md">
