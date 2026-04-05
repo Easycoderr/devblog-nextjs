@@ -102,7 +102,6 @@ Understanding this is key for modern apps.
 export default function Home() {
   return (
     <div className="relative w-full">
-      <Header />
       <main className="grid grid-cols-1">
         {/* hero */}
         <HeroSection />
@@ -112,8 +111,6 @@ export default function Home() {
         <LatestArticle posts={posts} />
         {/* about devBlog website */}
         <AboutSection />
-        {/* footer  */}
-        <Footer />
       </main>
     </div>
   );

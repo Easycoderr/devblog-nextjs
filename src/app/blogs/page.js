@@ -1,6 +1,4 @@
 import { Filter, Search } from "lucide-react";
-import Footer from "../ui/Footer";
-import Header from "../ui/Header";
 import ArticleCard from "../components/ArticleCard";
 
 import Pagination from "../components/Pagination";
@@ -102,15 +100,14 @@ Understanding this is key for modern apps.
 function page() {
   return (
     <div className="space-y-12 relative w-full">
-      <Header />
       {/* main */}
-      <main className="container px-10 space-y-10 mx-auto">
+      <main className="container flex flex-col px-10 space-y-10 mx-auto">
         <div className="space-y-3 mx-auto">
-          <h2 className="text-3xl text-start md:text-4xl ml-3 md:ml-0 font-sora font-bold">
+          <h2 className="text-4xl text-start md:text-5xl ml-3 md:ml-0 font-sora font-bold">
             All Articles
           </h2>
-          <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-2xs md:max-w-2xs mb-0.5"></div>
-          <p className="text-muted leading-relaxed tracking-normal font-medium">
+          <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-xs md:max-w-xs mb-0.5"></div>
+          <p className="text-muted text-center leading-relaxed tracking-normal font-medium">
             Explore all posts and tutorials
           </p>
         </div>
@@ -156,9 +153,10 @@ function page() {
           ))}
         </div>
         {/* pagination */}
-        <Pagination />
+        <div className="mx-auto">
+          <Pagination totalPages={4} />
+        </div>
       </main>
-      <Footer />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { Inter, Sora, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 
 import "./globals.css";
+import Header from "./ui/Header";
+import Footer from "./ui/Footer";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -26,7 +28,9 @@ export default function RootLayout({ children }) {
       className={`${sora.variable} ${spaceGrotesk.variable} ${inter.variable} h-full scroll-smooth antialiased`}
     >
       <body className="relative min-h-full flex flex-col font-inter">
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
