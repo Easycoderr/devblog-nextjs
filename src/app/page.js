@@ -1,9 +1,8 @@
-import Header from "./ui/Header";
 import HeroSection from "./ui/HeroSection";
 import FeaturedArticle from "./ui/FeaturedArticle";
 import LatestArticle from "./ui/LatestArticle";
 import AboutSection from "./ui/AboutSection";
-import Footer from "./ui/Footer";
+
 // fake data
 export const posts = [
   {

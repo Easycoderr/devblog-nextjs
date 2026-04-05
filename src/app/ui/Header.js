@@ -15,7 +15,7 @@ const Links = [
 function Header() {
   const activeSection = useActiveSection(Links);
   const pathname = usePathname();
-  console.log(pathname);
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
@@ -29,7 +29,7 @@ function Header() {
       observer.observe(id);
     }
     return () => observer.disconnect();
-  }, [sticky]);
+  }, [sticky, pathname]);
 
   return (
     <header
@@ -104,11 +104,17 @@ function Header() {
   );
 }
 function Li({ children, href, pathname, id, activeSection }) {
+  // console.log(
+  //   `Link: ${id}, ActiveSec: ${activeSection}, Path: ${pathname}, Href: ${href}`,
+  // );
+
+  const isActive =
+    id === activeSection || (activeSection !== "about" && href === pathname);
   return (
     <li>
       <Link
         href={href}
-        className={`${id === activeSection || (pathname === href && "active")} hover:text-hover transition-all duration-200`}
+        className={`${isActive && "active"} hover:text-hover transition-all duration-200`}
       >
         {children}
       </Link>

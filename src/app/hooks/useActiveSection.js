@@ -1,7 +1,9 @@
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function useActiveSection(sectionIds) {
   const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -17,8 +19,11 @@ function useActiveSection(sectionIds) {
       const el = document.getElementById(section.id);
       if (el) observer.observe(el);
     });
-    return () => observer.disconnect();
-  }, [sectionIds]);
+    return () => {
+      observer.disconnect();
+      setActiveSection("");
+    };
+  }, [pathname, sectionIds]);
   return activeSection;
 }
 
