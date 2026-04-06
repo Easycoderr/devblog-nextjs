@@ -101,7 +101,7 @@ function page() {
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}
-      <main className="container flex flex-col px-10 space-y-10 mx-auto">
+      <main className="container flex flex-col px-10 py-10 space-y-10 mx-auto">
         <div className="space-y-3 mx-auto">
           <h2 className="text-4xl text-start md:text-5xl ml-3 md:ml-0 font-sora font-bold">
             All Articles

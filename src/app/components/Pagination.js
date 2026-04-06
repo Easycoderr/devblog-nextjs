@@ -27,28 +27,28 @@ function Pagination({ totalPages }) {
       <Link
         scroll={false}
         href={createPageURL(1)}
-        className="h-8 w-8 flex items-center justify-center  rounded-full bg-accent text-gray-50 text-center"
+        className="h-8 w-8 flex items-center justify-center  rounded-full border border-accent border-0.5 text-accent text-center"
       >
         1
       </Link>
       <Link
         scroll={false}
         href={createPageURL(2)}
-        className="h-8 w-8 flex items-center justify-center  rounded-full bg-accent text-gray-50 text-center"
+        className="h-8 w-8 flex items-center justify-center  rounded-full border border-accent border-0.5 text-accent text-center"
       >
         2
       </Link>
       <Link
         scroll={false}
         href={createPageURL(3)}
-        className="h-8 w-8 flex items-center justify-center  rounded-full bg-accent text-gray-50 text-center"
+        className="h-8 w-8 flex items-center justify-center  rounded-full border border-accent border-0.5 text-accent text-center"
       >
         3
       </Link>
       <Link
         scroll={false}
         href={createPageURL(4)}
-        className="h-8 w-8 flex items-center justify-center  rounded-full bg-accent text-gray-50 text-center"
+        className="h-8 w-8 flex items-center justify-center  rounded-full border border-accent border-0.5 text-accent text-center"
       >
         4
       </Link>
