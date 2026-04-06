@@ -5,7 +5,10 @@ import Logo from "../components/Logo";
 function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer id="footer" className="pt-6 pb-2 bg-black/80 flex  flex-col">
+    <footer
+      id="footer"
+      className="mt-auto pt-6 pb-2 bg-black/80 flex  flex-col"
+    >
       <div className="container 2xl:px-10 mx-auto">
         <div className="grid grid-cols-1 gap-4">
           {/* logo */}

@@ -32,7 +32,7 @@ By the end, you will understand how to build fast and reliable apps.
 function page() {
   const { title, description, slug, content, date, category, readTime } = posts;
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <div className="container 2xl:px-10 px-2 py-10 mx-auto">
         <div className="">
           <div className="flex flex-col gap-6">
@@ -45,7 +45,7 @@ function page() {
             {/* article slug */}
             <div className="text-muted text-xl md:text-2xl mt-7">#{slug}</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7 gap-x-7">
-              <div className="rounded-tl-full">
+              <div>
                 <Image
                   src="/images/img1.png"
                   alt="item image"
@@ -78,7 +78,7 @@ function page() {
                 </div>
               </div>
               {/* content */}
-              <div className="leading-relaxed text-gray-500 col-span-2 hyphens-auto text-pretty">
+              <div className="leading-relaxed text-gray-500 md:col-span-2 hyphens-auto text-pretty">
                 {content}
               </div>
             </div>
