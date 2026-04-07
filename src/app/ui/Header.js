@@ -61,12 +61,18 @@ function Header() {
           </div>
           {/* sign in buttons */}
           <div className="lg:flex items-center mr-2 gap-2 hidden">
-            <button className="font-sans font-medium tracking-wider py-2 px-4 bg-gray-100 hover:bg-gray-300 transition-all duration-200 text-black rounded-full my-2 active:scale-105">
+            <Link
+              href="/auth/register"
+              className="font-sans font-medium tracking-wider py-2 px-4 bg-gray-100 hover:bg-gray-300 transition-all duration-200 text-black rounded-full my-2 active:scale-105"
+            >
               Register
-            </button>
-            <button className="font-sans font-medium tracking-wider py-2 px-4 bg-accent hover:bg-hover transition-all duration-200 text-indigo-50 rounded-full my-2 active:scale-105">
+            </Link>
+            <Link
+              href="/auth/signin"
+              className="font-sans font-medium tracking-wider py-2 px-4 bg-accent hover:bg-hover transition-all duration-200 text-indigo-50 rounded-full my-2 active:scale-105"
+            >
               Sign in
-            </button>
+            </Link>
           </div>
           {/* Burger menu Icon */}
           <button
