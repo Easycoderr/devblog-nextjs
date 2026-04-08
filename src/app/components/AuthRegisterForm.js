@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { registerSchema } from "../utils/schema";
 import Link from "next/link";
 
-function AuthForm() {
+function AuthRegisterForm() {
   const {
     register,
     handleSubmit,
@@ -168,4 +168,4 @@ function AuthForm() {
   );
 }
 
-export default AuthForm;
+export default AuthRegisterForm;

@@ -1,4 +1,4 @@
-import { email, z } from "zod";
+import { z } from "zod";
 
 export const contactSchema = z.object({
   title: z
@@ -25,3 +25,9 @@ export const registerSchema = z
     message: "Passwords do not mutch.",
     path: ["confirmPassword"],
   });
+
+// sign form validation
+export const signInSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
