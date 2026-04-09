@@ -51,7 +51,7 @@ function AuthRegisterForm() {
               </label>
               <input
                 type="text"
-                className={`${errors.firstName ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 rounded-lg w-full text-sm focus:outline-none`}
+                className={`${errors.firstName ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
                 {...register("firstName")}
               />
               <span className="flex">
@@ -71,7 +71,7 @@ function AuthRegisterForm() {
               </label>
               <input
                 type="text"
-                className={`${errors.lastName ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 rounded-lg w-full text-sm focus:outline-none`}
+                className={`${errors.lastName ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
                 {...register("lastName")}
               />
               <span className="flex">
@@ -93,7 +93,7 @@ function AuthRegisterForm() {
             <input
               {...register("email")}
               type="text"
-              className={`${errors.email ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              className={`${errors.email ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
             />
             <span className="flex">
               {errors.email && (
@@ -113,7 +113,7 @@ function AuthRegisterForm() {
             <input
               {...register("password")}
               type="password"
-              className={`${errors.password ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              className={`${errors.password ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
             />
             <span className="flex">
               {errors.password && (
@@ -133,7 +133,7 @@ function AuthRegisterForm() {
             <input
               {...register("confirmPassword")}
               type="password"
-              className={`${errors.confirmPassword ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              className={`${errors.confirmPassword ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
             />
             <span className="flex">
               {errors.confirmPassword && (

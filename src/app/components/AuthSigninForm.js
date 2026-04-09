@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftCircleIcon, Eye, EyeClosed } from "lucide-react";
+import { ArrowLeftCircleIcon, Eye, EyeClosed, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signInSchema } from "../utils/schema";
 import Link from "next/link";
@@ -47,11 +47,16 @@ function AuthSigninForm() {
             >
               Email
             </label>
-            <input
-              {...register("email")}
-              type="text"
-              className={`${errors.email ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
-            />
+            <div className="relative">
+              <input
+                {...register("email")}
+                type="text"
+                className={`${errors.email ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              />
+              <span className="absolute right-2 top-[50%] -translate-y-[50%]">
+                <Mail size={18} />
+              </span>
+            </div>
             <span className="flex">
               {errors.email && (
                 <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
@@ -76,7 +81,7 @@ function AuthSigninForm() {
               <span
                 tabIndex="1"
                 onClick={() => setShowPassword((show) => !show)}
-                className="absolute right-1 top-[50%] -translate-y-[50%]"
+                className="absolute right-2 top-[50%] -translate-y-[50%]"
               >
                 {showPassword ? <EyeClosed size={20} /> : <Eye size={20} />}
               </span>
