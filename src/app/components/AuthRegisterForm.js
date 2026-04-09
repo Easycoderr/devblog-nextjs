@@ -4,6 +4,8 @@ import { ArrowLeftCircleIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../utils/schema";
 import Link from "next/link";
+import { registerUser } from "../lib/actions/auth";
+import { redirect } from "next/navigation";
 
 function AuthRegisterForm() {
   const {
@@ -21,8 +23,14 @@ function AuthRegisterForm() {
       lastName: "",
     },
   });
-  function onSubmit(data) {
-    console.log(data);
+  async function onSubmit(data) {
+    const response = await registerUser(data);
+    if (response.success) {
+      alert("user registered");
+      redirect("signin");
+    } else {
+      alert("error");
+    }
   }
   return (
     <>
