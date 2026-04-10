@@ -1,21 +1,23 @@
 "use client";
 import Link from "next/link";
-import { MenuIcon, XIcon } from "lucide-react";
 import Logo from "../components/Logo";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import useActiveSection from "../hooks/useActiveSection";
 
-const Links = [
+import HeaderMobNav from "../components/HeaderMobNav";
+import HeaderDeskNav from "../components/HeaderDeskNav";
+import { MenuIcon, XIcon } from "lucide-react";
+
+const links = [
   { id: "home", label: "Home", href: "/" },
   { id: "blogs", label: "Blogs", href: "/blogs" },
   { id: "about", label: "About", href: "/#about" },
 ];
 
-function Header() {
-  const activeSection = useActiveSection(Links);
+function Header({ user }) {
+  const activeSection = useActiveSection(links);
   const pathname = usePathname();
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
@@ -43,37 +45,40 @@ function Header() {
             <div className="ml-6">
               <Logo w={160} h={160} />
             </div>
-            <nav className="hidden lg:block">
-              <ul className="flex text-text items-center truncate gap-6 font-sans text-md font-medium tracking-wider">
-                {Links.map((link, index) => (
-                  <Li
-                    key={index}
-                    id={link.id}
-                    activeSection={activeSection}
-                    href={link.href}
-                    pathname={pathname}
-                  >
-                    {link.label}
-                  </Li>
-                ))}
-              </ul>
-            </nav>
+            <HeaderDeskNav
+              links={links}
+              activeSection={activeSection}
+              pathname={pathname}
+            />
           </div>
           {/* sign in buttons */}
-          <div className="lg:flex items-center mr-2 gap-2 hidden">
-            <Link
-              href="/auth/register"
-              className="font-sans font-medium tracking-wider py-2 px-4 bg-gray-100 hover:bg-gray-300 transition-all duration-200 text-black rounded-full my-2 active:scale-105"
-            >
-              Register
-            </Link>
-            <Link
-              href="/auth/signin"
-              className="font-sans font-medium tracking-wider py-2 px-4 bg-accent hover:bg-hover transition-all duration-200 text-indigo-50 rounded-full my-2 active:scale-105"
-            >
-              Sign in
-            </Link>
-          </div>
+
+          {/* if user registered and login profile */}
+          {user ? (
+            <div className="lg:flex items-center mr-2 gap-1 hidden">
+              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sora text-2xl text-indigo-200">
+                {user?.firstName[0]}
+              </div>
+              <span className="px-2 py-1 rounded-full bg-indigo-500/50 text-gray-100 text-sm font-medium">
+                {user?.name}
+              </span>
+            </div>
+          ) : (
+            <div className="lg:flex items-center mr-2 gap-2 hidden">
+              <Link
+                href="/auth/register"
+                className="font-sans font-medium tracking-wider py-2 px-4 bg-gray-100 hover:bg-gray-300 transition-all duration-200 text-black rounded-full my-2 active:scale-105"
+              >
+                Register
+              </Link>
+              <Link
+                href="/auth/signin"
+                className="font-sans font-medium tracking-wider py-2 px-4 bg-accent hover:bg-hover transition-all duration-200 text-indigo-50 rounded-full my-2 active:scale-105"
+              >
+                Sign in
+              </Link>
+            </div>
+          )}
           {/* Burger menu Icon */}
           <button
             className="lg:hidden"
@@ -87,44 +92,16 @@ function Header() {
             )}
           </button>
         </div>
-        <nav className={`${!isExpanded && "hidden"} lg:hidden h-38`}>
-          <div
-            className={`h-0.5 ${isExpanded && "w-full"} bg-gray-600 mb-4 transition-all duration-200`}
-          ></div>
-          <ul className="flex text-text flex-col items-center truncate gap-6 font-sans text-md font-medium tracking-wider">
-            {Links.map((link, index) => (
-              <Li
-                key={index}
-                id={link.id}
-                activeSection={activeSection}
-                href={link.href}
-                pathname={pathname}
-              >
-                {link.label}
-              </Li>
-            ))}
-          </ul>
-        </nav>
+        {/* mobile */}
+        <HeaderMobNav
+          links={links}
+          activeSection={activeSection}
+          pathname={pathname}
+          isExpanded={isExpanded}
+        />
       </div>
     </header>
   );
 }
-function Li({ children, href, pathname, id, activeSection }) {
-  // console.log(
-  //   `Link: ${id}, ActiveSec: ${activeSection}, Path: ${pathname}, Href: ${href}`,
-  // );
 
-  const isActive =
-    id === activeSection || (activeSection !== "about" && href === pathname);
-  return (
-    <li>
-      <Link
-        href={href}
-        className={`${isActive && "active"} hover:text-hover transition-all duration-200`}
-      >
-        {children}
-      </Link>
-    </li>
-  );
-}
 export default Header;

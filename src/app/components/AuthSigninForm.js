@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { signInSchema } from "../utils/schema";
 import Link from "next/link";
 import { useState } from "react";
-import { signIn } from "../lib/actions/auth";
+import { signInUser } from "../lib/actions/auth";
 function AuthSigninForm() {
   const {
     register,
@@ -22,7 +22,7 @@ function AuthSigninForm() {
   // local state
   const [showPassword, setShowPassword] = useState(false);
   async function onSubmit(data) {
-    await signIn(data);
+    await signInUser(data);
   }
   return (
     <>

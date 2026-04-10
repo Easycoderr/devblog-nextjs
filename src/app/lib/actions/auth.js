@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { prisma } from "../prisma";
 import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
 
 export async function registerUser(formData) {
   const { firstName, lastName, email, password } = formData;
@@ -37,7 +38,7 @@ export async function registerUser(formData) {
   return { success: true };
 }
 
-export async function signIn(formData) {
+export async function signInUser(formData) {
   const { email, password } = formData;
   //1. check email exist
   const user = await prisma.user.findUnique({ where: { email } });
@@ -47,5 +48,10 @@ export async function signIn(formData) {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid email or password");
   // 3. fofr now just redirect
+  (await cookies()).set("userId", user.id, {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+  });
   redirect("/blogs");
 }
