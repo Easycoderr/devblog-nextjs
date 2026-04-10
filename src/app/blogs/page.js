@@ -2,6 +2,8 @@ import { Filter, Search } from "lucide-react";
 import ArticleCard from "../components/ArticleCard";
 
 import Pagination from "../components/Pagination";
+import getCurrentUser from "../lib/getUser";
+import Link from "next/link";
 
 export const posts = [
   {
@@ -97,19 +99,30 @@ Understanding this is key for modern apps.
     isFeatured: false,
   },
 ];
-function page() {
+async function page() {
+  const user = await getCurrentUser();
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}
       <main className="container flex flex-col px-10 py-10 space-y-10 mx-auto">
-        <div className="space-y-3 mx-auto">
-          <h2 className="text-4xl text-start md:text-5xl ml-3 md:ml-0 font-sora font-bold">
-            All Articles
-          </h2>
-          <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-xs md:max-w-xs mb-0.5"></div>
-          <p className="text-muted text-center leading-relaxed tracking-normal font-medium">
-            Explore all posts and tutorials
-          </p>
+        <div className="flex justify-between">
+          <div className="space-y-3">
+            <h2 className="text-4xl text-start md:text-5xl ml-3 md:ml-0 font-sora font-bold">
+              All Articles
+            </h2>
+            <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-xs md:max-w-xs mb-0.5"></div>
+            <p className="text-muted leading-relaxed tracking-normal font-medium">
+              Explore all posts and tutorials
+            </p>
+          </div>
+          <div>
+            <Link
+              href={!user ? "/auth/register" : "/blogs/create"}
+              className="bg-black/80 text-gray-50 hover:bg-accent transition-all duration-200 px-4 py-2 rounded-full"
+            >
+              {!user ? "Make your first article" : "Add article +"}
+            </Link>
+          </div>
         </div>
         {/* search + filter */}
         <div className="flex md:gap-x-10 md:gap-y-0 gap-y-4 flex-col md:flex-row">

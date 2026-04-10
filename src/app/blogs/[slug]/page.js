@@ -1,12 +1,6 @@
-import {
-  ArrowBigLeft,
-  ArrowLeftCircleIcon,
-  ArrowRight,
-  Calendar,
-  Flame,
-  Link,
-} from "lucide-react";
+import { ArrowLeftCircleIcon, Calendar } from "lucide-react";
 import Image from "next/image";
+
 export const posts = {
   id: 1,
   slug: "mastering-react-query",
@@ -29,7 +23,7 @@ By the end, you will understand how to build fast and reliable apps.
   readTime: "6 min read",
   isFeatured: true,
 };
-function page() {
+async function page() {
   const { title, description, slug, content, date, category, readTime } = posts;
   return (
     <div className="min-h-screen">

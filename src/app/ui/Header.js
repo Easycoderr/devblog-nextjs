@@ -7,7 +7,8 @@ import useActiveSection from "../hooks/useActiveSection";
 
 import HeaderMobNav from "../components/HeaderMobNav";
 import HeaderDeskNav from "../components/HeaderDeskNav";
-import { MenuIcon, XIcon } from "lucide-react";
+import { LogOut, MenuIcon, XIcon } from "lucide-react";
+import { signOutUser } from "../lib/actions/auth";
 
 const links = [
   { id: "home", label: "Home", href: "/" },
@@ -59,9 +60,23 @@ function Header({ user }) {
               <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sora text-2xl text-indigo-200">
                 {user?.firstName[0]}
               </div>
-              <span className="px-2 py-1 rounded-full bg-indigo-500/50 text-gray-100 text-sm font-medium">
+              {/* <span className="px-2 py-1 rounded-full bg-indigo-500/50 text-gray-100 text-sm font-medium">
                 {user?.name}
-              </span>
+              </span> */}
+              {
+                <div>
+                  <button
+                    onClick={signOutUser}
+                    aria-label="sign out button"
+                    className="text-xs flex gap-1 items-center font-sans font-medium tracking-wider py-1 px-2 bg-red-500 hover:bg-red-400 transition-all duration-200 text-red-50 rounded-full my-2 active:scale-105"
+                  >
+                    Sign Out
+                    <span>
+                      <LogOut size={12} />
+                    </span>
+                  </button>
+                </div>
+              }
             </div>
           ) : (
             <div className="lg:flex items-center mr-2 gap-2 hidden">

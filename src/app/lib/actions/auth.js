@@ -47,11 +47,16 @@ export async function signInUser(formData) {
   // 2. compare passwords
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid email or password");
-  // 3. fofr now just redirect
+  // 3. set userid to cookies and redirect to blogs
   (await cookies()).set("userId", user.id, {
     httpOnly: true,
     secure: true,
     path: "/",
   });
   redirect("/blogs");
+}
+
+export async function signOutUser() {
+  (await cookies()).delete("userId");
+  redirect("/");
 }
