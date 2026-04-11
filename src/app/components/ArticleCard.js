@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Pencil, TrashIcon } from "lucide-react";
 import Link from "next/link";
+import getCurrentUser from "../lib/getUser";
 
 async function ArticleCard({ post }) {
+  const user = await getCurrentUser();
   return (
     <div className="flex overflow-hidden hover:scale-100 transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
@@ -34,7 +36,7 @@ async function ArticleCard({ post }) {
               </span>
             </span>
           </div>
-          <div className="flex">
+          <div className="flex justify-between">
             <Link
               href="blogs/3"
               className="group flex text-md items-center gap-2 bg-accent px-3 py-1.5 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
@@ -42,6 +44,22 @@ async function ArticleCard({ post }) {
               Read Article{" "}
               <ArrowRight className="group-hover:translate-x-0.5 transition duration-200" />
             </Link>
+            {/* Display edit/delete options only if the current user is the author */}
+            {user?.id === post.authorId && (
+              <div className="flex gap-2">
+                {/* edit */}
+                <Link
+                  href={`/blogs/edit/${post.id}`}
+                  className="bg-indigo-100 p-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-indigo-200 transition-all duration-200 "
+                >
+                  <Pencil size={18} className="text-accent" />
+                </Link>
+                {/* delete */}
+                <button className="bg-red-100 p-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-red-200 transition-all duration-200 cursor-pointer">
+                  <TrashIcon size={18} className="text-red-500" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
