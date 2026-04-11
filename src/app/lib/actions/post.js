@@ -1,8 +1,8 @@
 "use server";
-
 import { redirect } from "next/navigation";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
+import { revalidatePath } from "next/cache";
 
 // get posts
 export async function getPosts() {
@@ -10,6 +10,7 @@ export async function getPosts() {
   console.log("POSTS:", posts);
   return posts;
 }
+
 // create post server action
 async function createPost(formData) {
   const user = await getCurrentUser();
@@ -21,5 +22,10 @@ async function createPost(formData) {
   });
   redirect("/blogs");
 }
+// delete post
 
+export async function deletePost(postId) {
+  await prisma.post.delete({ where: { id: postId } });
+  revalidatePath("/blogs");
+}
 export default createPost;
