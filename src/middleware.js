@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
-  console.log(request);
   const userId = request.cookies.get("userId")?.value;
   const { pathname } = request.nextUrl;
   // 1. Define which routes need protection

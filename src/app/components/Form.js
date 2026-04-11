@@ -1,8 +1,9 @@
 "use client";
 import { ArrowLeftCircleIcon } from "lucide-react";
-import { contactSchema } from "../utils/schema";
+import { contactSchema, postFormSchema } from "../utils/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import createPost from "../lib/actions/post";
 
 function Form() {
   const {
@@ -11,29 +12,34 @@ function Form() {
     formState: { errors },
     reset,
   } = useForm({
-    resolver: zodResolver(contactSchema),
-    defaultValues: { title: "", description: "", content: "" },
+    resolver: zodResolver(postFormSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      content: "",
+      category: "",
+    },
   });
-  function onSubmit(data) {
-    console.log(data);
+  async function onSubmit(data) {
+    await createPost(data);
   }
 
   return (
     <>
       {/* form body */}
-      <div className="self-start">
+      <div className="self-center">
         <button className="flex tracking-wider items-center rounded-full gap-1 hover:opacity-90 hover:bg-hover active:opacity-100 active:scale-103 px-3 py-1.5 bg-black/80 text-gray-50 transition-all duration-200">
           <ArrowLeftCircleIcon size={23} />
           <span>Back to blogs</span>
         </button>
       </div>
-      <div className="border-1 border-black rounded-xl p-4 shadow-sm">
+      <div className="border-1 border-black rounded-xl p-4 shadow-sm w-full  md:max-w-3xl">
         <h2 className="text-3xl md:text-4xl tracking-tight font-bold text-accent mb-8 font-sora">
           Create your Article
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 md:min-w-3xl"
+          className="flex flex-col gap-4 w-full"
         >
           <div className="flex flex-col gap-1 w-full">
             <label
@@ -44,7 +50,7 @@ function Form() {
             </label>
             <input
               type="text"
-              className={`${errors.title ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              className={`${errors.title ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
               {...register("title")}
             />
             <span className="flex">
@@ -91,6 +97,34 @@ function Form() {
               {errors.content && (
                 <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
                   {errors.content.message}
+                </p>
+              )}
+            </span>
+          </div>
+          <div className="flex flex-col gap-1 w-full">
+            <label
+              htmlFor="category"
+              className="text-gray-600 font-semibold tracking-wide text-sm"
+            >
+              Category
+            </label>
+            <select
+              className={`${errors.category ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              {...register("category")}
+            >
+              <option className="text-gray-500" value="">
+                Choose Category
+              </option>
+              <option value="react">React</option>
+              <option value="javascript">Java Script</option>
+              <option value="css">Css</option>
+              <option value="html">HTML</option>
+              <option value="cpp">C++</option>
+            </select>
+            <span className="flex">
+              {errors.category && (
+                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
+                  {errors.category.message}
                 </p>
               )}
             </span>

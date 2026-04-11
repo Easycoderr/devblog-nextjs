@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const contactSchema = z.object({
+export const postFormSchema = z.object({
   title: z
     .string()
     .min(4, "Title should be string and must be at least 4 characters."),
@@ -8,6 +8,7 @@ export const contactSchema = z.object({
     .string()
     .min(100, "Description must be at least 100 characters."),
   content: z.string().min(500, "content must be at least 500+ characters."),
+  category: z.string().min(1, "Category is required"),
 });
 
 // register form validation

@@ -6,7 +6,6 @@ async function getCurrentUser() {
   const userId = cookieStore?.get("userId")?.value;
 
   if (!userId) return null;
-
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   return user;
