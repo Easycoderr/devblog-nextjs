@@ -4,6 +4,7 @@ import ArticleCard from "../components/ArticleCard";
 import Pagination from "../components/Pagination";
 import getCurrentUser from "../lib/getUser";
 import Link from "next/link";
+import ArticleList from "../components/ArticleList";
 
 export const posts = [
   {
@@ -101,6 +102,7 @@ Understanding this is key for modern apps.
 ];
 async function page() {
   const user = await getCurrentUser();
+
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}
@@ -158,13 +160,8 @@ async function page() {
             <Filter className="absolute top-[50%] -translate-y-[50%] left-2 peer-focus:text-accent" />
           </div>
         </div>
-        {/* articles */}
-        <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-6 px-4 md:px-0">
-          {/* Articles */}
-          {posts.map((post) => (
-            <ArticleCard key={post.id} post={post} />
-          ))}
-        </div>
+        {/* article list */}
+        <ArticleList />
         {/* pagination */}
         <div className="mx-auto">
           <Pagination totalPages={4} />

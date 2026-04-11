@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { ArrowRight, Calendar } from "lucide-react";
 import Link from "next/link";
-function ArticleCard({ post }) {
+
+async function ArticleCard({ post }) {
   return (
-    <div className="flex overflow-hidden hover:scale-103 transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
+    <div className="flex overflow-hidden hover:scale-100 transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
       <Image
         className="bg-contain"
