@@ -39,7 +39,7 @@ async function ArticleCard({ post }) {
           </div>
           <div className="flex justify-between">
             <Link
-              href="blogs/3"
+              href={`/blogs/${post.slug}`}
               className="group flex text-md items-center gap-2 bg-accent px-3 py-1.5 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
             >
               Read Article{" "}

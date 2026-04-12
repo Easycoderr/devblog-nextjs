@@ -1,40 +1,59 @@
-import { ArrowLeftCircleIcon, Calendar } from "lucide-react";
+import NavigateBackButton from "@/app/components/NavigateBackButton";
+import { deletePost, getPostBySlug } from "@/app/lib/actions/post";
+import getCurrentUser from "@/app/lib/getUser";
+import { Calendar, Pencil, TrashIcon } from "lucide-react";
+
 import Image from "next/image";
+import Link from "next/link";
 
-export const posts = {
-  id: 1,
-  slug: "mastering-react-query",
-  title: "Mastering React Query for Scalable Apps",
-  description:
-    "Learn how to manage server state efficiently with React Query and build scalable frontend applications.",
-  content: `
-React Query is a powerful library for managing server state in React applications.
+async function page({ params }) {
+  const { slug } = await params;
+  const userDataPromise = getCurrentUser();
+  const postsDataPromise = getPostBySlug(slug);
 
-In this article, we explore:
-- Fetching data
-- Caching
-- Mutations
-- Optimistic updates
+  // Await them only when you need the values
+  const [user, post] = await Promise.all([userDataPromise, postsDataPromise]);
 
-By the end, you will understand how to build fast and reliable apps.
-    `,
-  category: "React",
-  date: "2026-01-10",
-  readTime: "6 min read",
-  isFeatured: true,
-};
-async function page() {
-  const { title, description, slug, content, date, category, readTime } = posts;
+  const {
+    title,
+    description,
+    content,
+    createdAt: date,
+    category,
+    readTime,
+  } = post;
+
   return (
     <div className="min-h-screen">
       <div className="container 2xl:px-10 px-2 py-10 mx-auto">
         <div className="">
           <div className="flex flex-col gap-6">
-            <div>
-              <button className="flex tracking-wider items-center rounded-full gap-1 hover:opacity-90 hover:bg-hover active:opacity-100 active:scale-103 px-3 py-1.5 bg-black/80 text-gray-50 transition-all duration-200">
-                <ArrowLeftCircleIcon size={23} />
-                <span>Back to blogs</span>
-              </button>
+            <div className="flex justify-between">
+              <NavigateBackButton>Back to blogs</NavigateBackButton>
+              {user?.id === post.authorId && (
+                <div className="flex gap-2">
+                  {/* edit */}
+                  <Link
+                    href={`/blogs/edit/${post.id}`}
+                    className="flex gap-2 items-center bg-indigo-100 px-4 py-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-indigo-200 transition-all duration-200 "
+                  >
+                    <span className="text-accent font-semibold tracking-wide">
+                      Edit
+                    </span>
+                    <Pencil size={18} className="text-accent" />
+                  </Link>
+                  {/* delete */}
+                  <button
+                    onClick={deletePost.bind(null, post.id)}
+                    className="flex gap-2 items-center bg-red-100 px-4 py-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-red-200 transition-all duration-200 cursor-pointer"
+                  >
+                    <span className="text-red-500 font-semibold tracking-wide">
+                      Delete
+                    </span>
+                    <TrashIcon size={18} className="text-red-500" />
+                  </button>
+                </div>
+              )}
             </div>
             {/* article slug */}
             <div className="text-muted text-xl md:text-2xl mt-7">#{slug}</div>
@@ -66,7 +85,7 @@ async function page() {
                   <span className="flex items-center gap-1">
                     <Calendar className="text-green-500" size={17} />
                     <span className="text-sm text-gray-400">
-                      {date} • {readTime}
+                      {new Date(date).toLocaleDateString()} • {readTime}
                     </span>
                   </span>
                 </div>

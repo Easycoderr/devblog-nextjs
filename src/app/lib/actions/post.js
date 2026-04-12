@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { revalidatePath } from "next/cache";
+import generateSlug from "@/app/utils/generateSlug";
+
 const POSTS_PER_PAGE = 8;
 // Get all posts
 export async function getPosts(page = 1) {
@@ -24,6 +26,12 @@ export async function getPost(id) {
   return post;
 }
 
+// Get post by Slug
+
+export async function getPostBySlug(slug) {
+  const post = await prisma.post.findUnique({ where: { slug } });
+  return post;
+}
 // Create post server action
 async function createPost(formData) {
   const user = await getCurrentUser();
@@ -60,6 +68,7 @@ export async function createBulkPosts() {
   if (!user) throw new Error("Not authenticated");
 
   const postsToCreate = Array.from({ length: 40 }).map((_, i) => ({
+    slug: generateSlug(`Sample Post Title ${i + 1}`),
     title: `Sample Post Title ${i + 1}`,
     description: `Short description for post number ${i + 1}`,
     content: `This is the full content for post ${i + 1}.`,
