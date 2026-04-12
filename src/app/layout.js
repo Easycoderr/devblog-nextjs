@@ -5,6 +5,7 @@ import Header from "./ui/Header";
 import Footer from "./ui/Footer";
 import getCurrentUser from "./lib/getUser";
 import { use } from "react";
+import { createBulkPosts, deleteAllPosts } from "./lib/actions/post";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -35,6 +36,20 @@ export default async function RootLayout({ children }) {
         <Header user={user} />
         {children}
         <Footer />
+        <div className="absolute bottom-4 left-4 flex gap-4 flex-col">
+          <button
+            onClick={createBulkPosts}
+            className="font-sans font-medium tracking-wider py-2 px-4 bg-gray-100 hover:bg-gray-300 transition-all duration-200 text-black rounded-full my-2 active:scale-105"
+          >
+            ADD POSTS
+          </button>
+          <button
+            onClick={deleteAllPosts}
+            className="font-sans font-medium tracking-wider py-2 px-4 bg-accent hover:bg-hover transition-all duration-200 text-indigo-50 rounded-full my-2 active:scale-105"
+          >
+            DELETE ALL POSTS
+          </button>
+        </div>
       </body>
     </html>
   );

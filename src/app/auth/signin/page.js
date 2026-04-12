@@ -1,4 +1,3 @@
-import AuthForm from "@/app/components/AuthRegisterForm";
 import AuthSigninForm from "@/app/components/AuthSigninForm";
 
 function page() {

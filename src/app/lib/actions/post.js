@@ -3,11 +3,19 @@ import { redirect } from "next/navigation";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { revalidatePath } from "next/cache";
-
+const POSTS_PER_PAGE = 8;
 // Get all posts
-export async function getPosts() {
-  const posts = await prisma.post.findMany();
-  return posts;
+export async function getPosts(page = 1) {
+  const skip = (page - 1) * POSTS_PER_PAGE;
+  const [posts, totalCount] = await prisma.$transaction([
+    prisma.post.findMany({
+      skip: skip,
+      take: POSTS_PER_PAGE,
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.post.count(),
+  ]);
+  return { posts, totalPages: Math.ceil(totalCount / POSTS_PER_PAGE) };
 }
 
 // Get post by id
@@ -44,4 +52,49 @@ export async function deletePost(postId) {
   await prisma.post.delete({ where: { id: postId } });
   revalidatePath("/blogs");
 }
+
+//  just for development
+
+export async function createBulkPosts() {
+  const user = await getCurrentUser();
+  if (!user) throw new Error("Not authenticated");
+
+  const postsToCreate = Array.from({ length: 40 }).map((_, i) => ({
+    title: `Sample Post Title ${i + 1}`,
+    description: `Short description for post number ${i + 1}`,
+    content: `This is the full content for post ${i + 1}.`,
+    category: "General",
+    authorId: user.id,
+  }));
+
+  // Standard way that works on all databases (SQLite, Postgres, etc.)
+  await Promise.all(
+    postsToCreate.map((post) =>
+      prisma.post.create({
+        data: post,
+      }),
+    ),
+  );
+
+  redirect("/blogs");
+}
+
+// delete all just for development
+export async function deleteAllPosts() {
+  // const user = await getCurrentUser();
+  // if (!user) throw new Error("Not authenticated");
+
+  // Optional: Only delete posts belonging to the logged-in user
+  // await prisma.post.deleteMany({
+  //   where: {
+  //     authorId: user.id,
+  //   },
+  // });
+
+  // If you want to delete EVERYTHING in the table regardless of user:
+  await prisma.post.deleteMany({});
+
+  redirect("/blogs");
+}
+
 export default createPost;

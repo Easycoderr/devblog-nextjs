@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import createPost, { updatePost } from "../lib/actions/post";
 
 function Form({ postData }) {
-  const { id, title, description, content, category } = postData;
+  const { id, title, description, content, category } = postData || {};
   const {
     register,
     handleSubmit,
@@ -23,7 +23,7 @@ function Form({ postData }) {
     },
   });
   async function onSubmit(data) {
-    if (postData.id) {
+    if (postData?.id) {
       await updatePost({ id, ...data });
     } else {
       await createPost(data);
@@ -41,7 +41,7 @@ function Form({ postData }) {
       </div>
       <div className="border-1 border-black rounded-xl p-4 shadow-sm w-full  md:max-w-3xl">
         <h2 className="text-3xl md:text-4xl tracking-tight font-bold text-accent mb-8 font-sora">
-          {postData.id ? "Update" : "Create"} your Article
+          {postData?.id ? "Update" : "Create"} your Article
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -148,7 +148,7 @@ function Form({ postData }) {
               type="submit"
               className="px-2 py-1 tracking-wider border bg-black text-gray-50 shadow rounded-lg hover:opacity-70 transition-all duration-200 active:scale-103"
             >
-              {postData.id ? "Update" : "Create"}
+              {postData?.id ? "Update" : "Create"}
             </button>
           </div>
         </form>
