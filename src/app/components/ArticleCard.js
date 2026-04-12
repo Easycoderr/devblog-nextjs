@@ -33,7 +33,8 @@ async function ArticleCard({ post }) {
             <span className="flex items-center gap-1">
               <Calendar className="text-green-500" size={17} />
               <span className="text-xs text-gray-400 mt-1">
-                {post.date} • {post.readTime} min read
+                {new Date(post.createdAt).toLocaleDateString()} •{" "}
+                {post.readTime} min read
               </span>
             </span>
           </div>

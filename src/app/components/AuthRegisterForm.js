@@ -6,12 +6,13 @@ import { registerSchema } from "../utils/schema";
 import Link from "next/link";
 import { registerUser } from "../lib/actions/auth";
 import { redirect } from "next/navigation";
+import Button from "./Button";
 
 function AuthRegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { isSubmitting, errors },
     reset,
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -26,7 +27,6 @@ function AuthRegisterForm() {
   async function onSubmit(data) {
     const response = await registerUser(data);
     if (response.success) {
-      alert("user registered");
       redirect("signin");
     } else {
       alert("error");
@@ -152,6 +152,15 @@ function AuthRegisterForm() {
             </span>
           </div>
           <div className="mx-auto flex flex-col gap-2">
+            <Button
+              disabled={isSubmitting}
+              type="submit"
+              style="authForm"
+              ariaLabel="Register account"
+            >
+              {" "}
+              Register
+            </Button>
             <button
               type="submit"
               className="px-4 py-2 tracking-wider border bg-black text-gray-50 shadow rounded-lg hover:opacity-70 transition-all duration-200 active:scale-103"

@@ -6,11 +6,12 @@ import { signInSchema } from "../utils/schema";
 import Link from "next/link";
 import { useState } from "react";
 import { signInUser } from "../lib/actions/auth";
+import Button from "./Button";
 function AuthSigninForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { isSubmitting, errors },
     reset,
   } = useForm({
     resolver: zodResolver(signInSchema),
@@ -97,12 +98,16 @@ function AuthSigninForm() {
           </div>
 
           <div className="mx-auto flex flex-col gap-2">
-            <button
+            <Button
+              disabled={isSubmitting}
               type="submit"
-              className="px-4 py-2 tracking-wider border bg-black text-gray-50 shadow rounded-lg hover:opacity-70 transition-all duration-200 active:scale-103"
+              style="authForm"
+              ariaLabel="Sign in account"
             >
+              {" "}
               Sign in
-            </button>
+            </Button>
+
             <div>
               <span className="text-sm text-gray-600">
                 Don’t have an account?{" "}
