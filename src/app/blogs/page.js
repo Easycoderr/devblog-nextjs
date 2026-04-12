@@ -2,6 +2,8 @@ import { Filter, Search } from "lucide-react";
 import getCurrentUser from "../lib/getUser";
 import Link from "next/link";
 import ArticleList from "../components/ArticleList";
+import { Suspense } from "react";
+import Spinner from "../components/Spinner";
 
 async function page({ searchParams }) {
   const params = await searchParams;
@@ -65,7 +67,10 @@ async function page({ searchParams }) {
         </div>
 
         {/* article list */}
-        <ArticleList params={params} />
+
+        <Suspense fallback={<Spinner />}>
+          <ArticleList params={params} />
+        </Suspense>
       </main>
     </div>
   );

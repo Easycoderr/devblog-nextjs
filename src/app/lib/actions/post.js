@@ -59,6 +59,7 @@ export async function updatePost(postData) {
 export async function deletePost(postId) {
   await prisma.post.delete({ where: { id: postId } });
   revalidatePath("/blogs");
+  redirect("/blogs");
 }
 
 //  just for development
