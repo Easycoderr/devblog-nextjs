@@ -1,9 +1,12 @@
 import Form from "@/app/components/Form";
+import { getPost } from "@/app/lib/actions/post";
 
-async function page() {
+async function page({ params }) {
+  const { id } = await params;
+  const postData = await getPost(id);
   return (
-    <div className="conatainer mx-auto px-2 flex gap-8 flex-col items-center justify-center py-12">
-      <Form />
+    <div className="conatainer w-full mx-auto px-2 flex gap-8 flex-col items-center justify-center py-12">
+      <Form postData={postData} />
     </div>
   );
 }

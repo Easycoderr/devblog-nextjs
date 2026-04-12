@@ -4,14 +4,19 @@ import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { revalidatePath } from "next/cache";
 
-// get posts
+// Get all posts
 export async function getPosts() {
   const posts = await prisma.post.findMany();
-  console.log("POSTS:", posts);
   return posts;
 }
 
-// create post server action
+// Get post by id
+export async function getPost(id) {
+  const post = await prisma.post.findUnique({ where: { id } });
+  return post;
+}
+
+// Create post server action
 async function createPost(formData) {
   const user = await getCurrentUser();
   if (!user) throw new Error("Not authenticated");
@@ -22,8 +27,19 @@ async function createPost(formData) {
   });
   redirect("/blogs");
 }
-// delete post
 
+// Update
+export async function updatePost(postData) {
+  const { id, title, description, content, category } = postData;
+  await prisma.post.update({
+    where: { id },
+    data: { title, description, content, category },
+  });
+  revalidatePath("/blogs");
+  redirect("/blogs");
+}
+
+// Delete post
 export async function deletePost(postId) {
   await prisma.post.delete({ where: { id: postId } });
   revalidatePath("/blogs");

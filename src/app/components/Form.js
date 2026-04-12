@@ -1,27 +1,33 @@
 "use client";
 import { ArrowLeftCircleIcon } from "lucide-react";
-import { contactSchema, postFormSchema } from "../utils/schema";
+import { postFormSchema } from "../utils/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import createPost from "../lib/actions/post";
+import createPost, { updatePost } from "../lib/actions/post";
 
-function Form() {
+function Form({ postData }) {
+  const { id, title, description, content, category } = postData;
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    formState: { isDirty },
   } = useForm({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      content: "",
-      category: "",
+      title: title || "",
+      description: description || "",
+      content: content || "",
+      category: category || "",
     },
   });
   async function onSubmit(data) {
-    await createPost(data);
+    if (postData.id) {
+      await updatePost({ id, ...data });
+    } else {
+      await createPost(data);
+    }
   }
 
   return (
@@ -35,7 +41,7 @@ function Form() {
       </div>
       <div className="border-1 border-black rounded-xl p-4 shadow-sm w-full  md:max-w-3xl">
         <h2 className="text-3xl md:text-4xl tracking-tight font-bold text-accent mb-8 font-sora">
-          Create your Article
+          {postData.id ? "Update" : "Create"} your Article
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -138,10 +144,11 @@ function Form() {
               Reset
             </button>
             <button
+              disabled={!isDirty}
               type="submit"
               className="px-2 py-1 tracking-wider border bg-black text-gray-50 shadow rounded-lg hover:opacity-70 transition-all duration-200 active:scale-103"
             >
-              Create
+              {postData.id ? "Update" : "Create"}
             </button>
           </div>
         </form>
