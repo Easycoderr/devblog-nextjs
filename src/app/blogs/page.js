@@ -4,6 +4,7 @@ import Link from "next/link";
 import ArticleList from "../components/ArticleList";
 import { Suspense } from "react";
 import Spinner from "../components/Spinner";
+import PostListSkeleton from "../components/skeletons/PostListSkeleton";
 
 async function page({ searchParams }) {
   const params = await searchParams;
@@ -68,7 +69,7 @@ async function page({ searchParams }) {
 
         {/* article list */}
 
-        <Suspense fallback={<Spinner />}>
+        <Suspense fallback={<PostListSkeleton />}>
           <ArticleList params={params} />
         </Suspense>
       </main>
