@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { ArrowRight, Calendar, Pencil, TrashIcon } from "lucide-react";
+import { ArrowRight, Calendar, Pencil } from "lucide-react";
 import Link from "next/link";
 import getCurrentUser from "../lib/getUser";
-import { deletePost } from "../lib/actions/post";
+import DeleteButton from "./DeleteButton";
 
 async function ArticleCard({ post }) {
   const user = await getCurrentUser();
@@ -57,12 +57,7 @@ async function ArticleCard({ post }) {
                   <Pencil size={18} className="text-accent" />
                 </Link>
                 {/* delete */}
-                <button
-                  onClick={deletePost.bind(null, post.id)}
-                  className="bg-red-100 p-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-red-200 transition-all duration-200 cursor-pointer"
-                >
-                  <TrashIcon size={18} className="text-red-500" />
-                </button>
+                <DeleteButton post={post} style="primary" />
               </div>
             )}
           </div>

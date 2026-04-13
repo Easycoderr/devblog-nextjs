@@ -1,3 +1,4 @@
+import DeleteButton from "@/app/components/DeleteButton";
 import NavigateBackButton from "@/app/components/NavigateBackButton";
 import { deletePost, getPostBySlug } from "@/app/lib/actions/post";
 import getCurrentUser from "@/app/lib/getUser";
@@ -43,15 +44,11 @@ async function page({ params }) {
                     <Pencil size={18} className="text-accent" />
                   </Link>
                   {/* delete */}
-                  <button
-                    onClick={deletePost.bind(null, post.id)}
-                    className="flex gap-2 items-center bg-red-100 px-4 py-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-red-200 transition-all duration-200 cursor-pointer"
-                  >
+                  <DeleteButton post={post} style="secondary">
                     <span className="text-red-500 font-semibold tracking-wide">
                       Delete
                     </span>
-                    <TrashIcon size={18} className="text-red-500" />
-                  </button>
+                  </DeleteButton>
                 </div>
               )}
             </div>

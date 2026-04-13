@@ -6,13 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import createPost, { updatePost } from "../lib/actions/post";
 import Button from "./Button";
 import NavigateBackButton from "./NavigateBackButton";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 function Form({ postData }) {
+  // use useRoute to navigate
+  const router = useRouter();
   const { id, title, description, content, category } = postData || {};
   const {
     register,
     handleSubmit,
-
     reset,
     formState: { errors, isSubmitting, isDirty },
   } = useForm({
@@ -27,8 +30,12 @@ function Form({ postData }) {
   async function onSubmit(data) {
     if (postData?.id) {
       await updatePost({ id, ...data });
+      toast.success(`${title} updated successfully!`);
+      router.push("/blogs");
     } else {
       await createPost(data);
+      toast.success(`${title} created successfully!`);
+      router.push("/blogs");
     }
   }
 
