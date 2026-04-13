@@ -7,6 +7,7 @@ import Link from "next/link";
 import { registerUser } from "../lib/actions/auth";
 import { redirect } from "next/navigation";
 import Button from "./Button";
+import { toast } from "sonner";
 
 function AuthRegisterForm() {
   const {
@@ -28,8 +29,8 @@ function AuthRegisterForm() {
     const response = await registerUser(data);
     if (response.success) {
       redirect("signin");
-    } else {
-      alert("error");
+    } else if (response.error) {
+      toast.error(response.error);
     }
   }
   return (
@@ -161,12 +162,7 @@ function AuthRegisterForm() {
               {" "}
               Register
             </Button>
-            <button
-              type="submit"
-              className="px-4 py-2 tracking-wider border bg-black text-gray-50 shadow rounded-lg hover:opacity-70 transition-all duration-200 active:scale-103"
-            >
-              Register
-            </button>
+
             <div>
               <span className="text-sm text-gray-600">
                 Already have an account?{" "}

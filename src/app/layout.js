@@ -6,6 +6,7 @@ import Footer from "./ui/Footer";
 import getCurrentUser from "./lib/getUser";
 import { use } from "react";
 import { createBulkPosts, deleteAllPosts } from "./lib/actions/post";
+import { Toaster } from "@/components/ui/sonner";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -35,6 +36,16 @@ export default async function RootLayout({ children }) {
       <body className="relative min-h-full flex flex-col font-inter">
         <Header user={user} />
         {children}
+        <Toaster
+          richColors
+          closeButton
+          position="top-right"
+          // toastOptions={{
+          //   classNames: {
+          //     toast: "bg-accent rounded-lg text-white",
+          //   },
+          // }}
+        />
         <Footer />
         <div className="absolute bottom-4 left-4 flex gap-4 flex-col">
           <button

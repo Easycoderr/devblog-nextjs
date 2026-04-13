@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { signInUser } from "../lib/actions/auth";
 import Button from "./Button";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 function AuthSigninForm() {
   const {
     register,
@@ -23,7 +25,15 @@ function AuthSigninForm() {
   // local state
   const [showPassword, setShowPassword] = useState(false);
   async function onSubmit(data) {
-    await signInUser(data);
+    const response = await signInUser(data);
+    if (response?.error) {
+      toast.error("Invalid email or password", {
+        className: "bg-blue-600 text-white",
+      });
+    } else {
+      toast.success(response?.success);
+      redirect("/blogs");
+    }
   }
   return (
     <>

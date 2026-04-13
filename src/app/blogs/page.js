@@ -25,9 +25,9 @@ async function page({ searchParams }) {
           <div>
             <Link
               href={!user ? "/auth/register" : "/blogs/create"}
-              className="bg-black/80 text-gray-50 hover:bg-accent transition-all duration-200 px-4 py-2 rounded-full"
+              className="bg-black/80 text-gray-50 hover:bg-accent transition-all duration-200 px-4 py-2 rounded-full text-lg"
             >
-              {!user ? "Make your first article" : "Add article +"}
+              {!user ? "Add your first article" : "Add article"}
             </Link>
           </div>
         </div>
