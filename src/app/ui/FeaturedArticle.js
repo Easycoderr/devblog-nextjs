@@ -1,7 +1,7 @@
 import ArticleCard from "../components/FeaturedArticleCard";
 
 function FeaturedArticle({ posts }) {
-  const featuredPosts = posts.filter((post) => post.isFeatured)[0];
+  const featuredPosts = posts?.filter((post) => !post.isFeatured)[0];
   return (
     <section
       id="featured"
@@ -19,7 +19,7 @@ function FeaturedArticle({ posts }) {
         <div className="grid md:grid-cols-2 gap-6 bg-gradient-to-br from-indigo-200/20 to-purple-200/20  p-6 mx-4 md:mx-0 rounded-xl border border-border/70 hover:shadow-lg transition-all duration-200">
           {/* LEFT */}
           <div className="hidden md:block opacity-90 rounded-xl bg-[url('/images/img1.png')] bg-cover no-repeat bg-center"></div>
-          <ArticleCard posts={featuredPosts} />
+          <ArticleCard post={featuredPosts} />
         </div>
       </div>
     </section>

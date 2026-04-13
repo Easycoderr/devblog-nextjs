@@ -35,7 +35,7 @@ function Pagination({ totalPages, currentPage }) {
         />
       ))}
 
-      {currentPage < totalPages - 1 && (
+      {currentPage <= totalPages - 1 && totalPages > groupSize && (
         <>
           <span className="text-xl text-accent">...</span>
           <Link

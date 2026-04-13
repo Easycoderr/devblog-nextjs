@@ -1,7 +1,15 @@
 import { ArrowRight, Calendar, Eye, Flame } from "lucide-react";
 import Link from "next/link";
-function ArticleCard({ article }) {
-  const { title, description, content, date, category, readTime } = article;
+function ArticleCard({ post }) {
+  console.log("POST:", post);
+  const {
+    slug,
+    title,
+    description,
+    createdAt: date,
+    category,
+    // readTime,
+  } = post;
   return (
     <div className="relative flex flex-col gap-10 shadow-sm bg-gray-50 rounded-xl py-8 px-5">
       {/* head */}
@@ -13,11 +21,11 @@ function ArticleCard({ article }) {
       </div>
       <div className="space-y-4">
         {/* header */}
-        <h3 className="text-2xl font-sora font-semibold tracking-tight mt-3">
+        <h3 className="text-4xl font-sora font-semibold tracking-tight mt-3">
           {title}
         </h3>
         {/* description */}
-        <p className="leading-relaxed text-sm text-muted hyphens-auto text-pretty">
+        <p className="leading-relaxed text-lg text-muted hyphens-auto text-pretty">
           {description}
         </p>
       </div>
@@ -28,7 +36,7 @@ function ArticleCard({ article }) {
         </p> */}
         <div className="flex flex-col gap-4 text-sm mt-auto">
           <div className="flex items-center gap-3">
-            <span className="flex text-xs items-center">
+            <span className="flex items-center">
               <span
                 className={`${category === "React" ? "text-blue-400" : "text-yellow-500"}`}
               >
@@ -36,15 +44,15 @@ function ArticleCard({ article }) {
               </span>
             </span>
             <span className="flex items-center gap-1">
-              <Calendar className="text-green-500" size={17} />
-              <span className="text-xs text-gray-400 mt-1">
-                {date} • {readTime} min read
+              <Calendar className="text-green-500" size={18} />
+              <span className="text-gray-400 mt-1">
+                {new Date(date).toLocaleDateString()} • {3} min read
               </span>
             </span>
           </div>
           <div className="flex">
             <Link
-              href="/"
+              href={`/blogs/${slug}`}
               className="group flex text-md items-center gap-2 bg-accent px-3 py-1.5 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
             >
               Read Article{" "}

@@ -31,11 +31,11 @@ function Form({ postData }) {
     if (postData?.id) {
       await updatePost({ id, ...data });
       toast.success(`${title} updated successfully!`);
-      router.push("/blogs");
+      router.back();
     } else {
       await createPost(data);
       toast.success(`${title} created successfully!`);
-      router.push("/blogs");
+      router.back();
     }
   }
 
