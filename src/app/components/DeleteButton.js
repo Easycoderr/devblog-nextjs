@@ -3,7 +3,7 @@ import { TrashIcon } from "lucide-react";
 import { deletePost } from "../lib/actions/post";
 import { toast } from "sonner";
 import { useTransition } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 const styles = {
   primary:
     "bg-red-100 p-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-red-200 transition-all duration-200 cursor-pointer",
@@ -12,7 +12,6 @@ const styles = {
 };
 function DeleteButton({ post, children, style }) {
   const pathname = usePathname();
-  console.log(pathname);
   // to navigate page
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

@@ -7,6 +7,7 @@ import getCurrentUser from "@/app/lib/getUser";
 import { Pencil } from "lucide-react";
 
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 async function page({ params }) {
@@ -16,6 +17,10 @@ async function page({ params }) {
 
   // Await them only when you need the values
   const [user, post] = await Promise.all([userDataPromise, postsDataPromise]);
+
+  if (!post) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen">
