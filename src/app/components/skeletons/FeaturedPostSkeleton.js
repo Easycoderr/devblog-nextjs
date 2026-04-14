@@ -24,7 +24,6 @@ function FeaturedPostSkeleton() {
           <div className="flex flex-col gap-4 text-sm mt-auto">
             <div className="flex items-center gap-3">
               <Skeleton className="h-4 w-10 rounded-full" />
-
               <Skeleton className="h-1 w-1 rounded-full" />
               <Skeleton className="h-4 w-14 rounded-full" />
             </div>
