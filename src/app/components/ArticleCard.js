@@ -1,7 +1,21 @@
 import Image from "next/image";
-import { ArrowRight, Calendar, Pencil } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { ArrowRight, Calendar, Pencil, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import getCurrentUser from "../lib/getUser";
+
+import ConfirmDeleteAction from "./ConfirmDeleteAction";
 import DeleteButton from "./DeleteButton";
 
 async function ArticleCard({ post }) {
@@ -20,7 +34,9 @@ async function ArticleCard({ post }) {
       <div className="space-y-3 p-3 mt-auto">
         <h3 className="text-xl tracking-tight font-semibold">{post.title}</h3>
         {/* description */}
-        <p className="text-sm text-muted">{post.description.slice(0, 80)}...</p>
+        <p className="text-sm text-text-muted">
+          {post.description.slice(0, 80)}...
+        </p>
         <div className="flex flex-col gap-4 text-sm mt-auto">
           <div className="flex items-center gap-3">
             <span className="flex text-xs items-center">
@@ -57,7 +73,29 @@ async function ArticleCard({ post }) {
                   <Pencil size={18} className="text-accent" />
                 </Link>
                 {/* delete */}
-                <DeleteButton post={post} style="primary" />
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <DeleteButton />
+                  </AlertDialogTrigger>
+                  <AlertDialogContent size="sm">
+                    <AlertDialogHeader>
+                      <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+                        <Trash2Icon />
+                      </AlertDialogMedia>
+                      <AlertDialogTitle>Delete {post.title}?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure? This will permanently delete this post.
+                        This action cannot be undone
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel variant="outline">
+                        Cancel
+                      </AlertDialogCancel>
+                      <ConfirmDeleteAction post={post} />
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             )}
           </div>

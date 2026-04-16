@@ -4,12 +4,24 @@ import PostDetails from "@/app/components/PostDetails";
 import PostDetailsSkeleton from "@/app/components/skeletons/PostDetailsSkeleton";
 import { getPostBySlug } from "@/app/lib/actions/post";
 import getCurrentUser from "@/app/lib/getUser";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2Icon } from "lucide-react";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import ConfirmDeleteAction from "@/app/components/ConfirmDeleteAction";
 async function page({ params }) {
   const { slug } = await params;
   const userDataPromise = getCurrentUser();
@@ -42,11 +54,35 @@ async function page({ params }) {
                     </span>
                   </Link>
                   {/* delete */}
-                  <DeleteButton post={post} style="secondary">
-                    <span className="text-red-500 font-semibold tracking-wide">
-                      Delete
-                    </span>
-                  </DeleteButton>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <DeleteButton variant="secondary">
+                        <span className="text-red-500 font-semibold tracking-wide">
+                          Delete
+                        </span>
+                      </DeleteButton>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent size="sm">
+                      <AlertDialogHeader>
+                        <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+                          <Trash2Icon />
+                        </AlertDialogMedia>
+                        <AlertDialogTitle>
+                          Delete {post.title}?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure? This will permanently delete this post.
+                          This action cannot be undone
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel variant="outline">
+                          Cancel
+                        </AlertDialogCancel>
+                        <ConfirmDeleteAction post={post} />
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               )}
             </div>
