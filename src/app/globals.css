@@ -1,30 +1,70 @@
 @import "tailwindcss";
-/* @import "tw-animate-css";
-@import "shadcn/tailwind.css"; */
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @theme {
   --color-background: #0b0f19;
   --color-card: #111827;
   --color-text: #e5e7eb;
-  --color-muted: #94a3b8;
+  --color-text-muted: #94a3b8;
   --color-accent: #6366f1;
   --color-hover: #8b5cf6;
   --color-border: #1f2937;
 
+  /* shadcn - Fixed by adding --color- prefix to every key */
+  --color-background-shadcn: oklch(
+    1 0 0
+  ); /* Renamed to avoid collision with your --color-background */
+  --color-foreground: oklch(0.145 0 0);
+  --color-card-shadcn: oklch(
+    1 0 0
+  ); /* Renamed to avoid collision with your --color-card */
+  --color-card-foreground: oklch(0.145 0 0);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.145 0 0);
+  --color-primary: oklch(0.205 0 0);
+  --color-primary-foreground: oklch(0.985 0 0);
+  --color-secondary: oklch(0.97 0 0);
+  --color-secondary-foreground: oklch(0.205 0 0);
+  --color-muted: oklch(0.97 0 0);
+
+  /* Renamed to avoid collision with your --color-muted */
+  --color-muted-foreground: oklch(0.559 0 0);
+  --color-accent-shadcn: oklch(
+    0.97 0 0
+  ); /* Renamed to avoid collision with your --color-accent */
+  --color-accent-foreground: oklch(0.205 0 0);
+  --color-destructive: oklch(0.577 0.245 27.325);
+  --color-border-shadcn: oklch(
+    0.922 0 0
+  ); /* Renamed to avoid collision with your --color-border */
+  --color-input: oklch(0.922 0 0);
+  --color-ring: oklch(0.708 0 0);
+  --color-chart-1: oklch(0.87 0 0);
+  --color-chart-2: oklch(0.556 0 0);
+  --color-chart-3: oklch(0.439 0 0);
+  --color-chart-4: oklch(0.371 0 0);
+  --color-chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --color-sidebar: oklch(0.985 0 0);
+  --color-sidebar-foreground: oklch(0.145 0 0);
+  --color-sidebar-primary: oklch(0.205 0 0);
+  --color-sidebar-primary-foreground: oklch(0.985 0 0);
+  --color-sidebar-accent: oklch(0.97 0 0);
+  --color-sidebar-accent-foreground: oklch(0.205 0 0);
+  --color-sidebar-border: oklch(0.922 0 0);
+  --color-sidebar-ring: oklch(0.708 0 0);
+  /* *************** */
+
   --font-inter: var(--font-inter);
-
-  /* This maps 'font-sora' */
   --font-sora: var(--font-sora);
-
-  /* This maps 'font-space' */
   --font-space: var(--font-spaceGrotesk);
-
-  /* Optional: Override the default sans font for the whole app */
   --font-sans: var(--font-inter);
 }
 .active {
   color: var(--color-hover);
 }
+
 /* 
 @layer base {
   .theme {
