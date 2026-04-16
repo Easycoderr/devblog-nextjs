@@ -13,7 +13,7 @@ function PostDetails({ post }) {
   } = post;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7 gap-x-7">
-      <div className="text-muted text-xl md:text-2xl mt-7 col-span-2">
+      <div className="text-text-muted text-xl md:text-2xl mt-7 col-span-2">
         #{slug}
       </div>
       <div className="col-span-2 md:col-span-1">

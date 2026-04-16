@@ -25,7 +25,7 @@ function ArticleCard({ post }) {
           {title}
         </h3>
         {/* description */}
-        <p className="leading-relaxed text-lg text-muted hyphens-auto text-pretty">
+        <p className="leading-relaxed text-lg text-text-muted hyphens-auto text-pretty">
           {description}
         </p>
       </div>
