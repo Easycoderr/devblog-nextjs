@@ -8,13 +8,14 @@ import { useState } from "react";
 import { signInUser } from "../lib/actions/auth";
 import Button from "./Button";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 function AuthSigninForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
-    reset,
   } = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -32,7 +33,7 @@ function AuthSigninForm() {
       });
     } else {
       toast.success(response?.success);
-      redirect("/blogs");
+      router.push("/blogs");
     }
   }
   return (
