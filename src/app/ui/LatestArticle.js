@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import ArticleCard from "../components/ArticleCard";
 import PostListSkeleton from "../components/skeletons/PostListSkeleton";
+import EmptyState from "../components/EmptyState";
 
 function LatestArticle({ posts }) {
   const latestPosts = posts.slice(0, 6);
@@ -18,14 +19,18 @@ function LatestArticle({ posts }) {
           <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-44 md:max-w-2xs"></div>
         </div>
         {/* content */}
-        <Suspense fallback={<PostListSkeleton />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 md:px-0">
-            {/* Articles */}
-            {latestPosts.map((post) => (
-              <ArticleCard key={post.id} post={post} />
-            ))}
-          </div>
-        </Suspense>
+        {latestPosts.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <Suspense fallback={<PostListSkeleton />}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 md:px-0">
+              {/* Articles */}
+              {latestPosts.map((post) => (
+                <ArticleCard key={post.id} post={post} />
+              ))}
+            </div>
+          </Suspense>
+        )}
       </div>
     </section>
   );
