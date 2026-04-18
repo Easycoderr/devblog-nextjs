@@ -8,10 +8,10 @@ import Pagination from "./Pagination";
 async function ArticleList({ params }) {
   const user = await getCurrentUser();
   // const params = await searchParams;
-
+  const search = params.search;
   const currentPage = Number(params?.page) || 1;
 
-  const { posts, totalPages } = await getPosts(currentPage);
+  const { posts, totalPages } = await getPosts(currentPage, { search });
   if (posts.length === 0) return <EmptyState />;
   return (
     <>

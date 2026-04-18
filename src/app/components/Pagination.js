@@ -11,11 +11,14 @@ function Pagination({ totalPages, currentPage }) {
     params.set("page", pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };
+
   const groupSize = 4;
   const pages = Array.from({ length: totalPages || 0 }, (_, i) => i + 1);
   const jumpStart = Math.floor((currentPage - 1) / groupSize) * groupSize;
+
+  console.log(currentPage, jumpStart);
   const showPages =
-    currentPage > 4 ? pages.slice(jumpStart, jumpStart + 4) : pages.slice(0, 4);
+    currentPage > 4 ? pages.slice(jumpStart, jumpStart + 4) : pages.slice(0, 5);
   return (
     <div className="p-2 flex gap-2">
       <Link
@@ -35,7 +38,7 @@ function Pagination({ totalPages, currentPage }) {
         />
       ))}
 
-      {currentPage <= totalPages - 1 && totalPages > groupSize && (
+      {currentPage <= totalPages - 2 && totalPages > groupSize + 1 && (
         <>
           <span className="text-xl text-accent">...</span>
           <Link

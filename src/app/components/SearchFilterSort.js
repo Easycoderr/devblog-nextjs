@@ -1,10 +1,32 @@
-import { Filter, Search } from "lucide-react";
+"use client";
+import { Filter, Flashlight, Search } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 function SearchFilterSort() {
+  const [query, setQuery] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathName = usePathname();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (query.length > 3) {
+        params.set("search", query);
+      } else {
+        params.delete("search");
+      }
+      router.replace(`${pathName}?${params.toString()}`, { scroll: false });
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
   return (
     <div className="flex md:gap-x-10 md:gap-y-0 gap-y-4 flex-col md:flex-row">
       <div className="flex gap-0.5 flex-col relative w-full">
         <input
+          onChange={(e) => setQuery(e.target.value)}
           type="text"
           id="search"
           name="search"

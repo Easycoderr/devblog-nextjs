@@ -4,26 +4,36 @@ import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { revalidatePath } from "next/cache";
 import generateSlug from "@/app/utils/generateSlug";
-import { success } from "zod";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
-export async function getPosts(page = 1) {
+export async function getPosts(page = 1, searchQuery) {
+  const { search = "", filter = "all", sort } = searchQuery || {};
   const skip = (page - 1) * POSTS_PER_PAGE;
   const [posts, totalCount] = await prisma.$transaction([
     prisma.post.findMany({
       skip: skip,
       take: POSTS_PER_PAGE,
-      orderBy: { createdAt: "desc" },
+      where: {
+        title: search ? { contains: search } : undefined,
+        // content: search ? { contains: search } : undefined,
+        category: filter !== "all" ? filter : undefined,
+      },
+      orderBy: { createdAt: sort === "oldest" ? "asc" : "desc" },
     }),
     prisma.post.count(),
   ]);
+
   return { posts, totalPages: Math.ceil(totalCount / POSTS_PER_PAGE) };
 }
 
 // Get post by id
 export async function getPost(id) {
-  const post = await prisma.post.findUnique({ where: { id } });
+  const post = await prisma.post.findUnique({
+    where: {
+      id,
+    },
+  });
   return post;
 }
 
