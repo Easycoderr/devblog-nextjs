@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import {
   AlertDialog,
@@ -11,27 +12,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 import { ArrowRight, Calendar, Pencil, Trash2Icon } from "lucide-react";
+
 import Link from "next/link";
 import ConfirmDeleteAction from "./ConfirmDeleteAction";
-// import DeleteButton from "./DeleteButton";
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
-// This imports the component only on the client and avoids the useEffect warning
 const DeleteButton = dynamic(() => import("./DeleteButton"), {
   ssr: false,
   loading: () => <div className="bg-red-100 p-2 rounded-lg w-9 h-9" />,
 });
 
 function ArticleCard({ post, user }) {
-  // const [mounted, setMounted] = useState(false);
-
-  // // This ensures the component only renders interactive parts on the client
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
-
   return (
     <div className="flex overflow-hidden hover:scale-100 transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
