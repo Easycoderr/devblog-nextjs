@@ -1,5 +1,6 @@
 "use client";
 import { TrashIcon } from "lucide-react";
+import { Slot } from "radix-ui";
 import React from "react";
 const styles = {
   primary:
@@ -12,9 +13,8 @@ const DeleteButton = React.forwardRef(function DeleteButton(
   { children, variant = "primary", ...props },
   ref,
 ) {
-  console.log(variant, styles[variant]);
   return (
-    <button
+    <span
       {...props}
       aria-label="delete post"
       ref={ref}
@@ -22,7 +22,7 @@ const DeleteButton = React.forwardRef(function DeleteButton(
     >
       <TrashIcon size={18} className="text-red-500" />
       {children}
-    </button>
+    </span>
   );
 });
 

@@ -1,9 +1,12 @@
+import { use } from "react";
 import { getPosts } from "../lib/actions/post";
+import getCurrentUser from "../lib/getUser";
 import ArticleCard from "./ArticleCard";
 import EmptyState from "./EmptyState";
 import Pagination from "./Pagination";
 
 async function ArticleList({ params }) {
+  const user = await getCurrentUser();
   // const params = await searchParams;
 
   const currentPage = Number(params?.page) || 1;
@@ -15,7 +18,7 @@ async function ArticleList({ params }) {
       <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-6 px-4 md:px-0">
         {/* Articles */}
         {posts.map((post) => (
-          <ArticleCard key={post.id} post={post} />
+          <ArticleCard key={post.id} post={post} user={user} />
         ))}
       </div>
       {/* pagination */}
