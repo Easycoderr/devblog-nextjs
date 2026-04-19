@@ -14,6 +14,7 @@ function SearchFilterSort() {
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
       if (query.length > 3) {
+        params.delete("page");
         params.set("search", query);
       } else {
         params.delete("search");
@@ -28,11 +29,13 @@ function SearchFilterSort() {
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     if (filter !== "Choose a filter") {
+      params.delete("page");
       params.set("filter", filter);
     } else {
       params.delete("filter");
     }
-    router.replace(`${pathName}?${params.toString()}`, { scroll: false });
+    if (filter !== "")
+      router.replace(`${pathName}?${params.toString()}`, { scroll: false });
   }, [filter]);
 
   return (

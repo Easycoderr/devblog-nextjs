@@ -10,18 +10,19 @@ const POSTS_PER_PAGE = 8;
 export async function getPosts(page = 1, searchQuery) {
   const { search = "", filter = "all", sort } = searchQuery || {};
   const skip = (page - 1) * POSTS_PER_PAGE;
+  const whereClause = {
+    title: search ? { contains: search } : undefined,
+    // content: search ? { contains: search } : undefined,
+    category: filter !== "all" ? filter : undefined,
+  };
   const [posts, totalCount] = await prisma.$transaction([
     prisma.post.findMany({
       skip: skip,
       take: POSTS_PER_PAGE,
-      where: {
-        title: search ? { contains: search } : undefined,
-        // content: search ? { contains: search } : undefined,
-        category: filter !== "all" ? filter : undefined,
-      },
+      where: whereClause,
       orderBy: { createdAt: sort === "oldest" ? "asc" : "desc" },
     }),
-    prisma.post.count(),
+    prisma.post.count({ where: whereClause }),
   ]);
 
   return { posts, totalPages: Math.ceil(totalCount / POSTS_PER_PAGE) };
