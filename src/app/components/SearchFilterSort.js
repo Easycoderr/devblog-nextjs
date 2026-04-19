@@ -1,13 +1,15 @@
 "use client";
-import { Filter, Flashlight, Search } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function SearchFilterSort() {
   const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname();
+  // Search
   useEffect(() => {
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
@@ -21,6 +23,17 @@ function SearchFilterSort() {
 
     return () => clearTimeout(timer);
   }, [query]);
+
+  // Filter
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (filter !== "Choose a filter") {
+      params.set("filter", filter);
+    } else {
+      params.delete("filter");
+    }
+    router.replace(`${pathName}?${params.toString()}`, { scroll: false });
+  }, [filter]);
 
   return (
     <div className="flex md:gap-x-10 md:gap-y-0 gap-y-4 flex-col md:flex-row">
@@ -45,14 +58,18 @@ function SearchFilterSort() {
       </div>
       <div className="relative w-full">
         <select
+          onChange={(e) => setFilter(e.target.value)}
           name="cars"
           id="cars"
           className="border w-full border-black peer z-30 text-sm rounded-md text-text-muted px-8 py-2 focus:outline-none focus:ring-1 ring-indigo-500"
         >
           <option defaultChecked>Choose a filter</option>
-          <option value="saab">C++</option>
-          <option value="mercedes">HTML</option>
-          <option value="audi">React</option>
+          <option value="all">All</option>
+          <option value="cpp">C++</option>
+          <option value="html">HTML</option>
+          <option value="react">React</option>
+          <option value="general">general</option>
+          <option value="General">General</option>
         </select>
         <Filter className="absolute top-[50%] -translate-y-[50%] left-2 peer-focus:text-accent" />
       </div>
