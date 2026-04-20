@@ -1,32 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
-import { ArrowRight, Calendar, Pencil, Trash2Icon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  ArrowRight,
+  Calendar,
+  EllipsisVertical,
+  Trash2Icon,
+} from "lucide-react";
 
 import Link from "next/link";
 import ConfirmDeleteAction from "./ConfirmDeleteAction";
 import dynamic from "next/dynamic";
+import DeleteAlertDialog from "./DeleteAlertDialog";
 
 const DeleteButton = dynamic(() => import("./DeleteButton"), {
   ssr: false,
-  loading: () => <div className="bg-red-100 p-2 rounded-lg w-9 h-9" />,
+  loading: () => <div className="" />,
 });
 
 function ArticleCard({ post, user }) {
   return (
-    <div className="flex overflow-hidden hover:scale-100 transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
+    <div className="group relative flex overflow-hidden hover:scale-100 transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
       <Image
         className="bg-contain"
@@ -67,43 +72,45 @@ function ArticleCard({ post, user }) {
               Read Article{" "}
               <ArrowRight className="group-hover:translate-x-0.5 transition duration-200" />
             </Link>
-            {/* Display edit/delete options only if the current user is the author */}
-            {user?.id === post.authorId && (
-              <div className="flex gap-2">
-                {/* edit */}
-                <Link
-                  href={`/blogs/edit/${post.id}`}
-                  className="bg-indigo-100 p-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-indigo-200 transition-all duration-200 "
-                >
-                  <Pencil size={18} className="text-accent" />
-                </Link>
-                {/* delete */}
+            <div className="absolute top-0 right-0">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="icon">
+                    <EllipsisVertical size={30} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuItem>Save for later</DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  {user?.id === post.authorId && (
+                    <div>
+                      {/* edit */}
+                      <DropdownMenuItem
+                        asChild
+                        onSelect={(e) => e.preventDefault()}
+                      >
+                        <Link
+                          href={`/blogs/edit/${post.id}`}
+                          className="flex gap-1 w-full group-data-[highlighted]/dropdown-menu-item:text-indigo-50 hover:cursor-default"
+                        >
+                          Edit
+                        </Link>
+                      </DropdownMenuItem>
+                      {/* delete */}
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <DeleteAlertDialog post={post} />
+                      </DropdownMenuItem>
+                    </div>
+                  )}
+                  <DropdownMenuItem disabled>Report</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <DeleteButton />
-                  </AlertDialogTrigger>
-                  <AlertDialogContent size="sm">
-                    <AlertDialogHeader>
-                      <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-                        <Trash2Icon />
-                      </AlertDialogMedia>
-                      <AlertDialogTitle>Delete {post.title}?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Are you sure? This will permanently delete this post.
-                        This action cannot be undone
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel variant="outline">
-                        Cancel
-                      </AlertDialogCancel>
-                      <ConfirmDeleteAction post={post} />
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
-            )}
+              {/* Display edit/delete options only if the current user is the author */}
+            </div>
           </div>
         </div>
       </div>
