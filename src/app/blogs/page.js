@@ -3,10 +3,17 @@ import getCurrentUser from "../lib/getUser";
 import Link from "next/link";
 import ArticleList from "../components/ArticleList";
 import { Suspense } from "react";
-import Spinner from "../components/Spinner";
+
 import PostListSkeleton from "../components/skeletons/PostListSkeleton";
 import SearchFilterSort from "../components/SearchFilterSort";
-
+export async function generateMetadata({ params }) {
+  const param = await params;
+  return {
+    title: "Blogs",
+    description:
+      "Explore in-depth tutorials, best practices, and code solutions for modern software development. Expert insights on JavaScript, Python, cloud, and AI. Read now.",
+  };
+}
 async function page({ searchParams }) {
   const params = await searchParams;
   const user = await getCurrentUser();

@@ -5,8 +5,16 @@ import { getPostBySlug } from "@/app/lib/actions/post";
 import getCurrentUser from "@/app/lib/getUser";
 
 import { notFound } from "next/navigation";
-import { Suspense, use } from "react";
+import { Suspense } from "react";
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+  return {
+    title: `Blog: ${slug}`,
+    description: post.description,
+  };
+}
 // This imports the component only on the client and avoids the useEffect warning
 
 async function page({ params }) {

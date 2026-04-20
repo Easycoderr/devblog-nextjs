@@ -1,7 +1,14 @@
 import Form from "@/app/components/Form";
 import { getPost } from "@/app/lib/actions/post";
 import { notFound } from "next/navigation";
-
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const post = await getPost(id);
+  return {
+    title: `Edit: ${post.title}`,
+    description: post.description,
+  };
+}
 async function page({ params }) {
   const { id } = await params;
   const post = await getPost(id);
