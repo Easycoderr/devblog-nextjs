@@ -9,6 +9,8 @@ const POSTS_PER_PAGE = 8;
 // Get all posts
 export async function getPosts(page = 1, searchQuery) {
   const { search = "", filter = "all", sort } = searchQuery || {};
+
+  console.log("SORT:", sort);
   const skip = (page - 1) * POSTS_PER_PAGE;
   const whereClause = {
     title: search ? { contains: search } : undefined,

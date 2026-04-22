@@ -10,9 +10,14 @@ async function ArticleList({ params }) {
   // const params = await searchParams;
   const search = params.search;
   const filter = params.filter;
+  const sort = params.sort;
   const currentPage = Number(params?.page) || 1;
 
-  const { posts, totalPages } = await getPosts(currentPage, { search, filter });
+  const { posts, totalPages } = await getPosts(currentPage, {
+    search,
+    filter,
+    sort,
+  });
   if (posts.length === 0) return <EmptyState />;
   return (
     <>

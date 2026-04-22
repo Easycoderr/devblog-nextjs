@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 function SearchFilterSort() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname();
@@ -37,6 +38,19 @@ function SearchFilterSort() {
     if (filter !== "")
       router.replace(`${pathName}?${params.toString()}`, { scroll: false });
   }, [filter]);
+
+  //  Sort
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (sort !== "Sort by") {
+      params.delete("page");
+      params.set("sort", sort);
+    } else {
+      params.delete("sort");
+    }
+    if (sort !== "")
+      router.replace(`${pathName}?${params.toString()}`, { scroll: false });
+  }, [sort]);
 
   return (
     <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
@@ -81,7 +95,7 @@ function SearchFilterSort() {
       {/* sort */}
       <div className="relative w-full">
         <select
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) => setSort(e.target.value)}
           name="cars"
           id="cars"
           className="border w-full border-black peer z-30 text-sm rounded-lg text-text-muted px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-indigo-500"
