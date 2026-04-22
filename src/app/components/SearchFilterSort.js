@@ -1,5 +1,5 @@
 "use client";
-import { Filter, Search } from "lucide-react";
+import { Filter, Search, SortAscIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -39,14 +39,15 @@ function SearchFilterSort() {
   }, [filter]);
 
   return (
-    <div className="flex md:gap-x-10 md:gap-y-0 gap-y-4 flex-col md:flex-row">
-      <div className="flex gap-0.5 flex-col relative w-full">
+    <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
+      <div className="flex gap-0.5 flex-col relative w-full col-span-2">
+        {/* search */}
         <input
           onChange={(e) => setQuery(e.target.value)}
           type="text"
           id="search"
           name="search"
-          className="border pl-8 w-full peer z-20 text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-1 ring-indigo-500"
+          className="border pl-8 w-full peer z-20 text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-1 ring-indigo-500"
           placeholder=" "
         />
         <label
@@ -59,12 +60,13 @@ function SearchFilterSort() {
           <Search />
         </span>
       </div>
+      {/* filter */}
       <div className="relative w-full">
         <select
           onChange={(e) => setFilter(e.target.value)}
           name="cars"
           id="cars"
-          className="border w-full border-black peer z-30 text-sm rounded-md text-text-muted px-8 py-2 focus:outline-none focus:ring-1 ring-indigo-500"
+          className="border w-full border-black peer z-30 text-sm rounded-lg text-text-muted px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-indigo-500"
         >
           <option defaultChecked>Choose a filter</option>
           <option value="all">All</option>
@@ -75,6 +77,20 @@ function SearchFilterSort() {
           <option value="General">General</option>
         </select>
         <Filter className="absolute top-[50%] -translate-y-[50%] left-2 peer-focus:text-accent" />
+      </div>
+      {/* sort */}
+      <div className="relative w-full">
+        <select
+          onChange={(e) => setFilter(e.target.value)}
+          name="cars"
+          id="cars"
+          className="border w-full border-black peer z-30 text-sm rounded-lg text-text-muted px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-indigo-500"
+        >
+          <option defaultChecked>Sort by</option>
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+        </select>
+        <SortAscIcon className="absolute top-[50%] -translate-y-[50%] left-2 peer-focus:text-accent" />
       </div>
     </div>
   );
