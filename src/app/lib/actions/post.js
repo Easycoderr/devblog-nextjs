@@ -10,7 +10,6 @@ const POSTS_PER_PAGE = 8;
 export async function getPosts(page = 1, searchQuery) {
   const { search = "", filter = "all", sort } = searchQuery || {};
 
-  console.log("SORT:", sort);
   const skip = (page - 1) * POSTS_PER_PAGE;
   const whereClause = {
     title: search ? { contains: search } : undefined,
@@ -46,6 +45,7 @@ export async function getPostBySlug(slug) {
   const post = await prisma.post.findUnique({ where: { slug } });
   return post;
 }
+
 // Create post server action
 async function createPost(formData) {
   const user = await getCurrentUser();
@@ -90,6 +90,38 @@ export async function deletePost(postId) {
   }
 }
 
+// like post
+
+export async function likePost(userId, postId) {
+  const [user, post] = await prisma.$transaction([
+    prisma.user.findUnique({ where: { id: userId } }),
+    prisma.post.findUnique({ where: { id: postId } }),
+  ]);
+  if (!user || !post) throw new Error("Something went wrong while like post !");
+  await prisma.post.create({
+    data: {
+      userId,
+      postId,
+    },
+  });
+  return { success: "Post liked successfully" };
+}
+
+// count likes
+export async function getLikesByPostId(postId, currUserId) {
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    include: {
+      _count: {
+        select: { likes: true },
+      },
+      likes: {
+        where: { userId: currUserId },
+      },
+    },
+  });
+  return post;
+}
 //  just for development
 
 export async function createBulkPosts() {
