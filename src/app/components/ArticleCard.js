@@ -1,35 +1,13 @@
-"use client";
-
 import Image from "next/image";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  ArrowRight,
-  Calendar,
-  EllipsisVertical,
-  LucideShare2,
-  ThumbsUp,
-} from "lucide-react";
+import { ArrowRight, Calendar, LucideShare2, ThumbsUp } from "lucide-react";
 
 import Link from "next/link";
+import PostActions from "./PostActions";
+import { getLikesByPostId } from "../lib/actions/post";
 
-import DeleteAlertDialog from "./DeleteAlertDialog";
-
-// const DeleteButton = dynamic(() => import("./DeleteButton"), {
-//   ssr: false,
-//   loading: () => <div className="" />,
-// });
-
-function ArticleCard({ post, user }) {
+async function ArticleCard({ post, user }) {
+  const postLikes = await getLikesByPostId(post.id, user.id);
+  console.log(postLikes);
   return (
     <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
@@ -41,41 +19,7 @@ function ArticleCard({ post, user }) {
         alt={"react"}
       />
       {/* post actions */}
-      <div className="absolute top-0 right-0">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="icon">
-              <EllipsisVertical size={30} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuItem>Save for later</DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            {/* Display edit/delete options only if the current user is the author */}
-            {user?.id === post.authorId && (
-              <div>
-                {/* edit */}
-                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                  <Link
-                    href={`/blogs/edit/${post.id}`}
-                    className="flex gap-1 w-full group-data-[highlighted]/dropdown-menu-item:text-indigo-50 hover:cursor-default"
-                  >
-                    Edit
-                  </Link>
-                </DropdownMenuItem>
-                {/* delete */}
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <DeleteAlertDialog post={post} />
-                </DropdownMenuItem>
-              </div>
-            )}
-            <DropdownMenuItem disabled>Report</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <PostActions user={user} post={post} />
       {/* content */}
       <div className="space-y-3 p-3 mt-auto">
         <h3 className="text-xl mb-1 tracking-tight font-semibold">
@@ -110,19 +54,19 @@ function ArticleCard({ post, user }) {
               Read Article <ArrowRight className="transition duration-200" />
             </Link>
             {/* like and share */}
-            <div className="flex gap-2 items-center place-content-center text-sm">
+            <div className="flex gap-3 items-center place-content-center text-sm">
               <button className="mt-0.5 flex gap-1 items-center">
+                <LucideShare2 size={20} className="text-slate-500" />
                 <span className="mt-0.5 font-medium text-text-muted">10</span>
-                <LucideShare2 size={20} className="text-slate-600" />
               </button>
               <button className="flex gap-1 items-center">
-                <span className="mt-1.5 font-medium text-text-muted">80</span>
                 <ThumbsUp
-                  className="text-indigo-500 active:scale-105 transition-all duration-200"
+                  className="text-slate-500 active:scale-105 transition-all duration-200"
                   size={20}
 
                   // fill="rgb(59 130 246 / var(--tw-text-opacity, 1))"
                 />
+                <span className="mt-1 font-medium text-text-muted">80</span>
               </button>
             </div>
           </div>
