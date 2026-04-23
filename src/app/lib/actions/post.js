@@ -4,6 +4,7 @@ import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { revalidatePath } from "next/cache";
 import generateSlug from "@/app/utils/generateSlug";
+import { includes } from "zod";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -92,18 +93,33 @@ export async function deletePost(postId) {
 
 // like post
 
-export async function likePost(userId, postId) {
+export async function likePost(postId, userId) {
   const [user, post] = await prisma.$transaction([
     prisma.user.findUnique({ where: { id: userId } }),
-    prisma.post.findUnique({ where: { id: postId } }),
+    prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        likes: { where: { userId } },
+      },
+    }),
   ]);
   if (!user || !post) throw new Error("Something went wrong while like post !");
-  await prisma.post.create({
-    data: {
-      userId,
-      postId,
-    },
-  });
+
+  if (post.likes[0]?.userId === userId) {
+    await prisma.like.delete({
+      where: {
+        id: post.likes[0].id,
+      },
+    });
+  } else {
+    await prisma.like.create({
+      data: {
+        userId,
+        postId,
+      },
+    });
+  }
+  revalidatePath("/blogs");
   return { success: "Post liked successfully" };
 }
 
