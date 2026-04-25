@@ -1,5 +1,5 @@
 import Link from "next/link";
-import NotFoundState from "../components/NotFoundState";
+import NotFoundState from "../../components/ui/NotFoundState";
 
 export default function NotFound() {
   return (

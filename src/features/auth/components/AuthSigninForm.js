@@ -2,13 +2,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftCircleIcon, Eye, EyeClosed, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { signInSchema } from "../utils/schema";
 import Link from "next/link";
 import { useState } from "react";
-import { signInUser } from "../lib/actions/auth";
-import Button from "./Button";
+
+import Button from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { signInUser } from "@/lib/actions/auth";
+import { signInSchema } from "@/lib/utils/schema";
 
 function AuthSigninForm() {
   const router = useRouter();
@@ -20,7 +21,8 @@ function AuthSigninForm() {
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
-      password: "",
+      // just during development
+      password: "npx prisma generate",
     },
   });
   // local state

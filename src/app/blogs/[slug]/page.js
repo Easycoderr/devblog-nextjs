@@ -1,8 +1,8 @@
-import PostDetails from "@/app/components/PostDetails";
-import PostDetailsHeader from "@/app/components/PostDetailsHeader";
-import PostDetailsSkeleton from "@/app/components/skeletons/PostDetailsSkeleton";
-import { getPostBySlug } from "@/app/lib/actions/post";
-import getCurrentUser from "@/app/lib/getUser";
+import PostDetails from "@/features/post/components/PostDetails";
+import PostDetailsHeader from "@/features/post/components/PostDetailsHeader";
+import PostDetailsSkeleton from "@/features/post/components/skeletons/PostDetailsSkeleton";
+import { getPostBySlug } from "@/lib/actions/post";
+import getCurrentUser from "@/lib/getUser";
 
 import { notFound } from "next/navigation";
 import { Suspense } from "react";

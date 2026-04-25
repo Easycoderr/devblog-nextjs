@@ -1,4 +1,4 @@
-import AuthSigninForm from "@/app/components/AuthSigninForm";
+import AuthSigninForm from "@/features/auth/components/AuthSigninForm";
 
 function page() {
   return (

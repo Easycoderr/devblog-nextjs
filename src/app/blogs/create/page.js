@@ -1,4 +1,4 @@
-import Form from "@/app/components/Form";
+import Form from "@/features/post/components/Form";
 export const metadata = {
   title: "Create blog",
 };

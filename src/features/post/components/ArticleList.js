@@ -1,9 +1,9 @@
 import { use } from "react";
-import { getPosts } from "../lib/actions/post";
-import getCurrentUser from "../lib/getUser";
+import { getPosts } from "../../../lib/actions/post";
+import getCurrentUser from "../../../lib/getUser";
 import ArticleCard from "./ArticleCard";
-import EmptyState from "./EmptyState";
-import Pagination from "./Pagination";
+import EmptyState from "../../../components/ui/EmptyState";
+import Pagination from "../../../components/Pagination";
 
 async function ArticleList({ params }) {
   const user = await getCurrentUser();

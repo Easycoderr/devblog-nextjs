@@ -1,4 +1,4 @@
-import AuthRegisterForm from "@/app/components/AuthRegisterForm";
+import AuthRegisterForm from "@/features/auth/components/AuthRegisterForm";
 
 function page() {
   return (

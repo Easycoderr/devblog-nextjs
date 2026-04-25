@@ -1,11 +1,10 @@
-import { Filter, Search } from "lucide-react";
-import getCurrentUser from "../lib/getUser";
+import getCurrentUser from "@/lib/getUser";
 import Link from "next/link";
-import ArticleList from "../components/ArticleList";
+import ArticleList from "@/features/post/components/ArticleList";
 import { Suspense } from "react";
 
-import PostListSkeleton from "../components/skeletons/PostListSkeleton";
-import SearchFilterSort from "../components/SearchFilterSort";
+import PostListSkeleton from "@/features/post/components/skeletons/PostListSkeleton";
+import SearchFilterSort from "@/features/post/components/SearchFilterSort";
 export async function generateMetadata({ params }) {
   const param = await params;
   return {

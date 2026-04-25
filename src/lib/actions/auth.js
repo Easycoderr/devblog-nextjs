@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { prisma } from "../prisma";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
-import { success } from "zod";
 
 export async function registerUser(formData) {
   const { firstName, lastName, email, password } = formData;

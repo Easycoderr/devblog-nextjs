@@ -1,8 +1,8 @@
-import HeroSection from "./ui/HeroSection";
-import FeaturedArticle from "./ui/FeaturedArticle";
-import LatestArticle from "./ui/LatestArticle";
-import AboutSection from "./ui/AboutSection";
-import { getPosts } from "./lib/actions/post";
+import HeroSection from "../components/layout/HeroSection";
+import FeaturedArticle from "../components/layout/FeaturedArticle";
+import LatestArticle from "../components/layout/LatestArticle";
+import AboutSection from "../components/layout/AboutSection";
+import { getPosts } from "../lib/actions/post";
 export const metadata = {
   title: "Developer Blog",
   description:

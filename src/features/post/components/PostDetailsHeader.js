@@ -14,8 +14,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import ConfirmDeleteAction from "@/app/components/ConfirmDeleteAction";
-import NavigateBackButton from "./NavigateBackButton";
+import ConfirmDeleteAction from "@/features/post/components/ConfirmDeleteAction";
+import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import dynamic from "next/dynamic";
 
 const DeleteButton = dynamic(() => import("./DeleteButton"), {

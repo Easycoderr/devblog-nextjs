@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import Logo from "../components/Logo";
+import Logo from "../ui/Logo";
 
 function Footer() {
   const year = new Date().getFullYear();

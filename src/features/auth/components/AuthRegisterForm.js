@@ -2,11 +2,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftCircleIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { registerSchema } from "../utils/schema";
+import { registerSchema } from "@/lib/utils/schema";
 import Link from "next/link";
-import { registerUser } from "../lib/actions/auth";
+import { registerUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
-import Button from "./Button";
+import Button from "@/components/ui/Button";
 import { toast } from "sonner";
 
 function AuthRegisterForm() {

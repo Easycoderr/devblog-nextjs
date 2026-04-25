@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import ArticleCard from "../components/FeaturedArticleCard";
-import FeaturedPostSkeleton from "../components/skeletons/FeaturedPostSkeleton";
-import EmptyState from "../components/EmptyState";
+import ArticleCard from "../../features/post/components/FeaturedArticleCard";
+import FeaturedPostSkeleton from "../../features/post/components/skeletons/FeaturedPostSkeleton";
+import EmptyState from "../ui/EmptyState";
 
 function FeaturedArticle({ posts }) {
   const featuredPosts = posts?.filter((post) => !post.isFeatured)[0];

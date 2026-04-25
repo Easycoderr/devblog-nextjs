@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import ArticleCard from "../components/ArticleCard";
-import PostListSkeleton from "../components/skeletons/PostListSkeleton";
-import EmptyState from "../components/EmptyState";
+import ArticleCard from "../../features/post/components/ArticleCard";
+import PostListSkeleton from "../../features/post/components/skeletons/PostListSkeleton";
+import EmptyState from "../ui/EmptyState";
 
 function LatestArticle({ posts }) {
   const latestPosts = posts.slice(0, 6);

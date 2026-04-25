@@ -1,5 +1,5 @@
-import Form from "@/app/components/Form";
-import { getPost } from "@/app/lib/actions/post";
+import Form from "@/features/post/components/Form";
+import { getPost } from "@/lib/actions/post";
 import { notFound } from "next/navigation";
 export async function generateMetadata({ params }) {
   const { id } = await params;

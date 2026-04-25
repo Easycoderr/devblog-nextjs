@@ -1,11 +1,11 @@
 "use client";
 import { ArrowLeftCircleIcon } from "lucide-react";
-import { postFormSchema } from "../utils/schema";
+import { postFormSchema } from "../../../lib/utils/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import createPost, { updatePost } from "../lib/actions/post";
-import Button from "./Button";
-import NavigateBackButton from "./NavigateBackButton";
+import createPost, { updatePost } from "../../../lib/actions/post";
+import Button from "@/components/ui/Button";
+import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 

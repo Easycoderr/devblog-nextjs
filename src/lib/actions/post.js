@@ -1,10 +1,9 @@
 "use server";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
-import { revalidatePath } from "next/cache";
-import generateSlug from "@/app/utils/generateSlug";
-import { includes } from "zod";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts

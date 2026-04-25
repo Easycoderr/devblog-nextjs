@@ -1,14 +1,14 @@
 "use client";
 import Link from "next/link";
-import Logo from "../components/Logo";
+import Logo from "../ui/Logo";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import useActiveSection from "../hooks/useActiveSection";
+import useActiveSection from "../../hooks/useActiveSection";
 
-import HeaderMobNav from "../components/HeaderMobNav";
-import HeaderDeskNav from "../components/HeaderDeskNav";
+import HeaderMobNav from "./HeaderMobNav";
+import HeaderDeskNav from "./HeaderDeskNav";
 import { LogOut, MenuIcon, XIcon } from "lucide-react";
-import { signOutUser } from "../lib/actions/auth";
+import { signOutUser } from "../../lib/actions/auth";
 
 const links = [
   { id: "home", label: "Home", href: "/" },

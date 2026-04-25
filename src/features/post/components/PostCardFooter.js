@@ -2,7 +2,7 @@
 
 import { ArrowRight, LucideShare2, ThumbsUp } from "lucide-react";
 import Link from "next/link";
-import { likePost } from "../lib/actions/post";
+import { likePost } from "../../../lib/actions/post";
 import { toast } from "sonner";
 
 function PostCardFooter({ post, user, totalLikes, userLike }) {

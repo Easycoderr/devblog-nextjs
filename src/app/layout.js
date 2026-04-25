@@ -1,11 +1,11 @@
 import { Inter, Sora, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 
 import "./globals.css";
-import Header from "./ui/Header";
-import Footer from "./ui/Footer";
-import getCurrentUser from "./lib/getUser";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
+import getCurrentUser from "../lib/getUser";
 import { use } from "react";
-import { createBulkPosts, deleteAllPosts } from "./lib/actions/post";
+import { createBulkPosts, deleteAllPosts } from "../lib/actions/post";
 import { Toaster } from "@/components/ui/sonner";
 
 export const inter = Inter({

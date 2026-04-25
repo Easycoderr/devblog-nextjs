@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { ArrowRight, Calendar, LucideShare2, ThumbsUp } from "lucide-react";
+import { Calendar } from "lucide-react";
 
-import Link from "next/link";
 import PostActions from "./PostActions";
-import { getLikesByPostId } from "../lib/actions/post";
+import { getLikesByPostId } from "../../../lib/actions/post";
+import PostCardFooter from "./PostCardFooter";
 
 async function ArticleCard({ post, user }) {
-  const postLikes = await getLikesByPostId(post.id, user.id);
-  console.log(postLikes);
+  const postLikes = await getLikesByPostId(post.id, user?.id);
+  const { _count, likes } = postLikes;
   return (
     <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
@@ -45,32 +45,12 @@ async function ArticleCard({ post, user }) {
         <p className="text-sm text-slate-600">
           {post.description.slice(0, 80)}...
         </p>
-        <div className="flex flex-col gap-4 text-sm mt-auto">
-          <div className="flex justify-between">
-            <Link
-              href={`/blogs/${post.slug}`}
-              className="group flex text-md items-center gap-2 bg-accent px-3 py-1.5 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
-            >
-              Read Article <ArrowRight className="transition duration-200" />
-            </Link>
-            {/* like and share */}
-            <div className="flex gap-3 items-center place-content-center text-sm">
-              <button className="mt-0.5 flex gap-1 items-center">
-                <LucideShare2 size={20} className="text-slate-500" />
-                <span className="mt-0.5 font-medium text-text-muted">10</span>
-              </button>
-              <button className="flex gap-1 items-center">
-                <ThumbsUp
-                  className="text-slate-500 active:scale-105 transition-all duration-200"
-                  size={20}
-
-                  // fill="rgb(59 130 246 / var(--tw-text-opacity, 1))"
-                />
-                <span className="mt-1 font-medium text-text-muted">80</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <PostCardFooter
+          post={post}
+          userLike={likes.length}
+          totalLikes={_count.likes}
+          user={user}
+        />
       </div>
     </div>
   );

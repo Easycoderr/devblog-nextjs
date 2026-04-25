@@ -1,5 +1,5 @@
 import { ArrowRight, EarthIcon, Lightbulb, Rocket } from "lucide-react";
-import AboutCard from "../components/AboutCard";
+import AboutCard from "./AboutCard";
 import Link from "next/link";
 
 const aboutCardData = [
