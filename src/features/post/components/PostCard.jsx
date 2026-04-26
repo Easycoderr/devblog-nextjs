@@ -7,7 +7,8 @@ import PostCardFooter from "./PostCardFooter";
 
 async function PostCard({ post, user }) {
   const postLikes = await getLikesByPostId(post.id, user?.id);
-  const { _count, likes } = postLikes;
+  const { _count, userLike } = postLikes;
+
   return (
     <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
@@ -47,7 +48,7 @@ async function PostCard({ post, user }) {
         </p>
         <PostCardFooter
           post={post}
-          userLike={likes.length}
+          userLike={userLike}
           totalLikes={_count.likes}
           user={user}
         />

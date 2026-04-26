@@ -130,12 +130,17 @@ export async function getLikesByPostId(postId, currUserId) {
       _count: {
         select: { likes: true },
       },
-      likes: {
-        where: { userId: currUserId },
-      },
+      likes: currUserId
+        ? {
+            where: { userId: currUserId },
+            take: 1,
+          }
+        : false,
     },
   });
-  return post;
+  if (!post) return null;
+  const { likes, _count } = post;
+  return { _count, userLike: likes && likes.length > 0 ? likes[0] : null };
 }
 //  just for development
 
