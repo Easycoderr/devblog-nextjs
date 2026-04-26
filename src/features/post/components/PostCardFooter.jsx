@@ -1,9 +1,9 @@
 "use client";
-
-import { ArrowRight, LucideShare2, ThumbsUp } from "lucide-react";
+import { ArrowRight, ThumbsUp } from "lucide-react";
 import Link from "next/link";
 import { likePost } from "../../../lib/actions/post";
 import { toast } from "sonner";
+import ShareButton from "./ShareButton";
 
 function PostCardFooter({ post, user, totalLikes, userLike }) {
   async function handleLikePost() {
@@ -24,10 +24,11 @@ function PostCardFooter({ post, user, totalLikes, userLike }) {
         </Link>
         {/* like and share */}
         <div className="flex gap-3 items-center place-content-center text-sm">
-          <button className="mt-0.5 flex gap-1 items-center">
-            <LucideShare2 size={20} className="text-slate-500" />
-            <span className="mt-0.5 font-medium text-text-muted">10</span>
-          </button>
+          <ShareButton
+            slug={post.slug}
+            title={post.title}
+            text={post.description}
+          />
           <button className="flex gap-1 items-center" onClick={handleLikePost}>
             <ThumbsUp
               className={`${userLike ? "text-indigo-400" : "text-slate-500"} active:scale-105 transition-all duration-200`}

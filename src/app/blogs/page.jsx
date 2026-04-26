@@ -26,7 +26,7 @@ async function page({ searchParams }) {
               All Articles
             </h2>
             <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-xs md:max-w-xs mb-0.5"></div>
-            <p className="text-muted leading-relaxed tracking-normal font-medium">
+            <p className="text-text-muted leading-relaxed tracking-normal font-medium">
               Explore all posts and tutorials
             </p>
           </div>
