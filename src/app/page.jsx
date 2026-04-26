@@ -1,8 +1,8 @@
 import HeroSection from "../components/layout/HeroSection";
-import FeaturedArticle from "../components/layout/FeaturedArticle";
-import LatestArticle from "../components/layout/LatestArticle";
 import AboutSection from "../components/layout/AboutSection";
 import { getPosts } from "../lib/actions/post";
+import FeaturedPost from "../components/layout/FeaturedPost";
+import LatestPost from "../components/layout/LatestPost";
 export const metadata = {
   title: "Developer Blog",
   description:
@@ -17,9 +17,9 @@ export default async function Home() {
         {/* hero */}
         <HeroSection />
         {/* Featured Article */}
-        <FeaturedArticle posts={posts} />
+        <FeaturedPost posts={posts} />
         {/* Latest Article */}
-        <LatestArticle posts={posts} />
+        <LatestPost posts={posts} />
         {/* about devBlog website */}
         <AboutSection />
       </main>

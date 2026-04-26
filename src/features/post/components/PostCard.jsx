@@ -5,7 +5,7 @@ import PostActions from "./PostActions";
 import { getLikesByPostId } from "../../../lib/actions/post";
 import PostCardFooter from "./PostCardFooter";
 
-async function ArticleCard({ post, user }) {
+async function PostCard({ post, user }) {
   const postLikes = await getLikesByPostId(post.id, user?.id);
   const { _count, likes } = postLikes;
   return (
@@ -56,4 +56,4 @@ async function ArticleCard({ post, user }) {
   );
 }
 
-export default ArticleCard;
+export default PostCard;

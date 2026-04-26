@@ -1,7 +1,7 @@
 import { ArrowRight, Calendar, Eye, Flame } from "lucide-react";
 import Link from "next/link";
 
-function ArticleCard({ post }) {
+function FeaturedPostCard({ post }) {
   const {
     slug,
     title,
@@ -67,4 +67,4 @@ function ArticleCard({ post }) {
   );
 }
 
-export default ArticleCard;
+export default FeaturedPostCard;

@@ -1,10 +1,10 @@
 import getCurrentUser from "@/lib/getUser";
 import Link from "next/link";
-import ArticleList from "@/features/post/components/ArticleList";
 import { Suspense } from "react";
 
 import PostListSkeleton from "@/features/post/components/skeletons/PostListSkeleton";
 import SearchFilterSort from "@/features/post/components/SearchFilterSort";
+import PostList from "@/features/post/components/PostList";
 export async function generateMetadata({ params }) {
   const param = await params;
   return {
@@ -44,7 +44,7 @@ async function page({ searchParams }) {
         {/* article list */}
 
         <Suspense fallback={<PostListSkeleton />}>
-          <ArticleList params={params} />
+          <PostList params={params} />
         </Suspense>
       </main>
     </div>

@@ -1,11 +1,11 @@
 import { use } from "react";
 import { getPosts } from "../../../lib/actions/post";
 import getCurrentUser from "../../../lib/getUser";
-import ArticleCard from "./ArticleCard";
+import ArticleCard from "./PostCard";
 import EmptyState from "../../../components/ui/EmptyState";
 import Pagination from "../../../components/Pagination";
 
-async function ArticleList({ params }) {
+async function PostList({ params }) {
   const user = await getCurrentUser();
   // const params = await searchParams;
   const search = params.search;
@@ -37,4 +37,4 @@ async function ArticleList({ params }) {
   );
 }
 
-export default ArticleList;
+export default PostList;

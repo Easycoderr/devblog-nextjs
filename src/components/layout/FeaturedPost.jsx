@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import ArticleCard from "../../features/post/components/FeaturedArticleCard";
+import ArticleCard from "../../features/post/components/FeaturedPostCard";
 import FeaturedPostSkeleton from "../../features/post/components/skeletons/FeaturedPostSkeleton";
 import EmptyState from "../ui/EmptyState";
 
-function FeaturedArticle({ posts }) {
+function FeaturedPost({ posts }) {
   const featuredPosts = posts?.filter((post) => !post.isFeatured)[0];
 
   return (
@@ -36,4 +36,4 @@ function FeaturedArticle({ posts }) {
   );
 }
 
-export default FeaturedArticle;
+export default FeaturedPost;

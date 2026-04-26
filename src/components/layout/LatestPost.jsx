@@ -1,9 +1,10 @@
 import { Suspense } from "react";
-import ArticleCard from "../../features/post/components/ArticleCard";
 import PostListSkeleton from "../../features/post/components/skeletons/PostListSkeleton";
 import EmptyState from "../ui/EmptyState";
+import PostCard from "../../features/post/components/PostCard";
+import getCurrentUser from "@/lib/getUser";
 
-function LatestArticle({ posts }) {
+async function LatestPost({ posts }) {
   const latestPosts = posts.slice(0, 6);
   return (
     <section id="home" className="min-h-screen py-16 bg-gray-50 flex  flex-col">
@@ -26,7 +27,7 @@ function LatestArticle({ posts }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 md:px-0">
               {/* Articles */}
               {latestPosts.map((post) => (
-                <ArticleCard key={post.id} post={post} />
+                <PostCard key={post.id} post={post} />
               ))}
             </div>
           </Suspense>
@@ -36,4 +37,4 @@ function LatestArticle({ posts }) {
   );
 }
 
-export default LatestArticle;
+export default LatestPost;
