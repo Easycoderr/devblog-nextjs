@@ -6,8 +6,8 @@ import { registerSchema } from "@/lib/utils/schema";
 import Link from "next/link";
 import { registerUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
-import Button from "@/components/ui/Button";
 import { toast } from "sonner";
+import FormsButton from "@/components/ui/FormsButton";
 
 function AuthRegisterForm() {
   const {
@@ -153,7 +153,7 @@ function AuthRegisterForm() {
             </span>
           </div>
           <div className="mx-auto flex flex-col gap-2">
-            <Button
+            <FormsButton
               disabled={isSubmitting}
               type="submit"
               style="authForm"
@@ -161,7 +161,7 @@ function AuthRegisterForm() {
             >
               {" "}
               Register
-            </Button>
+            </FormsButton>
 
             <div>
               <span className="text-sm text-gray-600">

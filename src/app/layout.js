@@ -27,7 +27,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const user = await getCurrentUser();
-  console.log("user:", user);
+
   return (
     <html
       lang="en"
@@ -36,16 +36,7 @@ export default async function RootLayout({ children }) {
       <body className="relative min-h-full flex flex-col font-inter">
         <Header user={user} />
         {children}
-        <Toaster
-          richColors
-          closeButton
-          position="top-right"
-          // toastOptions={{
-          //   classNames: {
-          //     toast: "bg-accent rounded-lg text-white",
-          //   },
-          // }}
-        />
+        <Toaster richColors closeButton position="top-right" />
         <Footer />
         <div className="absolute bottom-4 left-4 flex gap-4 flex-col">
           <button

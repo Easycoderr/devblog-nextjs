@@ -1,10 +1,9 @@
 "use client";
-import { ArrowLeftCircleIcon } from "lucide-react";
 import { postFormSchema } from "../../../lib/utils/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import createPost, { updatePost } from "../../../lib/actions/post";
-import Button from "@/components/ui/Button";
+import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -151,14 +150,14 @@ function Form({ postData }) {
             >
               Reset
             </button>
-            <Button
+            <FormsButton
               disabled={isSubmitting || !isDirty}
               type="submit"
               style="form"
               ariaLabel={postData?.id ? "Update article" : "Create article"}
             >
               {postData?.id ? "Update" : "Create"}
-            </Button>
+            </FormsButton>
           </div>
         </form>
       </div>

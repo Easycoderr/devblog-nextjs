@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useState } from "react";
 
-import Button from "@/components/ui/Button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { signInUser } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/utils/schema";
+import FormsButton from "@/components/ui/FormsButton";
 
 function AuthSigninForm() {
   const router = useRouter();
@@ -111,7 +111,7 @@ function AuthSigninForm() {
           </div>
 
           <div className="mx-auto flex flex-col gap-2">
-            <Button
+            <FormsButton
               disabled={isSubmitting}
               type="submit"
               style="authForm"
@@ -119,7 +119,7 @@ function AuthSigninForm() {
             >
               {" "}
               Sign in
-            </Button>
+            </FormsButton>
 
             <div>
               <span className="text-sm text-gray-600">
