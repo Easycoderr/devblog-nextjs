@@ -14,7 +14,7 @@ function PostCardFooter({ post, user, totalLikes, userLike }) {
     }
   }
   return (
-    <div className="flex flex-col gap-4 text-sm mt-auto">
+    <div className="text-sm mt-auto px-3 pb-3">
       <div className="flex justify-between">
         <Link
           href={`/blogs/${post.slug}`}

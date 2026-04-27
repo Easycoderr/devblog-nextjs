@@ -24,7 +24,17 @@ function ShareButton({ title, text, slug }) {
   }
   return (
     <button className="mt-0.5 flex gap-1 items-center" onClick={handleShare}>
-      <LucideShare2 size={20} className="text-slate-500" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        className={
+          "w-5 h-5 active:scale-105 transition-all duration-200 text-slate-50 bg-indigo-500 p-0.5 rounded-full"
+        }
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M14 3v5c-7 0-12 4-13 13 3-5 8-7 13-7v5l9-8-9-8z" />
+      </svg>
       <span className="mt-0.5 font-medium text-text-muted">10</span>
     </button>
   );

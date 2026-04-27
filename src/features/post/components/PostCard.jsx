@@ -22,16 +22,14 @@ async function PostCard({ post, user }) {
       {/* post actions */}
       <PostActions user={user} post={post} />
       {/* content */}
-      <div className="space-y-3 p-3 mt-auto">
+      <div className="flex flex-col gap-2 p-3">
         <h3 className="text-xl mb-1 tracking-tight font-semibold">
           {post.title}
         </h3>
         {/* description */}
         <div className="flex items-center gap-3">
           <span className="flex text-xs items-center">
-            <span
-              className={`${post.category === "React" ? "text-blue-400" : "text-yellow-500"}`}
-            >
+            <span className="text-blue-50 bg-indigo-300 px-1 py-0.5 rounded-full">
               #{post.category}
             </span>
           </span>
@@ -46,13 +44,13 @@ async function PostCard({ post, user }) {
         <p className="text-sm text-slate-600">
           {post.description.slice(0, 80)}...
         </p>
-        <PostCardFooter
-          post={post}
-          userLike={userLike}
-          totalLikes={_count.likes}
-          user={user}
-        />
       </div>
+      <PostCardFooter
+        post={post}
+        userLike={userLike}
+        totalLikes={_count.likes}
+        user={user}
+      />
     </div>
   );
 }

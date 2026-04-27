@@ -4,12 +4,16 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function SearchFilterSort() {
+  // local states
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("");
   const [sort, setSort] = useState("");
+
+  // navigators
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname();
+
   // Search
   useEffect(() => {
     const timer = setTimeout(() => {

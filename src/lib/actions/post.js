@@ -102,8 +102,8 @@ export async function likePost(postId, userId) {
       },
     }),
   ]);
-  if (!user || !post) throw new Error("Something went wrong while like post !");
 
+  if (!user || !post) throw new Error("Something went wrong while like post!");
   if (post.likes[0]?.userId === userId) {
     await prisma.like.delete({
       where: {
