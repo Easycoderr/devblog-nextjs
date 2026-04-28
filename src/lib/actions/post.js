@@ -68,11 +68,17 @@ async function createPost(formData) {
 
 // Update
 export async function updatePost(postData) {
+  const user = await getCurrentUser();
+
+  if (!user) throw new Error("Unauthorized");
+  const userId = user.id;
+
   const { id, title, description, content, category } = postData;
-  await prisma.post.update({
-    where: { id },
+  const result = await prisma.post.updateMany({
+    where: { id: id, authorId: userId },
     data: { title, description, content, category },
   });
+  if (result.count === 0) throw new Error("Unauthorized or Post not found");
   revalidatePath("/blogs");
 }
 
