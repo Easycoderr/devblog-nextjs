@@ -5,6 +5,7 @@ import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { cookies } from "next/headers";
+import { success } from "zod";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -83,17 +84,20 @@ export async function updatePost(postData) {
 }
 
 // Delete post
-export async function deletePost(postId) {
+export async function deletePost(postId, userId) {
+  if (!userId) throw new Error("Unauthorized");
   try {
-    await prisma.post.delete({ where: { id: postId } });
+    const result = await prisma.post.deleteMany({
+      where: { id: postId, authorId: userId },
+    });
+    if (result.count === 0)
+      return { success: false, error: "Post not found or unauthorized" };
     revalidatePath("/blogs");
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
-    if (error.code == "P2025") {
-      revalidatePath("/blogs");
-      return { success: true };
-    }
-    return { success: false, error: "Database error" };
+    console.error("Delete Error:", error);
+    return { success: false, error: "Database error occurred" };
   }
 }
 
@@ -177,7 +181,8 @@ export async function sharePost(postId, userId = null) {
         guestId: guestId || null,
       },
     });
-    revalidatePath("/blogs", "/");
+    revalidatePath("/blogs");
+    revalidatePath("/");
     return newShare;
   } catch (error) {
     console.error("Share record failed:", error);

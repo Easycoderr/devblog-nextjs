@@ -12,7 +12,7 @@ import {
 import DeleteButton from "./DeleteButton";
 import ConfirmDeleteAction from "./ConfirmDeleteAction";
 import { Trash2Icon } from "lucide-react";
-function DeleteAlertDialog({ post }) {
+function DeleteAlertDialog({ post, userId }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -36,7 +36,7 @@ function DeleteAlertDialog({ post }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-          <ConfirmDeleteAction post={post} />
+          <ConfirmDeleteAction post={post} userId={userId} />
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

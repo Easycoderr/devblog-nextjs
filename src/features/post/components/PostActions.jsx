@@ -41,7 +41,7 @@ function PostActions({ user, post }) {
               </DropdownMenuItem>
               {/* delete */}
               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                <DeleteAlertDialog post={post} />
+                <DeleteAlertDialog post={post} userId={user?.id} />
               </DropdownMenuItem>
             </div>
           )}
