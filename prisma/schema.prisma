@@ -17,6 +17,7 @@ model User {
   createdAt DateTime @default(now())
   posts     Post[]  
   likes     Like[]
+  shares    Share[]
 }
 
 model Post {
@@ -31,6 +32,7 @@ model Post {
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
   likes     Like[]
+  shares    Share[]
 }
 
 model Like{
@@ -42,4 +44,14 @@ model Like{
 
 
   @@unique([userId,postId])
+}
+
+
+model Share{
+  id String @id @default(cuid())
+  user User @relation(fields: [userId],references: [id])
+  userId String
+  post Post @relation(fields: [postId],references: [id])
+  postId String
+
 }
