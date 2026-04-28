@@ -29,8 +29,8 @@ async function PostCard({ post, user }) {
         {/* description */}
         <div className="flex items-center gap-3">
           <span className="flex text-xs items-center">
-            <span className="text-blue-50 bg-indigo-300 px-1 py-0.5 rounded-full">
-              #{post.category}
+            <span className="text-blue-50 bg-indigo-400 px-2 py-0.5 rounded-full">
+              {post.category}
             </span>
           </span>
           <span className="flex items-center gap-1">

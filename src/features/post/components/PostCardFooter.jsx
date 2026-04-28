@@ -18,9 +18,10 @@ function PostCardFooter({ post, user, totalLikes, userLike }) {
       <div className="flex justify-between">
         <Link
           href={`/blogs/${post.slug}`}
-          className="group flex text-md items-center gap-2 bg-accent px-3 py-1.5 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
+          className="group font-mono flex text-md items-center gap-0.5 text-gray-800 transition-all duration-200 font-semibold hover:-translate-y-0.5 tracking-wider hover:text-hover"
         >
-          Read Article <ArrowRight className="transition duration-200" />
+          Read Article{" "}
+          <ArrowRight className="transition duration-200" size={19} />
         </Link>
         {/* like and share */}
         <div className="flex gap-3 items-center place-content-center text-sm">
