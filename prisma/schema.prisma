@@ -50,7 +50,7 @@ model Like{
 model Share{
   id String @id @default(cuid())
   user User @relation(fields: [userId],references: [id])
-  userId String
+  userId String?
   post Post @relation(fields: [postId],references: [id])
   postId String
 
