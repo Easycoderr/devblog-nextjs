@@ -1,8 +1,15 @@
 "use client";
-import { LucideShare2 } from "lucide-react";
+import { sharePost } from "@/lib/actions/post";
 import { toast } from "sonner";
 
-function ShareButton({ title, text, slug }) {
+function ShareButton({
+  postId,
+  userId = null,
+  totalShares,
+  title,
+  text,
+  slug,
+}) {
   const pathname = "http://localhost:3000/blogs";
   const url = `${pathname}/${slug}`;
   async function handleShare() {
@@ -13,6 +20,7 @@ function ShareButton({ title, text, slug }) {
           text: text,
           url: url,
         });
+        sharePost(postId, userId);
       } catch (error) {
         console.error("Error sharing:", error);
       }
@@ -35,7 +43,7 @@ function ShareButton({ title, text, slug }) {
       >
         <path d="M14 3v5c-7 0-12 4-13 13 3-5 8-7 13-7v5l9-8-9-8z" />
       </svg>
-      <span className="mt-0.5 font-medium text-text-muted">10</span>
+      <span className="mt-0.5 font-medium text-text-muted">{totalShares}</span>
     </button>
   );
 }

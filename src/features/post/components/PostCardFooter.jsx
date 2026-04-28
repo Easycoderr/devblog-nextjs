@@ -5,7 +5,7 @@ import { likePost } from "../../../lib/actions/post";
 import { toast } from "sonner";
 import ShareButton from "./ShareButton";
 
-function PostCardFooter({ post, user, totalLikes, userLike }) {
+function PostCardFooter({ post, user, totalShares, totalLikes, userLike }) {
   async function handleLikePost() {
     if (!user) {
       toast.error("Register to like and comment on posts.");
@@ -26,6 +26,9 @@ function PostCardFooter({ post, user, totalLikes, userLike }) {
         {/* like and share */}
         <div className="flex gap-3 items-center place-content-center text-sm">
           <ShareButton
+            totalShares={totalShares}
+            userId={user?.id}
+            postId={post.id}
             slug={post.slug}
             title={post.title}
             text={post.description}

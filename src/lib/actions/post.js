@@ -4,9 +4,7 @@ import { revalidatePath } from "next/cache";
 import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
-import { data } from "autoprefixer";
 import { cookies } from "next/headers";
-import { uuidv4 } from "zod";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -151,8 +149,14 @@ export async function sharePost(postId, userId = null) {
   if (!userId) {
     guestId = (await cookieStore).get("guest-id")?.value;
     if (!guestId) {
-      guestId = uuidv4();
-      (await cookieStore).set("guest-id", guestId, { httpOnly: true });
+      console.log("before:", guestId);
+      guestId = crypto.randomUUID();
+      console
+        .log(
+          "before:",
+          guestId,
+        )(await cookieStore)
+        .set("guest-id", guestId, { httpOnly: true });
     }
   }
   try {
