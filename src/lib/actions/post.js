@@ -5,6 +5,8 @@ import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { data } from "autoprefixer";
+import { cookies } from "next/headers";
+import { uuidv4 } from "zod";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -144,20 +146,45 @@ export async function getLikesByPostId(postId, currUserId) {
 }
 // sharePost
 export async function sharePost(postId, userId = null) {
+  const cookieStore = cookies();
+  let guestId = null;
+  if (!userId) {
+    guestId = (await cookieStore).get("guest-id")?.value;
+    if (!guestId) {
+      guestId = uuidv4();
+      (await cookieStore).set("guest-id", guestId, { httpOnly: true });
+    }
+  }
   try {
-    const newShare = await prisma.share.create({
-      data: {
-        userId,
+    const newShare = await prisma.share.upsert({
+      where: userId
+        ? { userId_postId: { userId, postId } }
+        : { guestId_postId: { guestId, postId } },
+      update: {},
+      create: {
         postId,
+        userId: userId || null,
+        guestId: guestId || null,
       },
     });
+    revalidatePath("/blogs", "/");
     return newShare;
   } catch (error) {
-    console.error("Error sharing post:", error);
+    console.error("Share record failed:", error);
     throw error;
   }
 }
-
+export async function getSharesByPostId(postId) {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: { _count: { select: { shares: true } } },
+    });
+    return post;
+  } catch (error) {
+    console.log("Get shares by post id Error:", error);
+  }
+}
 //  just for development
 export async function createBulkPosts() {
   const user = await getCurrentUser();
