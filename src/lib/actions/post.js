@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
+import { data } from "autoprefixer";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -102,7 +103,6 @@ export async function likePost(postId, userId) {
       },
     }),
   ]);
-
   if (!user || !post) throw new Error("Something went wrong while like post!");
   if (post.likes[0]?.userId === userId) {
     await prisma.like.delete({
@@ -142,8 +142,23 @@ export async function getLikesByPostId(postId, currUserId) {
   const { likes, _count } = post;
   return { _count, userLike: likes && likes.length > 0 ? likes[0] : null };
 }
-//  just for development
+// sharePost
+export async function sharePost(postId, userId = null) {
+  try {
+    const newShare = await prisma.share.create({
+      data: {
+        userId,
+        postId,
+      },
+    });
+    return newShare;
+  } catch (error) {
+    console.error("Error sharing post:", error);
+    throw error;
+  }
+}
 
+//  just for development
 export async function createBulkPosts() {
   const user = await getCurrentUser();
   if (!user) throw new Error("Not authenticated");
