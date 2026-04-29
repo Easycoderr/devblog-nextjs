@@ -22,40 +22,61 @@ model User {
 
 model Post {
   id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
   slug      String @unique
   title     String
   description String
   content   String
   category  String
-  createdAt DateTime @default(now())
-
+// relations
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
+  
   likes     Like[]
   shares    Share[]
 }
 
 model Like{
   id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  // relations
   user User @relation(fields: [userId],references: [id])
   userId String
   post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
   postId String
-  createdAt DateTime @default(now())
 
   @@unique([userId,postId])
 }
 
 
+// Share table
+
 model Share{
   id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  // relations
   user User? @relation(fields: [userId],references: [id])
   userId String?
   guestId String?
-  createdAt DateTime @default(now())
   post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
   postId String
 
   @@unique([userId,postId])
   @@unique([guestId,postId])
+}
+
+
+// Saved Post Table
+
+model SavedPost{
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+// relations
+  user User @relation(fields: [userId],references: [id])
+  userId String 
+  post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
+  postId String
+
+  @@unique([userId,postId])
 }
