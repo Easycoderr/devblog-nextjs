@@ -5,11 +5,11 @@ import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { cookies } from "next/headers";
-import { success } from "zod";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
 export async function getPosts(page = 1, searchQuery) {
+  const user = await getCurrentUser();
   const { search = "", filter = "all", sort } = searchQuery || {};
 
   const skip = (page - 1) * POSTS_PER_PAGE;
@@ -24,6 +24,11 @@ export async function getPosts(page = 1, searchQuery) {
       take: POSTS_PER_PAGE,
       where: whereClause,
       orderBy: { createdAt: sort === "oldest" ? "asc" : "desc" },
+      include: {
+        ...(user
+          ? { savedPosts: { where: { userId: user.id }, select: { id: true } } }
+          : {}),
+      },
     }),
     prisma.post.count({ where: whereClause }),
   ]);
@@ -53,7 +58,6 @@ async function createPost(formData) {
   const user = await getCurrentUser();
   if (!user) throw new Error("Not authenticated");
   const { title, description, content, category } = formData;
-  //  console.log("Loaded Models:", Object.keys(prisma));
   await prisma.post.create({
     data: {
       slug: generateSlug(title),
@@ -159,14 +163,8 @@ export async function sharePost(postId, userId = null) {
   if (!userId) {
     guestId = (await cookieStore).get("guest-id")?.value;
     if (!guestId) {
-      console.log("before:", guestId);
       guestId = crypto.randomUUID();
-      console
-        .log(
-          "before:",
-          guestId,
-        )(await cookieStore)
-        .set("guest-id", guestId, { httpOnly: true });
+      await cookieStore.set("guest-id", guestId, { httpOnly: true });
     }
   }
   try {
@@ -189,6 +187,7 @@ export async function sharePost(postId, userId = null) {
     throw error;
   }
 }
+
 export async function getSharesByPostId(postId) {
   try {
     const post = await prisma.post.findUnique({
@@ -198,6 +197,51 @@ export async function getSharesByPostId(postId) {
     return post;
   } catch (error) {
     console.log("Get shares by post id Error:", error);
+  }
+}
+// Save post
+export async function savePost(postId, userId) {
+  if (!userId) throw new Error("Unauthorized");
+
+  const existing = await prisma.savedPost.findUnique({
+    where: { userId_postId: { userId, postId } },
+  });
+
+  try {
+    if (existing) {
+      await prisma.savedPost.delete({
+        where: { userId_postId: { userId, postId } },
+      });
+    } else {
+      await prisma.savedPost.create({
+        data: {
+          userId,
+          postId,
+        },
+      });
+    }
+    revalidatePath("/blogs");
+  } catch (error) {
+    console.error("Save post record failed:", error);
+  }
+}
+// get saved posts
+export async function getSavedPostsByPostId(postId, userId) {
+  try {
+    const { savedPosts } = await prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        savedPosts: userId
+          ? {
+              where: { userId },
+              take: 1,
+            }
+          : false,
+      },
+    });
+    return { savedPosts };
+  } catch (error) {
+    console.log(error);
   }
 }
 //  just for development
