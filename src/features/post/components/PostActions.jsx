@@ -12,7 +12,12 @@ import {
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 import DeleteAlertDialog from "./DeleteAlertDialog";
+import { savePost } from "@/lib/actions/post";
 function PostActions({ user, post }) {
+  const { savedPosts } = post;
+  async function handleSavePost() {
+    savePost(post.id, user?.id);
+  }
   return (
     <div className="absolute top-0 right-0">
       <DropdownMenu>
@@ -24,7 +29,15 @@ function PostActions({ user, post }) {
         <DropdownMenuContent>
           <DropdownMenuGroup>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuItem>Save for later</DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={!user}
+              asChild
+              onSelect={(e) => e.preventDefault()}
+            >
+              <button onClick={handleSavePost} className="w-full">
+                {!user ? "Save" : savedPosts?.length !== 0 ? "Unsave" : "Save"}
+              </button>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           {/* Display edit/delete options only if the current user is the author */}
