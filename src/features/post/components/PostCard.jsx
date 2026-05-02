@@ -22,7 +22,9 @@ async function PostCard({ post, user }) {
         alt={"react"}
       />
       {/* post actions */}
-      <PostActions user={user} post={post} />
+      <div className="absolute top-0 right-0">
+        <PostActions user={user} post={post} />
+      </div>
       {/* content */}
       <div className="flex flex-col gap-2 p-3">
         <h3 className="text-xl mb-1 tracking-tight font-semibold">

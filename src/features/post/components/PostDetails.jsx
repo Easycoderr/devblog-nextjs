@@ -48,6 +48,7 @@ function PostDetails({ post }) {
           </span>
         </div>
       </div>
+      <div className="w-full h-0.5 bg-slate-300 col-span-2 rounded-full"></div>
       {/* content */}
       <div className="leading-relaxed text-gray-500 md:col-span-2 hyphens-auto text-pretty">
         {content}

@@ -4,15 +4,9 @@ import Link from "next/link";
 import { likePost } from "../../../lib/actions/post";
 import { toast } from "sonner";
 import ShareButton from "./ShareButton";
+import LikeButton from "./LikeButton";
 
 function PostCardFooter({ post, user, totalShares, totalLikes, userLike }) {
-  async function handleLikePost() {
-    if (!user) {
-      toast.error("Register to like and comment on posts.");
-    } else {
-      await likePost(post.id, user?.id);
-    }
-  }
   return (
     <div className="text-sm mt-auto px-3 pb-3">
       <div className="flex justify-between">
@@ -33,18 +27,12 @@ function PostCardFooter({ post, user, totalShares, totalLikes, userLike }) {
             title={post.title}
             text={post.description}
           />
-          <button className="flex gap-1 items-center" onClick={handleLikePost}>
-            <ThumbsUp
-              className={`${userLike ? "text-indigo-400" : "text-slate-500"} active:scale-105 transition-all duration-200`}
-              size={20}
-              fill={`${userLike ? "#6366f1" : "none"}`}
-
-              // fill="rgb(59 130 246 / var(--tw-text-opacity, 1))"
-            />
-            <span className="mt-1 font-medium text-text-muted">
-              {totalLikes}
-            </span>
-          </button>
+          <LikeButton
+            userLike={userLike}
+            totalLikes={totalLikes}
+            user={user}
+            post={post}
+          />
         </div>
       </div>
     </div>

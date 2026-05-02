@@ -19,49 +19,47 @@ function PostActions({ user, post }) {
     savePost(post.id, user?.id);
   }
   return (
-    <div className="absolute top-0 right-0">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="icon">
-            <EllipsisVertical size={30} />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuGroup>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuItem
-              disabled={!user}
-              asChild
-              onSelect={(e) => e.preventDefault()}
-            >
-              <button onClick={handleSavePost} className="w-full">
-                {!user ? "Save" : savedPosts?.length !== 0 ? "Unsave" : "Save"}
-              </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="icon" className="bg-black/30">
+          <EllipsisVertical size={30} />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem
+            disabled={!user}
+            asChild
+            onSelect={(e) => e.preventDefault()}
+          >
+            <button onClick={handleSavePost} className="w-full">
+              {!user ? "Save" : savedPosts?.length !== 0 ? "Unsave" : "Save"}
+            </button>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        {/* Display edit/delete options only if the current user is the author */}
+        {user?.id === post.authorId && (
+          <div>
+            {/* edit */}
+            <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+              <Link
+                href={`/blogs/edit/${post.id}`}
+                className="flex gap-1 w-full group-data-[highlighted]/dropdown-menu-item:text-indigo-50 hover:cursor-default"
+              >
+                Edit
+              </Link>
             </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          {/* Display edit/delete options only if the current user is the author */}
-          {user?.id === post.authorId && (
-            <div>
-              {/* edit */}
-              <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-                <Link
-                  href={`/blogs/edit/${post.id}`}
-                  className="flex gap-1 w-full group-data-[highlighted]/dropdown-menu-item:text-indigo-50 hover:cursor-default"
-                >
-                  Edit
-                </Link>
-              </DropdownMenuItem>
-              {/* delete */}
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                <DeleteAlertDialog post={post} userId={user?.id} />
-              </DropdownMenuItem>
-            </div>
-          )}
-          <DropdownMenuItem disabled>Report</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+            {/* delete */}
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              <DeleteAlertDialog post={post} userId={user?.id} />
+            </DropdownMenuItem>
+          </div>
+        )}
+        <DropdownMenuItem disabled>Report</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
