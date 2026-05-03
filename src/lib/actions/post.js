@@ -5,6 +5,7 @@ import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { cookies } from "next/headers";
+import { AwardIcon } from "lucide-react";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -60,7 +61,7 @@ async function createPost(formData) {
   const { title, description, content, category } = formData;
   await prisma.post.create({
     data: {
-      slug: generateSlug(title),
+      slug: await generateSlug(title),
       title,
       description,
       content,
@@ -74,17 +75,27 @@ async function createPost(formData) {
 // Update
 export async function updatePost(postData) {
   const user = await getCurrentUser();
-
   if (!user) throw new Error("Unauthorized");
   const userId = user.id;
-
   const { id, title, description, content, category } = postData;
-  const result = await prisma.post.updateMany({
+  const currentPost = await prisma.post.findUnique({ where: { id } });
+
+  const result = await prisma.post.update({
     where: { id: id, authorId: userId },
-    data: { title, description, content, category },
+    data: {
+      slug:
+        currentPost.title.toLowerCase() === title.toLowerCase()
+          ? currentPost.slug
+          : await generateSlug(title),
+      title,
+      description,
+      content,
+      category,
+    },
   });
   if (result.count === 0) throw new Error("Unauthorized or Post not found");
   revalidatePath("/blogs");
+  return result;
 }
 
 // Delete post

@@ -28,12 +28,12 @@ function Form({ postData }) {
   });
   async function onSubmit(data) {
     if (postData?.id) {
-      await updatePost({ id, ...data });
-      toast.success(`${title} updated successfully!`);
-      router.back();
+      const result = await updatePost({ id, ...data });
+      toast.success(`${data.title} updated successfully!`);
+      router.push(`/blogs/${result.slug}`);
     } else {
       await createPost(data);
-      toast.success(`${title} created successfully!`);
+      toast.success(`${data.title} created successfully!`);
       router.back();
     }
   }
