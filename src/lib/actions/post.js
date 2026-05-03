@@ -158,7 +158,7 @@ export async function getLikesByPostId(postId, currUserId) {
 }
 // sharePost
 export async function sharePost(postId, userId = null) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   let guestId = null;
   if (!userId) {
     guestId = (await cookieStore).get("guest-id")?.value;
