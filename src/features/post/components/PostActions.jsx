@@ -13,7 +13,7 @@ import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 import DeleteAlertDialog from "./DeleteAlertDialog";
 import { savePost } from "@/lib/actions/post";
-function PostActions({ user, post }) {
+function PostActions({ user, post, style }) {
   const { savedPosts } = post;
   async function handleSavePost() {
     savePost(post.id, user?.id);
@@ -21,8 +21,12 @@ function PostActions({ user, post }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="icon" className="bg-black/30">
-          <EllipsisVertical size={30} />
+        <Button
+          variant="icon"
+          size="icon"
+          className={`${style ? "bg-black/20 !rounded-md hover:bg-black/25" : ""}`}
+        >
+          <EllipsisVertical className="!size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

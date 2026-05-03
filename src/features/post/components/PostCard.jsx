@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { Calendar } from "lucide-react";
 
 import PostActions from "./PostActions";
 import { getLikesByPostId, getSharesByPostId } from "../../../lib/actions/post";
 import PostCardFooter from "./PostCardFooter";
+import dateCalculation from "@/lib/utils/dateCalculation";
 
 async function PostCard({ post, user }) {
   const [{ _count: postLikes, userLike }, { _count: postShares }] =
@@ -11,6 +11,7 @@ async function PostCard({ post, user }) {
       await getLikesByPostId(post.id, user?.id),
       await getSharesByPostId(post.id),
     ]);
+
   return (
     <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
@@ -38,10 +39,9 @@ async function PostCard({ post, user }) {
             </span>
           </span>
           <span className="flex items-center gap-1">
-            <Calendar className="text-green-500" size={17} />
+            {/* <Calendar className="text-green-500" size={17} /> */}
             <span className="text-xs text-gray-400 mt-1">
-              {new Date(post.createdAt).toLocaleDateString()} • {post.readTime}{" "}
-              min read
+              {dateCalculation(post.createdAt)} • {post.readTime} min read
             </span>
           </span>
         </div>

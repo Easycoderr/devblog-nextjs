@@ -1,6 +1,7 @@
 "use client";
 import { likePost } from "@/lib/actions/post";
 import { ThumbsUp } from "lucide-react";
+import { toast } from "sonner";
 
 function LikeButton({ userLike, totalLikes, user, post }) {
   async function handleLikePost() {
