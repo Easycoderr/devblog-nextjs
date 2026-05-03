@@ -34,12 +34,10 @@ async function PostDetailsHeader({ user, post }) {
             text={post.description}
           />
         </div>
-
-        {user?.id === post.authorId && (
-          <div className="flex gap-2">
-            <PostActions post={post} user={user} />
-            {/* edit */}
-            {/* <Link
+        <div className="flex gap-2">
+          <PostActions post={post} user={user} />
+          {/* edit */}
+          {/* <Link
               href={`/blogs/edit/${post.id}`}
               className="flex gap-2 items-center bg-indigo-100 px-4 py-2 rounded-lg hover:opacity-80 hover:shadow-sm active:scale-103 hover:shadow-indigo-200 transition-all duration-200 "
             >
@@ -77,8 +75,7 @@ async function PostDetailsHeader({ user, post }) {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog> */}
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
