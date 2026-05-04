@@ -82,3 +82,24 @@ model SavedPost{
 
   @@unique([userId,postId])
 }
+
+// Comments Table
+
+model Comment {
+  id String @id @default(cuid())
+  content String 
+  createdAt DateTime @default(now())
+
+  // Relationships
+
+  userId String
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  postId String
+  post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
+
+  // Self Relation for replies
+  parentId String?
+  parent Comment? @relation("Replies",fields: [parentId],references: [id],onDelete: Cascade)
+  replies Comment[] @relation("Replies")
+}
