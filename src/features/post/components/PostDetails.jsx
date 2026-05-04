@@ -1,4 +1,5 @@
-import { Calendar } from "lucide-react";
+import dateCalculation from "@/lib/utils/dateCalculation";
+
 import Image from "next/image";
 
 function PostDetails({ post }) {
@@ -34,16 +35,15 @@ function PostDetails({ post }) {
         {/* category + date */}
         <div className="flex items-center gap-3 mt-auto">
           <span className="flex text-sm items-center">
-            <span
-              className={`${category === "React" ? "text-blue-400" : "text-yellow-500"}`}
-            >
-              #{category}
+            <span className="flex items-center">
+              <span className="text-blue-50 bg-indigo-400 px-2 py-0.5 rounded-full">
+                {category}
+              </span>
             </span>
           </span>
           <span className="flex items-center gap-1">
-            <Calendar className="text-green-500" size={17} />
             <span className="text-sm text-gray-400">
-              {new Date(date).toLocaleDateString()} • {readTime}
+              {dateCalculation(date)} • {readTime}
             </span>
           </span>
         </div>

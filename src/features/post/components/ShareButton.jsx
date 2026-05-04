@@ -36,7 +36,7 @@ function ShareButton({
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         className={
-          "w-5 h-5 active:scale-105 transition-all duration-200 text-slate-50 bg-indigo-500 p-0.5 rounded-full"
+          "w-6 h-6 mt-0.5 active:scale-105 transition-all duration-200 text-slate-500"
         }
         fill="currentColor"
         aria-hidden="true"
