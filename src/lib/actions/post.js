@@ -5,7 +5,6 @@ import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { cookies } from "next/headers";
-import { AwardIcon } from "lucide-react";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -116,8 +115,24 @@ export async function deletePost(postId, userId) {
   }
 }
 
-// like post
+// Create Comment
+export async function createComment(postId, userId, content, parentId = null) {
+  if (!content || content.trim("") === "") {
+    throw new Error("Comment content cannot be empty");
+  }
+  try {
+    const comment = await prisma.comment.create({
+      data: { content, parentId, userId, postId },
+    });
+    revalidatePath(`/blogs/${postId}`);
+    return { success: true, comment };
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return { success: false, error: "Failed to post comment" };
+  }
+}
 
+// like post
 export async function likePost(postId, userId) {
   const [user, post] = await prisma.$transaction([
     prisma.user.findUnique({ where: { id: userId } }),
