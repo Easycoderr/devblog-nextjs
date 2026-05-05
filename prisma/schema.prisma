@@ -19,6 +19,7 @@ model User {
   likes     Like[]
   shares    Share[]
   savedPosts SavedPost[]
+  comments Comment[] 
 }
 
 model Post {
@@ -37,6 +38,7 @@ model Post {
   likes     Like[]
   shares    Share[]
   savedPosts SavedPost[]
+  comments Comment[] 
 }
 
 model Like{
