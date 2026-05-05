@@ -131,7 +131,22 @@ export async function createComment(postId, userId, content, parentId = null) {
     return { success: false, error: "Failed to post comment" };
   }
 }
-
+// fetch comments
+export async function getComments(postId) {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { postId },
+      include: {
+        user: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return comments;
+  } catch (error) {
+    console.log("Failed to fetch comments:", error);
+    throw new Error("Could not load comments.");
+  }
+}
 // like post
 export async function likePost(postId, userId) {
   const [user, post] = await prisma.$transaction([
