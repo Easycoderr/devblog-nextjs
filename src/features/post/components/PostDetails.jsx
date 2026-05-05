@@ -1,9 +1,11 @@
 import dateCalculation from "@/lib/utils/dateCalculation";
 
 import Image from "next/image";
+import CommentSection from "./CommentSection";
 
 function PostDetails({ post }) {
   const {
+    id,
     slug,
     title,
     description,
@@ -53,6 +55,8 @@ function PostDetails({ post }) {
       <div className="leading-relaxed text-gray-500 md:col-span-2 hyphens-auto text-pretty">
         {content}
       </div>
+      {/* comments */}
+      <CommentSection postId={id} />
     </div>
   );
 }
