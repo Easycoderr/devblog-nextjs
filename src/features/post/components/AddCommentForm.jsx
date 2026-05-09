@@ -4,7 +4,12 @@ import { createComment } from "@/lib/actions/post";
 import { Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-function AddCommentForm({ postId, userId }) {
+function AddCommentForm({
+  postId,
+  userId,
+  parentId,
+  placeholder = "Write your comment...",
+}) {
   const [content, setContent] = useState("");
   console.log(content);
   async function handleAddComment(e) {
@@ -13,7 +18,7 @@ function AddCommentForm({ postId, userId }) {
       toast.info("Please write your comment");
       return null;
     }
-    const result = await createComment(postId, userId, content);
+    const result = await createComment(postId, userId, content, parentId);
     if (result.success) {
       toast.success("Comment added");
       setContent("");
@@ -27,8 +32,8 @@ function AddCommentForm({ postId, userId }) {
           type="text"
           value={content}
           name="comment"
-          className="w-full max-w-2xl rounded-lg border-none outline-none ring focus:ring-2 focus:ring-accent p-1 "
-          placeholder="comment..."
+          className="w-full max-w-2xl placeholder:text-sm rounded-lg border-none outline-none ring focus:ring-2 focus:ring-accent p-1 "
+          placeholder={placeholder}
         />
         <Button variant="icon" type="submit">
           <Send className="size-6" />
