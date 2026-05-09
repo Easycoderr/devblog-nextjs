@@ -2,7 +2,6 @@ import getCurrentUser from "@/lib/getUser";
 import AddCommentForm from "./AddCommentForm";
 import { getComments } from "@/lib/actions/post";
 import listToTree from "@/lib/utils/listToTree";
-import { comment } from "postcss";
 import Comment from "./Comment";
 
 async function CommentSection({ postId }) {
@@ -24,11 +23,16 @@ async function CommentSection({ postId }) {
           </span>
         ) : (
           listOfComments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment
+              key={comment.id}
+              postId={postId}
+              userId={user?.id}
+              comment={comment}
+            />
           ))
         )}
       </div>
-      <AddCommentForm postId={postId} userId={user.id} />
+      <AddCommentForm postId={postId} userId={user?.id} />
     </div>
   );
 }
