@@ -1,24 +1,24 @@
 "use client";
-import { Clock, MessageSquare, Reply, ReplyIcon } from "lucide-react";
+import { Clock, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import AddCommentForm from "./AddCommentForm";
 import dateCalculation from "@/lib/utils/dateCalculation";
+import { toast } from "sonner";
 
-function Comment({ comment, postId, userId, replayedUser }) {
+function Comment({ comment, postId, userId, replyedUser }) {
   const [openReplyField, setOpenReplyField] = useState(false);
   const [repliesNumber, setRepliesNumber] = useState(0);
   const { id, content, replies, user, createdAt } = comment;
-  console.log("Replies:", replies);
-  console.log(openReplyField);
   const repliesList = replies.slice(0, repliesNumber);
+
   return (
     <div className="p-2 border-l-2 border-gray-300">
       <div className="flex justify-between">
         <div>
           <div className="flex items-center gap-1">
             <p className="text-sm text-gray-500">
-              {replayedUser
-                ? `${user.name} replay ${replayedUser}`
+              {replyedUser
+                ? `${user.name} reply ${replyedUser}`
                 : `${user.name}`}
             </p>
             <span className="text-gray-300">-</span>
@@ -36,11 +36,15 @@ function Comment({ comment, postId, userId, replayedUser }) {
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setOpenReplyField(!openReplyField)}
-            aria-label="Replay button"
+            onClick={() =>
+              userId
+                ? setOpenReplyField(!openReplyField)
+                : toast.info(`Sign in to reply, ${user?.name || "there"}.`)
+            }
+            aria-label="reply button"
             className="flex gap-0.5 items-center text-xs self-start text-accent font-medium cursor-pointer hover:bg-indigo-100 p-1 rounded-md transition-all duration-200"
           >
-            Replay
+            Reply
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -66,21 +70,21 @@ function Comment({ comment, postId, userId, replayedUser }) {
             </button>
           )}
         </div>
-        {openReplyField && userId && (
+        {openReplyField && (
           <AddCommentForm
             postId={postId}
             userId={userId}
             parentId={id}
-            placeholder={`Replay to ${user?.name}`}
+            placeholder={`Reply to ${user?.name}`}
           />
         )}
         {replies && replies.length > 0 && (
           <div className="flex flex-col gap-2">
-            {repliesList.map((replay) => (
+            {repliesList.map((reply) => (
               <Comment
-                key={replay.id}
-                comment={replay}
-                replayedUser={user?.name}
+                key={reply.id}
+                comment={reply}
+                replyedUser={user?.name}
                 userId={userId}
                 postId={postId}
               />

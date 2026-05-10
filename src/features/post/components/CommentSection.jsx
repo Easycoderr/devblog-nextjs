@@ -3,6 +3,8 @@ import AddCommentForm from "./AddCommentForm";
 import { getComments } from "@/lib/actions/post";
 import listToTree from "@/lib/utils/listToTree";
 import Comment from "./Comment";
+import Link from "next/link";
+import { ArrowRightToLine } from "lucide-react";
 
 async function CommentSection({ postId }) {
   const user = await getCurrentUser();
@@ -32,7 +34,19 @@ async function CommentSection({ postId }) {
           ))
         )}
       </div>
-      <AddCommentForm postId={postId} userId={user?.id} />
+      {user?.id ? (
+        <AddCommentForm postId={postId} userId={user?.id} />
+      ) : (
+        <p className="text-gray-900  rounded-lg flex items-center gap-2">
+          Sign in to add a comment.{" "}
+          <Link
+            href="/auth/signin"
+            className="hover:underline underline-offset-4 text-accent hover:text-hover flex items-center transition-all duration-200 gap-1"
+          >
+            Sign in <ArrowRightToLine size={20} className="mt-1" />
+          </Link>
+        </p>
+      )}
     </div>
   );
 }
