@@ -8,42 +8,62 @@ import { ArrowRightToLine } from "lucide-react";
 
 async function CommentSection({ postId }) {
   const user = await getCurrentUser();
+  const userId = user?.id;
   const comments = await getComments(postId);
-  console.log(comments);
   const listOfComments = listToTree(comments);
-  console.log(listOfComments);
   return (
     <div className="col-span-2 mt-8 space-y-4">
       <h3 className="text-xl font-semibold text-slate-900 mb-6">
         Comments ({listOfComments.length})
       </h3>
       {/* Initial list of top-level comments */}
-      <div className="space-y-6 w-full overflow-y-scroll h-96">
+      <div
+        className={`space-y-6 w-full max-h-96 ${listOfComments.length !== 0 && "overflow-y-scroll"} ${listOfComments.length !== 0 || "flex items-center gap-1"}`}
+      >
         {listOfComments.length === 0 ? (
-          <span className="text-gray-900 bg-gray-300 p-2 rounded-lg mx-auto">
-            There is no comment yet be the first one add your comment
-          </span>
+          !userId ? (
+            <div className="text-gray-900 bg-gray-100 p-2 rounded-lg mx-auto">
+              No comments yet.{" "}
+              <span>
+                <Link
+                  href="/auth/signin"
+                  className="hover:underline underline-offset-4 text-accent hover:text-hover flex items-center transition-all duration-200 gap-1"
+                >
+                  Sign in
+                </Link>
+              </span>
+              to be the first to add one!
+            </div>
+          ) : (
+            <div className="text-gray-900 my-8 bg-gray-100 p-2 rounded-lg mx-auto self-auto">
+              There are no comments yet. Be the first to share your thoughts!
+            </div>
+          )
         ) : (
           listOfComments.map((comment) => (
             <Comment
               key={comment.id}
               postId={postId}
-              userId={user?.id}
+              userId={userId}
               comment={comment}
             />
           ))
         )}
       </div>
-      {user?.id ? (
-        <AddCommentForm postId={postId} userId={user?.id} />
+      {userId ? (
+        <AddCommentForm postId={postId} userId={userId} />
       ) : (
         <p className="text-gray-900  rounded-lg flex items-center gap-2">
           Sign in to add a comment.{" "}
           <Link
             href="/auth/signin"
-            className="hover:underline underline-offset-4 text-accent hover:text-hover flex items-center transition-all duration-200 gap-1"
+            className="group hover:underline underline-offset-4 text-accent hover:text-hover flex items-center transition-all duration-200 gap-1"
           >
-            Sign in <ArrowRightToLine size={20} className="mt-1" />
+            Sign in{" "}
+            <ArrowRightToLine
+              size={20}
+              className="mt-1 group-hover:translate-x-1 transition-all duration-200"
+            />
           </Link>
         </p>
       )}
