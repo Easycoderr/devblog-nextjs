@@ -13,10 +13,17 @@ import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 import DeleteAlertDialog from "./DeleteAlertDialog";
 import { savePost } from "@/lib/actions/post";
+import { toast } from "sonner";
+import { useTransition } from "react";
+
 function PostActions({ user, post, style }) {
+  const [isPending, startTransition] = useTransition();
   const { savedPosts } = post;
-  async function handleSavePost() {
-    savePost(post.id, user?.id);
+  function handleSavePost() {
+    startTransition(async () => {
+      await savePost(post, user?.id);
+    });
+    if (!user?.id) toast.info(`Sign in to save ${post.title} post.`);
   }
   return (
     <DropdownMenu>
@@ -33,12 +40,18 @@ function PostActions({ user, post, style }) {
         <DropdownMenuGroup>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuItem
-            disabled={!user}
+            disabled={!user || isPending}
             asChild
             onSelect={(e) => e.preventDefault()}
           >
             <button onClick={handleSavePost} className="w-full">
-              {!user ? "Save" : savedPosts?.length !== 0 ? "Unsave" : "Save"}
+              {!user
+                ? "Save"
+                : isPending
+                  ? "Updating..."
+                  : savedPosts?.length !== 0
+                    ? "Unsave"
+                    : "Save"}
             </button>
           </DropdownMenuItem>
         </DropdownMenuGroup>
