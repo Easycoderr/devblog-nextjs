@@ -5,6 +5,7 @@ import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { cookies } from "next/headers";
+import { use } from "react";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -49,7 +50,15 @@ export async function getPost(id) {
 // Get post by Slug
 
 export async function getPostBySlug(slug) {
-  const post = await prisma.post.findUnique({ where: { slug } });
+  const user = await getCurrentUser();
+  const post = await prisma.post.findUnique({
+    where: { slug },
+    include: {
+      ...(user
+        ? { savedPosts: { where: { userId: user?.id }, select: { id: true } } }
+        : {}),
+    },
+  });
   return post;
 }
 
@@ -241,7 +250,9 @@ export async function getSharesByPostId(postId) {
   }
 }
 // Save post
-export async function savePost(postId, userId) {
+export async function savePost(post, userId) {
+  const { id: postId, slug } = post;
+
   if (!userId) throw new Error("Unauthorized");
 
   const existing = await prisma.savedPost.findUnique({
@@ -262,6 +273,7 @@ export async function savePost(postId, userId) {
       });
     }
     revalidatePath("/blogs");
+    revalidatePath(`/blogs/${slug}`);
   } catch (error) {
     console.error("Save post record failed:", error);
   }
