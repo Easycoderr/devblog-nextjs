@@ -156,6 +156,21 @@ export async function getComments(postId) {
     throw new Error("Could not load comments.");
   }
 }
+// delete comment
+export async function deleteComment(commentId, userId) {
+  if (!userId) throw new Error("Unauthorized");
+  try {
+    const result = await prisma.comment.delete({
+      where: { id: commentId, userId },
+    });
+    revalidatePath("/blogs");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.log("Failed to delete comment:", error);
+    throw new Error("Could not delete comment.");
+  }
+}
 // like post
 export async function likePost(postId, userId) {
   const [user, post] = await prisma.$transaction([
