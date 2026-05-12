@@ -15,6 +15,7 @@ import DeleteAlertDialog from "./DeleteAlertDialog";
 import { savePost } from "@/lib/actions/post";
 import { toast } from "sonner";
 import { useTransition } from "react";
+import ConfirmDeletePostAction from "./ConfirmDeletePostAction";
 
 function PostActions({ user, post, style }) {
   const [isPending, startTransition] = useTransition();
@@ -70,7 +71,15 @@ function PostActions({ user, post, style }) {
             </DropdownMenuItem>
             {/* delete */}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              <DeleteAlertDialog post={post} userId={user?.id} />
+              <DeleteAlertDialog
+                post={post}
+                title={post?.title}
+                message="Are you sure? This will permanently delete this post. This action
+            cannot be undone"
+                userId={user?.id}
+              >
+                <ConfirmDeletePostAction post={post} userId={user?.id} />
+              </DeleteAlertDialog>
             </DropdownMenuItem>
           </div>
         )}
