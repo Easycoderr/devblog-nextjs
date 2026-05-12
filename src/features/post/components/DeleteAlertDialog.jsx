@@ -10,9 +10,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import DeleteButton from "./DeleteButton";
-import ConfirmDeleteAction from "./ConfirmDeleteAction";
 import { Trash2Icon } from "lucide-react";
-function DeleteAlertDialog({ post, userId }) {
+
+function DeleteAlertDialog({ post, userId, title, children, message }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -28,15 +28,14 @@ function DeleteAlertDialog({ post, userId }) {
           <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
             <Trash2Icon />
           </AlertDialogMedia>
-          <AlertDialogTitle>Delete {post.title}?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure? This will permanently delete this post. This action
-            cannot be undone
-          </AlertDialogDescription>
+          <AlertDialogTitle>
+            Delete <span className="font-semibold">{title}?</span>
+          </AlertDialogTitle>
+          <AlertDialogDescription>{message}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-          <ConfirmDeleteAction post={post} userId={userId} />
+          {children}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
