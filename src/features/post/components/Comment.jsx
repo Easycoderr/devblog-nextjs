@@ -4,8 +4,9 @@ import { useState } from "react";
 import AddCommentForm from "./AddCommentForm";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import { toast } from "sonner";
+import CommentActions from "./CommentActions";
 
-function Comment({ comment, postId, userId, replyedUser }) {
+function Comment({ comment, post, userId, replyedUser }) {
   const [openReplyField, setOpenReplyField] = useState(false);
   const [repliesNumber, setRepliesNumber] = useState(0);
   const { id, content, replies, user, createdAt } = comment;
@@ -31,7 +32,7 @@ function Comment({ comment, postId, userId, replyedUser }) {
           </div>
           <p className="leading-relaxed tracking-tight">{content}</p>
         </div>
-        <MessageSquare size={18} />
+        <CommentActions commentId={id} userId={userId} post={post} />
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
@@ -72,7 +73,7 @@ function Comment({ comment, postId, userId, replyedUser }) {
         </div>
         {openReplyField && (
           <AddCommentForm
-            postId={postId}
+            postId={post?.id}
             userId={userId}
             parentId={id}
             placeholder={`Reply to ${user?.name}`}
@@ -86,7 +87,7 @@ function Comment({ comment, postId, userId, replyedUser }) {
                 comment={reply}
                 replyedUser={user?.name}
                 userId={userId}
-                postId={postId}
+                postId={post?.id}
               />
             ))}
           </div>

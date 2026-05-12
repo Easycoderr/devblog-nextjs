@@ -6,10 +6,10 @@ import Comment from "./Comment";
 import Link from "next/link";
 import { ArrowRightToLine } from "lucide-react";
 
-async function CommentSection({ postId }) {
+async function CommentSection({ post }) {
   const user = await getCurrentUser();
   const userId = user?.id;
-  const comments = await getComments(postId);
+  const comments = await getComments(post?.id);
   const listOfComments = listToTree(comments);
   return (
     <div className="col-span-2 mt-8 space-y-4">
@@ -43,7 +43,7 @@ async function CommentSection({ postId }) {
           listOfComments.map((comment) => (
             <Comment
               key={comment.id}
-              postId={postId}
+              post={post}
               userId={userId}
               comment={comment}
             />
@@ -51,7 +51,7 @@ async function CommentSection({ postId }) {
         )}
       </div>
       {userId ? (
-        <AddCommentForm postId={postId} userId={userId} />
+        <AddCommentForm postId={post?.id} userId={userId} />
       ) : (
         <p className="text-gray-900  rounded-lg flex items-center gap-2">
           Sign in to add a comment.{" "}

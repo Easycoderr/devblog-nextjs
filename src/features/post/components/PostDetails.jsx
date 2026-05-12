@@ -56,7 +56,7 @@ function PostDetails({ post }) {
         {content}
       </div>
       {/* comments */}
-      <CommentSection postId={id} />
+      <CommentSection post={post} />
     </div>
   );
 }
