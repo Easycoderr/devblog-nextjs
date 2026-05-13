@@ -171,6 +171,24 @@ export async function deleteComment(commentId, userId) {
     throw new Error("Could not delete comment.");
   }
 }
+// update Comment
+export async function updateComment(commentId, content, userId) {
+  if (!userId) throw new Error("Unauthorized");
+  try {
+    const result = await prisma.comment.update({
+      where: { id: commentId, userId },
+      data: {
+        content,
+      },
+    });
+    revalidatePath("/blogs");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.log("Failed to update comment:", error);
+    throw new Error("Could not update comment.");
+  }
+}
 // like post
 export async function likePost(postId, userId) {
   const [user, post] = await prisma.$transaction([
