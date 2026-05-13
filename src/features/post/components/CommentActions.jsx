@@ -12,7 +12,7 @@ import DeleteAlertDialog from "./DeleteAlertDialog";
 import { useTransition } from "react";
 import ConfirmDeleteCommentAction from "./ConfirmDeleteCommentAction";
 
-function CommentActions({ commentId, userId, post, style }) {
+function CommentActions({ commentId, commentUserId, userId, post, style }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,7 +22,7 @@ function CommentActions({ commentId, userId, post, style }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {/* Display edit/delete options only if the current user is the author */}
-        {userId === post?.authorId && (
+        {userId === commentUserId && (
           <div>
             {/* edit */}
             <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
