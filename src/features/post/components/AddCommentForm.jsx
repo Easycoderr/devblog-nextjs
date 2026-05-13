@@ -8,6 +8,7 @@ function AddCommentForm({
   postId,
   userId,
   parentId,
+  setOpenReplyField,
   placeholder = "Write your comment...",
 }) {
   const [content, setContent] = useState("");
@@ -21,6 +22,9 @@ function AddCommentForm({
     const result = await createComment(postId, userId, content, parentId);
     if (result.success) {
       toast.success("Comment added");
+      if (typeof setOpenReplyField === "function") {
+        setOpenReplyField(false);
+      }
       setContent("");
     }
   }
