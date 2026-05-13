@@ -11,6 +11,7 @@ async function CommentSection({ post }) {
   const userId = user?.id;
   const comments = await getComments(post?.id);
   const listOfComments = listToTree(comments);
+  console.log(listOfComments);
   return (
     <div className="col-span-2 mt-8 space-y-4">
       <h3 className="text-xl font-semibold text-slate-900 mb-6">

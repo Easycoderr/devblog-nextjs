@@ -6,22 +6,42 @@ import dateCalculation from "@/lib/utils/dateCalculation";
 import { toast } from "sonner";
 import CommentActions from "./CommentActions";
 
-function Comment({ comment, post, userId, replyedUser }) {
+function Comment({ comment, post, userId, replyedUser, replayedUserId }) {
   const [openReplyField, setOpenReplyField] = useState(false);
   const [repliesNumber, setRepliesNumber] = useState(0);
-  const { id, content, replies, user, createdAt } = comment;
+  const {
+    id,
+    content,
+    replies,
+    user,
+    userId: commentUserId,
+    createdAt,
+  } = comment;
   const repliesList = replies.slice(0, repliesNumber);
-
   return (
     <div className="p-2 border-l-2 border-gray-300">
       <div className="flex justify-between">
         <div>
           <div className="flex items-center gap-1">
-            <p className="text-sm text-gray-500">
-              {replyedUser
-                ? `${user.name} reply ${replyedUser}`
-                : `${user.name}`}
-            </p>
+            {replyedUser ? (
+              <>
+                <Name
+                  name={user?.name}
+                  isOwner={commentUserId === post?.authorId}
+                />
+                <span className="text-xs">reply</span>
+                <Name
+                  name={replyedUser}
+                  isOwner={replayedUserId === post?.authorId}
+                  variant="secondary"
+                />
+              </>
+            ) : (
+              <Name
+                name={user?.name}
+                isOwner={commentUserId === post?.authorId}
+              />
+            )}
             <span className="text-gray-300">-</span>
             <span>
               <Clock size={13} className="text-gray-400" />
@@ -76,6 +96,7 @@ function Comment({ comment, post, userId, replyedUser }) {
             postId={post?.id}
             userId={userId}
             parentId={id}
+            setOpenReplyField={setOpenReplyField}
             placeholder={`Reply to ${user?.name}`}
           />
         )}
@@ -86,8 +107,9 @@ function Comment({ comment, post, userId, replyedUser }) {
                 key={reply.id}
                 comment={reply}
                 replyedUser={user?.name}
+                replayedUserId={commentUserId}
                 userId={userId}
-                postId={post?.id}
+                post={post}
               />
             ))}
           </div>
@@ -96,5 +118,20 @@ function Comment({ comment, post, userId, replyedUser }) {
     </div>
   );
 }
-
+function Name({ name, isOwner, variant = "default" }) {
+  const style = {
+    default: "text-sm text-gray-500 flex items-center gap-1",
+    secondary: "text-xs text-gray-500 flex items-center gap-1",
+  };
+  return (
+    <p className={style[variant]}>
+      <span>{name}</span>
+      {isOwner && (
+        <span className="bg-accent/80 rounded-full px-1.5 text-xs text-indigo-100">
+          Owner
+        </span>
+      )}
+    </p>
+  );
+}
 export default Comment;
