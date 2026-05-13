@@ -6,7 +6,14 @@ import dateCalculation from "@/lib/utils/dateCalculation";
 import { toast } from "sonner";
 import CommentActions from "./CommentActions";
 
-function Comment({ comment, post, userId, replyedUser, replayedUserId }) {
+function Comment({
+  comment,
+  post,
+  userId,
+  replyedUser,
+  replayedUserId,
+  depth = 0,
+}) {
   const [openReplyField, setOpenReplyField] = useState(false);
   const [repliesNumber, setRepliesNumber] = useState(0);
   const {
@@ -18,11 +25,14 @@ function Comment({ comment, post, userId, replyedUser, replayedUserId }) {
     createdAt,
   } = comment;
   const repliesList = replies.slice(0, repliesNumber);
+  const shouldIndent = depth < 3;
   return (
-    <div className="p-2 border-l-2 border-gray-300">
+    <div
+      className={`p-2 ${shouldIndent ? "border-l-2 border-gray-300" : "border-t  border-dashed border-gray-200 mt-2 ml-0-pl-1"}`}
+    >
       <div className="flex justify-between">
         <div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-wrap">
             {replyedUser ? (
               <>
                 <Name
@@ -42,17 +52,27 @@ function Comment({ comment, post, userId, replyedUser, replayedUserId }) {
                 isOwner={commentUserId === post?.authorId}
               />
             )}
-            <span className="text-gray-300">-</span>
+            <span className="text-gray-300 hidden sm:inline">-</span>
             <span>
               <Clock size={13} className="text-gray-400" />
             </span>
             <p className="text-xs text-gray-400">
               {dateCalculation(createdAt)}
             </p>
+            {!shouldIndent && (
+              <span className="text-[9px] bg-gray-100 text-gray-500 px-1 rounded ml-1 font-mono">
+                1v1 {depth}
+              </span>
+            )}
           </div>
           <p className="leading-relaxed tracking-tight">{content}</p>
         </div>
-        <CommentActions commentId={id} userId={userId} post={post} />
+        <CommentActions
+          commentId={id}
+          commentUserId={commentUserId}
+          userId={userId}
+          post={post}
+        />
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
@@ -101,7 +121,9 @@ function Comment({ comment, post, userId, replyedUser, replayedUserId }) {
           />
         )}
         {replies && replies.length > 0 && (
-          <div className="flex flex-col gap-2">
+          <div
+            className={`mt-2 ${shouldIndent ? "ml-2 sm:ml-4 border-l border-slate-200 pl-2 sm:pl-3" : "ml-1 pl-1"}`}
+          >
             {repliesList.map((reply) => (
               <Comment
                 key={reply.id}
@@ -110,6 +132,7 @@ function Comment({ comment, post, userId, replyedUser, replayedUserId }) {
                 replayedUserId={commentUserId}
                 userId={userId}
                 post={post}
+                depth={depth + 1}
               />
             ))}
           </div>
