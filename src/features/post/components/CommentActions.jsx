@@ -12,7 +12,14 @@ import DeleteAlertDialog from "./DeleteAlertDialog";
 import { useTransition } from "react";
 import ConfirmDeleteCommentAction from "./ConfirmDeleteCommentAction";
 
-function CommentActions({ commentId, commentUserId, userId, post, style }) {
+function CommentActions({
+  setOpenReplyField,
+  commentId,
+  commentUserId,
+  userId,
+  post,
+  style,
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,17 +28,19 @@ function CommentActions({ commentId, commentUserId, userId, post, style }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {/* Display edit/delete options only if the current user is the author */}
+        {/* Display edit/delete options only if the current user is the owener of comment */}
         {userId === commentUserId && (
           <div>
             {/* edit */}
             <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
-              <Link
-                href={`/blogs/edit/${post?.id}`}
+              <button
+                onClick={() =>
+                  setOpenReplyField((reply) => (reply ? false : "edit"))
+                }
                 className="flex gap-1 w-full group-data-[highlighted]/dropdown-menu-item:text-indigo-50 hover:cursor-default"
               >
                 Edit
-              </Link>
+              </button>
             </DropdownMenuItem>
             {/* delete */}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

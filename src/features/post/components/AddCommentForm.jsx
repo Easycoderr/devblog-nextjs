@@ -1,35 +1,49 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { createComment } from "@/lib/actions/post";
+import { createComment, updateComment } from "@/lib/actions/post";
 import { Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 function AddCommentForm({
+  content: updateContent,
+  openReplyField,
   postId,
   userId,
+  commentId,
   parentId,
   setOpenReplyField,
   placeholder = "Write your comment...",
 }) {
-  const [content, setContent] = useState("");
-  console.log(content);
-  async function handleAddComment(e) {
+  const [content, setContent] = useState(updateContent || "");
+
+  async function handleSubmitComment(e) {
     e.preventDefault();
     if (!content || content.trim("") === "") {
       toast.info("Please write your comment");
       return null;
     }
-    const result = await createComment(postId, userId, content, parentId);
-    if (result.success) {
-      toast.success("Comment added");
-      if (typeof setOpenReplyField === "function") {
-        setOpenReplyField(false);
+    if (openReplyField !== "edit") {
+      const result = await createComment(postId, userId, content, parentId);
+      if (result.success) {
+        toast.success("Comment added");
+        if (typeof setOpenReplyField === "function") {
+          setOpenReplyField(false);
+        }
+        setContent("");
       }
-      setContent("");
+    } else {
+      const result = await updateComment(commentId, content, userId);
+      if (result.success) {
+        toast.success("Comment updated");
+        if (typeof setOpenReplyField === "function") {
+          setOpenReplyField(false);
+        }
+        setContent("");
+      }
     }
   }
   return (
-    <form onSubmit={handleAddComment}>
+    <form onSubmit={handleSubmitComment}>
       <div className="flex gap-1">
         <input
           onChange={(e) => setContent(e.target.value)}

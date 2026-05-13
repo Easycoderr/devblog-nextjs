@@ -68,6 +68,7 @@ function Comment({
           <p className="leading-relaxed tracking-tight">{content}</p>
         </div>
         <CommentActions
+          setOpenReplyField={setOpenReplyField}
           commentId={id}
           commentUserId={commentUserId}
           userId={userId}
@@ -113,11 +114,18 @@ function Comment({
         </div>
         {openReplyField && (
           <AddCommentForm
+            commentId={id}
             postId={post?.id}
             userId={userId}
             parentId={id}
+            openReplyField={openReplyField}
             setOpenReplyField={setOpenReplyField}
-            placeholder={`Reply to ${user?.name}`}
+            content={content}
+            placeholder={
+              openReplyField === "edit"
+                ? "Edit comment"
+                : openReplyField && `Reply to ${user?.name}`
+            }
           />
         )}
         {replies && replies.length > 0 && (
