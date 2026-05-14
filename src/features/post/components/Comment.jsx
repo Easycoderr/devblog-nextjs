@@ -120,7 +120,7 @@ function Comment({
             parentId={id}
             openReplyField={openReplyField}
             setOpenReplyField={setOpenReplyField}
-            content={content}
+            content={openReplyField === "edit" ? content : null}
             placeholder={
               openReplyField === "edit"
                 ? "Edit comment"

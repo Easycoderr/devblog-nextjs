@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { createComment, updateComment } from "@/lib/actions/post";
-import { Send } from "lucide-react";
+import { Send, XIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 function AddCommentForm({
@@ -45,6 +45,14 @@ function AddCommentForm({
   return (
     <form onSubmit={handleSubmitComment}>
       <div className="flex gap-1">
+        {typeof setOpenReplyField === "function" && (
+          <button
+            onClick={() => setOpenReplyField(false)}
+            className="bg-red-200 rounded-lg flex items-center justify-center px-1"
+          >
+            <XIcon className="text-red-600" />
+          </button>
+        )}
         <input
           onChange={(e) => setContent(e.target.value)}
           type="text"
