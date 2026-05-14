@@ -2,16 +2,18 @@ import getCurrentUser from "@/lib/getUser";
 import AddCommentForm from "./AddCommentForm";
 import { getComments } from "@/lib/actions/post";
 import listToTree from "@/lib/utils/listToTree";
-import Comment from "./Comment";
 import Link from "next/link";
 import { ArrowRightToLine } from "lucide-react";
+import PostCommentListSkeleton from "./skeletons/PostCommentSkeleton";
+import CommentList from "./CommentList";
+import { Suspense } from "react";
 
 async function CommentSection({ post }) {
   const user = await getCurrentUser();
   const userId = user?.id;
   const comments = await getComments(post?.id);
   const listOfComments = listToTree(comments);
-  console.log(listOfComments);
+
   return (
     <div className="col-span-2 mt-8 space-y-4">
       <h3 className="text-xl font-semibold text-slate-900 mb-6">
@@ -41,14 +43,13 @@ async function CommentSection({ post }) {
             </div>
           )
         ) : (
-          listOfComments.map((comment) => (
-            <Comment
-              key={comment.id}
+          <Suspense fallback={<PostCommentListSkeleton />}>
+            <CommentList
+              comments={listOfComments}
               post={post}
               userId={userId}
-              comment={comment}
             />
-          ))
+          </Suspense>
         )}
       </div>
       {userId ? (
