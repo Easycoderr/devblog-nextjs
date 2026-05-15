@@ -4,22 +4,41 @@ import { redirect } from "next/navigation";
 import { prisma } from "../prisma";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
+import { imagekit } from "../imagekit";
 
 export async function registerUser(formData) {
-  const { firstName, lastName, email, password } = formData;
-  // 1. check if user exists
-
+  // 1. Grab the binary file explicitly first
+  const profilePicture = formData.get("profilePicture");
+  // 2. Convert all text fields into a plain JavaScript object
+  const textFields = Object.fromEntries(formData.entries());
+  const { firstName, lastName, email, password } = textFields;
+  // 3. check if user exists
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
+  let avatar = null;
+  let avatarId = null;
   if (existingUser)
     return { error: "This email is already in use. Please try to Sign in" };
-  // 2. hash password
-
+  // 4. hash password
   const hashedpassword = await bcrypt.hash(password, 10);
-
-  // 3. create user
-
+  if (
+    profilePicture &&
+    profilePicture.size > 0 &&
+    typeof profilePicture !== "string"
+  ) {
+    // 5. convert image file to buffer
+    const bytes = await profilePicture.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    // 6. Upload to imagekit
+    const uploadedImage = await imagekit.upload({
+      file: buffer,
+      fileName: `${Date.now()}-${profilePicture.name}`,
+    });
+    avatar = uploadedImage.url;
+    avatarId = uploadedImage.fileId;
+  }
+  // 7. create user
   await prisma.user.create({
     data: {
       firstName,
@@ -27,6 +46,8 @@ export async function registerUser(formData) {
       email,
       password: hashedpassword,
       name: `${firstName} ${lastName}`,
+      avatar: avatar,
+      avatarId: avatarId,
     },
   });
 
