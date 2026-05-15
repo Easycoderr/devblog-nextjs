@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftCircleIcon } from "lucide-react";
+import { ArrowLeftCircleIcon, Image } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "@/lib/utils/schema";
 import Link from "next/link";
@@ -23,10 +23,24 @@ function AuthRegisterForm() {
       password: "",
       confirmPassword: "",
       lastName: "",
+      profilePicture: "",
     },
   });
   async function onSubmit(data) {
-    const response = await registerUser(data);
+    //  Create a FormData container to safely transport files
+    const formData = new FormData();
+
+    formData.append("password", data.password);
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("email", data.email);
+
+    if (data.profilePicture && data.profilePicture.length > 0) {
+      const fileBinary = data.profilePicture[0]; // Get item 0 from FileList
+      formData.append("profilePicture", fileBinary);
+    }
+
+    const response = await registerUser(formData);
     if (response.success) {
       redirect("signin");
     } else if (response.error) {
@@ -50,6 +64,32 @@ function AuthRegisterForm() {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-3 md:min-w-xl"
         >
+          <div className="flex flex-col col-span-2 gap-1 w-full">
+            <label
+              htmlFor="profilePicture"
+              className="text-gray-600 font-semibold tracking-wide text-sm"
+            >
+              Profile picture
+            </label>
+            <div className="relative">
+              <input
+                {...register("profilePicture")}
+                type="file"
+                className={`${errors.profilePicture ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
+                accept="image/*"
+              />
+              <span className="absolute right-2 top-[50%] -translate-y-[50%]">
+                <Image />
+              </span>
+            </div>
+            <span className="flex">
+              {errors.email && (
+                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
+                  {errors.email.message}
+                </p>
+              )}
+            </span>
+          </div>
           <div className="flex flex-col md:flex-row gap-3">
             <div className="flex flex-col gap-1 w-full">
               <label
