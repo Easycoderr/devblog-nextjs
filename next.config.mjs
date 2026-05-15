@@ -6,6 +6,16 @@ const nextConfig = {
       bodySizeLimit: "4mb", // Increases the allowed payload size to 4 Megabytes
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+        port: "",
+        pathname: "/**", // Allows all subfolders and images from your ImageKit account
+      },
+    ],
+  },
   serverExternalPackages: ["@prisma/client"],
 };
 

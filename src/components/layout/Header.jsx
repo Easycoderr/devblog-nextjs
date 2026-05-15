@@ -9,6 +9,7 @@ import HeaderMobNav from "./HeaderMobNav";
 import HeaderDeskNav from "./HeaderDeskNav";
 import { LogOut, MenuIcon, XIcon } from "lucide-react";
 import { signOutUser } from "../../lib/actions/auth";
+import Image from "next/image";
 
 const links = [
   { id: "home", label: "Home", href: "/" },
@@ -57,9 +58,23 @@ function Header({ user }) {
           {/* if user registered and login profile */}
           {user ? (
             <div className="lg:flex items-center mr-2 gap-1 hidden">
-              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sora text-2xl text-indigo-200">
-                {user?.firstName[0]}
-              </div>
+              {user.avatarId ? (
+                <div className="relative flex h-10 w-10 shrink-0 select-none items-center justify-center rounded-full bg-slate-100 ring-2 ring-slate-200/80 transition-all duration-200 hover:ring-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500 cursor-pointer overflow-hidden">
+                  <Image
+                    src={user.avatar}
+                    alt={`${user.firstName || "User"}'s profile picture`}
+                    fill // Uses modern responsive filling instead of hardcoded numbers
+                    sizes="40px"
+                    quality={90}
+                    className="object-cover transition-transform duration-300 hover:scale-103"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-sora text-2xl text-indigo-200">
+                  {user?.firstName[0]}
+                </div>
+              )}
               {/* <span className="px-2 py-1 rounded-full bg-indigo-500/50 text-gray-100 text-sm font-medium">
                 {user?.name}
               </span> */}
