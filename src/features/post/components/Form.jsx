@@ -24,15 +24,28 @@ function Form({ postData }) {
       description: description || "",
       content: content || "",
       category: category || "",
+      image: image || "",
     },
   });
   async function onSubmit(data) {
+    const formData = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("content", data.content);
+    formData.append("category", data.category);
+
+    if (data.image && data.image.length > 0) {
+      const fileBinary = data.image[0];
+      formData.append("image", fileBinary);
+    }
+
     if (postData?.id) {
       const result = await updatePost({ id, ...data });
       toast.success(`${data.title} updated successfully!`);
       router.push(`/blogs/${result.slug}`);
     } else {
-      await createPost(data);
+      await createPost(formData);
       toast.success(`${data.title} created successfully!`);
       router.back();
     }
@@ -54,6 +67,27 @@ function Form({ postData }) {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 w-full"
         >
+          {/* Post Image */}
+          <div className="flex flex-col gap-1 w-full">
+            <label
+              htmlFor="title"
+              className="text-gray-600 font-semibold tracking-wide text-sm"
+            >
+              Image
+            </label>
+            <input
+              type="file"
+              className={`${errors.image ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              {...register("image")}
+            />
+            <span className="flex">
+              {errors.image && (
+                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
+                  {errors.title.message}
+                </p>
+              )}
+            </span>
+          </div>
           <div className="flex flex-col gap-1 w-full">
             <label
               htmlFor="title"
