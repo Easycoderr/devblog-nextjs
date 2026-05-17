@@ -20,7 +20,7 @@ function PostDetails({ post }) {
       </div>
       <div className="col-span-2 md:col-span-1">
         <Image
-          src="/images/img1.png"
+          src={post.imageUrl}
           alt="item image"
           width={1400}
           height={1400}

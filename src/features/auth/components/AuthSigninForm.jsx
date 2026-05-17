@@ -22,7 +22,7 @@ function AuthSigninForm() {
     defaultValues: {
       email: "",
       // just during development
-      password: "npx prisma generate",
+      password: "12345678",
     },
   });
   // local state

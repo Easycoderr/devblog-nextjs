@@ -2,9 +2,10 @@ import { Suspense } from "react";
 import ArticleCard from "../../features/post/components/FeaturedPostCard";
 import FeaturedPostSkeleton from "../../features/post/components/skeletons/FeaturedPostSkeleton";
 import EmptyState from "../ui/EmptyState";
+import Image from "next/image";
 
 function FeaturedPost({ posts }) {
-  const featuredPosts = posts?.filter((post) => !post.isFeatured)[0];
+  const featuredPost = posts[0];
 
   return (
     <section
@@ -20,14 +21,24 @@ function FeaturedPost({ posts }) {
           <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-3xs md:max-w-2xs"></div>
         </div>
         {/* content */}
-        {!featuredPosts ? (
+        {!featuredPost ? (
           <EmptyState />
         ) : (
           <Suspense fallback={<FeaturedPostSkeleton />}>
             <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 gap-6 bg-gradient-to-br from-indigo-200/20 to-purple-200/20  p-6 mx-4 md:mx-0 rounded-xl border border-border/70 hover:shadow-lg transition-all duration-200">
               {/* LEFT */}
-              <div className="opacity-90 rounded-xl bg-[url('/images/img1.png')] bg-cover no-repeat bg-center"></div>
-              <ArticleCard post={featuredPosts} />
+              <Image
+                width={1000}
+                height={1000}
+                objectFit="fill"
+                src={featuredPost.imageUrl}
+                className="rounded-xl"
+                alt={featuredPost.title}
+              />
+              {/* <div
+                className={`opacity-90 rounded-xl bg-[url(${featuredPost?.imageUrl})] bg-cover no-repeat bg-center`}
+              ></div> */}
+              <ArticleCard post={featuredPost} />
             </div>
           </Suspense>
         )}

@@ -27,7 +27,7 @@ function FeaturedPostCard({ post }) {
           </h3>
           {/* description */}
           <p className="leading-relaxed text-lg text-text-muted hyphens-auto text-pretty">
-            {description}
+            {description.split(" ").slice(0, 40).join(" ")}
           </p>
         </div>
         {/* card body content */}

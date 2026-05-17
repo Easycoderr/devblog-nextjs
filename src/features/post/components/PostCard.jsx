@@ -17,7 +17,7 @@ async function PostCard({ post, user }) {
       {/* image */}
       <Image
         className="bg-contain object-cover"
-        src="/images/img1.png"
+        src={post.imageUrl}
         width={1000}
         height={1000}
         alt={"react"}
