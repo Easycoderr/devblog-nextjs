@@ -11,7 +11,14 @@ import { useRouter } from "next/navigation";
 function Form({ postData }) {
   // use useRoute to navigate
   const router = useRouter();
-  const { id, title, description, content, category } = postData || {};
+  const {
+    id,
+    title,
+    description,
+    content,
+    category,
+    imageUrl: image,
+  } = postData || {};
   const {
     register,
     handleSubmit,
@@ -37,6 +44,7 @@ function Form({ postData }) {
 
     if (data.image && data.image.length > 0) {
       const fileBinary = data.image[0];
+
       formData.append("image", fileBinary);
     }
 
@@ -70,7 +78,7 @@ function Form({ postData }) {
           {/* Post Image */}
           <div className="flex flex-col gap-1 w-full">
             <label
-              htmlFor="title"
+              htmlFor="image"
               className="text-gray-600 font-semibold tracking-wide text-sm"
             >
               Image
@@ -83,7 +91,7 @@ function Form({ postData }) {
             <span className="flex">
               {errors.image && (
                 <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.title.message}
+                  {errors.image.message}
                 </p>
               )}
             </span>
