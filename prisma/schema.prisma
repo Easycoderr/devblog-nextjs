@@ -34,7 +34,7 @@ model Post {
   content   String
   category  String
   imageUrl String
-  imageId
+  imageId String
 // relations
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
