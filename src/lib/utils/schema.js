@@ -1,4 +1,12 @@
 import { z } from "zod";
+// Define acceptable file types and maximum size (4MB)
+const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 Megabytes in bytes
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
 
 export const postFormSchema = z.object({
   title: z
@@ -10,16 +18,20 @@ export const postFormSchema = z.object({
     .min(100, "Description must be at least 100 characters."),
   content: z.string().min(500, "content must be at least 500+ characters."),
   category: z.string().min(1, "Category is required"),
+  image: z
+    .any()
+    .refine(
+      (file) => !file || file.length === 0 || file[0]?.size <= MAX_FILE_SIZE,
+      "Max image size is 4MB.",
+    )
+    .refine(
+      (file) =>
+        !file ||
+        file.length === 0 ||
+        ACCEPTED_IMAGE_TYPES.includes(file[0]?.type),
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
+    ),
 });
-
-// Define acceptable file types and maximum size (4MB)
-const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 Megabytes in bytes
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
 
 // register form validation
 export const registerSchema = z.object({
