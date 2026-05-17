@@ -5,7 +5,7 @@ import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
 import { cookies } from "next/headers";
-import { use } from "react";
+import { imagekit } from "../imagekit";
 
 const POSTS_PER_PAGE = 8;
 // Get all posts
@@ -64,9 +64,30 @@ export async function getPostBySlug(slug) {
 
 // Create post server action
 async function createPost(formData) {
+  let imageUrl = null;
+  let imageId = null;
+
+  // checking for user auth
   const user = await getCurrentUser();
   if (!user) throw new Error("Not authenticated");
-  const { title, description, content, category } = formData;
+  // get image
+  const image = formData.get("image");
+  const textFields = Object.fromEntries(formData.entries());
+  const { title, description, content, category } = textFields;
+  if (image && image.size > 0 && typeof image !== "string") {
+    // convert file to binary
+    const bytes = await image.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    // upload to imagekit
+    const uploadImage = await imagekit.upload({
+      file: buffer,
+      fileName: `${new Date()}-${image.name}`,
+    });
+
+    imageUrl = uploadImage.url;
+    imageId = uploadImage.fileId;
+  }
   await prisma.post.create({
     data: {
       slug: await generateSlug(title),
@@ -74,7 +95,9 @@ async function createPost(formData) {
       description,
       content,
       category,
-      authorId: user.id,
+      imageUrl,
+      imageId,
+      author: { connect: { id: user.id } },
     },
   });
   revalidatePath("/blogs");
