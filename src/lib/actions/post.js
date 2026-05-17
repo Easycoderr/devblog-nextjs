@@ -104,13 +104,43 @@ async function createPost(formData) {
 }
 
 // Update
-export async function updatePost(postData) {
+export async function updatePost(formData) {
+  let imageUrl = null;
+  let imageId = null;
+  // check for user auth
   const user = await getCurrentUser();
   if (!user) throw new Error("Unauthorized");
   const userId = user.id;
-  const { id, title, description, content, category } = postData;
-  const currentPost = await prisma.post.findUnique({ where: { id } });
+  const image = formData.get("image");
 
+  const textFields = Object.fromEntries(formData.entries());
+  const {
+    id,
+    imageId: oldImageId,
+    title,
+    description,
+    content,
+    category,
+  } = textFields;
+
+  if (image && image.size > 0 && typeof image !== "string") {
+    const bytes = await image.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const uploadImage = await imagekit.upload({
+      file: buffer,
+      fileName: `${new Date()}-${image.name}`,
+    });
+    imageUrl = uploadImage.url;
+    imageId = uploadImage.fileId;
+  }
+
+  try {
+    await imagekit.deleteFile(oldImageId);
+  } catch (deleteError) {
+    console.error("Failed to delete old image from ImageKit:", deleteError);
+  }
+
+  const currentPost = await prisma.post.findUnique({ where: { id } });
   const result = await prisma.post.update({
     where: { id: id, authorId: userId },
     data: {
@@ -122,6 +152,9 @@ export async function updatePost(postData) {
       description,
       content,
       category,
+      // Only updates these fields if a new file was uploaded
+      ...(imageId && { imageId }),
+      ...(imageUrl && { imageUrl }),
     },
   });
   if (result.count === 0) throw new Error("Unauthorized or Post not found");
