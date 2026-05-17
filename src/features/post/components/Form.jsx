@@ -7,6 +7,9 @@ import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 function Form({ postData }) {
   // use useRoute to navigate
@@ -18,12 +21,14 @@ function Form({ postData }) {
     content,
     category,
     imageUrl: image,
+    imageId,
   } = postData || {};
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting, isDirty },
+    watch,
   } = useForm({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
@@ -31,9 +36,13 @@ function Form({ postData }) {
       description: description || "",
       content: content || "",
       category: category || "",
-      image: image || "",
     },
   });
+  const [showImage, setShowImage] = useState();
+
+  // read the live value of the "image"
+  const fileImage = watch("image");
+  const selectedFile = fileImage?.[0] || null;
   async function onSubmit(data) {
     const formData = new FormData();
 
@@ -44,12 +53,13 @@ function Form({ postData }) {
 
     if (data.image && data.image.length > 0) {
       const fileBinary = data.image[0];
-
       formData.append("image", fileBinary);
     }
 
     if (postData?.id) {
-      const result = await updatePost({ id, ...data });
+      formData.append("id", id || null);
+      formData.append("imageId", imageId || null);
+      const result = await updatePost(formData);
       toast.success(`${data.title} updated successfully!`);
       router.push(`/blogs/${result.slug}`);
     } else {
@@ -75,6 +85,36 @@ function Form({ postData }) {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 w-full"
         >
+          {/* image */}
+          {showImage && (
+            <div className="flex flex-col gap-1 w-full">
+              <Image
+                width={1000}
+                height={1000}
+                src={image || URL.createObjectURL(selectedFile)}
+                alt={title || "post image"}
+              />
+            </div>
+          )}
+          {(image || selectedFile) && (
+            <button
+              onClick={() => setShowImage(!showImage)}
+              type="button"
+              className="text-gray-800 hover:bg-gray-200 rounded-md inline-block self-start px-2 py-0.5"
+            >
+              {showImage ? (
+                <span className="flex items-center text-sm ">
+                  <span>Hide image</span>
+                  <ChevronUp size={20} />
+                </span>
+              ) : (
+                <span className="flex items-center text-sm">
+                  <span>Show image</span>
+                  <ChevronDown size={20} />
+                </span>
+              )}
+            </button>
+          )}
           {/* Post Image */}
           <div className="flex flex-col gap-1 w-full">
             <label
