@@ -67,7 +67,36 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "group/dropdown-menu-item data-[highlighted]:bg-indigo-500/90 data-[highlighted]:text-indigo-50 relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive",
+        "group/dropdown-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none",
+
+        // highlighted
+        "data-[highlighted]:bg-indigo-500/90",
+        "data-[highlighted]:text-indigo-50",
+
+        // inset
+        "data-inset:pl-7",
+
+        // disabled
+        "data-disabled:pointer-events-none",
+        "data-disabled:opacity-50",
+
+        // svg base
+        "[&_svg]:pointer-events-none",
+        "[&_svg]:shrink-0",
+        "[&_svg:not([class*='size-'])]:size-4",
+
+        // IMPORTANT FIX
+        "[&_svg]:text-current",
+        "[&_svg]:stroke-current",
+
+        // destructive variant
+        "data-[variant=destructive]:text-destructive",
+        "data-[variant=destructive]:bg-destructive/10",
+
+        // destructive svg inherits destructive text
+        "data-[variant=destructive]:[&_svg]:text-current",
+        "data-[variant=destructive]:[&_svg]:stroke-current",
+
         className,
       )}
       {...props}
