@@ -16,7 +16,7 @@ async function PostCard({ post, user }) {
     <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
       {/* image */}
       <Image
-        className="bg-contain object-cover"
+        className="bg-contain object-cover hover:scale-105 transition-all duration-300"
         src={post.imageUrl}
         width={1000}
         height={1000}

@@ -100,7 +100,7 @@ function Form({ postData }) {
             <button
               onClick={() => setShowImage(!showImage)}
               type="button"
-              className="text-gray-800 hover:bg-gray-200 rounded-md inline-block self-start px-2 py-0.5"
+              className="text-gray-800 hover:bg-gray-200 transition-all duration-200 rounded-md inline-block self-start px-2 py-0.5"
             >
               {showImage ? (
                 <span className="flex items-center text-sm ">

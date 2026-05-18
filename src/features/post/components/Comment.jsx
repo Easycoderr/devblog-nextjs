@@ -1,10 +1,11 @@
 "use client";
-import { Clock, MessageSquare } from "lucide-react";
+import { Clock } from "lucide-react";
 import { useState } from "react";
 import AddCommentForm from "./AddCommentForm";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import { toast } from "sonner";
 import CommentActions from "./CommentActions";
+import Image from "next/image";
 
 function Comment({
   comment,
@@ -36,6 +37,7 @@ function Comment({
             {replyedUser ? (
               <>
                 <Name
+                  avatar={user?.avatar}
                   name={user?.name}
                   isOwner={commentUserId === post?.authorId}
                 />
@@ -48,6 +50,7 @@ function Comment({
               </>
             ) : (
               <Name
+                avatar={user?.avatar}
                 name={user?.name}
                 isOwner={commentUserId === post?.authorId}
               />
@@ -156,6 +159,15 @@ function Name({ name, isOwner, variant = "default" }) {
   };
   return (
     <p className={style[variant]}>
+      {avatar && (
+        <Image
+          width={25}
+          height={25}
+          className="rounded-full border border-gray-500"
+          src={avatar}
+          alt={`${name}-user`}
+        />
+      )}
       <span>{name}</span>
       {isOwner && (
         <span className="bg-accent/80 rounded-full px-1.5 text-xs text-indigo-100">
