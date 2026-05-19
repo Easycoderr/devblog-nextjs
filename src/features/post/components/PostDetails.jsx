@@ -1,7 +1,10 @@
 import dateCalculation from "@/lib/utils/dateCalculation";
 import Image from "next/image";
 import CommentSection from "./CommentSection";
-
+import Markdown from "react-markdown";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { Copy } from "lucide-react";
+import MarkdownRenderer from "./MarkdownRenderer";
 function PostDetails({ post }) {
   const {
     id,
@@ -11,7 +14,6 @@ function PostDetails({ post }) {
     content,
     createdAt: date,
     category,
-    readTime,
   } = post;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7 gap-x-7">
@@ -21,14 +23,16 @@ function PostDetails({ post }) {
       <div className="col-span-2 md:col-span-1">
         <Image
           src={post.imageUrl}
-          alt="item image"
+          alt={`${title || "Post"}'s picture`}
           width={1400}
           height={1400}
         />
       </div>
       <div className="space-y-6 col-span-2 md:col-span-1">
         {/* title */}
-        <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
+        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
+          {title}
+        </h2>
         {/* description */}
         <p className="font-medium leading-relaxed text-gray-500">
           {description}
@@ -44,16 +48,25 @@ function PostDetails({ post }) {
           </span>
           <span className="flex items-center gap-1">
             <span className="text-sm text-gray-400">
-              {dateCalculation(date)} • {readTime}
+              {dateCalculation(date)} • {}
             </span>
           </span>
         </div>
       </div>
       <div className="w-full h-0.5 bg-slate-300 col-span-2 rounded-full"></div>
       {/* content */}
-      <div className="leading-relaxed text-gray-500 md:col-span-2 hyphens-auto text-pretty">
-        {content}
-      </div>
+      <article
+        className="prose prose-pre:bg-transparent
+prose-pre:p-0 md:col-span-2 max-w-none prose-lg
+    prose-headings:text-black
+    prose-p:text-gray-800
+    prose-strong:text-black
+    prose-li:text-gray-800
+   
+  "
+      >
+        <MarkdownRenderer content={content} />
+      </article>
       {/* comments */}
       <CommentSection post={post} />
     </div>

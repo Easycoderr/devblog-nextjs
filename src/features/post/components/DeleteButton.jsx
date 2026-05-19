@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { TrashIcon } from "lucide-react";
 
 import React from "react";
 const styles = {

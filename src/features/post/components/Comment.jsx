@@ -152,7 +152,7 @@ function Comment({
     </div>
   );
 }
-function Name({ name, isOwner, variant = "default" }) {
+function Name({ avatar, name, isOwner, variant = "default" }) {
   const style = {
     default: "text-sm text-gray-500 flex items-center gap-1",
     secondary: "text-xs text-gray-500 flex items-center gap-1",

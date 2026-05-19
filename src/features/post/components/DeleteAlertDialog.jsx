@@ -12,7 +12,7 @@ import {
 import DeleteButton from "./DeleteButton";
 import { Trash2Icon } from "lucide-react";
 
-function DeleteAlertDialog({ post, userId, title, children, message }) {
+function DeleteAlertDialog({ title, children, message }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

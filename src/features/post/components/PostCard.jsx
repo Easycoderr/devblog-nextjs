@@ -21,6 +21,7 @@ async function PostCard({ post, user }) {
         width={1000}
         height={1000}
         alt={"react"}
+        quality={100}
       />
       {/* post actions */}
       <div className="absolute top-0 right-0">
