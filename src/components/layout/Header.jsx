@@ -35,7 +35,7 @@ function Header({ user }) {
 
   return (
     <header
-      className={`${!sticky && pathname === "/" && "sticky z-60 right-0 left-0 top-0"} z-100 px-2 md:px-0  left-0 right-0 w-full container 2xl:px-10 mx-auto`}
+      className={`${!sticky && pathname === "/" && "sticky z-60 right-0 left-0 top-0"} z-800 px-2 md:px-0  left-0 right-0 w-full container 2xl:px-10 mx-auto`}
     >
       {/* container */}
       <div className="transition-all duration-200 rounded-4xl lg:rounded-full mt-6 bg-black/80 backdrop-blur-md">
