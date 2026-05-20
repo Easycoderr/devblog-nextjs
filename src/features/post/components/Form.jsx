@@ -9,8 +9,9 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, CircleQuestionMark } from "lucide-react";
 import calcTextRange from "@/lib/utils/calcTextLength";
+import PopoverDialog from "./PopoverDialog";
 
 function Form({ postData }) {
   // use useRoute to navigate
@@ -164,7 +165,7 @@ function Form({ postData }) {
               htmlFor="description"
               className="text-gray-600 font-semibold tracking-wide text-sm"
             >
-              Description <span>{calcTextRange(des, 200)}</span>
+              Description <span>{calcTextRange(des, 300)}</span>
             </label>
             <textarea
               {...register("description")}
@@ -182,9 +183,79 @@ function Form({ postData }) {
           <div className="flex flex-col gap-1 w-full">
             <label
               htmlFor="content"
-              className="text-gray-600 font-semibold tracking-wide text-sm"
+              className="text-gray-600 flex items-center gap-1 font-semibold tracking-wide text-sm"
             >
-              Content
+              Content{" "}
+              <span>
+                <PopoverDialog
+                  button={
+                    <CircleQuestionMark className="text-indigo-400 hover:text-indigo-500" />
+                  }
+                  variant="icon"
+                  className="border-none p-0 m-0"
+                >
+                  <h2 className="text-lg font-bold text-black mb-1">
+                    Markdown Writing Guide
+                  </h2>
+
+                  <p className="text-sm text-gray-600 mb-2">
+                    You can style your article content using Markdown syntax.
+                  </p>
+
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <p className="font-semibold text-black">Headings</p>
+
+                      <div className="bg-zinc-100 rounded-lg p-2 mt-1">
+                        <p># Main Heading</p>
+                        <p>## Sub Heading</p>
+                        <p>### Small Heading</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-black">Bold Text</p>
+
+                      <div className="bg-zinc-100 rounded-lg p-2 mt-1">
+                        <p>**This text becomes bold**</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-black">Lists</p>
+
+                      <div className="bg-zinc-100 rounded-lg p-2 mt-1">
+                        <p>- First item</p>
+                        <p>- Second item</p>
+                        <p>- Third item</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-black">Code Block</p>
+
+                      <div className="bg-zinc-100 rounded-lg p-2 mt-1 overflow-x-auto">
+                        <pre>{`\
+\`\`\`js
+const hello = "world";
+\`\`\`
+`}</pre>
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-black">Tips</p>
+
+                      <ul className="list-disc ml-5 text-gray-700 space-y-1 mt-1">
+                        <li>Use headings to organize your article.</li>
+                        <li>Keep paragraphs short and readable.</li>
+                        <li>Add code examples for technical topics.</li>
+                        <li>Use lists for steps and explanations.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </PopoverDialog>
+              </span>
             </label>
             <textarea
               {...register("content")}
