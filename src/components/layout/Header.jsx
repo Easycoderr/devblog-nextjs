@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import useActiveSection from "../../hooks/useActiveSection";
 import HeaderMobNav from "./HeaderMobNav";
 import HeaderDeskNav from "./HeaderDeskNav";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, PlusCircle, XIcon } from "lucide-react";
 import ProfileDropDownMenu from "./ProfileDropDownMenu";
 
 const links = [
@@ -55,8 +55,17 @@ function Header({ user }) {
 
           {/* if user registered and login profile */}
           {user ? (
-            <div className="lg:flex items-center mr-2 gap-1 hidden">
-              <ProfileDropDownMenu user={user} />
+            <div className="lg:flex gap-8 items-center hidden">
+              <Link
+                title="Create post"
+                href={!user ? "/auth/signin" : "/blogs/create"}
+                className="text-gray-50 hover:text-accent transition-all duration-200 text-lg"
+              >
+                <PlusCircle size={28} />
+              </Link>
+              <div className="lg:flex items-center mr-2 gap-1">
+                <ProfileDropDownMenu user={user} />
+              </div>
             </div>
           ) : (
             <div className="lg:flex items-center mr-2 gap-2 hidden">
