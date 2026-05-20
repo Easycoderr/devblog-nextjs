@@ -15,7 +15,8 @@ export const postFormSchema = z.object({
     .max(30, "Title must be less than 30 characters."),
   description: z
     .string()
-    .min(100, "Description must be at least 100 characters."),
+    .min(50, "Description must be at least 50 characters.")
+    .max(300, "Description must be less than 300 characters."),
   content: z.string().min(500, "content must be at least 500+ characters."),
   category: z.string().min(1, "Category is required"),
   image: z

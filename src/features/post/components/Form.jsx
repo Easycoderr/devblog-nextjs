@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import calcTextRange from "@/lib/utils/calcTextLength";
 
 function Form({ postData }) {
   // use useRoute to navigate
@@ -42,6 +43,8 @@ function Form({ postData }) {
 
   // read the live value of the "image"
   const fileImage = watch("image");
+  // read the live value of the description
+  const des = watch("description");
   const selectedFile = fileImage?.[0] || null;
   async function onSubmit(data) {
     const formData = new FormData();
@@ -161,7 +164,7 @@ function Form({ postData }) {
               htmlFor="description"
               className="text-gray-600 font-semibold tracking-wide text-sm"
             >
-              Description
+              Description <span>{calcTextRange(des, 200)}</span>
             </label>
             <textarea
               {...register("description")}
@@ -186,7 +189,7 @@ function Form({ postData }) {
             <textarea
               {...register("content")}
               type="text"
-              className={`${errors.content ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 rounded-lg w-full text-sm focus:outline-none`}
+              className={`${errors.content ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-1 border-2 min-h-48 rounded-lg w-full text-sm focus:outline-none`}
             />
             <span className="flex">
               {errors.content && (
