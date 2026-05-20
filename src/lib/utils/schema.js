@@ -11,8 +11,8 @@ const ACCEPTED_IMAGE_TYPES = [
 export const postFormSchema = z.object({
   title: z
     .string()
-    .min(4, "Title should be string and must be at least 4 characters.")
-    .max(30, "Title must be less than 30 characters."),
+    .min(4, "Title should be string and must be at least 4 characters."),
+  // .max(30, "Title must be less than 30 characters."),
   description: z
     .string()
     .min(50, "Description must be at least 50 characters.")

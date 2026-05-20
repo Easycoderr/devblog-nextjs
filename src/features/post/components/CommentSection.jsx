@@ -25,7 +25,7 @@ async function CommentSection({ post }) {
       >
         {listOfComments.length === 0 ? (
           !userId ? (
-            <div className="text-gray-900 bg-gray-100 p-2 rounded-lg mx-auto">
+            <div className="flex items-center gap-1 text-gray-900 bg-gray-100 p-2 rounded-lg mx-auto">
               No comments yet.{" "}
               <span>
                 <Link

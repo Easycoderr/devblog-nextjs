@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { createComment, updateComment } from "@/lib/actions/post";
 import { Send, XIcon } from "lucide-react";
 import { useState } from "react";
@@ -48,22 +47,27 @@ function AddCommentForm({
         {typeof setOpenReplyField === "function" && (
           <button
             onClick={() => setOpenReplyField(false)}
-            className="bg-red-200 rounded-lg flex items-center justify-center px-1"
+            className="bg-red-100 rounded-lg flex items-center justify-center px-1 hover:opacity-80 transition-all duration-200 active:scale-105"
           >
-            <XIcon className="text-red-600" />
+            <XIcon className="text-red-500" />
           </button>
         )}
-        <input
-          onChange={(e) => setContent(e.target.value)}
-          type="text"
-          value={content}
-          name="comment"
-          className="w-full max-w-2xl placeholder:text-sm rounded-lg border-none outline-none ring focus:ring-2 focus:ring-accent p-1 "
-          placeholder={placeholder}
-        />
-        <Button variant="icon" type="submit">
-          <Send className="size-6" />
-        </Button>
+        <div className="relative w-full max-w-2xl">
+          <input
+            onChange={(e) => setContent(e.target.value)}
+            type="text"
+            value={content}
+            name="comment"
+            className="w-full max-w-2xl placeholder:text-sm rounded-lg border-none outline-none ring focus:ring-2 focus:ring-accent p-1 "
+            placeholder={placeholder}
+          />
+          <button
+            type="submit"
+            className="absolute top-[50%] -translate-y-[50%] right-2 flex items-center hover:text-indigo-400 text-accent transition-all duration-200"
+          >
+            <Send className="size-6" />
+          </button>
+        </div>
       </div>
     </form>
   );

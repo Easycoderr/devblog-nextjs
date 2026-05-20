@@ -23,7 +23,7 @@ function CommentActions({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="icon" size="icon">
+        <Button variant={`${commentId ? "simple" : "icon"}`} size="icon">
           <EllipsisVertical className="!size-5" />
         </Button>
       </DropdownMenuTrigger>
