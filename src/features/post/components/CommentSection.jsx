@@ -13,11 +13,15 @@ async function CommentSection({ post }) {
   const userId = user?.id;
   const comments = await getComments(post?.id);
   const listOfComments = listToTree(comments);
+  const numComments = listOfComments.reduce(
+    (p, comments) => p + 1 + (comments.replies?.length || 0),
+    0,
+  );
 
   return (
     <div className="col-span-2 mt-8 space-y-4">
       <h3 className="text-xl font-semibold text-slate-900 mb-6">
-        Comments ({listOfComments.length})
+        Comments ({numComments})
       </h3>
       {/* Initial list of top-level comments */}
       <div

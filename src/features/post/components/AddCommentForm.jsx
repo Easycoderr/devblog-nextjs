@@ -58,7 +58,7 @@ function AddCommentForm({
             type="text"
             value={content}
             name="comment"
-            className="w-full max-w-2xl placeholder:text-sm rounded-lg border-none outline-none ring focus:ring-2 focus:ring-accent p-1 "
+            className="w-full max-w-2xl placeholder:text-sm rounded-lg border-none outline-none ring focus:ring-2 focus:ring-accent p-1 pr-9"
             placeholder={placeholder}
           />
           <button
