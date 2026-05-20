@@ -30,14 +30,6 @@ async function page({ searchParams }) {
               Explore all posts and tutorials
             </p>
           </div>
-          <div>
-            <Link
-              href={!user ? "/auth/register" : "/blogs/create"}
-              className="bg-black/80 text-gray-50 hover:bg-accent transition-all duration-200 px-4 py-2 rounded-full text-lg"
-            >
-              {!user ? "Add your first article" : "Add article"}
-            </Link>
-          </div>
         </div>
         {/* search + filter */}
         <SearchFilterSort />
