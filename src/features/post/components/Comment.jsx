@@ -1,5 +1,5 @@
 "use client";
-import { Clock, PenIcon, PenLine } from "lucide-react";
+import { Clock, PenLine } from "lucide-react";
 import { useState } from "react";
 import AddCommentForm from "./AddCommentForm";
 import dateCalculation from "@/lib/utils/dateCalculation";
@@ -29,7 +29,7 @@ function Comment({
   const shouldIndent = depth < 3;
   return (
     <div
-      className={`p-2 rounded-tr-lg max-w-2xl rounded-br-lg bg-stone-100 ${shouldIndent ? "border-l-2 border-gray-300" : "border-t  border-dashed border-gray-200 mt-2 ml-0-pl-1"}`}
+      className={`p-2 rounded-tr-lg max-w-2xl rounded-br-lg bg-stone-100 ${shouldIndent ? "border-l-2 border-gray-300" : "border-t  border-dashed border-gray-200 mt-2 ml-0 pl-1"}`}
     >
       <div className="flex justify-between">
         <div>

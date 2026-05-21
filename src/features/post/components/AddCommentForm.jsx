@@ -1,7 +1,7 @@
 "use client";
 import { createComment, updateComment } from "@/lib/actions/post";
 import { Send, XIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 function AddCommentForm({
   content: updateContent,
@@ -14,7 +14,7 @@ function AddCommentForm({
   placeholder = "Write your comment...",
 }) {
   const [content, setContent] = useState(updateContent || "");
-
+  const [isPending, startTransition] = useTransition();
   async function handleSubmitComment(e) {
     e.preventDefault();
     if (!content || content.trim("") === "") {
@@ -22,23 +22,27 @@ function AddCommentForm({
       return null;
     }
     if (openReplyField !== "edit") {
-      const result = await createComment(postId, userId, content, parentId);
-      if (result.success) {
-        toast.success("Comment added");
-        if (typeof setOpenReplyField === "function") {
-          setOpenReplyField(false);
+      startTransition(async () => {
+        const result = await createComment(postId, userId, content, parentId);
+        if (result.success) {
+          toast.success("Comment added");
+          if (typeof setOpenReplyField === "function") {
+            setOpenReplyField(false);
+          }
+          setContent("");
         }
-        setContent("");
-      }
+      });
     } else {
-      const result = await updateComment(commentId, content, userId);
-      if (result.success) {
-        toast.success("Comment updated");
-        if (typeof setOpenReplyField === "function") {
-          setOpenReplyField(false);
+      startTransition(async () => {
+        const result = await updateComment(commentId, content, userId);
+        if (result.success) {
+          toast.success("Comment updated");
+          if (typeof setOpenReplyField === "function") {
+            setOpenReplyField(false);
+          }
+          setContent("");
         }
-        setContent("");
-      }
+      });
     }
   }
   return (
@@ -62,8 +66,9 @@ function AddCommentForm({
             placeholder={placeholder}
           />
           <button
+            disabled={isPending}
             type="submit"
-            className="absolute top-[50%] -translate-y-[50%] right-2 flex items-center hover:text-indigo-400 text-accent transition-all duration-200"
+            className={`${isPending && "text-gray-500 cursor-not-allowed"} absolute top-[50%] -translate-y-[50%] right-2 flex items-center hover:text-indigo-400 text-accent transition-all duration-200`}
           >
             <Send className="size-6" />
           </button>
