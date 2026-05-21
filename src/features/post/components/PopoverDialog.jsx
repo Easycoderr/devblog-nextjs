@@ -14,7 +14,9 @@ function PopoverDialog({ button, children, variant, ...props }) {
           {button}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="min-w-full">{children}</PopoverContent>
+      <PopoverContent side="right" align="start" className="min-w-full">
+        {children}
+      </PopoverContent>
     </Popover>
   );
 }
