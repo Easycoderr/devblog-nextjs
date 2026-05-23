@@ -15,7 +15,7 @@ async function CommentSection({ post }) {
   const listOfComments = listToTree(comments);
   return (
     <div className="col-span-2 mt-8 space-y-4">
-      <h3 className="text-xl font-semibold text-slate-900 mb-6">
+      <h3 className="text-2xl font-semibold text-slate-900 mb-6">
         Comments ({comments?.length})
       </h3>
       {/* Initial list of top-level comments */}

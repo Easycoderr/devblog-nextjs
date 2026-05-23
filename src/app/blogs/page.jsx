@@ -15,7 +15,6 @@ export async function generateMetadata({ params }) {
 }
 async function page({ searchParams }) {
   const params = await searchParams;
-  const user = await getCurrentUser();
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}
