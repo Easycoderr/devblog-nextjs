@@ -1,4 +1,5 @@
 "use client";
+import MiniSpinner from "@/components/ui/MiniSpinner";
 import { createComment, updateComment } from "@/lib/actions/post";
 import { Send, XIcon } from "lucide-react";
 import { useState, useTransition } from "react";
@@ -70,7 +71,7 @@ function AddCommentForm({
             type="submit"
             className={`${isPending && "text-gray-500 cursor-not-allowed"} absolute top-[50%] -translate-y-[50%] right-2 flex items-center hover:text-indigo-400 text-accent transition-all duration-200`}
           >
-            <Send className="size-6" />
+            {isPending ? <MiniSpinner /> : <Send className="size-6" />}
           </button>
         </div>
       </div>
