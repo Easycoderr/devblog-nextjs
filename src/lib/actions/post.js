@@ -386,48 +386,4 @@ export async function getSavedPostsByPostId(postId, userId) {
     console.log(error);
   }
 }
-//  just for development
-export async function createBulkPosts() {
-  const user = await getCurrentUser();
-  if (!user) throw new Error("Not authenticated");
-
-  const postsToCreate = Array.from({ length: 40 }).map((_, i) => ({
-    slug: generateSlug(`Sample Post Title ${i + 1}`),
-    title: `Sample Post Title ${i + 1}`,
-    description: `Short description for post number ${i + 1}`,
-    content: `This is the full content for post ${i + 1}.`,
-    category: "General",
-    authorId: user.id,
-  }));
-
-  // Standard way that works on all databases (SQLite, Postgres, etc.)
-  await Promise.all(
-    postsToCreate.map((post) =>
-      prisma.post.create({
-        data: post,
-      }),
-    ),
-  );
-
-  redirect("/blogs");
-}
-
-// delete all just for development
-export async function deleteAllPosts() {
-  // const user = await getCurrentUser();
-  // if (!user) throw new Error("Not authenticated");
-
-  // Optional: Only delete posts belonging to the logged-in user
-  // await prisma.post.deleteMany({
-  //   where: {
-  //     authorId: user.id,
-  //   },
-  // });
-
-  // If you want to delete EVERYTHING in the table regardless of user:
-  await prisma.post.deleteMany({});
-
-  redirect("/blogs");
-}
-
 export default createPost;
