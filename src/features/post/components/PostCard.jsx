@@ -1,9 +1,9 @@
 import Image from "next/image";
-
 import PostActions from "./PostActions";
 import { getLikesByPostId, getSharesByPostId } from "../../../lib/actions/post";
 import PostCardFooter from "./PostCardFooter";
 import dateCalculation from "@/lib/utils/dateCalculation";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 async function PostCard({ post, user }) {
   const [{ _count: postLikes, userLike }, { _count: postShares }] =
@@ -13,10 +13,10 @@ async function PostCard({ post, user }) {
     ]);
 
   return (
-    <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-4 shadow hover:shadow-lg rounded-lg">
+    <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-3 shadow hover:shadow-lg rounded-lg">
       {/* image */}
       <Image
-        className="bg-contain object-cover hover:scale-105 transition-all duration-300"
+        className="bg-contain object-cover transition-all duration-300"
         src={post.imageUrl}
         width={1000}
         height={1000}
@@ -27,13 +27,16 @@ async function PostCard({ post, user }) {
       <div className="absolute top-0 right-0">
         <PostActions user={user} post={post} />
       </div>
+      <div className="absolute -top-1 -left-full group-hover:-left-1 group-focus:-left-1 p-2 bg-white/50 backdrop-blur-sm rounded-br-md text-gray-800 transition-all duration-300">
+        <UserAvatar user={user} />
+      </div>
       {/* content */}
       <div className="flex flex-col gap-2 p-3">
         <h3 className="text-xl mb-1 tracking-tight font-semibold">
           {post.title}
         </h3>
-        {/* description */}
-        <div className="flex items-center gap-3">
+
+        <div className="flex items-center gap-2">
           <span className="flex text-xs items-center">
             <span className="text-blue-50 bg-indigo-400 px-2 py-0.5 rounded-full">
               {post.category}
@@ -46,6 +49,7 @@ async function PostCard({ post, user }) {
             </span>
           </span>
         </div>
+        {/* description */}
         <p className="text-sm text-slate-600">
           {post.description.slice(0, 80)}...
         </p>
