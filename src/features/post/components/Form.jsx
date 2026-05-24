@@ -301,7 +301,15 @@ const hello = "world";
           <div className="ml-auto flex gap-2">
             <button
               type="reset"
-              onClick={reset}
+              onClick={() =>
+                reset({
+                  image: null,
+                  title: title || "",
+                  description: description || "",
+                  content: content || "",
+                  category: category || "",
+                })
+              }
               className="px-2 py-1 tracking-wider border bg-white shadow rounded-lg hover:opacity-70 transition-all duration-200 active:scale-103"
             >
               Reset
