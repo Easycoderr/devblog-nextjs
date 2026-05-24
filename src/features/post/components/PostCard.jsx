@@ -1,9 +1,7 @@
-import Image from "next/image";
-import PostActions from "./PostActions";
 import { getLikesByPostId, getSharesByPostId } from "../../../lib/actions/post";
 import PostCardFooter from "./PostCardFooter";
 import dateCalculation from "@/lib/utils/dateCalculation";
-import UserAvatar from "@/components/ui/UserAvatar";
+import PostCardHeader from "./PostCardHeader";
 
 async function PostCard({ post, user }) {
   const [{ _count: postLikes, userLike }, { _count: postShares }] =
@@ -14,22 +12,7 @@ async function PostCard({ post, user }) {
 
   return (
     <div className="group relative flex overflow-hidden transition-all duration-all flex-col gap-3 shadow hover:shadow-lg rounded-lg">
-      {/* image */}
-      <Image
-        className="bg-contain object-cover transition-all duration-300"
-        src={post.imageUrl}
-        width={1000}
-        height={1000}
-        alt={"react"}
-        quality={100}
-      />
-      {/* post actions */}
-      <div className="absolute top-0 right-0">
-        <PostActions user={user} post={post} />
-      </div>
-      <div className="absolute -top-1 -left-full group-hover:-left-1 group-focus:-left-1 p-2 bg-white/50 backdrop-blur-sm rounded-br-md text-gray-800 transition-all duration-300">
-        <UserAvatar user={user} />
-      </div>
+      <PostCardHeader post={post} user={user} />
       {/* content */}
       <div className="flex flex-col gap-2 p-3">
         <h3 className="text-xl mb-1 tracking-tight font-semibold">
