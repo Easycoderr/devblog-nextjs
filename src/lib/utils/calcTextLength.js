@@ -1,4 +1,4 @@
-function calcTextRange(text, maxLength) {
+function calcTextRange(text = [], maxLength) {
   const textLength = text.length;
   return `(${textLength} - ${maxLength})`;
 }
