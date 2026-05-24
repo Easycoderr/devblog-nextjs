@@ -38,14 +38,16 @@ export async function registerUser(formData) {
     avatar = uploadedImage.url;
     avatarId = uploadedImage.fileId;
   }
+  const fName = firstName.toLowerCase();
+  const lName = lastName.toLowerCase();
   // 7. create user
   await prisma.user.create({
     data: {
-      firstName,
-      lastName,
+      firstName: fName,
+      lastName: lName,
       email,
       password: hashedpassword,
-      name: `${firstName} ${lastName}`,
+      name: `${fName} ${lName}`,
       avatar: avatar,
       avatarId: avatarId,
     },
