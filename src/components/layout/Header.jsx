@@ -30,9 +30,12 @@ function Header({ user }) {
     if (id) {
       observer.observe(id);
     }
+    if (pathname !== "/") {
+      setSticky(false);
+    }
     return () => observer.disconnect();
   }, [sticky, pathname]);
-  console.log("STICKY:", sticky);
+
   return (
     <header
       className={`${!sticky ? "lg:border-b border-b-gray-300 text-gray-800 py-1" : "text-text"} w-full ${sticky && pathname === "/" && "sticky z-60 right-0 left-0 top-0"} z-800`}
