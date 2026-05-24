@@ -1,22 +1,24 @@
 "use client";
 import Image from "next/image";
-import { PenLine } from "lucide-react";
 function UserAvatar({ user, variant = "default", isOwner }) {
   const style = {
     default: "text-xs text-gray-800 flex items-center gap-1",
     secondary: "text-xs text-gray-500 flex items-center gap-1",
   };
-  const { name, firstName, lastName, avatar } = user || {};
+  const { name, avatar } = user || {};
   return (
     <p className={style[variant]}>
       {avatar && (
-        <Image
-          width={28}
-          height={28}
-          className="rounded-full border border-gray-500"
-          src={avatar}
-          alt={`${name}-user`}
-        />
+        <div className="relative rounded-full h-8 w-8 overflow-hidden border border-gray-500">
+          <Image
+            fill
+            sizes="32px"
+            src={avatar}
+            className="object-cover"
+            alt={`${name}-user`}
+            quality={100}
+          />
+        </div>
       )}
       <span className="text-current">{name}</span>
     </p>
