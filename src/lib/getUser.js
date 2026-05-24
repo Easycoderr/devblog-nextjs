@@ -10,5 +10,9 @@ async function getCurrentUser() {
 
   return user;
 }
-
+export async function getUserById(userId) {
+  if (!userId) return null;
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  return user;
+}
 export default getCurrentUser;
