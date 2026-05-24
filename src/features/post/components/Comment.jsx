@@ -158,14 +158,25 @@ function Name({ avatar, name, isOwner, variant = "default" }) {
   };
   return (
     <p className={style[variant]}>
-      {avatar && (
-        <Image
-          width={25}
-          height={25}
-          className="rounded-full border border-gray-500"
-          src={avatar}
-          alt={`${name}-user`}
-        />
+      {avatar ? (
+        <div className="relative rounded-full h-8 w-8 overflow-hidden border border-gray-500">
+          <Image
+            fill
+            sizes="32px"
+            src={avatar}
+            className="object-cover"
+            alt={`${name}-user`}
+            quality={100}
+          />
+        </div>
+      ) : variant !== "secondary" ? (
+        <div className="relative flex items-center justify-center rounded-full h-8 w-8 overflow-hidden border text-gray-600 border-gray-500">
+          <span className="text-bold font-mono text-lg">
+            {name[0].toUpperCase()}
+          </span>
+        </div>
+      ) : (
+        ""
       )}
       <span>{name}</span>
       {isOwner && (
