@@ -83,9 +83,9 @@ function AuthRegisterForm() {
               </span>
             </div>
             <span className="flex">
-              {errors.email && (
+              {errors.profilePicture && (
                 <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.email.message}
+                  {errors.profilePicture.message}
                 </p>
               )}
             </span>
