@@ -1,9 +1,6 @@
 import dateCalculation from "@/lib/utils/dateCalculation";
 import Image from "next/image";
 import CommentSection from "./CommentSection";
-import Markdown from "react-markdown";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { Copy } from "lucide-react";
 import MarkdownRenderer from "./MarkdownRenderer";
 function PostDetails({ post }) {
   const {
@@ -30,7 +27,7 @@ function PostDetails({ post }) {
       </div>
       <div className="space-y-6 col-span-2 md:col-span-1">
         {/* title */}
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
           {title}
         </h2>
         {/* description */}

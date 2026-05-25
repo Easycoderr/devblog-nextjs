@@ -19,10 +19,10 @@ async function page({ searchParams }) {
     <div className="space-y-12 relative w-full">
       {/* main */}
       <main className="container flex flex-col px-10 py-10 space-y-10 mx-auto">
-        <div className="flex justify-between">
+        <div className="flex justify-between mx-auto">
           <div className="space-y-3">
             <h2 className="text-4xl text-start md:text-5xl ml-3 md:ml-0 font-sora font-bold">
-              All Articles
+              Articles
             </h2>
             <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-xs md:max-w-xs mb-0.5"></div>
             <p className="text-text-muted leading-relaxed tracking-normal font-medium">
