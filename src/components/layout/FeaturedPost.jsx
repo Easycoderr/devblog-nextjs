@@ -27,14 +27,15 @@ function FeaturedPost({ posts }) {
           <Suspense fallback={<FeaturedPostSkeleton />}>
             <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 gap-6 bg-gradient-to-br from-indigo-200/20 to-purple-200/20  p-6 mx-4 md:mx-0 rounded-xl border border-border/70 hover:shadow-lg transition-all duration-200">
               {/* LEFT */}
-              <Image
-                width={1000}
-                height={1000}
-                objectFit="fill"
-                src={featuredPost.imageUrl}
-                className="rounded-xl"
-                alt={featuredPost.title}
-              />
+              <div className="relative overflow-hidden h-[400px] w-full rounded-xl">
+                <Image
+                  sizes="400px"
+                  src={featuredPost.imageUrl}
+                  className="object-cover"
+                  fill
+                  alt={featuredPost.title}
+                />
+              </div>
               {/* <div
                 className={`opacity-90 rounded-xl bg-[url(${featuredPost?.imageUrl})] bg-cover no-repeat bg-center`}
               ></div> */}

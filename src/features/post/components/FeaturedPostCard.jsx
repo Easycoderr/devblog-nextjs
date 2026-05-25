@@ -1,7 +1,10 @@
+import { getUserById } from "@/lib/getUser";
+import dateCalculation from "@/lib/utils/dateCalculation";
 import { ArrowRight, Calendar, Eye, Flame } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
-function FeaturedPostCard({ post }) {
+async function FeaturedPostCard({ post }) {
   const {
     slug,
     title,
@@ -9,16 +12,18 @@ function FeaturedPostCard({ post }) {
     createdAt: date,
     category,
     // readTime,
+    authorId,
   } = post;
+  const author = await getUserById(authorId);
   return (
     <>
       <div className="relative flex flex-col gap-10 shadow-sm bg-gray-50 rounded-xl py-8 px-5">
         {/* head */}
-        <div className="absolute flex items-center top-2 text-bold font-sora text-xs px-2 py-1 rounded-full bg-amber-500/80">
+        <div className="absolute flex items-center top-2 text-bold font-sora text-xs px-2 py-1 rounded-full bg-amber-100">
           <span>
             <Flame size={18} className="text-amber-800 mb-0.5" />
           </span>
-          <span className="text-amber-100">Featured</span>
+          <span className="text-amber-800 uppercase mt-0.5">Featured</span>
         </div>
         <div className="space-y-4">
           {/* header */}
@@ -26,7 +31,7 @@ function FeaturedPostCard({ post }) {
             {title}
           </h3>
           {/* description */}
-          <p className="leading-relaxed text-lg text-text-muted hyphens-auto text-pretty">
+          <p className="leading-relaxed text-lg text-gray-500 hyphens-auto text-pretty">
             {description.split(" ").slice(0, 40).join(" ")}
           </p>
         </div>
@@ -35,26 +40,29 @@ function FeaturedPostCard({ post }) {
           {/* <p className="text-gray-600 text-sm leading-relaxed tracking-normal text-justify hyphens-auto text-pretty">
           {content}
           </p> */}
-          <div className="flex flex-col gap-4 text-sm mt-auto">
+          <div className="flex flex-col gap-6 text-sm mt-auto">
             <div className="flex items-center gap-3">
-              <span className="flex items-center">
-                <span
-                  className={`${category === "React" ? "text-blue-400" : "text-yellow-500"}`}
-                >
-                  #{category}
-                </span>
-              </span>
-              <span className="flex items-center gap-1">
-                <Calendar className="text-green-500" size={18} />
-                <span className="text-gray-400 mt-1">
-                  {new Date(date).toLocaleDateString()} • {3} min read
+              <div className="relative rounded-full h-9 w-9 overflow-hidden border border-gray-500">
+                <Image
+                  fill
+                  sizes="36px"
+                  src={author?.avatar}
+                  className="object-cover"
+                  alt={`${author?.name}-user`}
+                  quality={100}
+                />
+              </div>
+              <span className="flex flex-col">
+                <span className="font-semibold">{author?.name}</span>
+                <span className="text-gray-400">
+                  {dateCalculation(date)} • {3} min read
                 </span>
               </span>
             </div>
             <div className="flex">
               <Link
                 href={`/blogs/${slug}`}
-                className="group flex text-md items-center gap-2 bg-accent px-3 py-1.5 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
+                className="group flex font-bold tracking-wider text-md items-center gap-1 text-indigo-500 hover:text-indigo-600 transition-all duration-200"
               >
                 Read Article{" "}
                 <ArrowRight className="group-hover:translate-x-0.5 transition duration-200" />
