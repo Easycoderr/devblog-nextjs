@@ -16,11 +16,11 @@ async function PostCardHeader({ post, user }) {
           alt={post.title}
           quality={100}
         />
-        <span className="absolute bottom-2 left-2 flex text-xs capitalize tracking-wide font-sora font-medium  items-center">
+        <div className="absolute bottom-2 left-2 flex text-xs capitalize tracking-wide font-sora font-medium  items-center">
           <span className={`${categoryColor} px-2 py-0.5 rounded-full`}>
             {post.category}
           </span>
-        </span>
+        </div>
       </div>
       {/* post actions */}
       <div className="absolute top-0 right-0">

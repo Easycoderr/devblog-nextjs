@@ -25,13 +25,14 @@ async function PostCard({ post, user }) {
       </p>
 
       <div className="space-y-2 mt-auto px-3">
-        <span className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1">
           {/* <Calendar className="text-green-500" size={17} /> */}
-          <span className="text-xs text-gray-400 mt-1">
+          <PostCardAvatar post={post} />
+          <span className="text-xs text-gray-400">•</span>
+          <span className="text-xs text-gray-400">
             {dateCalculation(post.createdAt)} • {4} min read
           </span>
-        </span>
-        <PostCardAvatar post={post} />
+        </div>
       </div>
       <PostCardFooter
         totalShares={postShares.shares}
