@@ -32,7 +32,7 @@ async function page({ params }) {
     <div className="min-h-screen">
       <div className="container 2xl:px-50 px-2 py-10 mx-auto">
         <PostDetailsHeader user={user} post={post} />
-        <div className="">
+        <div className="mt-8">
           <div className="flex flex-col gap-6">
             {/* article slug */}
             <Suspense fallback={<PostDetailsSkeleton />}>
