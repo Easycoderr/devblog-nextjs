@@ -1,15 +1,14 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftCircleIcon, Eye, EyeClosed, Mail } from "lucide-react";
+import { ArrowLeftCircleIcon, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useState } from "react";
-
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { signInUser } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/utils/schema";
 import FormsButton from "@/components/ui/FormsButton";
+import Input from "@/components/ui/Input";
 
 function AuthSigninForm() {
   const router = useRouter();
@@ -20,13 +19,13 @@ function AuthSigninForm() {
   } = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "",
+      email: "HI",
       // just during development
       password: "12345678",
     },
   });
   // local state
-  const [showPassword, setShowPassword] = useState(false);
+
   async function onSubmit(data) {
     const response = await signInUser(data);
     if (response?.error) {
@@ -42,74 +41,37 @@ function AuthSigninForm() {
     <>
       {/* form body */}
       <div className="self-start">
-        <button className="flex tracking-wider items-center rounded-full gap-1 hover:opacity-90 hover:bg-hover active:opacity-100 active:scale-103 px-3 py-1.5 bg-black/80 text-gray-50 transition-all duration-200">
+        {/* <button className="flex tracking-wider items-center rounded-full gap-1 hover:opacity-90 hover:bg-hover active:opacity-100 active:scale-103 px-3 py-1.5 bg-black/80 text-gray-50 transition-all duration-200">
           <ArrowLeftCircleIcon size={23} />
           <span>Back to Home</span>
-        </button>
+        </button> */}
       </div>
-      <div className="border-1 border-black rounded-xl p-4 shadow-sm">
-        <h2 className="text-3xl md:text-4xl tracking-tight font-bold text-accent mb-8 font-sora">
-          Sign in your Account
-        </h2>
+      <div className="rounded-xl border border-gray-300 p-4 shadow-sm">
+        <div className="space-y-2 mb-8">
+          <h2 className="text-3xl md:text-4xl tracking-tight font-bold text-accent font-sora">
+            Sign in
+          </h2>
+          <p className="text-gray-600">
+            Welcome back, please sign in to your account.
+          </p>
+        </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-3 md:min-w-md"
         >
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="email"
-              className="text-gray-600 font-semibold tracking-wide text-sm"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <input
-                {...register("email")}
-                type="text"
-                className={`${errors.email ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
-              />
-              <span className="absolute right-2 top-[50%] -translate-y-[50%]">
-                <Mail size={18} />
-              </span>
-            </div>
-            <span className="flex">
-              {errors.email && (
-                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.email.message}
-                </p>
-              )}
-            </span>
-          </div>
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="password"
-              className="text-gray-600 font-semibold tracking-wide text-sm"
-            >
-              Password
-            </label>
-            <div className="relative">
-              <input
-                {...register("password")}
-                type={`${showPassword ? "text" : "password"}`}
-                className={`${errors.password ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
-              />
-              <span
-                tabIndex="1"
-                onClick={() => setShowPassword((show) => !show)}
-                className="absolute right-2 top-[50%] -translate-y-[50%]"
-              >
-                {showPassword ? <EyeClosed size={20} /> : <Eye size={20} />}
-              </span>
-            </div>
-            <span className="flex">
-              {errors.password && (
-                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.password.message}
-                </p>
-              )}
-            </span>
-          </div>
-
+          <Input
+            icon={<Mail size={18} className="text-gray-500" />}
+            label="Email"
+            type="text"
+            error={errors.email}
+            {...register("email")}
+          />
+          <Input
+            icon="password"
+            label="Password"
+            error={errors.password}
+            {...register("password")}
+          />
           <div className="mx-auto flex flex-col gap-2">
             <FormsButton
               disabled={isSubmitting}
@@ -120,7 +82,6 @@ function AuthSigninForm() {
               {" "}
               Sign in
             </FormsButton>
-
             <div>
               <span className="text-sm text-gray-600">
                 Don’t have an account?{" "}
