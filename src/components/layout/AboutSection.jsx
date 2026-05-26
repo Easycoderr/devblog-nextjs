@@ -30,18 +30,20 @@ function AboutSection() {
     >
       <div className="container 2xl:px-10 mx-auto flex flex-col gap-16">
         {/* head */}
-        <div className="space-y-3">
-          <h2 className="text-2xl md:text-4xl ml-3 md:ml-0 font-sora font-bold">
-            About DevBlog
-          </h2>
-          <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-2xs md:max-w-2xs"></div>
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <h2 className="text-2xl md:text-4xl ml-3 md:ml-0 font-sora font-bold">
+              About DevBlog
+            </h2>
+            <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-2xs md:max-w-2xs"></div>
+          </div>
+          <p className="font-semibold text-gray-700 pr-4 hyphens-auto text-pretty max-w-5xl">
+            DevBlog is a modern platform for developers to share knowledge,
+            explore new technologies, and grow together. We focus on clean,
+            high-quality technical content that helps you become a better
+            developer every day.
+          </p>
         </div>
-        <p className="font-semibold text-gray-700 px-2 hyphens-auto text-pretty max-w-5xl">
-          DevBlog is a modern platform for developers to share knowledge,
-          explore new technologies, and grow together. We focus on clean,
-          high-quality technical content that helps you become a better
-          developer every day.
-        </p>
         {/* cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 py-4 px-4 md:px-0 gap-5">
           {aboutCardData.map((item) => (

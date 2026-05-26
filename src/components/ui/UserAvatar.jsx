@@ -7,7 +7,7 @@ function UserAvatar({ user, variant = "default", isOwner }) {
   };
   const { name, avatar } = user || {};
   return (
-    <p className={style[variant]}>
+    <div className={style[variant]}>
       {avatar && (
         <div className="relative rounded-full h-8 w-8 overflow-hidden border border-gray-500">
           <Image
@@ -20,8 +20,8 @@ function UserAvatar({ user, variant = "default", isOwner }) {
           />
         </div>
       )}
-      <span className="text-current">{name}</span>
-    </p>
+      <p className="text-sm font-medium capitalize tracking-wide">{name}</p>
+    </div>
   );
 }
 
