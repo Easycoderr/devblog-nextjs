@@ -8,6 +8,7 @@ import { registerUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
 import FormsButton from "@/components/ui/FormsButton";
+import Input from "@/components/ui/Input";
 
 function AuthRegisterForm() {
   const {
@@ -51,19 +52,19 @@ function AuthRegisterForm() {
     <>
       {/* form body */}
       <div className="self-start">
-        <button className="flex tracking-wider items-center rounded-full gap-1 hover:opacity-90 hover:bg-hover active:opacity-100 active:scale-103 px-3 py-1.5 bg-black/80 text-gray-50 transition-all duration-200">
+        {/* <button className="flex tracking-wider items-center rounded-full gap-1 hover:opacity-90 hover:bg-hover active:opacity-100 active:scale-103 px-3 py-1.5 bg-black/80 text-gray-50 transition-all duration-200">
           <ArrowLeftCircleIcon size={23} />
           <span>Back to Home</span>
-        </button>
+        </button> */}
       </div>
-      <div className="border-1 border-black rounded-xl p-4 shadow-sm">
-        <h2 className="text-3xl md:text-4xl tracking-tight font-bold text-accent mb-8 font-sora">
-          Create your Account
-        </h2>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-3 md:min-w-xl"
-        >
+      <div className="border border-gray-200 rounded-xl p-4 shadow-sm min-w-full md:min-w-lg md:max-w-xl">
+        <div className="space-y-2 mb-8">
+          <h2 className="text-3xl tracking-tight font-bold text-accent font-sora">
+            Create account
+          </h2>
+          <p className="text-gray-600">Join our community of developers</p>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
           <div className="flex flex-col col-span-2 gap-1 w-full">
             <label
               htmlFor="profilePicture"
@@ -75,11 +76,11 @@ function AuthRegisterForm() {
               <input
                 {...register("profilePicture")}
                 type="file"
-                className={`${errors.profilePicture ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
+                className={`${errors.profilePicture ? "border-red-500 focus:border-red-500" : " border-gray-400 focus:ring focus:ring-accent"} p-2 border rounded-lg w-full text-sm focus:outline-none`}
                 accept="image/*"
               />
               <span className="absolute right-2 top-[50%] -translate-y-[50%]">
-                <Image />
+                <Image className="text-gray-500" />
               </span>
             </div>
             <span className="flex">
@@ -91,107 +92,32 @@ function AuthRegisterForm() {
             </span>
           </div>
           <div className="flex flex-col md:flex-row gap-3">
-            <div className="flex flex-col gap-1 w-full">
-              <label
-                htmlFor="firstName"
-                className="text-gray-600 font-semibold tracking-wide text-sm"
-              >
-                First Name
-              </label>
-              <input
-                type="text"
-                className={`${errors.firstName ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
-                {...register("firstName")}
-              />
-              <span className="flex">
-                {errors.firstName && (
-                  <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                    {errors.firstName.message}
-                  </p>
-                )}
-              </span>
-            </div>
-            <div className="flex flex-col gap-1 w-full">
-              <label
-                htmlFor="lastName"
-                className="text-gray-600 font-semibold tracking-wide text-sm"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                className={`${errors.lastName ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
-                {...register("lastName")}
-              />
-              <span className="flex">
-                {errors.lastName && (
-                  <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                    {errors.lastName.message}
-                  </p>
-                )}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="email"
-              className="text-gray-600 font-semibold tracking-wide text-sm"
-            >
-              Email
-            </label>
-            <input
-              {...register("email")}
-              type="text"
-              className={`${errors.email ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
+            <Input
+              error={errors.firstName}
+              label="First Name"
+              {...register("firstName")}
             />
-            <span className="flex">
-              {errors.email && (
-                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.email.message}
-                </p>
-              )}
-            </span>
-          </div>
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="password"
-              className="text-gray-600 font-semibold tracking-wide text-sm"
-            >
-              Password
-            </label>
-            <input
-              {...register("password")}
-              type="password"
-              className={`${errors.password ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
+            <Input
+              error={errors.lastName}
+              label="Last Name"
+              {...register("lastName")}
             />
-            <span className="flex">
-              {errors.password && (
-                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.password.message}
-                </p>
-              )}
-            </span>
           </div>
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="confirmPassword"
-              className="text-gray-600 font-semibold tracking-wide text-sm"
-            >
-              Confirm password
-            </label>
-            <input
-              {...register("confirmPassword")}
-              type="password"
-              className={`${errors.confirmPassword ? "border-red-500 focus:border-red-500" : " border-black/80 focus:border-accent"} p-2 border-2 rounded-lg w-full text-sm focus:outline-none`}
-            />
-            <span className="flex">
-              {errors.confirmPassword && (
-                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.confirmPassword.message}
-                </p>
-              )}
-            </span>
-          </div>
+          <Input error={errors.email} label="Email" {...register("email")} />
+
+          <Input
+            error={errors.password}
+            label="Password"
+            icon="password"
+            {...register("password")}
+          />
+          <Input
+            error={errors.confirmPassword}
+            label="Confirm password"
+            icon="password"
+            {...register("confirmPassword")}
+          />
+
           <div className="mx-auto flex flex-col gap-2">
             <FormsButton
               disabled={isSubmitting}

@@ -46,9 +46,9 @@ function AuthSigninForm() {
           <span>Back to Home</span>
         </button> */}
       </div>
-      <div className="rounded-xl border border-gray-300 p-4 shadow-sm">
+      <div className="rounded-xl border border-gray-200 p-4 shadow-sm">
         <div className="space-y-2 mb-8">
-          <h2 className="text-3xl md:text-4xl tracking-tight font-bold text-accent font-sora">
+          <h2 className="text-3xl tracking-tight font-bold text-accent font-sora">
             Sign in
           </h2>
           <p className="text-gray-600">
