@@ -4,13 +4,28 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-background: #0b0f19;
+  /* --color-background: #0b0f19;
   --color-card: #111827;
   --color-text: #e5e7eb;
   --color-text-muted: #94a3b8;
   --color-accent: #6366f1;
   --color-hover: #8b5cf6;
-  --color-border: #1f2937;
+  --color-border: #1f2937; */
+  /* new colors */
+  --color-bg: #f8fafc;
+  --color-card: #ffffff;
+
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+
+  --color-border: #e2e8f0;
+
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
 
   /* shadcn - Fixed by adding --color- prefix to every key */
   --color-background-shadcn: oklch(
@@ -61,6 +76,18 @@
   --font-sora: var(--font-sora);
   --font-space: var(--font-spaceGrotesk);
   --font-sans: var(--font-inter);
+}
+.dark {
+  --color-bg: #09090b;
+  --color-card: #18181b;
+
+  --color-text: #fafafa;
+  --color-text-muted: #a1a1aa;
+
+  --color-primary: #818cf8;
+  --color-primary-hover: #6366f1;
+
+  --color-border: #27272a;
 }
 .active {
   color: var(--color-hover);
