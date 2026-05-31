@@ -20,7 +20,8 @@ export const postFormSchema = z.object({
   content: z.string().min(500, "content must be at least 500+ characters."),
   category: z.string().min(1, "Category is required"),
   image: z
-    .any()
+    .instanceof(FileList, "Image is required.")
+    .refine((files) => files && files.length > 0, "Image is required.")
     .refine(
       (file) => !file || file.length === 0 || file[0]?.size <= MAX_FILE_SIZE,
       "Max image size is 4MB.",
