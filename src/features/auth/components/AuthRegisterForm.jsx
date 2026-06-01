@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftCircleIcon, Image } from "lucide-react";
+import { Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "@/lib/utils/schema";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import { redirect } from "next/navigation";
 import { toast } from "sonner";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
+import { useEffect } from "react";
+import Image from "next/image";
 
 function AuthRegisterForm() {
   const {
@@ -16,6 +18,7 @@ function AuthRegisterForm() {
     handleSubmit,
     formState: { isSubmitting, errors },
     reset,
+    watch,
   } = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -27,6 +30,18 @@ function AuthRegisterForm() {
       profilePicture: "",
     },
   });
+
+  const fileList = watch("profilePicture");
+  const file = fileList && fileList.length > 0 ? fileList[0] : null;
+  const previewUrl = file ? URL.createObjectURL(file) : null;
+
+  useEffect(() => {
+    if (!previewUrl) return;
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   async function onSubmit(data) {
     //  Create a FormData container to safely transport files
     const formData = new FormData();
@@ -57,40 +72,44 @@ function AuthRegisterForm() {
           <span>Back to Home</span>
         </button> */}
       </div>
-      <div className="border border-gray-200 rounded-xl p-4 shadow-sm min-w-full md:min-w-lg md:max-w-xl">
+      <div className="border border-border rounded-xl p-4 bg-card shadow-sm min-w-full md:min-w-lg md:max-w-xl">
         <div className="space-y-2 mb-8">
-          <h2 className="text-3xl tracking-tight font-bold text-accent font-sora">
+          <h2 className="text-3xl tracking-tight font-bold text-primary font-sora">
             Create account
           </h2>
-          <p className="text-gray-600">Join our community of developers</p>
+          <p className="text-muted-foreground">
+            Join our community of developers
+          </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          <div className="flex flex-col col-span-2 gap-1 w-full">
+          <div className="mx-auto flex items-center justify-center">
             <label
-              htmlFor="profilePicture"
-              className="text-gray-600 font-semibold tracking-wide text-sm"
+              htmlFor="profile-picture"
+              className={`relative flex items-center justify-center overflow-hidden ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 bg-input h-32 w-32 border rounded-full focus:outline-none`}
             >
-              Profile picture
-            </label>
-            <div className="relative">
               <input
-                {...register("profilePicture")}
+                id="profile-picture"
                 type="file"
-                className={`${errors.profilePicture ? "border-red-500 focus:border-red-500" : " border-gray-400 focus:ring focus:ring-accent"} p-2 border rounded-lg w-full text-sm focus:outline-none`}
+                className="sr-only"
                 accept="image/*"
+                {...register("profilePicture")}
               />
-              <span className="absolute right-2 top-[50%] -translate-y-[50%]">
-                <Image className="text-gray-500" />
-              </span>
-            </div>
-            <span className="flex">
-              {errors.profilePicture && (
-                <p className="text-red-500 bg-red-100 px-2 py-1 rounded-md text-xs">
-                  {errors.profilePicture.message}
-                </p>
+              {previewUrl ? (
+                <Image
+                  fill
+                  sizes="128px"
+                  className="object-cover"
+                  src={previewUrl}
+                  alt={"User picture"}
+                />
+              ) : (
+                <div>
+                  <Camera className="text-muted-foreground" size={40} />
+                </div>
               )}
-            </span>
+            </label>
           </div>
+
           <div className="flex flex-col md:flex-row gap-3">
             <Input
               error={errors.firstName}
@@ -103,7 +122,12 @@ function AuthRegisterForm() {
               {...register("lastName")}
             />
           </div>
-          <Input error={errors.email} label="Email" {...register("email")} />
+          <Input
+            error={errors.email}
+            label="Email"
+            type="email"
+            {...register("email")}
+          />
 
           <Input
             error={errors.password}
@@ -118,7 +142,7 @@ function AuthRegisterForm() {
             {...register("confirmPassword")}
           />
 
-          <div className="mx-auto flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <FormsButton
               disabled={isSubmitting}
               type="submit"
@@ -129,12 +153,12 @@ function AuthRegisterForm() {
               Register
             </FormsButton>
 
-            <div>
-              <span className="text-sm text-gray-600">
+            <div className="mx-auto">
+              <span className="text-sm text-muted-foreground">
                 Already have an account?{" "}
                 <Link
                   href="/auth/signin"
-                  className="text-accent hover:text-hover transition-all duration-200 hover:underline"
+                  className="text-primary hover:text-hover transition-all duration-200 hover:underline"
                 >
                   Sign in
                 </Link>
