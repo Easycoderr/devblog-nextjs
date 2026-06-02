@@ -74,6 +74,10 @@ async function createPost(formData) {
   const image = formData.get("image");
   const textFields = Object.fromEntries(formData.entries());
   const { title, description, content, category } = textFields;
+  // calc readTime
+  const wordCount = content.split(/\s+/).length;
+  const readTime = Math.ceil(wordCount / 200);
+
   if (image && image.size > 0 && typeof image !== "string") {
     // convert file to binary
     const bytes = await image.arrayBuffer();
@@ -97,6 +101,7 @@ async function createPost(formData) {
       category,
       imageUrl,
       imageId,
+      readTime,
       author: { connect: { id: user.id } },
     },
   });
@@ -122,7 +127,9 @@ export async function updatePost(formData) {
     content,
     category,
   } = textFields;
-
+  // calc readTime
+  const wordCount = content.split(/\s+/).length;
+  const readTime = Math.ceil(wordCount / 200);
   if (image && image.size > 0 && typeof image !== "string") {
     const bytes = await image.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -152,6 +159,7 @@ export async function updatePost(formData) {
       description,
       content,
       category,
+      readTime,
       // Only updates these fields if a new file was uploaded
       ...(imageId && { imageId }),
       ...(imageUrl && { imageUrl }),

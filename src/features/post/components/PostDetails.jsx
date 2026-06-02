@@ -13,6 +13,7 @@ function PostDetails({ post }) {
     content,
     createdAt: date,
     category,
+    readTime,
   } = post;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7">
@@ -38,7 +39,7 @@ function PostDetails({ post }) {
           <span className="text-sm text-muted-foreground"> •</span>
           <span className="flex items-center gap-1">
             <span className="text-sm text-muted-foreground">
-              {dateCalculation(date)} • {4} min read
+              {dateCalculation(date)} • {readTime} min read
             </span>
           </span>
         </div>

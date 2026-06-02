@@ -10,6 +10,7 @@ async function PostCard({ post, user }) {
       await getLikesByPostId(post.id, user?.id),
       await getSharesByPostId(post.id),
     ]);
+  const { readTime, title, createdAt } = post;
   const description = post.description.slice(0, 80);
   return (
     <div className="group relative grid grid-rows-[auto_auto_1fr_auto_auto] overflow-hidden transition-all duration-all flex-col gap-2 bg-card shadow hover:shadow-lg rounded-lg">
@@ -17,7 +18,7 @@ async function PostCard({ post, user }) {
 
       {/* title */}
       <h3 className="text-xl text-foreground mb-1 tracking-tight font-semibold px-3">
-        {post.title}
+        {title}
       </h3>
       {/* descriptoin */}
       <p className="text-sm text-muted-foreground line-clamp-2 px-3">
@@ -30,7 +31,7 @@ async function PostCard({ post, user }) {
           <PostCardAvatar post={post} />
           <span className="text-xs text-muted-foreground">•</span>
           <span className="text-xs text-muted-foreground">
-            {dateCalculation(post.createdAt)} • {4} min read
+            {dateCalculation(createdAt)} • {readTime} min read
           </span>
         </div>
       </div>
