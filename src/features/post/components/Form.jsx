@@ -26,7 +26,8 @@ function Form({ postData }) {
     imageUrl: image,
     imageId,
   } = postData || {};
-
+  const isUpdateMode = !!image;
+  console.log("Update?", isUpdateMode);
   const {
     register,
     handleSubmit,
@@ -35,7 +36,7 @@ function Form({ postData }) {
     formState: { errors, isSubmitting, isDirty },
     watch,
   } = useForm({
-    resolver: zodResolver(postFormSchema),
+    resolver: zodResolver(postFormSchema(isUpdateMode)),
     defaultValues: {
       title: title || "",
       description: description || "",
@@ -46,8 +47,10 @@ function Form({ postData }) {
 
   const [showImage, setShowImage] = useState();
   const [imageUrl, setImageUrl] = useState(image);
+
   // read the live value of the "image"
   const fileList = watch("image");
+
   //  Extract the first actual file object safely
   const file = fileList && fileList.length > 0 ? fileList[0] : null;
   // Preview URL
