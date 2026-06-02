@@ -52,26 +52,33 @@ function AddCommentForm({
         {typeof setOpenReplyField === "function" && (
           <button
             onClick={() => setOpenReplyField(false)}
-            className="bg-red-100 rounded-lg flex items-center justify-center px-1 hover:opacity-80 transition-all duration-200 active:scale-105"
+            className="bg-destructive/20 cursor-pointer self-start rounded-lg flex items-center justify-center px-1 py-1 hover:opacity-80 transition-all duration-200 active:scale-105"
           >
-            <XIcon className="text-red-500" />
+            <XIcon className="text-destructive" />
           </button>
         )}
         <div className="relative w-full max-w-2xl">
-          <input
+          <textarea
             onChange={(e) => setContent(e.target.value)}
             type="text"
             value={content}
             name="comment"
-            className="w-full max-w-2xl placeholder:text-sm rounded-lg border-none outline-none ring focus:ring-2 focus:ring-accent p-1 pr-9"
+            className="w-full max-w-2xl placeholder:text-sm rounded-lg border-border bg-input outline-none focus:ring focus:ring-ring p-2 pr-19"
             placeholder={placeholder}
           />
           <button
             disabled={isPending}
             type="submit"
-            className={`${isPending && "text-gray-500 cursor-not-allowed"} absolute top-[50%] -translate-y-[50%] right-2 flex items-center hover:text-indigo-400 text-accent transition-all duration-200`}
+            className={`${isPending && "text-mutedforeground cursor-not-allowed"} cursor-pointer absolute top-2 right-2 flex items-center hover:opacity-70 rounded px-2 py-1.5 text-primary-foreground bg-primary transition-all duration-200`}
           >
-            {isPending ? <MiniSpinner /> : <Send className="size-6" />}
+            {isPending ? (
+              <MiniSpinner />
+            ) : (
+              <span className="flex gap-1 text-sm hover:">
+                <span className="tracking-wider font-medium">Send</span>
+                <Send className="size-5" />
+              </span>
+            )}
           </button>
         </div>
       </div>
