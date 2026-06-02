@@ -24,14 +24,17 @@ function MarkdownRenderer({ content }) {
           return (
             <div className="relative">
               <button
-                className="absolute top-2 right-2 flex items-center gap-1  text-sm bg-zinc-700 text-white px-2 py-1 rounded focus:opacity-80 active:scale-105 hover:opacity-90 "
+                className="absolute top-2 right-2 flex items-center gap-1  text-sm bg-card text-foreground px-2 py-1 rounded focus:opacity-80 active:scale-105 hover:opacity-90 "
                 onClick={() => handleCopyToClipboard(children)}
               >
                 <Copy size={17} />
                 Copy
               </button>
 
-              <SyntaxHighlighter language="javascript" className="rounded-xl">
+              <SyntaxHighlighter
+                language="javascript"
+                className="rounded-xl bg-card"
+              >
                 {String(children)}
               </SyntaxHighlighter>
             </div>

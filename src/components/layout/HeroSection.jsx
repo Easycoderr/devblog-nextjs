@@ -5,30 +5,24 @@ function HeroSection() {
   return (
     <section
       id="home"
-      className="h-screen bg-gray-50 pb-16 lg:pt-0 pt-16 flex items-center"
+      className="h-screen bg-bg pb-16 lg:pt-0 pt-16 flex items-center"
     >
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-8 2xl:px-10 px-2 mx-auto">
         <div className="flex items-center lg:items-start flex-col gap-8">
           <div className="flex items-center justify-center">
             <h1 className="flex flex-col gap-1">
-              {/* <span className="bg-gradient-to-l from-gray-600 via-stone-700 to-gray-500 bg-clip-text text-transparent">
-                Write Better Code,
-              </span> */}
               <TextAnimation
                 text="Write Better Code."
-                className="bg-gradient-to-l text-5xl lg:text-6xl font-sora tracking-tight font-bold from-gray-600 via-stone-700 to-gray-500 bg-clip-text text-transparent"
+                className="bg-gradient-to-l text-5xl! lg:text-6xl font-sora tracking-tight font-bold text-foreground"
               />
               <TextAnimation
                 direction="down"
                 text="Share Better Ideas."
-                className="bg-gradient-to-l text-5xl lg:text-6xl font-sora tracking-tight font-bold from-indigo-500 via-purple-600 to-indigo-400 bg-clip-text text-transparent"
+                className="bg-gradient-to-l text-5xl! lg:text-6xl font-sora tracking-tight font-bold text-primary"
               />
-              {/* <span className="bg-gradient-to-l from-indigo-500 via-purple-600 to-indigo-400 bg-clip-text text-transparent">
-                Share Better Ideas.
-              </span> */}
             </h1>
           </div>
-          <p className="leading-relaxed tracking-wide text-lg text-center lg:text-left max-w-xl font-medium">
+          <p className="text-foreground leading-relaxed tracking-wide text-lg text-center lg:text-left max-w-xl font-medium">
             DevBlog is a modern platform where developers share knowledge,
             explore ideas, and grow together through clean, high-quality
             technical content.

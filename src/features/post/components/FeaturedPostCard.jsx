@@ -17,7 +17,7 @@ async function FeaturedPostCard({ post }) {
   const author = await getUserById(authorId);
   return (
     <>
-      <div className="relative flex flex-col gap-10 shadow-sm bg-gray-50 rounded-xl py-8 px-5">
+      <div className="relative text-foreground flex flex-col gap-10 shadow-sm bg-bg rounded-xl py-8 px-5">
         {/* head */}
         <div className="absolute flex items-center top-2 text-bold font-sora text-xs px-2 py-1 rounded-full bg-amber-100">
           <span>
@@ -31,7 +31,7 @@ async function FeaturedPostCard({ post }) {
             {title}
           </h3>
           {/* description */}
-          <p className="leading-relaxed text-lg text-gray-500 hyphens-auto text-pretty">
+          <p className="leading-relaxed text-lg text-muted-foreground hyphens-auto text-pretty">
             {description.split(" ").slice(0, 40).join(" ")}
           </p>
         </div>
@@ -42,7 +42,7 @@ async function FeaturedPostCard({ post }) {
           </p> */}
           <div className="flex flex-col gap-6 text-sm mt-auto">
             <div className="flex items-center gap-3">
-              <div className="relative rounded-full h-9 w-9 overflow-hidden border border-gray-500">
+              <div className="relative rounded-full h-9 w-9 overflow-hidden border border-border">
                 <Image
                   fill
                   sizes="36px"
@@ -54,7 +54,7 @@ async function FeaturedPostCard({ post }) {
               </div>
               <span className="flex flex-col">
                 <span className="font-semibold">{author?.name}</span>
-                <span className="text-gray-400">
+                <span className="text-muted-foreground">
                   {dateCalculation(date)} • {3} min read
                 </span>
               </span>

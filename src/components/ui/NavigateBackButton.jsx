@@ -7,7 +7,7 @@ function NavigateBackButton({ children }) {
   return (
     <button
       onClick={() => router.back()}
-      className="flex tracking-wider text-sm items-center gap-1 text-gray-500 hover:text-gray-800 active:scale-103 transition-all duration-200"
+      className="flex tracking-wider text-sm items-center gap-1 text-muted-foreground hover:text-foreground active:scale-103 transition-all duration-200"
     >
       <ArrowLeft size={20} />
       <span>{children}</span>

@@ -29,7 +29,7 @@ function Comment({
   const shouldIndent = depth < 3;
   return (
     <div
-      className={`p-2 rounded-tr-lg max-w-2xl rounded-br-lg bg-stone-100 ${shouldIndent ? "border-l-2 border-gray-300" : "border-t  border-dashed border-gray-200 mt-2 ml-0 pl-1"}`}
+      className={`p-2 rounded-tr-lg max-w-2xl rounded-br-lg bg-card ${shouldIndent ? "border-l-2 border-border" : "border-t  border-dashed border-border mt-2 ml-0 pl-1"}`}
     >
       <div className="flex justify-between">
         <div>
@@ -62,12 +62,14 @@ function Comment({
               {dateCalculation(createdAt)}
             </p>
             {!shouldIndent && (
-              <span className="text-[9px] bg-gray-100 text-gray-500 px-1 rounded ml-1 font-mono">
+              <span className="text-[9px] bg-gray-100 text-muted-foreground px-1 rounded ml-1 font-mono">
                 1v1 {depth}
               </span>
             )}
           </div>
-          <p className="leading-relaxed tracking-tight">{content}</p>
+          <p className="leading-relaxed tracking-tight line-clamp-2 text-pretty break-all">
+            {content}
+          </p>
         </div>
         <CommentActions
           setOpenReplyField={setOpenReplyField}
@@ -86,7 +88,7 @@ function Comment({
                 : toast.info(`Sign in to reply, ${user?.name || "there"}.`)
             }
             aria-label="reply button"
-            className="flex gap-0.5 items-center text-xs self-start text-accent font-medium cursor-pointer hover:bg-indigo-100 p-1 rounded-md transition-all duration-200"
+            className="flex gap-0.5 items-center text-xs self-start text-primary font-medium cursor-pointer hover:bg-primary-foreground p-1 rounded-md transition-all duration-200"
           >
             Reply
             <svg
@@ -107,7 +109,7 @@ function Comment({
                 )
               }
               aria-label="show and hide replies"
-              className="text-xs self-start text-gray-500 font-medium cursor-pointer hover:bg-gray-100 p-1 rounded-md transition-all duration-200"
+              className="text-xs self-start text-secondary font-medium cursor-pointer hover:bg-secondary-foreground p-1 rounded-md transition-all duration-200"
             >
               {replies.length <= repliesNumber ? "Hide" : "Show"}{" "}
               {replies?.length} replies
@@ -153,13 +155,13 @@ function Comment({
 }
 function Name({ avatar, name, isOwner, variant = "default" }) {
   const style = {
-    default: "text-sm text-gray-500 flex items-center gap-1",
+    default: "text-sm text-muted-foreground flex items-center gap-1",
     secondary: "text-xs text-gray-400 flex items-center gap-1",
   };
   return (
     <p className={style[variant]}>
       {avatar ? (
-        <div className="relative rounded-full h-8 w-8 overflow-hidden border border-gray-500">
+        <div className="relative rounded-full h-8 w-8 overflow-hidden border border-border">
           <Image
             fill
             sizes="32px"
@@ -170,7 +172,7 @@ function Name({ avatar, name, isOwner, variant = "default" }) {
           />
         </div>
       ) : variant !== "secondary" ? (
-        <div className="relative flex items-center justify-center rounded-full h-8 w-8 overflow-hidden border text-gray-600 border-gray-500">
+        <div className="relative flex items-center justify-center rounded-full h-8 w-8 overflow-hidden border text-text border-border">
           <span className="text-bold font-mono text-lg">
             {name[0].toUpperCase()}
           </span>
@@ -180,7 +182,7 @@ function Name({ avatar, name, isOwner, variant = "default" }) {
       )}
       <span>{name}</span>
       {isOwner && (
-        <div className="flex items-center gap-0.5 bg-accent/90 rounded-full px-1 text-xs text-indigo-100">
+        <div className="flex items-center gap-0.5 bg-primary/90 rounded-full px-1 text-xs text-indigo-100">
           <span>
             <PenLine size={12} />
           </span>

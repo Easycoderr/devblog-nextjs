@@ -244,7 +244,7 @@ function Form({ postData }) {
               Category
             </label>
             <select
-              className={`${errors.category ? "border-destructive focus:border-destructive" : "border-border bg-background focus:border-ring"} text-foreground p-2 border rounded-lg w-full text-sm focus:outline-none`}
+              className={`${errors.category ? "border-destructive focus:border-destructive" : "border-border focus:border-ring"} bg-input text-foreground p-2 border rounded-lg w-full text-sm focus:outline-none`}
               {...register("category")}
             >
               <option className="text-muted-foreground" value="">

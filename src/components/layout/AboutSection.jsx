@@ -26,7 +26,7 @@ function AboutSection() {
   return (
     <section
       id="about"
-      className="min-h-screen py-16 bg-gray-100 flex  flex-col"
+      className="min-h-screen py-16 bg-bg text-foreground flex flex-col"
     >
       <div className="container 2xl:px-10 mx-auto flex flex-col gap-16">
         {/* head */}
@@ -35,9 +35,9 @@ function AboutSection() {
             <h2 className="text-2xl md:text-4xl ml-3 md:ml-0 font-sora font-bold">
               About DevBlog
             </h2>
-            <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-2xs md:max-w-2xs"></div>
+            <div className="bg-gradient-to-r from-transparent via-primary to-transparent h-0.5 max-w-2xs md:max-w-2xs"></div>
           </div>
-          <p className="font-semibold text-gray-700 pr-4 hyphens-auto text-pretty max-w-5xl">
+          <p className="font-semibold text-muted-foreground pr-4 hyphens-auto text-pretty max-w-5xl">
             DevBlog is a modern platform for developers to share knowledge,
             explore new technologies, and grow together. We focus on clean,
             high-quality technical content that helps you become a better
@@ -61,7 +61,7 @@ function AboutSection() {
           </Link>
           <Link
             href="/"
-            className="group flex text-lg items-center gap-1 bg-accent px-6 py-3 rounded-full text-gray-50 transition-all duration-200 active:scale-105 hover:bg-hover"
+            className="group flex text-lg items-center gap-1 bg-primary px-6 py-3 rounded-full text-foreground transition-all duration-200 active:scale-105 hover:bg-primary-hover"
           >
             Explore Articles{" "}
             <ArrowRight className="group-hover:translate-x-0.5 transition duration-200" />

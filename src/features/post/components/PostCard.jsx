@@ -12,15 +12,15 @@ async function PostCard({ post, user }) {
     ]);
   const description = post.description.slice(0, 80);
   return (
-    <div className="group relative grid grid-rows-[auto_auto_1fr_auto_auto] overflow-hidden transition-all duration-all flex-col gap-2 shadow hover:shadow-lg rounded-lg">
+    <div className="group relative grid grid-rows-[auto_auto_1fr_auto_auto] overflow-hidden transition-all duration-all flex-col gap-2 bg-card shadow hover:shadow-lg rounded-lg">
       <PostCardHeader post={post} user={user} />
 
       {/* title */}
-      <h3 className="text-xl mb-1 tracking-tight font-semibold px-3">
+      <h3 className="text-xl text-foreground mb-1 tracking-tight font-semibold px-3">
         {post.title}
       </h3>
       {/* descriptoin */}
-      <p className="text-sm text-slate-600 line-clamp-2 px-3">
+      <p className="text-sm text-muted-foreground line-clamp-2 px-3">
         {description}...
       </p>
 
@@ -28,8 +28,8 @@ async function PostCard({ post, user }) {
         <div className="flex flex-wrap items-center gap-1">
           {/* <Calendar className="text-green-500" size={17} /> */}
           <PostCardAvatar post={post} />
-          <span className="text-xs text-gray-400">•</span>
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-muted-foreground">•</span>
+          <span className="text-xs text-muted-foreground">
             {dateCalculation(post.createdAt)} • {4} min read
           </span>
         </div>

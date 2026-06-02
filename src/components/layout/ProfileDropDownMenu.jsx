@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { signOutUser } from "@/lib/actions/auth";
 import ConfirmationAlertDialog from "../ConfirmationAlertDialog";
 import ConfirmSignOutAction from "./ConfirmSignOutAction";
 function ProfileDropDownMenu({ user }) {

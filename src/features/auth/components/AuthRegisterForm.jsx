@@ -82,7 +82,7 @@ function AuthRegisterForm() {
           </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          <div className="mx-auto flex items-center justify-center">
+          <div className="mx-auto flex items-center justify-center mb-6">
             <label
               htmlFor="profile-picture"
               className={`relative flex items-center justify-center overflow-hidden ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 bg-input h-32 w-32 border rounded-full focus:outline-none`}

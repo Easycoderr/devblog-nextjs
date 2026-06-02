@@ -25,19 +25,19 @@ function PostDetails({ post }) {
           </span>
         </div>
         {/* title */}
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3 max-w-xl">
+        <h2 className="text-3xl text-foreground md:text-4xl font-bold tracking-tight mb-3 max-w-xl break-words">
           {title}
         </h2>
         {/* description */}
-        <p className="font-medium leading-relaxed text-gray-500 max-w-xl">
+        <p className="font-medium leading-relaxed text-muted-foreground max-w-xl break-words">
           {description}
         </p>
         {/* category + date */}
         <div className="flex items-center gap-3 mt-auto">
           <PostCardAvatar post={post} />
-          <span className="text-sm text-gray-400"> •</span>
+          <span className="text-sm text-muted-foreground"> •</span>
           <span className="flex items-center gap-1">
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-muted-foreground">
               {dateCalculation(date)} • {4} min read
             </span>
           </span>
@@ -54,16 +54,15 @@ function PostDetails({ post }) {
         />
       </div>
 
-      <div className="w-full h-0.5 bg-slate-300 col-span-2 rounded-full"></div>
+      <div className="w-full h-0.5 bg-border col-span-2 rounded-full"></div>
       {/* content */}
       <article
         className="prose prose-pre:bg-transparent
 prose-pre:p-0 md:col-span-2 max-w-none prose-lg
-    prose-headings:text-black
-    prose-p:text-gray-800
-    prose-strong:text-black
-    prose-li:text-gray-800
-   
+    prose-headings:text-foreground
+    prose-p:text-muted-foreground
+    prose-strong:text-foreground
+    prose-li:text-muted-foreground
   "
       >
         <MarkdownRenderer content={content} />

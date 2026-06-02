@@ -32,9 +32,11 @@ function PostActions({ user, post, style }) {
         <Button
           variant="icon"
           size="icon"
-          className={`${style ? "bg-black/20 !rounded-md hover:bg-black/25" : ""}`}
+          className={`${style ? "bg-card text-foreground !rounded-md hover:bg-gray-500" : ""}`}
         >
-          <EllipsisVertical className="!size-5" />
+          <EllipsisVertical
+            className={`${style ? "!text-foreground" : "text-black"} !size-5`}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

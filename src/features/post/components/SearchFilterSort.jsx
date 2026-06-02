@@ -65,16 +65,16 @@ function SearchFilterSort() {
           type="text"
           id="search"
           name="search"
-          className="border pl-8 w-full peer z-20 text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-1 ring-indigo-500"
+          className="bg-input border border-border pl-8 w-full peer z-20 text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-1 ring-ring"
           placeholder=" "
         />
         <label
           htmlFor="search"
-          className="transition-all duration-200 absolute peer-[:not(:placeholder-shown)]:-top-0.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-accent peer-[:not(:placeholder-shown)]:rounded-lg peer-[:not(:placeholder-shown)]:text-gray-50 peer-[:not(:placeholder-shown)]:px-1 peer-focus:px-1 peer-focus:-top-0.5 peer-focus:bg-accent peer-focus:text-xs z-40 peer-focus:rounded-lg peer-focus:text-gray-50 top-[50%] -translate-y-[50%] left-8 peer-focus:left-2 font-sora text-text-muted tracking-wide text-sm font-medium"
+          className="transition-all duration-200 absolute peer-[:not(:placeholder-shown)]:-top-0.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-primary peer-[:not(:placeholder-shown)]:rounded-lg peer-[:not(:placeholder-shown)]:text-gray-50 peer-[:not(:placeholder-shown)]:px-1 peer-focus:px-1 peer-focus:-top-0.5 peer-focus:bg-primary peer-focus:text-xs z-40 peer-focus:rounded-lg peer-focus:text-gray-50 top-[50%] -translate-y-[50%] left-8 peer-focus:left-2 font-sora text-muted-foreground tracking-wide text-sm"
         >
           Search: Enter articles title..
         </label>
-        <span className="absolute left-1 top-[50%] -translate-y-[50%] peer-focus:text-accent">
+        <span className="absolute text-muted-foreground z-30 left-1 top-[50%] -translate-y-[50%] peer-focus:text-primary">
           <Search />
         </span>
       </div>
@@ -84,7 +84,7 @@ function SearchFilterSort() {
           onChange={(e) => setFilter(e.target.value)}
           name="cars"
           id="cars"
-          className="border w-full border-black peer z-30 text-sm rounded-lg text-text-muted px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-indigo-500"
+          className="border bg-input w-full border-border peer z-30 text-sm rounded-lg text-muted-foreground px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-ring"
         >
           <option defaultChecked>Choose a filter</option>
           <option value="all">All</option>
@@ -94,7 +94,7 @@ function SearchFilterSort() {
           <option value="general">general</option>
           <option value="General">General</option>
         </select>
-        <Filter className="absolute top-[50%] -translate-y-[50%] left-2 peer-focus:text-accent" />
+        <Filter className="absolute text-gray-500 top-[50%] -translate-y-[50%] left-2 peer-focus:text-primary" />
       </div>
       {/* sort */}
       <div className="relative w-full">
@@ -102,13 +102,13 @@ function SearchFilterSort() {
           onChange={(e) => setSort(e.target.value)}
           name="cars"
           id="cars"
-          className="border w-full border-black peer z-30 text-sm rounded-lg text-text-muted px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-indigo-500"
+          className="border bg-input w-full border-border peer z-30 text-sm rounded-lg text-muted-foreground px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-ring"
         >
           <option defaultChecked>Sort by</option>
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
         </select>
-        <SortAscIcon className="absolute top-[50%] -translate-y-[50%] left-2 peer-focus:text-accent" />
+        <SortAscIcon className="absolute text-gray-500 top-[50%] -translate-y-[50%] left-2 peer-focus:text-primary" />
       </div>
     </div>
   );

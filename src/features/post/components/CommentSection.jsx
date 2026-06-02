@@ -15,7 +15,7 @@ async function CommentSection({ post }) {
   const listOfComments = listToTree(comments);
   return (
     <div className="col-span-2 mt-8 space-y-4">
-      <h3 className="text-2xl font-semibold text-slate-900 mb-6">
+      <h3 className="text-2xl font-semibold text-foreground mb-6">
         Comments ({comments?.length})
       </h3>
       {/* Initial list of top-level comments */}
@@ -24,7 +24,7 @@ async function CommentSection({ post }) {
       >
         {listOfComments.length === 0 ? (
           !userId ? (
-            <div className="flex items-center gap-1 text-gray-900 bg-gray-100 p-2 rounded-lg mx-auto">
+            <div className="flex items-center gap-1 text-foreground bg-gray-100 p-2 rounded-lg mx-auto">
               No comments yet.{" "}
               <span>
                 <Link
@@ -37,7 +37,7 @@ async function CommentSection({ post }) {
               to be the first to add one!
             </div>
           ) : (
-            <div className="text-gray-900 my-8 bg-gray-100 p-2 rounded-lg mx-auto self-auto">
+            <div className="text-foreground my-8 bg-card p-2 rounded-lg mx-auto self-auto">
               There are no comments yet. Be the first to share your thoughts!
             </div>
           )
@@ -54,11 +54,11 @@ async function CommentSection({ post }) {
       {userId ? (
         <AddCommentForm postId={post?.id} userId={userId} />
       ) : (
-        <p className="text-gray-900  rounded-lg flex items-center gap-2">
+        <p className="text-foreground  rounded-lg flex items-center gap-2">
           Sign in to add a comment.{" "}
           <Link
             href="/auth/signin"
-            className="group hover:underline underline-offset-4 text-accent hover:text-hover flex items-center transition-all duration-200 gap-1"
+            className="group hover:underline underline-offset-4 text-primary hover:text-primary-foreground flex items-center transition-all duration-200 gap-1"
           >
             Sign in{" "}
             <ArrowRightToLine

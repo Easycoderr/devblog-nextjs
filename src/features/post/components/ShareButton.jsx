@@ -31,20 +31,24 @@ function ShareButton({
     }
   }
   return (
-    <button className="mt-0.5 flex gap-1 items-center" onClick={handleShare}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        className={
-          "w-6 h-6 mt-0.5 active:scale-105 transition-all duration-200 text-slate-500"
-        }
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path d="M14 3v5c-7 0-12 4-13 13 3-5 8-7 13-7v5l9-8-9-8z" />
-      </svg>
-      <span className="mt-0.5 font-medium text-text-muted">{totalShares}</span>
-    </button>
+    <div className="mt-0.5 cursor-pointer flex gap-1 items-center">
+      <button className="cursor-pointer" onClick={handleShare}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          className={
+            "w-6 h-6 mt-0.5 active:scale-105 transition-all duration-200 text-muted-foreground"
+          }
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M14 3v5c-7 0-12 4-13 13 3-5 8-7 13-7v5l9-8-9-8z" />
+        </svg>
+      </button>
+      <span className="mt-0.5 font-medium text-muted-foreground">
+        {totalShares}
+      </span>
+    </div>
   );
 }
 

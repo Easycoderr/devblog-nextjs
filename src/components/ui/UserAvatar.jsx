@@ -2,14 +2,14 @@
 import Image from "next/image";
 function UserAvatar({ user, variant = "default", isOwner }) {
   const style = {
-    default: "text-xs text-gray-800 flex items-center gap-1",
-    secondary: "text-xs text-gray-500 flex items-center gap-1",
+    default: "text-xs text-text flex items-center gap-1",
+    secondary: "text-xs text-text flex items-center gap-1",
   };
   const { name, avatar } = user || {};
   return (
     <div className={style[variant]}>
       {avatar && (
-        <div className="relative rounded-full h-8 w-8 overflow-hidden border border-gray-500">
+        <div className="relative rounded-full h-8 w-8 overflow-hidden border border-border">
           <Image
             fill
             sizes="32px"

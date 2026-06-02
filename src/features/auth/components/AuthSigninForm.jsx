@@ -19,7 +19,7 @@ function AuthSigninForm() {
   } = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "HI",
+      email: "",
       // just during development
       password: "12345678",
     },
@@ -46,12 +46,12 @@ function AuthSigninForm() {
           <span>Back to Home</span>
         </button> */}
       </div>
-      <div className="rounded-xl border border-gray-200 p-4 shadow-sm">
+      <div className="rounded-xl border border-border p-4 bg-card shadow-sm">
         <div className="space-y-2 mb-8">
-          <h2 className="text-3xl tracking-tight font-bold text-accent font-sora">
+          <h2 className="text-3xl tracking-tight font-bold text-primary font-sora">
             Sign in
           </h2>
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             Welcome back, please sign in to your account.
           </p>
         </div>
@@ -60,7 +60,7 @@ function AuthSigninForm() {
           className="flex flex-col gap-3 md:min-w-md"
         >
           <Input
-            icon={<Mail size={18} className="text-gray-500" />}
+            icon={<Mail size={18} className="text-muted-foreground" />}
             label="Email"
             type="text"
             error={errors.email}
@@ -72,7 +72,7 @@ function AuthSigninForm() {
             error={errors.password}
             {...register("password")}
           />
-          <div className="mx-auto flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <FormsButton
               disabled={isSubmitting}
               type="submit"
@@ -82,12 +82,12 @@ function AuthSigninForm() {
               {" "}
               Sign in
             </FormsButton>
-            <div>
-              <span className="text-sm text-gray-600">
+            <div className="mx-auto">
+              <span className="text-sm text-muted-foreground">
                 Don’t have an account?{" "}
                 <Link
                   href="/auth/register"
-                  className="text-accent hover:text-hover transition-all duration-200 hover:underline"
+                  className="text-primary hover:text-hover transition-all duration-200 hover:underline"
                 >
                   Register
                 </Link>

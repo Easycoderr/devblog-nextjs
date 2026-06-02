@@ -1,8 +1,6 @@
 "use client";
-import { ArrowRight, ThumbsUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { likePost } from "../../../lib/actions/post";
-import { toast } from "sonner";
 import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
 
@@ -12,7 +10,7 @@ function PostCardFooter({ post, user, totalShares, totalLikes, userLike }) {
       <div className="flex justify-between">
         <Link
           href={`/blogs/${post.slug}`}
-          className="group font-mono flex text-md items-center gap-0.5 text-gray-800 transition-all duration-200 font-semibold hover:-translate-y-0.5 tracking-wider hover:text-hover"
+          className="group font-mono flex text-md items-center gap-0.5 text-foreground transition-all duration-200 font-semibold hover:-translate-y-0.5 tracking-wider hover:text-primary"
         >
           Read Article{" "}
           <ArrowRight className="transition duration-200" size={19} />

@@ -4,13 +4,15 @@ import EmptyState from "../ui/EmptyState";
 import PostCard from "../../features/post/components/PostCard";
 import getCurrentUser from "@/lib/getUser";
 import Link from "next/link";
-import { ArrowBigRight, ArrowRight } from "lucide-react";
 
 async function LatestPost({ posts }) {
   const user = await getCurrentUser();
   const latestPosts = posts.slice(0, 6);
   return (
-    <section id="home" className="min-h-screen py-16 bg-gray-50 flex  flex-col">
+    <section
+      id="home"
+      className="min-h-screen py-16 bg-bg text-foreground flex  flex-col"
+    >
       <div className="container 2xl:px-10 mx-auto flex flex-col gap-16">
         {/* head */}
         <div className="flex justify-between">
@@ -18,15 +20,15 @@ async function LatestPost({ posts }) {
             <h2 className="text-2xl md:text-4xl ml-3 md:ml-0 font-sora font-bold">
               Latest Articles
             </h2>
-            <p className="ml-3 md:ml-0 text-md font-semibold text-gray-600">
+            <p className="ml-3 md:ml-0 text-md font-semibold text-muted-foreground">
               Discover the newest insights and tutorials
             </p>
-            <div className="bg-gradient-to-r from-transparent via-accent to-transparent h-0.5 max-w-44 md:max-w-2xs"></div>
+            <div className="bg-gradient-to-r from-transparent via-primary to-transparent h-0.5 max-w-44 md:max-w-2xs"></div>
           </div>
           <div>
             <Link
               href="/blogs"
-              className="flex text-gray-700 hover:text-indigo-500 items-center gap-1 text-lg font-medium underline-offset-4 hover:underline"
+              className="flex hover:text-indigo-500 items-center gap-1 text-lg font-medium underline-offset-4 hover:underline"
             >
               <span>View all</span>
             </Link>

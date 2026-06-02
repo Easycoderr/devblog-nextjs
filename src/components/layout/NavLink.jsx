@@ -12,7 +12,7 @@ function NavLink({ children, href, pathname, id, activeSection }) {
     <li>
       <Link
         href={href}
-        className={`${isActive && "active"} text-current hover:text-hover transition-all duration-200`}
+        className={`${isActive && "active"} text-current text-sm hover:text-primary transition-all duration-200`}
       >
         {children}
       </Link>

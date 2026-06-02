@@ -3,7 +3,7 @@ import NavLink from "./NavLink";
 function HeaderMobNav({ links, activeSection, pathname, isExpanded }) {
   return (
     <nav
-      className={`${!isExpanded && "hidden"} lg:hidden bg-gray-100 border-b border-b-gray-300 h-38`}
+      className={`${!isExpanded && "hidden"} lg:hidden bg-bg border-b border-b-border h-38`}
     >
       <div
         className={`h-0.5 ${isExpanded && "w-full"} bg-gray-600 mb-4 transition-all duration-200`}

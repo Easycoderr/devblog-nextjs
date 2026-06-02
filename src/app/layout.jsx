@@ -4,9 +4,8 @@ import "./globals.css";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import getCurrentUser from "../lib/getUser";
-import { use } from "react";
-import { createBulkPosts, deleteAllPosts } from "../lib/actions/post";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "next-themes";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -27,17 +26,25 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const user = await getCurrentUser();
-
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${sora.variable} ${spaceGrotesk.variable} ${inter.variable} h-full scroll-smooth antialiased`}
     >
       <body className="relative min-h-full flex flex-col font-inter">
-        <Header user={user} />
-        {children}
-        <Toaster richColors closeButton position="top-right" />
-        <Footer />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header user={user} />
+
+          {children}
+          <Toaster richColors closeButton position="top-right" />
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
