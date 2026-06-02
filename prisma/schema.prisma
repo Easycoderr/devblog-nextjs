@@ -33,6 +33,7 @@ model Post {
   description String
   content   String
   category  String
+  readTime Int @default(1)
   imageUrl String
   imageId String
 // relations
