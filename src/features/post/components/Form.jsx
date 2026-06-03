@@ -1,6 +1,6 @@
 "use client";
 import { postFormSchema } from "../../../lib/utils/schema";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import createPost, { updatePost } from "../../../lib/actions/post";
 import FormsButton from "@/components/ui/FormsButton";
@@ -13,6 +13,15 @@ import { CameraIcon, Maximize, Minimize, X } from "lucide-react";
 import calcTextRange from "@/lib/utils/calcTextLength";
 import Input from "@/components/ui/Input";
 import ContentPopoverHelper from "./ContentPopoverHelper";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function Form({ postData }) {
   // use useRoute to navigate
@@ -26,10 +35,11 @@ function Form({ postData }) {
     imageUrl: image,
     imageId,
   } = postData || {};
+
   const isUpdateMode = !!image;
-  console.log("Update?", isUpdateMode);
   const {
     register,
+    control,
     handleSubmit,
     reset,
     setValue,
@@ -81,6 +91,7 @@ function Form({ postData }) {
       router.back();
     }
   }
+
   function handleRemoveImage(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -88,6 +99,17 @@ function Form({ postData }) {
     setValue("image", null, { shouldValidate: true });
     setImageUrl(null);
   }
+
+  function handleResetForm() {
+    reset({
+      image: null,
+      title: title || "",
+      description: description || "",
+      content: content || "",
+      category: category || "",
+    });
+  }
+
   return (
     <>
       {/* form body */}
@@ -136,7 +158,7 @@ function Form({ postData }) {
               htmlFor="image"
             >
               <div
-                className={`${previewUrl && "min-h-64"} z-20 p-2 flex flex-col gap-1 items-center`}
+                className={`${previewUrl && "min-h-64"} z-20 p-2 py-8 flex flex-col gap-1 items-center`}
               >
                 <CameraIcon className="text-muted-foreground" size={50} />
 
@@ -240,25 +262,27 @@ function Form({ postData }) {
             </span>
           </div>
           <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="category"
-              className="text-muted-foreground font-semibold tracking-wide text-sm"
-            >
-              Category
-            </label>
-            <select
-              className={`${errors.category ? "border-destructive focus:border-destructive" : "border-border focus:border-ring"} bg-input text-foreground p-2 border rounded-lg w-full text-sm focus:outline-none`}
-              {...register("category")}
-            >
-              <option className="text-muted-foreground" value="">
-                Choose Category
-              </option>
-              <option value="react">React</option>
-              <option value="javascript">Java Script</option>
-              <option value="css">Css</option>
-              <option value="html">HTML</option>
-              <option value="cpp">C++</option>
-            </select>
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger
+                    className={`w-full dark:bg-input ${errors.category ? "border-destructive focus:border-destructive" : "border-border focus:border-ring"}`}
+                    size="lg"
+                  >
+                    <SelectValue placeholder="Select a Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Categories</SelectLabel>
+                      <SelectItem value="react">React</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+
             <span className="flex">
               {errors.category && (
                 <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
@@ -270,15 +294,7 @@ function Form({ postData }) {
           <div className="ml-auto flex gap-2">
             <button
               type="reset"
-              onClick={() =>
-                reset({
-                  image: null,
-                  title: title || "",
-                  description: description || "",
-                  content: content || "",
-                  category: category || "",
-                })
-              }
+              onClick={handleResetForm}
               className="px-2 py-1 text-stone-900 tracking-wider border bg-white shadow rounded-lg hover:opacity-75 transition-all duration-200 active:scale-105"
             >
               Reset
