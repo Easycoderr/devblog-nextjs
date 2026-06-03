@@ -9,18 +9,26 @@ datasource db {
 
 model User {
   id       String @id @default(cuid())
+  userName String  @unique
   firstName     String
   lastName     String
+
   avatar String?
   avatarId String?
+
   email    String @unique
   password String
+
   name      String?
   createdAt DateTime @default(now())
+
+  bio String?
   posts     Post[]  
   likes     Like[]
+
   shares    Share[]
   savedPosts SavedPost[]
+
   comments Comment[] 
 }
 
