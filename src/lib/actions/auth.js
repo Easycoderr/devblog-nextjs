@@ -1,5 +1,4 @@
 "use server";
-
 import { redirect } from "next/navigation";
 import { prisma } from "../prisma";
 import bcrypt from "bcryptjs";
@@ -12,6 +11,9 @@ export async function registerUser(formData) {
   // 2. Convert all text fields into a plain JavaScript object
   const textFields = Object.fromEntries(formData.entries());
   const { firstName, lastName, email, password } = textFields;
+  const fName = firstName.toLowerCase();
+  const lName = lastName.toLowerCase();
+  const fullName = `${fName} ${lName}`;
   // 3. check if user exists
   const existingUser = await prisma.user.findUnique({
     where: { email },
@@ -38,16 +40,16 @@ export async function registerUser(formData) {
     avatar = uploadedImage.url;
     avatarId = uploadedImage.fileId;
   }
-  const fName = firstName.toLowerCase();
-  const lName = lastName.toLowerCase();
+
   // 7. create user
   await prisma.user.create({
     data: {
       firstName: fName,
       lastName: lName,
+      userName: await generateUserName(fullName),
       email,
       password: hashedpassword,
-      name: `${fName} ${lName}`,
+      name: fullName,
       avatar: avatar,
       avatarId: avatarId,
     },
@@ -74,7 +76,26 @@ export async function signInUser(formData) {
   });
   return { success: "Sign in successfully!" };
 }
+async function generateUserName(name) {
+  let count = 1;
+  let newUserName = name
+    .trim()
+    .toLowerCase()
+    .replace(/ /g, "")
+    .replace(/[^\w-]+/g, "");
 
+  while (await getUserByUserName(newUserName)) {
+    newUserName = `${newUserName}${count}`;
+    count++;
+  }
+
+  return newUserName;
+}
+async function getUserByUserName(userName) {
+  if (!userName) return null;
+  const user = await prisma.user.findUnique({ where: { userName } });
+  return user;
+}
 export async function signOutUser() {
   (await cookies()).delete("userId");
   redirect("/");
