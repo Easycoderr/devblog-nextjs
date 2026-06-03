@@ -2,6 +2,15 @@
 import { Filter, Search, SortAscIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function SearchFilterSort() {
   // local states
@@ -65,7 +74,7 @@ function SearchFilterSort() {
           type="text"
           id="search"
           name="search"
-          className="bg-input border border-border pl-8 w-full peer z-20 text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-1 ring-ring"
+          className="bg-input dark:bg-input/30 border border-border pl-8 w-full peer z-20 text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-1 ring-ring"
           placeholder=" "
         />
         <label
@@ -79,37 +88,32 @@ function SearchFilterSort() {
         </span>
       </div>
       {/* filter */}
-      <div className="relative w-full">
-        <select
-          onChange={(e) => setFilter(e.target.value)}
-          name="cars"
-          id="cars"
-          className="border bg-input w-full border-border peer z-30 text-sm rounded-lg text-muted-foreground px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-ring"
-        >
-          <option defaultChecked>Choose a filter</option>
-          <option value="all">All</option>
-          <option value="cpp">C++</option>
-          <option value="html">HTML</option>
-          <option value="react">React</option>
-          <option value="general">general</option>
-          <option value="General">General</option>
-        </select>
-        <Filter className="absolute text-gray-500 top-[50%] -translate-y-[50%] left-2 peer-focus:text-primary" />
-      </div>
-      {/* sort */}
-      <div className="relative w-full">
-        <select
-          onChange={(e) => setSort(e.target.value)}
-          name="cars"
-          id="cars"
-          className="border bg-input w-full border-border peer z-30 text-sm rounded-lg text-muted-foreground px-8 py-[0.57rem] focus:outline-none focus:ring-1 ring-ring"
-        >
-          <option defaultChecked>Sort by</option>
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-        </select>
-        <SortAscIcon className="absolute text-gray-500 top-[50%] -translate-y-[50%] left-2 peer-focus:text-primary" />
-      </div>
+
+      <Select onValueChange={(value) => setFilter(value)}>
+        <SelectTrigger className="w-full border-border" size="lg">
+          <SelectValue placeholder="Select a Category" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Categories</SelectLabel>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="react">React</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+
+      <Select onValueChange={(value) => setSort(value)}>
+        <SelectTrigger className="w-full border-border" size="lg">
+          <SelectValue placeholder="Sort by" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Sort</SelectLabel>
+            <SelectItem value="newest">Newest</SelectItem>
+            <SelectItem value="oldest">Oldest</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
   );
 }
