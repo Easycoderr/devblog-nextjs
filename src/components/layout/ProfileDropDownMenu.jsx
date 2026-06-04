@@ -11,8 +11,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import ConfirmationAlertDialog from "../ConfirmationAlertDialog";
 import ConfirmSignOutAction from "./ConfirmSignOutAction";
+import Link from "next/link";
 function ProfileDropDownMenu({ user }) {
-  const { name, avatar, email, firstName, lastName } = user;
+  const { name, avatar, email, firstName, lastName, userName } = user;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,8 +41,13 @@ function ProfileDropDownMenu({ user }) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <User className="!text-current" />
-          <span className="!text-current">Profile</span>
+          <Link
+            href={`/u/${userName}`}
+            className="!text-current flex gap-2 min-w-full"
+          >
+            <User className="!text-current" />
+            Profile
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Settings />
