@@ -1,5 +1,4 @@
 "use server";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
@@ -285,15 +284,17 @@ export async function likePost(postId, userId) {
 
 // count likes
 export async function getLikesByPostId(postId, currUserId) {
+  const user = await getCurrentUser();
+
   const post = await prisma.post.findUnique({
     where: { id: postId },
     include: {
       _count: {
         select: { likes: true },
       },
-      likes: currUserId
+      likes: user?.id
         ? {
-            where: { userId: currUserId },
+            where: { userId: user?.id },
             take: 1,
           }
         : false,
@@ -371,6 +372,7 @@ export async function savePost(post, userId) {
     }
     revalidatePath("/blogs");
     revalidatePath(`/blogs/${slug}`);
+    revalidatePath(`/u`);
   } catch (error) {
     console.error("Save post record failed:", error);
   }
