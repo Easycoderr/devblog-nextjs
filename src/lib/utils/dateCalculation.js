@@ -1,7 +1,11 @@
-import { formatDistance, isValid, subDays } from "date-fns";
-function dateCalculation(date) {
+import { format, formatDistance, isValid, subDays } from "date-fns";
+function dateCalculation(date, type) {
   const newDate = new Date(date);
   const isValidDate = date && !isNaN(newDate.getTime());
+
+  if (isValidDate && type === "full") {
+    return format(newDate, "MMMM yyyy");
+  }
   if (isValidDate) {
     return formatDistance(newDate, new Date(), {
       addSuffix: true,
