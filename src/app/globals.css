@@ -20,7 +20,7 @@
   --color-accent: #e2e8f0;
   --color-accent-foreground: #0f172a;
   --color-destructive: #ef4444;
-  --color-border: #dbe3ee;
+  --color-border: #e2e8f0;
   --color-input: #f1f5f9;
   --color-ring: #6366f1;
 
@@ -57,7 +57,7 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --input: #e5e5e5;
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);

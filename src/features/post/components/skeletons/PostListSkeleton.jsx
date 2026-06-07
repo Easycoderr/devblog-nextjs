@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const array = Array.from({ length: 4 }, (_, index) => index + 1);
 function PostListSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-6 px-4 md:px-0">
+    <div className="min-h-[60vh] grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-6 px-4 md:px-0">
       {array.map((item) => (
         <SkeletonItem key={item} />
       ))}
@@ -12,7 +12,7 @@ function PostListSkeleton() {
 }
 function SkeletonItem() {
   return (
-    <div className="flex overflow-hidden flex-col gap-4 shadow rounded-lg">
+    <div className="h-[400px] flex overflow-hidden flex-col gap-4 shadow rounded-lg">
       {/* image */}
       <Skeleton className="h-64 w-full rounded-b-none shrink-0" />
       {/* content */}

@@ -11,6 +11,7 @@ import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
 import { useEffect } from "react";
 import Image from "next/image";
+import generateSlug from "@/lib/utils/generateSlug";
 
 function AuthRegisterForm() {
   const {
@@ -72,7 +73,7 @@ function AuthRegisterForm() {
           <span>Back to Home</span>
         </button> */}
       </div>
-      <div className="border border-border rounded-xl p-4 bg-card shadow-sm min-w-full md:min-w-lg md:max-w-xl">
+      <div className="border border-border rounded-xl p-4 bg-card shadow-sm min-w-full md:min-w-lg md:max-w-[38rem]">
         <div className="space-y-2 mb-8">
           <h2 className="text-3xl tracking-tight font-bold text-primary font-sora">
             Create account
@@ -82,6 +83,7 @@ function AuthRegisterForm() {
           </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+          {/* profile picture */}
           <div className="mx-auto flex items-center justify-center mb-6">
             <label
               htmlFor="profile-picture"
@@ -128,7 +130,6 @@ function AuthRegisterForm() {
             type="email"
             {...register("email")}
           />
-
           <Input
             error={errors.password}
             label="Password"
@@ -141,7 +142,6 @@ function AuthRegisterForm() {
             icon="password"
             {...register("confirmPassword")}
           />
-
           <div className="flex flex-col gap-2">
             <FormsButton
               disabled={isSubmitting}

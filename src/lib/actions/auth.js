@@ -91,7 +91,7 @@ async function generateUserName(name) {
 
   return newUserName;
 }
-async function getUserByUserName(userName) {
+export async function getUserByUserName(userName) {
   if (!userName) return null;
   const user = await prisma.user.findUnique({ where: { userName } });
   return user;
