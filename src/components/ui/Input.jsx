@@ -14,7 +14,10 @@ function Input({ label, error, icon, type, ...props }) {
       <div className="relative">
         <input
           id={label.split(" ").join("")}
-          type={type || `${icon === "password" ? "password" : "text"}`}
+          type={
+            type ||
+            `${icon === "password" && !showPassword ? "password" : "text"}`
+          }
           className={`${error ? "border-destructive focus:border-destructive" : "bg-input border-border focus:ring focus:ring-primary"} p-2 border rounded-lg w-full text-sm focus:outline-none`}
           {...props}
         />
