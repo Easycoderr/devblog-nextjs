@@ -2,6 +2,7 @@ import { CalendarArrowDown, Edit2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import dateCalculation from "@/lib/utils/dateCalculation";
+import ProfileStatus from "./ProfileStatus";
 function ProfileHeader({ user, username, currUser }) {
   const { id, avatar, firstName, bio, name, createdAt } = user || {};
   return (
@@ -39,7 +40,7 @@ function ProfileHeader({ user, username, currUser }) {
         </div>
         {id === currUser?.id && (
           <>
-            <div className="sm:block hidden ml-auto">
+            <div className="md:block hidden ml-auto">
               <Button
                 variant="secondary"
                 className="bg-primary text-indigo-50 px-4 !py-2 hover:bg-primary/75"
@@ -47,7 +48,7 @@ function ProfileHeader({ user, username, currUser }) {
                 Edit Profile
               </Button>
             </div>
-            <div className="sm:hidden block absolute top-0 right-2">
+            <div className="md:hidden block absolute top-0 right-2">
               <Button
                 variant="simple"
                 className="bg-primary/30 rounded-lg backdrop-blur-sm !px-2 !py-0 text-indigo-700 dark:text-indigo-100 dark:bg-primary/20 active:bg-primary/75"
@@ -57,34 +58,7 @@ function ProfileHeader({ user, username, currUser }) {
             </div>
           </>
         )}
-        <div className="flex md:col-span-2 col-span-3 md:col-start-2 items-center justify-between flex-wrap max-w-xl md:px-0 px-2">
-          <div>
-            <span className="font-bold tracking-wide text-sm md:text-lg">
-              12
-            </span>
-            <p className="text-muted-foreground text-xs md:text-sm">Articles</p>
-          </div>
-          <div>
-            <span className="font-bold tracking-wide text-sm md:text-lg">
-              240
-            </span>
-            <p className="text-muted-foreground text-xs md:text-sm">Likes</p>
-          </div>
-          <div>
-            <span className="font-bold tracking-wide text-sm md:text-lg">
-              32
-            </span>
-            <p className="text-muted-foreground text-xs md:text-sm">Comments</p>
-          </div>
-          <div>
-            <span className="font-bold tracking-wide text-sm md:text-lg">
-              1.2k
-            </span>
-            <p className="text-muted-foreground text-xs md:text-sm">
-              Followers
-            </p>
-          </div>
-        </div>
+        <ProfileStatus userId={user?.id} />
       </div>
     </div>
   );
