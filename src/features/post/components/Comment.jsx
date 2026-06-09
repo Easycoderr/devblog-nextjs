@@ -6,6 +6,7 @@ import dateCalculation from "@/lib/utils/dateCalculation";
 import { toast } from "sonner";
 import CommentActions from "./CommentActions";
 import Image from "next/image";
+import Link from "next/link";
 
 function Comment({
   comment,
@@ -29,36 +30,23 @@ function Comment({
   const shouldIndent = depth < 3;
   return (
     <div
-      className={`p-2 rounded-tr-lg max-w-2xl rounded-br-lg bg-card ${shouldIndent ? "border-l-2 border-border" : "border-t  border-dashed border-border mt-2 ml-0 pl-1"}`}
+      className={`p-2 rounded-tr-lg max-w-2xl shadow-sm my-2 rounded-br-lg bg-card ${shouldIndent ? "border-l-2 border-border my-0" : "border-t  border-dashed border-border mt-2 ml-0 pl-1"}`}
     >
       <div className="flex justify-between">
         <div>
           <div className="flex items-center gap-1 flex-wrap">
-            {replyedUser ? (
-              <>
-                <Name
-                  avatar={user?.avatar}
-                  name={user?.name}
-                  isOwner={commentUserId === post?.authorId}
-                />
-                <Name
-                  name={`@${replyedUser}`}
-                  isOwner={replayedUserId === post?.authorId}
-                  variant="secondary"
-                />
-              </>
-            ) : (
-              <Name
-                avatar={user?.avatar}
-                name={user?.name}
-                isOwner={commentUserId === post?.authorId}
-              />
-            )}
+            <Name
+              avatar={user?.avatar}
+              name={user?.name}
+              userName={user?.userName}
+              isOwner={commentUserId === post?.authorId}
+            />
+
             <span className="text-gray-300 hidden sm:inline">-</span>
             <span>
-              <Clock size={13} className="text-gray-400" />
+              <Clock size={13} className="text-muted-foreground" />
             </span>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-muted-foreground">
               {dateCalculation(createdAt)}
             </p>
             {!shouldIndent && (
@@ -67,8 +55,19 @@ function Comment({
               </span>
             )}
           </div>
-          <p className="leading-relaxed tracking-tight line-clamp-2 text-pretty break-all">
-            {content}
+          <p className="ml-1 my-1 leading-relaxed text-foreground tracking-tight line-clamp-2 text-pretty break-all">
+            {replayedUserId ? (
+              <>
+                <Link
+                  className="text-primary hover:text-primary/70 transition-all duration-200"
+                  href={`/u/${user.userName}`}
+                >{`@${user.userName}`}</Link>
+                <span> </span>
+                {content}
+              </>
+            ) : (
+              content
+            )}
           </p>
         </div>
         <CommentActions
@@ -88,7 +87,7 @@ function Comment({
                 : toast.info(`Sign in to reply, ${user?.name || "there"}.`)
             }
             aria-label="reply button"
-            className="flex gap-0.5 items-center text-xs self-start text-primary font-medium cursor-pointer hover:bg-primary-foreground p-1 rounded-md transition-all duration-200"
+            className="flex gap-0.5 items-center text-xs self-start text-primary font-medium cursor-pointer hover:bg-primary/20 p-1 rounded-md transition-all duration-200"
           >
             Reply
             <svg
@@ -109,7 +108,7 @@ function Comment({
                 )
               }
               aria-label="show and hide replies"
-              className="text-xs self-start text-secondary font-medium cursor-pointer hover:bg-secondary-foreground p-1 rounded-md transition-all duration-200"
+              className="text-xs self-start text-muted-foreground font-medium cursor-pointer hover:bg-muted-foreground/20 p-1 rounded-md transition-all duration-200"
             >
               {replies.length <= repliesNumber ? "Hide" : "Show"}{" "}
               {replies?.length} replies
@@ -128,7 +127,7 @@ function Comment({
             placeholder={
               openReplyField === "edit"
                 ? "Edit comment"
-                : openReplyField && `@${user?.name}`
+                : openReplyField && `Reply @${user?.userName}`
             }
           />
         )}
@@ -140,7 +139,7 @@ function Comment({
               <Comment
                 key={reply.id}
                 comment={reply}
-                replyedUser={user?.name}
+                replyedUser={user?.userName}
                 replayedUserId={commentUserId}
                 userId={userId}
                 post={post}
@@ -153,10 +152,11 @@ function Comment({
     </div>
   );
 }
-function Name({ avatar, name, isOwner, variant = "default" }) {
+function Name({ avatar, name, userName, isOwner, variant = "default" }) {
   const style = {
     default: "text-sm text-muted-foreground flex items-center gap-1",
-    secondary: "text-xs text-gray-400 flex items-center gap-1",
+    secondary:
+      "text-xs text-muted-foreground flex items-center gap-1 transition-all duration-200",
   };
   return (
     <p className={style[variant]}>
@@ -172,7 +172,7 @@ function Name({ avatar, name, isOwner, variant = "default" }) {
           />
         </div>
       ) : variant !== "secondary" ? (
-        <div className="relative flex items-center justify-center rounded-full h-8 w-8 overflow-hidden border text-text border-border">
+        <div className="relative flex items-center justify-center rounded-full h-8 w-8 overflow-hidden border text-foreground capitalize border-border">
           <span className="text-bold font-mono text-lg">
             {name[0].toUpperCase()}
           </span>
@@ -180,7 +180,14 @@ function Name({ avatar, name, isOwner, variant = "default" }) {
       ) : (
         ""
       )}
-      <span>{name}</span>
+
+      <Link
+        href={`/u/${userName}`}
+        title={`@${userName}`}
+        className="hover:opacity-70 select-none cursor-pointer"
+      >
+        <span className="capitalize">{name}</span>
+      </Link>
       {isOwner && (
         <div className="flex items-center gap-0.5 bg-primary/90 rounded-full px-1 text-xs text-indigo-100">
           <span>
