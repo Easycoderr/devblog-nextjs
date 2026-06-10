@@ -3,13 +3,19 @@ import { getUserByUserName } from "@/lib/actions/auth";
 import ProfileTabs from "@/features/profile/components/ProfileTabs";
 import getCurrentUser from "@/lib/getUser";
 import ProfileHeader from "@/features/profile/components/ProfileHeader";
+import NotFound from "../not-found";
 
 async function page({ params, searchParams }) {
   const { username } = await params;
   const resolvedParams = await searchParams;
-  const currUser = await getCurrentUser();
-  const user = await getUserByUserName(username);
+  const [user, currUser] = await Promise.all([
+    getUserByUserName(username),
+    getCurrentUser(),
+  ]);
 
+  if (!user) {
+    return NotFound();
+  }
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}
