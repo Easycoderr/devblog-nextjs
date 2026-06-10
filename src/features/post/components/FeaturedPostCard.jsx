@@ -31,7 +31,7 @@ async function FeaturedPostCard({ post }) {
             {title}
           </h3>
           {/* description */}
-          <p className="leading-relaxed text-lg text-muted-foreground hyphens-auto text-pretty">
+          <p className="leading-relaxed text-lg text-muted-foreground hyphens-auto text-pretty break-words">
             {description.split(" ").slice(0, 40).join(" ")}
           </p>
         </div>
@@ -42,27 +42,34 @@ async function FeaturedPostCard({ post }) {
           </p> */}
           <div className="flex flex-col gap-6 text-sm mt-auto">
             <div className="flex items-center gap-3">
-              <div className="relative rounded-full h-9 w-9 overflow-hidden border border-border">
+              <div className="relative rounded-full h-12 w-12 overflow-hidden border border-border">
                 <Image
                   fill
-                  sizes="36px"
+                  sizes="48px"
                   src={author?.avatar}
                   className="object-cover"
                   alt={`${author?.name}-user`}
                   quality={100}
                 />
               </div>
-              <span className="flex flex-col">
-                <span className="font-semibold">{author?.name}</span>
+              <div className="flex flex-col gap-0">
+                <Link
+                  href={`/u/${author?.userName}`}
+                  title={`@${author?.userName}`}
+                >
+                  <span className="font-semibold capitalize hover:text-muted-foreground transition-all duration-200">
+                    {author?.name}
+                  </span>
+                </Link>
                 <span className="text-muted-foreground">
                   {dateCalculation(date)} • {3} min read
                 </span>
-              </span>
+              </div>
             </div>
             <div className="flex">
               <Link
                 href={`/blogs/${slug}`}
-                className="group flex font-bold tracking-wider text-md items-center gap-1 text-indigo-500 hover:text-indigo-600 transition-all duration-200"
+                className="group flex font-bold tracking-wider text-md items-center gap-1 text-primary hover:text-primary/75 transition-all duration-200"
               >
                 Read Article{" "}
                 <ArrowRight className="group-hover:translate-x-0.5 transition duration-200" />

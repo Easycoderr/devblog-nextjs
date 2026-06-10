@@ -1,11 +1,12 @@
 "use client";
 import Image from "next/image";
-function UserAvatar({ user, variant = "default", isOwner }) {
+import Link from "next/link";
+function UserAvatar({ user, variant = "default" }) {
   const style = {
     default: "text-xs text-text flex items-center gap-1",
     secondary: "text-xs text-text flex items-center gap-1",
   };
-  const { name, avatar } = user || {};
+  const { name, avatar, userName } = user || {};
   return (
     <div className={style[variant]}>
       {avatar && (
@@ -20,7 +21,11 @@ function UserAvatar({ user, variant = "default", isOwner }) {
           />
         </div>
       )}
-      <p className="text-sm font-medium capitalize tracking-wide">{name}</p>
+      <Link href={`/u/${userName}`}>
+        <p className="text-sm font-medium hover:opacity-75 select-none cursor-pointer capitalize tracking-wide">
+          {name}
+        </p>
+      </Link>
     </div>
   );
 }

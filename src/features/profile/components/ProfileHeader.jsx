@@ -21,9 +21,12 @@ function ProfileHeader({ user, username, currUser }) {
           <div className="flex ">
             <div>
               <div className="flex flex-col gap-3">
-                <p className="flex flex-col gap-0.5 md:flex-row md:items-center text-foreground text-lg md:text-xl capitalize font-bold tracking-wide">
+                <p className="flex flex-col gap-0.5 md:flex-row md:items-center text-foreground text-xl md:text-2xl capitalize font-bold tracking-wide">
                   <span>{name}</span>
-                  <span className="text-xs normal-case text-muted-foreground font-normal">
+                  <span
+                    tabIndex={0}
+                    className="text-xs normal-case text-muted-foreground font-normal md:mt-1.5 cursor-pointer"
+                  >
                     @{username}
                   </span>
                 </p>
