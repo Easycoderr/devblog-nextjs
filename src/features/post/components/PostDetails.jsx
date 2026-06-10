@@ -18,9 +18,9 @@ function PostDetails({ post }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7">
       <div className="space-y-6 col-span-2">
-        <div className="text-sm mb-4">
+        <div className="mb-4">
           <span
-            className={`${categoryColorPicker(category)} px-2 pb-0.5 rounded-full`}
+            className={`${categoryColorPicker(category)} px-2 py-1 rounded-full font-medium tracking-wider capitalize`}
           >
             {category}
           </span>
@@ -37,11 +37,11 @@ function PostDetails({ post }) {
         <div className="flex items-center gap-3 mt-auto">
           <PostCardAvatar post={post} />
           <span className="text-sm text-muted-foreground"> •</span>
-          <span className="flex items-center gap-1">
-            <span className="text-sm text-muted-foreground">
-              {dateCalculation(date)} • {readTime} min read
-            </span>
-          </span>
+          <p className="text-sm text-muted-foreground flex items-center gap-1">
+            <span>{dateCalculation(date)}</span>
+            <span>•</span>
+            <span className="mt-0.5">{readTime} min read</span>
+          </p>
         </div>
       </div>
       <div className="relative col-span-2 h-[29rem] w-full rounded-xl overflow-hidden">
@@ -58,7 +58,10 @@ function PostDetails({ post }) {
       <div className="w-full h-0.5 bg-border col-span-2 rounded-full"></div>
       {/* content */}
       <article
-        className="prose prose-pre:bg-transparent
+        className="
+        break-all
+        text-pretty
+        prose prose-pre:bg-transparent
 prose-pre:p-0 md:col-span-2 max-w-none prose-lg
     prose-headings:text-foreground
     prose-p:text-muted-foreground
