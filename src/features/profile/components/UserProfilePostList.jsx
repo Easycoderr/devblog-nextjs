@@ -5,7 +5,7 @@ import getPostsByUserId from "@/lib/actions/profile/getPostsByUserId";
 async function UserProfilePostList({ posts, totalCount, currUser, currPage }) {
   return (
     <>
-      {posts.length > 0 ? (
+      {posts?.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} user={currUser} />
@@ -13,7 +13,7 @@ async function UserProfilePostList({ posts, totalCount, currUser, currPage }) {
         </div>
       ) : (
         <div className="min-w-full flex items-center">
-          <p className="bg-card text-md font-medium tracking-wide inline-block rounded-lg px-6 py-3 mx-auto my-6 text-text">
+          <p className="bg-card text-md font-medium tracking-wide inline-block rounded-lg px-6 py-3 mx-auto my-6 text-foreground shadow-sm">
             No articles available.
           </p>
         </div>

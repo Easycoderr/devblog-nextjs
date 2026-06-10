@@ -17,7 +17,7 @@ async function UserProfileLikedPosts({ user, currUser, currPage }) {
         </div>
       ) : (
         <div className="min-w-full flex items-center">
-          <p className="bg-card text-md font-medium tracking-wide inline-block rounded-lg px-6 py-3 mx-auto my-6 text-text">
+          <p className="bg-card text-md font-medium tracking-wide inline-block rounded-lg px-6 py-3 mx-auto my-6 text-foreground shadow-sm">
             No articles available.
           </p>
         </div>
