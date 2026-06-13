@@ -11,13 +11,12 @@ import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
 import { useEffect } from "react";
 import Image from "next/image";
-import generateSlug from "@/lib/utils/generateSlug";
 
 function AuthRegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, isDirty },
     reset,
     watch,
   } = useForm({
@@ -84,10 +83,10 @@ function AuthRegisterForm() {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
           {/* profile picture */}
-          <div className="mx-auto flex items-center justify-center mb-6">
+          <div className="mx-auto flex flex-col items-center justify-center mb-6">
             <label
               htmlFor="profile-picture"
-              className={`relative flex items-center justify-center overflow-hidden ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 bg-input h-32 w-32 border rounded-full focus:outline-none`}
+              className={`group relative flex items-center justify-center overflow-hidden cursor-pointer ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 bg-input h-36 w-36 border rounded-full focus:outline-none`}
             >
               <input
                 id="profile-picture"
@@ -99,17 +98,28 @@ function AuthRegisterForm() {
               {previewUrl ? (
                 <Image
                   fill
-                  sizes="128px"
+                  sizes="144px"
                   className="object-cover"
                   src={previewUrl}
                   alt={"User picture"}
                 />
               ) : (
                 <div>
-                  <Camera className="text-muted-foreground" size={40} />
+                  <Camera
+                    className="group-hover:text-primary/50 text-muted-foreground"
+                    size={42}
+                  />
                 </div>
               )}
             </label>
+            <div className="flex flex-col text-center">
+              <h3 className="break-all text-foreground text-md font-medium tracking-wide">
+                Profile picture
+              </h3>
+              <p className="text-muted-foreground text-xs">
+                JPG, PNG, Max size 4MB
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row gap-3">
@@ -144,7 +154,8 @@ function AuthRegisterForm() {
           />
           <div className="flex flex-col gap-2">
             <FormsButton
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isDirty}
+              isSubmiting={isSubmitting}
               type="submit"
               style="authForm"
               ariaLabel="Register account"
