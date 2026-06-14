@@ -3,12 +3,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import ProfileStatus from "./ProfileStatus";
+import Link from "next/link";
 function ProfileHeader({ user, username, currUser }) {
   const { id, avatar, firstName, bio, name, createdAt } = user || {};
   return (
     <div className="bg-gradient bg-gradient-to-tl rounded-lg from-indigo-400/10 via-purple-400/10 to-indigo-400/10 dark:from-indigo-400/5 dark:via-purple-400/5 dark:to-indigo-400/5 p-2 py-6 md:p-8 lg:px-20">
-      <div className="relative grid grid-cols-[6rem_1fr_1fr] md:grid-cols-[10rem_50%_1fr] gap-4 md:gap-8 md:gap-y-2">
-        <div className="relative border  border-border z-30 min-h-24 min-w-24 md:min-h-40 md:min-w-40 overflow-hidden rounded-full">
+      <div className="relative grid grid-cols-[10rem_50%_1fr] gap-4 md:gap-8 md:gap-y-2">
+        <div className="relative border mx-auto md:mx-0 border-border z-30 col-span-3 md:col-span-1 h-40 w-40 overflow-hidden rounded-full">
           <Image
             src={avatar}
             fill
@@ -17,11 +18,11 @@ function ProfileHeader({ user, username, currUser }) {
             alt={`${firstName}' profile picture`}
           />
         </div>
-        <div className="flex flex-col gap-y-4 w-full col-span-2 md:col-span-1">
-          <div className="flex ">
+        <div className="flex flex-col gap-y-4 w-full col-span-3 md:col-span-1">
+          <div className="flex px-8 md:px-0">
             <div>
-              <div className="flex flex-col gap-3">
-                <p className="flex flex-col gap-0.5 md:flex-row md:items-center text-foreground text-xl md:text-2xl capitalize font-bold tracking-wide">
+              <div className="flex flex-col gap-2 md:gap-3 text-center md:text-start">
+                <p className="flex flex-col gap-0.5 md:flex-row md:items-center text-foreground text-2xl capitalize font-bold tracking-wide">
                   <span>{name}</span>
                   <span
                     tabIndex={0}
@@ -30,8 +31,12 @@ function ProfileHeader({ user, username, currUser }) {
                     @{username}
                   </span>
                 </p>
-                {bio && <p className="text-sm text-muted-foreground">{bio}</p>}
-                <p className="flex items-center text-xs text-muted-foreground space-x-1">
+                {bio && (
+                  <p className="text-sm text-foreground/80 break-words text-pretty">
+                    {bio}
+                  </p>
+                )}
+                <p className="flex items-center justify-center md:justify-start text-xs text-muted-foreground space-x-1">
                   <CalendarArrowDown size={13} />
                   <span>Joined</span>
                   <span>{dateCalculation(createdAt, "full")}</span>
@@ -44,20 +49,20 @@ function ProfileHeader({ user, username, currUser }) {
         {id === currUser?.id && (
           <>
             <div className="md:block hidden ml-auto">
-              <Button
-                variant="secondary"
-                className="bg-primary text-indigo-50 px-4 !py-2 hover:bg-primary/75"
+              <Link
+                href="/settings/profile"
+                className="bg-primary whitespace-nowrap rounded-lg text-indigo-50 px-4 !py-2 hover:bg-primary/75 active:bg-primary/75"
               >
                 Edit Profile
-              </Button>
+              </Link>
             </div>
             <div className="md:hidden block absolute top-0 right-2">
-              <Button
-                variant="simple"
-                className="bg-primary/30 rounded-lg backdrop-blur-sm !px-2 !py-0 text-indigo-700 dark:text-indigo-100 dark:bg-primary/20 active:bg-primary/75"
+              <Link
+                href="/settings/profile"
+                className="bg-primary rounded-lg flex items-center backdrop-blur-sm p-2 text-indigo-700 dark:text-indigo-100 bg-primary/70 active:bg-primary/75"
               >
-                <Edit2 />
-              </Button>
+                <Edit2 className="size-4" />
+              </Link>
             </div>
           </>
         )}
