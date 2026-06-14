@@ -5,7 +5,11 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
   // 1. Define which routes need protection
   const isProtectedRoute =
-    pathname.startsWith("/blogs/create") || pathname.startsWith("/blogs/edit");
+    pathname.startsWith("/blogs/create") ||
+    pathname.startsWith("/blogs/edit") ||
+    pathname.startsWith("/settings/profile") ||
+    pathname.startsWith("/settings/account") ||
+    pathname.startsWith("/settings/security");
   if (isProtectedRoute && !userId) {
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
