@@ -2,15 +2,17 @@
 import getCurrentUser from "@/lib/getUser";
 import { imagekit } from "@/lib/imagekit";
 import { prisma } from "@/lib/prisma";
-import { upload } from "@imagekit/next";
+import { revalidatePath } from "next/cache";
 
 async function updateUserProfile(formData) {
   let avatarUrl = null;
   let avatarId = null;
   const user = await getCurrentUser();
   if (!user) throw new Error("Unauthorized");
+
   const image = formData.get("profilePicture");
   const textFields = Object.fromEntries(formData.entries());
+
   const {
     avatarId: oldAvatarId,
     firstName,
@@ -18,6 +20,7 @@ async function updateUserProfile(formData) {
     userName,
     bio,
   } = textFields;
+
   if (image && image.size > 0 && typeof image !== "string") {
     const bytes = await image.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -30,7 +33,6 @@ async function updateUserProfile(formData) {
     avatarId = uploadImage.fileId;
 
     try {
-      console.log(oldAvatarId);
       await imagekit.deleteFile(oldAvatarId);
     } catch (deleteError) {
       console.error("Failed to delete old image from ImageKit:", deleteError);
@@ -42,12 +44,14 @@ async function updateUserProfile(formData) {
       data: {
         firstName,
         lastName,
+        name: `${firstName} ${lastName}`,
         ...(user.userName !== userName && { userName }),
         bio,
         ...(avatarUrl && { avatar: avatarUrl }),
         ...(avatarId && { avatarId }),
       },
     });
+    revalidatePath("/");
   } catch (error) {
     console.log("Failed to update profile please try again.", error);
   }
