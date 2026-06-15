@@ -8,7 +8,7 @@ function DeskSideBar() {
       </h1>
 
       {Links.map((link, index) => (
-        <NavLink key={index} href={link.href}>
+        <NavLink key={index} icon={link.icon} href={link.href}>
           {link.label}
         </NavLink>
       ))}
