@@ -69,6 +69,39 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
+// update profile
+export const updateProfile = z
+  .object({
+    firstName: z.string().min(2, "First Name must be at least 2 characters."),
+    lastName: z.string().min(2, "Last Name must be at least 2 characters."),
+    userName: z
+      .string()
+      .min(3, "Username must be at least 3 characters long")
+      .regex(
+        /^[a-zA-Z0-9](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$/,
+        "Only letters, numbers, and internal underscores are allowed. Cannot start or end with an underscore.",
+      ),
+
+    bio: z.string().min(0).max(160, "Bio must be less than 160 characters."),
+    profilePicture: z
+      .any()
+      .refine(
+        (file) => !file || file.length === 0 || file[0]?.size <= MAX_FILE_SIZE,
+        "Max image size is 4MB.",
+      )
+      .refine(
+        (file) =>
+          !file ||
+          file.length === 0 ||
+          ACCEPTED_IMAGE_TYPES.includes(file[0]?.type),
+        "Only .jpg, .jpeg, .png and .webp formats are supported.",
+      ),
+  })
+  .refine((data) => data.firstName.length <= data.userName.length, {
+    message: "Username should be mutch or greater than fname at least in char.",
+    path: ["userName"],
+  });
+
 // sign form validation
 export const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
