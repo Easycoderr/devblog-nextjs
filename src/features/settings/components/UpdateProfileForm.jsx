@@ -1,36 +1,96 @@
 "use client";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
+import MiniSpinner from "@/components/ui/MiniSpinner";
+import isUserNameExist from "@/lib/actions/settings/profile/isUserNameExist";
+import updateUserProfile from "@/lib/actions/settings/profile/updateUserProfile";
 import calcTextRange from "@/lib/utils/calcTextLength";
 import { updateProfile } from "@/lib/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera, Check, CheckCircle, CheckCircle2Icon } from "lucide-react";
+import { Camera, CheckCircle2Icon, XCircle } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function UpdateProfileForm({ user }) {
-  const { avatar, firstName, lastName, bio, userName } = user || {};
+  const [isValidUserName, setIsValidUserName] = useState(false);
+  const [isLoadingForValid, setIsLoadingForValid] = useState(false);
+  const { avatarId, avatar, firstName, lastName, bio, userName } = user || {};
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isDirty },
     reset,
+    setError,
+    clearErrors,
     watch,
   } = useForm({
     resolver: zodResolver(updateProfile),
+    mode: "onChange",
     defaultValues: {
       firstName: firstName || "",
       lastName: lastName || "",
-      UserName: userName || "",
+      userName: userName || "",
       profilePicture: "",
       bio: bio || "",
     },
   });
+
+  // checking username existing
+  const newUserName = watch("userName");
+
+  useEffect(() => {
+    let time;
+    async function check() {
+      const user = await isUserNameExist(newUserName);
+      if (user && user.userName !== userName && newUserName.length !== 0) {
+        setIsValidUserName(true);
+        setError("userName", {
+          type: "manual",
+          message: "This username is taken.",
+        });
+      }
+      setIsLoadingForValid(false);
+    }
+
+    setIsLoadingForValid(true);
+    time = setTimeout(() => {
+      check();
+    }, 3000);
+
+    return () => {
+      clearTimeout(time);
+      clearErrors("userName");
+      setIsLoadingForValid(false);
+      setIsValidUserName(false);
+    };
+  }, [newUserName]);
+
   const bioChar = watch("bio");
+
+  // prepare avatar for previewUrl
   const fileList = watch("profilePicture");
   const file = fileList && fileList.length > 0 ? fileList[0] : null;
   const previewUrl = file ? URL.createObjectURL(file) : avatar;
-  function onSubmit() {}
+
+  async function onSubmit(data) {
+    const formData = new FormData();
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("userName", data.userName);
+    formData.append("bio", data.bio);
+    formData.append("avatarId", avatarId || null);
+
+    if (data.profilePicture && data.profilePicture.length > 0) {
+      const fileBinary = data.profilePicture[0];
+      formData.append("profilePicture", fileBinary);
+    }
+
+    await updateUserProfile(formData);
+    toast.success("Profile updated!");
+  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -96,8 +156,14 @@ function UpdateProfileForm({ user }) {
         error={errors.userName}
         label="Username"
         type="UserName"
-        icon={<CheckCircle2Icon className="text-brand-success" />}
-        {...register("UserName")}
+        icon={userNameInputFieldIcon(
+          isLoadingForValid,
+          isValidUserName,
+          newUserName,
+          userName,
+          errors.userName,
+        )}
+        {...register("userName")}
       />
       <div className="flex flex-col gap-1 w-full">
         <label
@@ -121,7 +187,9 @@ function UpdateProfileForm({ user }) {
       </div>
       <div className="ml-auto">
         <FormsButton
-          disabled={isSubmitting || !isDirty}
+          disabled={
+            isSubmitting || !isDirty || isLoadingForValid || isValidUserName
+          }
           isSubmiting={isSubmitting}
           type="submit"
           style="authForm"
@@ -134,5 +202,23 @@ function UpdateProfileForm({ user }) {
     </form>
   );
 }
+function userNameInputFieldIcon(
+  isLoading,
+  isValid,
+  newUserName,
+  userName,
+  error,
+) {
+  let icon = null;
 
+  if (isLoading && !error) {
+    return <MiniSpinner />;
+  } else if (newUserName === "" || newUserName.length === 0) {
+    return null;
+  } else if (isValid && newUserName.length !== 0 && !error) {
+    return <XCircle className="text-destructive" />;
+  } else if (!isValid && userName !== newUserName && !error) {
+    return <CheckCircle2Icon className="text-brand-success" />;
+  }
+}
 export default UpdateProfileForm;
