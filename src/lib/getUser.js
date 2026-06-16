@@ -7,13 +7,19 @@ async function getCurrentUser() {
   const userId = cookieStore?.get("userId")?.value;
 
   if (!userId) return null;
-  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    omit: { password: true },
+  });
 
   return user;
 }
 export async function getUserById(userId) {
   if (!userId) return null;
-  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    omit: { password: true },
+  });
   return user;
 }
 export default getCurrentUser;
