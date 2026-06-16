@@ -107,3 +107,23 @@ export const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
+
+// Chnage password vaidation
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters"),
+    confirmNewPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters"),
+    newPassword: z.string().min(8, "Password must be at least 8 characters"),
+  })
+  .refine((data) => data.confirmNewPassword === data.newPassword, {
+    message: "Passwords do not mutch.",
+    path: ["confirmNewPassword"],
+  })
+  .refine((data) => data.newPassword !== data.currentPassword, {
+    message: "Enter your new password",
+    path: ["newPassword"],
+  });
