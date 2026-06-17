@@ -127,3 +127,8 @@ export const changePasswordSchema = z
     message: "Enter your new password",
     path: ["newPassword"],
   });
+
+// delete account password vaidation
+export const deleteAccountPasswordSchema = z.object({
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
