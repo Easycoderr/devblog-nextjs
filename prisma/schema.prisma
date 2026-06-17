@@ -46,7 +46,7 @@ model Post {
   imageId String
 // relations
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id],onDelete: Cascade)
 
   likes     Like[]
   shares    Share[]
@@ -58,7 +58,7 @@ model Like{
   id String @id @default(cuid())
   createdAt DateTime @default(now())
   // relations
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   userId String
   post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
   postId String
@@ -73,7 +73,7 @@ model Share{
   id String @id @default(cuid())
   createdAt DateTime @default(now())
   // relations
-  user User? @relation(fields: [userId],references: [id])
+  user User? @relation(fields: [userId],references: [id],onDelete: Cascade)
   userId String?
   guestId String?
   post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
@@ -90,7 +90,7 @@ model SavedPost{
   id String @id @default(uuid())
   createdAt DateTime @default(now())
 // relations
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   userId String 
   post Post @relation(fields: [postId],references: [id], onDelete: Cascade)
   postId String
