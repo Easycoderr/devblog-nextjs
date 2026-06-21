@@ -6,6 +6,7 @@ import Footer from "../components/layout/Footer";
 import getCurrentUser from "../lib/getUser";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
+import AccentProvider from "@/providers/AccentProvider";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -39,11 +40,13 @@ export default async function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <Header user={user} />
+          <AccentProvider>
+            <Header user={user} />
 
-          {children}
-          <Toaster richColors closeButton position="top-right" />
-          <Footer />
+            {children}
+            <Toaster richColors closeButton position="top-right" />
+            <Footer />
+          </AccentProvider>
         </ThemeProvider>
       </body>
     </html>
