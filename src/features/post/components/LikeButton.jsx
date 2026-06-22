@@ -23,9 +23,8 @@ function LikeButton({ userLike, totalLikes, user, post }) {
         onClick={handleLikePost}
       >
         <ThumbsUp
-          className={`${userLike ? "text-primary" : "text-muted-foreground"} ${isPending && "opacity-75"} active:scale-105 transition-all duration-200`}
+          className={`${userLike ? "text-primary fill-primary" : "text-muted-foreground"} ${isPending && "opacity-75"} active:scale-105 transition-all duration-200`}
           size={20}
-          fill={`${userLike ? "#6366f1" : "none"}`}
         />
       </button>
       <span className="mt-1 font-medium text-muted-foreground">

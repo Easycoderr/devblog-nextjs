@@ -66,7 +66,7 @@ function PostActions({ user, post, style }) {
             <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
               <Link
                 href={`/blogs/edit/${post.id}`}
-                className="flex gap-1 w-full group-data-[highlighted]/dropdown-menu-item:text-indigo-50 hover:cursor-default"
+                className="flex gap-1 w-full"
               >
                 Edit
               </Link>

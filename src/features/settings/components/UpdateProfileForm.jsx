@@ -94,7 +94,7 @@ function UpdateProfileForm({ user }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col mt-6 gap-3 rounded-lg shadow-sm mb-6 px-6 py-4"
+      className="flex flex-col mt-6 gap-3 rounded-lg bg-card border border-border shadow-sm mb-6 px-6 py-4"
     >
       {/* profile picture */}
       <div className="flex-1 flex items-center lg:gap-12 sm:gap-7 gap-6 mb-6">
@@ -175,7 +175,7 @@ function UpdateProfileForm({ user }) {
         <textarea
           {...register("bio")}
           type="text"
-          className={`${errors.bio ? "border-destructive focus:border-destructive" : "border-border focus:border-ring"} bg-input p-1 border rounded-lg w-full min-h-18 text-sm focus:outline-none`}
+          className={`${errors.bio ? "border-destructive focus:border-destructive" : "border-border focus:border-primary"} bg-input p-1 border rounded-lg w-full min-h-18 text-sm focus:outline-none`}
         />
         <span className="flex">
           {errors.bio && (

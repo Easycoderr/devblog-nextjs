@@ -1,3 +1,4 @@
+"use client";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 
@@ -18,7 +19,7 @@ function Input({ label, error, icon, type, ...props }) {
             type ||
             `${icon === "password" && !showPassword ? "password" : "text"}`
           }
-          className={`${error ? "border-destructive focus:border-destructive" : "bg-input border-border focus:ring focus:ring-primary"} p-2 border rounded-lg w-full text-sm focus:outline-none`}
+          className={`${error ? "border-destructive focus:border-destructive" : "bg-input border-border focus:ring focus:ring-primary"} p-2.5 border rounded-lg w-full text-sm focus:outline-none`}
           {...props}
         />
         {icon !== "password" && (
@@ -33,9 +34,9 @@ function Input({ label, error, icon, type, ...props }) {
             className="absolute cursor-pointer  right-2 top-[50%] -translate-y-[50%]"
           >
             {showPassword ? (
-              <Eye size={20} className="text-muted-foreground" />
-            ) : (
               <EyeClosed size={20} className="text-muted-foreground" />
+            ) : (
+              <Eye size={20} className="text-muted-foreground" />
             )}
           </button>
         )}

@@ -50,8 +50,13 @@ function ProfileDropDownMenu({ user }) {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Settings />
-          Settings
+          <Link
+            href={`/settings/profile`}
+            className="!text-current !flex !items-center gap-2 min-w-full"
+          >
+            <Settings className="!text-current" />
+            <span>Settings</span>
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <HelpCircle />

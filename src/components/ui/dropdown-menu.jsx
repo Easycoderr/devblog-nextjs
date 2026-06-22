@@ -67,11 +67,11 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "group/dropdown-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none",
+        "group/dropdown-menu-item relative flex items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none cursor-pointer",
 
         // highlighted
-        "data-[highlighted]:bg-indigo-500/90",
-        "data-[highlighted]:text-indigo-50",
+        "data-[highlighted]:bg-primary/75",
+        "data-[highlighted]:text-white",
 
         // inset
         "data-inset:pl-7",

@@ -7,7 +7,7 @@ function Footer() {
   return (
     <footer
       id="footer"
-      className="mt-auto pt-6 pb-2 bg-background/80 border-t border-t-border flex flex-col"
+      className="pt-6 pb-2 bg-background/80 border-t border-t-border flex flex-col"
     >
       <div className="container 2xl:px-10 mx-auto">
         <div className="grid grid-cols-1 gap-4 text-foreground">
@@ -19,7 +19,7 @@ function Footer() {
             <p className="leading-relaxed text-center">
               A platform for developers to share knowledge and grow together.
             </p>
-            <div className="bg-gradient-to-l from-transparent mt-2 via-purple-500 to-transparent w-full h-0.5"></div>
+            <div className="bg-gradient-to-l from-transparent mt-2 via-primary to-transparent w-full h-0.5"></div>
           </div>
           {/* links */}
           <div className="flex text-sm text-muted-foreground  gap-8 mx-auto">
