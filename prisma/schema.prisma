@@ -30,6 +30,7 @@ model User {
   savedPosts SavedPost[]
 
   comments Comment[] 
+   viewLog ViewLog[]
 }
 
 model Post {
@@ -47,7 +48,7 @@ model Post {
 // relations
   authorId  String
   author    User     @relation(fields: [authorId], references: [id],onDelete: Cascade)
-
+  viewLog ViewLog[]
   likes     Like[]
   shares    Share[]
   savedPosts SavedPost[]
@@ -117,4 +118,17 @@ model Comment {
   parentId String?
   parent Comment? @relation("Replies",fields: [parentId],references: [id],onDelete: Cascade)
   replies Comment[] @relation("Replies")
+}
+model ViewLog{
+  id String @id @default(cuid())
+
+  postId String
+  post Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId String?
+  user User? @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  token String @unique
+
+  createdAt DateTime @default(now())
 }
