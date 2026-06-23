@@ -39,6 +39,7 @@ function Header({ user }) {
 
   return (
     <header
+      aria-expanded={isExpanded}
       className={`${!sticky ? "lg:border-b border-b-border text-foreground py-1 bg-background" : "text-foreground"} w-full ${sticky && pathname === "/" && "sticky z-30 right-0 left-0 top-0"} z-30`}
     >
       <div
