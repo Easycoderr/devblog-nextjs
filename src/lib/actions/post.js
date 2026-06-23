@@ -3,9 +3,10 @@ import { revalidatePath } from "next/cache";
 import generateSlug from "@/lib/utils/generateSlug";
 import getCurrentUser from "../getUser";
 import { prisma } from "../prisma";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { imagekit } from "../imagekit";
-
+import crypto from "crypto";
+import { success } from "zod";
 const POSTS_PER_PAGE = 8;
 // Get all posts
 export async function getPosts(page = 1, searchQuery) {
@@ -28,6 +29,9 @@ export async function getPosts(page = 1, searchQuery) {
         ...(user
           ? { savedPosts: { where: { userId: user.id }, select: { id: true } } }
           : {}),
+        _count: {
+          select: { viewLog: true },
+        },
       },
     }),
     prisma.post.count({ where: whereClause }),
@@ -56,6 +60,9 @@ export async function getPostBySlug(slug) {
       ...(user
         ? { savedPosts: { where: { userId: user?.id }, select: { id: true } } }
         : {}),
+      _count: {
+        select: { viewLog: true, likes: true },
+      },
     },
   });
   return post;
@@ -397,3 +404,37 @@ export async function getSavedPostsByPostId(postId, userId) {
   }
 }
 export default createPost;
+
+// increment post view
+
+export async function incrementViewPost(slug, userId) {
+  try {
+    const headersList = await headers();
+    const ip = headersList.get("x-forwarded-for") || "127.0.0.1";
+    const dateStr = new Date().toISOString().split("T")[0];
+    const uniqueToken = crypto
+      .createHash("sha256")
+      .update(`${ip}-${slug}-${dateStr}`)
+      .digest("hex");
+    const post = await prisma.post.findUnique({
+      where: { slug },
+      select: { id: true },
+    });
+    if (!post) return { success: false };
+
+    await prisma.viewLog.create({
+      data: {
+        postId: post.id,
+        token: uniqueToken,
+        ...(userId && { userId }),
+      },
+    });
+    revalidatePath(`/blog/${slug}`);
+    return { success: true };
+  } catch (error) {
+    console.log(error);
+    // constraint error
+    if (error.code === "P2002") return { success: false };
+    return { success: false };
+  }
+}
