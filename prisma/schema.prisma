@@ -47,11 +47,17 @@ model Post {
   imageId String
 // relations
   authorId  String
+
   author    User     @relation(fields: [authorId], references: [id],onDelete: Cascade)
+
   viewLog ViewLog[]
+
   likes     Like[]
+
   shares    Share[]
+
   savedPosts SavedPost[]
+  
   comments Comment[] 
 }
 

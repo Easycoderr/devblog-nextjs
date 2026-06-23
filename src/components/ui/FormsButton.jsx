@@ -22,7 +22,14 @@ function FormsButton({
       type={type}
       className={styles[style]}
     >
-      {isSubmiting ? <MiniSpinner /> : children}
+      {isSubmiting ? (
+        <div className="flex gap-1">
+          <MiniSpinner />
+          <span>{children}</span>
+        </div>
+      ) : (
+        children
+      )}
     </button>
   );
 }

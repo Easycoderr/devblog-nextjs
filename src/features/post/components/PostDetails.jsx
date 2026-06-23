@@ -4,6 +4,7 @@ import CommentSection from "./CommentSection";
 import MarkdownRenderer from "./MarkdownRenderer";
 import PostCardAvatar from "./PostCardAvatar";
 import categoryColorPicker from "@/lib/utils/categoryColorPicker";
+import { Eye, ThumbsUp } from "lucide-react";
 function PostDetails({ post }) {
   const {
     id,
@@ -14,6 +15,7 @@ function PostDetails({ post }) {
     createdAt: date,
     category,
     readTime,
+    _count,
   } = post;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7">
@@ -34,14 +36,22 @@ function PostDetails({ post }) {
           {description}
         </p>
         {/* category + date */}
-        <div className="flex items-center gap-3 mt-auto">
-          <PostCardAvatar post={post} />
-          <span className="text-sm text-muted-foreground"> •</span>
-          <p className="text-sm text-muted-foreground flex items-center gap-1">
-            <span>{dateCalculation(date)}</span>
-            <span>•</span>
-            <span className="mt-0.5">{readTime} min read</span>
-          </p>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3 mt-auto">
+            <PostCardAvatar post={post} />
+            <span className="text-sm text-muted-foreground"> •</span>
+            <p className="text-sm text-muted-foreground flex items-center gap-1">
+              <span>{dateCalculation(date)}</span>
+              <span>•</span>
+              <span className="mt-0.5">{readTime} min read</span>
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <div className="flex items-center gap-1 text-muted-foreground">
+              <Eye className="size-5" />
+              <span>{_count.viewLog}</span>
+            </div>
+          </div>
         </div>
       </div>
       <div className="relative col-span-2 h-[29rem] w-full rounded-xl overflow-hidden">
@@ -51,7 +61,6 @@ function PostDetails({ post }) {
           sizes="464px"
           fill
           className="object-cover"
-          quality={90}
         />
       </div>
 

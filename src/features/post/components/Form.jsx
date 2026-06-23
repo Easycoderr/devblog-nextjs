@@ -83,8 +83,10 @@ function Form({ postData }) {
       formData.append("id", id || null);
       formData.append("imageId", imageId || null);
       const result = await updatePost(formData);
-      toast.success(`${data.title} updated successfully!`);
-      router.push(`/blogs/${result.slug}`);
+      if (result) {
+        toast.success(`${data.title} updated successfully!`);
+        router.push(`/blogs/${result.slug}`);
+      }
     } else {
       await createPost(formData);
       toast.success(`${data.title} created successfully!`);
@@ -154,17 +156,21 @@ function Form({ postData }) {
         >
           <div className="flex flex-col gap-1 w-full">
             <label
-              className={`group relative bg-input overflow-hidden border ${errors.image ? "border-destructive focus:border-destructive" : " border-border focus:border-ring"} rounded-lg`}
+              className={`group cursor-pointer relative bg-input overflow-hidden border ${errors.image ? "border-destructive focus:border-destructive" : " border-border focus:border-primary"} rounded-lg`}
               htmlFor="image"
             >
               <div
                 className={`${previewUrl && "min-h-64"} z-20 p-2 py-8 flex flex-col gap-1 items-center`}
               >
-                <CameraIcon className="text-muted-foreground" size={50} />
+                {!previewUrl && (
+                  <>
+                    <CameraIcon className="text-muted-foreground" size={50} />
 
-                <span className="text-muted-foreground">
-                  Click to select or upload image
-                </span>
+                    <span className="text-muted-foreground">
+                      Click to select or upload image
+                    </span>
+                  </>
+                )}
               </div>
               {/* preview */}
               {previewUrl && (
@@ -251,7 +257,7 @@ function Form({ postData }) {
             <textarea
               {...register("content")}
               type="text"
-              className={`${errors.content ? "border-destructive focus:border-destructive" : "bg-input border-border focus:border-ring"} p-1 border min-h-48 rounded-lg w-full text-sm focus:outline-none`}
+              className={`${errors.content ? "border-destructive focus:border-destructive" : "bg-input border-border focus:border-primary"} p-1 border min-h-48 rounded-lg w-full text-sm focus:outline-none`}
             />
             <span className="flex">
               {errors.content && (
@@ -268,7 +274,7 @@ function Form({ postData }) {
               render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger
-                    className={`w-full dark:bg-input ${errors.category ? "border-destructive focus:border-destructive" : "border-border focus:border-ring"}`}
+                    className={`w-full dark:bg-input ${errors.category ? "border-destructive focus:border-destructive" : "border-border focus:border-primary"}`}
                     size="lg"
                   >
                     <SelectValue placeholder="Select a Category" />

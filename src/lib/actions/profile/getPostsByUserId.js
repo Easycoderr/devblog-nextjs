@@ -21,6 +21,9 @@ async function getPostsByUserId(userId, currPage) {
                 },
               }
             : {}),
+          _count: {
+            select: { viewLog: true },
+          },
         },
       }),
       prisma.post.count({ where: { authorId: userId } }),

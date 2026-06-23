@@ -16,6 +16,11 @@ async function getLikedPostsByUserId(userId, currPage) {
             },
           },
         },
+        include: {
+          _count: {
+            select: { viewLog: true, likes: true },
+          },
+        },
         orderBy: {
           createdAt: "desc", // Shows the newest posts first
         },
