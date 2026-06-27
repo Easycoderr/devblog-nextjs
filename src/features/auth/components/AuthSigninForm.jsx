@@ -27,15 +27,7 @@ function AuthSigninForm() {
   // local state
 
   async function onSubmit(data) {
-    const response = await signInUser(data);
-    if (response?.error) {
-      toast.error("Invalid email or password", {
-        className: "bg-blue-600 text-white",
-      });
-    } else {
-      toast.success(response?.success);
-      router.push("/blogs");
-    }
+    await signInUser(data);
   }
   return (
     <>

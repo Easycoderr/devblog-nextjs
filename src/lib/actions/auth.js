@@ -4,6 +4,7 @@ import { prisma } from "../prisma";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { imagekit } from "../imagekit";
+import { signIn } from "@/auth";
 
 export async function registerUser(formData) {
   // 1. Grab the binary file explicitly first
@@ -60,21 +61,11 @@ export async function registerUser(formData) {
 
 export async function signInUser(formData) {
   const { email, password } = formData;
-  //1. check email exist
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) return { error: "Invalid email or password" };
-
-  // 2. compare passwords
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return { error: "Invalid email or password" };
-
-  // 3. set userid to cookies and redirect to blogs
-  (await cookies()).set("userId", user.id, {
-    httpOnly: true,
-    secure: true,
-    path: "/",
+  await signIn("credentials", {
+    email,
+    password,
+    redirectTo: "/blogs",
   });
-  return { success: "Sign in successfully!" };
 }
 async function generateUserName(name) {
   let count = 1;
