@@ -55,8 +55,6 @@ export async function registerUser(formData) {
       avatarId: avatarId,
     },
   });
-
-  return { success: "Registration successful!" };
 }
 
 export async function signInUser(formData) {

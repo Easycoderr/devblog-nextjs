@@ -17,12 +17,15 @@ model User {
   avatarId String?
 
   email    String @unique
+  emailVerified DateTime?
+  
   password String
 
   name      String?
   createdAt DateTime @default(now())
 
   bio String?
+
   posts     Post[]  
   likes     Like[]
 
