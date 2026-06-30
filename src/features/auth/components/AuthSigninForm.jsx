@@ -1,16 +1,20 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftCircleIcon, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { toast } from "sonner";
+
 import { useRouter } from "next/navigation";
 import { signInUser } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/utils/schema";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
+import { toast } from "sonner";
 
-function AuthSigninForm() {
+function AuthSigninForm({ verified }) {
+  if (verified) {
+    toast.success("Email verified successfully. You can now sign in.");
+  }
   const router = useRouter();
   const {
     register,
