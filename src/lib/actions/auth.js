@@ -67,8 +67,8 @@ export async function registerUser(formData) {
   });
   await sendVerificationEmail(email, verificationToken);
   return {
-    success:
-      "Registration successful! Check your email to verify your account.",
+    success: true,
+    email,
   };
 }
 

@@ -9,10 +9,12 @@ import { redirect } from "next/navigation";
 import { toast } from "sonner";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import CheckEmail from "./CheckEmail";
 
 function AuthRegisterForm() {
+  const [checkEmail, setCheckEmail] = useState(null);
   const {
     register,
     handleSubmit,
@@ -57,11 +59,16 @@ function AuthRegisterForm() {
     }
 
     const response = await registerUser(formData);
+
     if (response.success) {
-      redirect("signin");
+      setCheckEmail(response);
     } else if (response.error) {
       toast.error(response.error);
     }
+  }
+  if (checkEmail) {
+    const { email } = checkEmail;
+    return <CheckEmail email={email} setCheckEmail={setCheckEmail} />;
   }
   return (
     <>
