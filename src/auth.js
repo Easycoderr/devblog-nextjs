@@ -2,8 +2,12 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./lib/prisma";
+import bcrypt from "bcryptjs";
+import { authConfig } from "./auth.config";
 export const { handlers, signIn, auth, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
   providers: [
     Credentials({
       credentials: {
@@ -14,20 +18,24 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials) return null;
         const { email, password } = credentials;
-        const user = prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: {
             email,
           },
         });
         if (!user) return null;
-        const isMutch = await bcrypt.compare(password, user.password);
-        if (!isMutch) return null;
+        if (!user.emailVerified) {
+          throw new Error("Please verify your email before signing in.");
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return null;
         const { password: pass, ...safeUser } = user;
         return safeUser;
       },
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -40,6 +48,7 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
     async session({ token, session }) {
       session.user.id = token.id;
       session.user.name = token.name;
+
       session.user.userName = token.userName;
       session.user.avatar = token.avatar;
       return session;

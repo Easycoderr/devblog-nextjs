@@ -1,28 +1,7 @@
-import { NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
 
-export function middleware(request) {
-  const userId = request.cookies.get("userId")?.value;
-  const { pathname } = request.nextUrl;
-  // 1. Define which routes need protection
-  const isProtectedRoute =
-    pathname.startsWith("/blogs/create") ||
-    pathname.startsWith("/blogs/edit") ||
-    pathname.startsWith("/settings/profile") ||
-    pathname.startsWith("/settings/account") ||
-    pathname.startsWith("/settings/security");
-  if (isProtectedRoute && !userId) {
-    return NextResponse.redirect(new URL("/auth/signin", request.url));
-  }
-
-  if (
-    userId &&
-    (pathname === "/auth/signin" || pathname === "/auth/register")
-  ) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-  return NextResponse.next();
-}
-// Ensure middleware doesn't run on static files or images
+export default NextAuth(authConfig).auth;
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
