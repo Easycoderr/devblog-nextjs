@@ -1,8 +1,17 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import resendMail from "@/lib/actions/resendMail";
 import { MailCheck } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 function CheckEmail({ email, setCheckEmail }) {
+  async function handleResendMail() {
+    const result = await resendMail(email);
+    if (result?.success) {
+      toast.success(`Verification email sent to ${email}`);
+    }
+  }
   return (
     <div className="rounded-xl border border-border p-4 bg-card shadow-sm">
       <div className="space-y-2">
@@ -18,7 +27,10 @@ function CheckEmail({ email, setCheckEmail }) {
           Please click the link to activate your account.
         </p>
         <div className="flex flex-col gap-3 mt-6">
-          <Button className="text-md text-indigo-50 cursor-pointer hover:opacity-75">
+          <Button
+            onClick={handleResendMail}
+            className="text-md text-indigo-50 cursor-pointer hover:opacity-75"
+          >
             Resend Email
           </Button>
           <Link
