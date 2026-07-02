@@ -7,6 +7,7 @@ import { imagekit } from "../imagekit";
 import { signIn } from "@/auth";
 import { sendVerificationEmail } from "./mail";
 import crypto from "crypto";
+import { success } from "zod";
 export async function registerUser(formData) {
   // 1. Grab the binary file explicitly first
   const profilePicture = formData.get("profilePicture");
@@ -62,7 +63,7 @@ export async function registerUser(formData) {
     data: {
       identifier: email,
       token: verificationToken,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24 hours
+      expires: new Date(Date.now() + 1000 * 60 * 10), // 24 hours
     },
   });
   await sendVerificationEmail(email, verificationToken);
@@ -74,6 +75,32 @@ export async function registerUser(formData) {
 
 export async function signInUser(formData) {
   const { email, password } = formData;
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user?.emailVerified) {
+    try {
+      await prisma.verificationToken.deleteMany({
+        where: { identifier: email },
+      });
+      const verificationToken = crypto.randomBytes(32).toString("hex");
+      await prisma.verificationToken.create({
+        data: {
+          identifier: email,
+          token: verificationToken,
+          expires: new Date(Date.now() + 1000 * 60 * 10), // 10 min
+        },
+      });
+      await sendVerificationEmail(email, verificationToken);
+      return {
+        error: "NOT-VERIFIED",
+        email: email,
+      };
+    } catch (error) {
+      console.error(
+        "Samething went wrong while sending email verification, ERROR:",
+        error,
+      );
+    }
+  }
   await signIn("credentials", {
     email,
     password,

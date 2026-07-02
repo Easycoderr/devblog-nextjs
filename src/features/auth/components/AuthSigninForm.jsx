@@ -7,8 +7,11 @@ import { signInUser } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/utils/schema";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
+import { useState } from "react";
+import CheckEmail from "./CheckEmail";
 
 function AuthSigninForm() {
+  const [checkEmail, setCheckEmail] = useState(null);
   const {
     register,
     handleSubmit,
@@ -21,11 +24,15 @@ function AuthSigninForm() {
       password: "12345678",
     },
   });
-  // local state
 
   async function onSubmit(data) {
-    await signInUser(data);
+    const result = await signInUser(data);
+    if (result.error === "NOT-VERIFIED") {
+      setCheckEmail(result.email);
+    }
   }
+  if (checkEmail)
+    return <CheckEmail email={checkEmail} setCheckEmail={setCheckEmail} />;
   return (
     <>
       {/* form body */}
