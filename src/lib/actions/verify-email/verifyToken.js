@@ -34,7 +34,7 @@ async function verifyToken(token) {
       message: "Something went wrong.",
     };
   }
-  redirect("/auth/signin/?verified=true");
+  return redirect("/auth/signin/?verified=true");
 }
 async function deleteToken(verificationToken) {
   await prisma.verificationToken.delete({
