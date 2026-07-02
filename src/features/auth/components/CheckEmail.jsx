@@ -1,41 +1,54 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import useCountdown from "@/hooks/useCountdown";
 import resendMail from "@/lib/actions/resendMail";
 import { MailCheck } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 function CheckEmail({ email, setCheckEmail }) {
+  const router = useRouter();
+  const { timeLeft, startTimer } = useCountdown(60);
+  const isCoolDown = timeLeft > 0;
   async function handleResendMail() {
+    startTimer();
     const result = await resendMail(email);
     if (result?.success) {
       toast.success(`Verification email sent to ${email}`);
+    } else if (!result?.success) {
+      setCheckEmail(null);
+      router.replace("/auth/signin?verified=true");
     }
   }
   return (
-    <div className="rounded-xl border border-border p-4 bg-card shadow-sm">
+    <div className="rounded-xl border border-border p-4 bg-card shadow-sm my-24">
       <div className="space-y-2">
         <h2 className="flex items-center gap-2 mb-4 text-3xl tracking-tight font-bold text-primary font-sora">
           <MailCheck className="size-8" />
           <span>Check your email</span>
         </h2>
-        <p className="text-muted-foreground">
-          We&apos;ve sent a verification link to
-        </p>
-        <p className="text-muted-foreground">{email}</p>
-        <p className="text-muted-foreground">
-          Please click the link to activate your account.
-        </p>
+        <div className="space-y-0">
+          <p className="text-muted-foreground">
+            We&apos;ve sent a verification link to
+          </p>
+          <p className="text-muted-foreground">{email}</p>
+          <p className="text-muted-foreground">
+            Please click the link to activate your account.
+          </p>
+        </div>
         <div className="flex flex-col gap-3 mt-6">
           <Button
+            disabled={isCoolDown}
             onClick={handleResendMail}
-            className="text-md text-indigo-50 cursor-pointer hover:opacity-75"
+            className={`text-md text-indigo-50 hover:opacity-75 ${isCoolDown ? "opacity-60 cursor-not-allowed" : "cursor-pointer "}`}
           >
-            Resend Email
+            {isCoolDown ? `Resend available in ${timeLeft}s` : "Resend email"}
           </Button>
           <Link
             className="p-1 text-center w-full inline-block bg-black/80 text-white rounded-lg hover:opacity-75"
             href="/auth/signin"
+            onClick={() => setCheckEmail(null)}
           >
             Back to Sign In
           </Link>
