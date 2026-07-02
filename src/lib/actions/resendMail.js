@@ -6,6 +6,11 @@ async function resendMail(email) {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return null;
+    if (user.emailVerified)
+      return {
+        success: false,
+        message: "Email already verified you can now",
+      };
     await prisma.verificationToken.deleteMany({
       where: { identifier: email },
     });
@@ -17,7 +22,7 @@ async function resendMail(email) {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24 hours
       },
     });
-    sendVerificationEmail(email, verificationToken);
+    await sendVerificationEmail(email, verificationToken);
     return {
       success: true,
       email,
