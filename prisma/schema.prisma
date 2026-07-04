@@ -17,9 +17,9 @@ model User {
   avatarId String?
 
   email    String @unique
-  emailVerified DateTime?
+  emailVerified DateTime? @map("email_verified")
   
-  password String
+  password String?
 
   name      String?
   createdAt DateTime @default(now())
@@ -33,30 +33,40 @@ model User {
   savedPosts SavedPost[]
 
   comments Comment[] 
-   viewLog ViewLog[]
+  viewLog ViewLog[]
 
-   accounts Account[]
-   sessions Session[]
+  accounts Account[]
+  sessions Session[]
    
+  @@map("users")
 }
 model Account {
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? 
+  access_token       String? 
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? 
+  session_state      String?
+ 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([provider, providerAccountId])
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 model Session {
-  id String @id @default(cuid())
-
-  sessionToken String @unique
-  userId       String
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
   expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@map("sessions")
 }
 model VerificationToken {
   identifier String
