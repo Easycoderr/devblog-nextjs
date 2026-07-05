@@ -9,6 +9,8 @@ import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
 import { useState } from "react";
 import CheckEmail from "./CheckEmail";
+import { toast } from "sonner";
+import SignInWithGoogle from "./SignInWithGoogle";
 
 function AuthSigninForm() {
   const [checkEmail, setCheckEmail] = useState(null);
@@ -29,6 +31,8 @@ function AuthSigninForm() {
     const result = await signInUser(data);
     if (result.error === "NOT-VERIFIED") {
       setCheckEmail(result.email);
+    } else if (result.error === "ERROR-PROVIDER") {
+      toast.info(result.message);
     }
   }
   if (checkEmail)
@@ -91,6 +95,13 @@ function AuthSigninForm() {
             </div>
           </div>
         </form>
+        <div className="h-0.5 w-full bg-gradient-to-r my-4 from-transparent via-gray-700 to-transparent relative">
+          {" "}
+          <span className="absolute bg-card top-[100%] -translate-y-[55%] left-[50%] -translate-x-[50%] text-sm">
+            or
+          </span>
+        </div>
+        <SignInWithGoogle />
       </div>
     </>
   );
