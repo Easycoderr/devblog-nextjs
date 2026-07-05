@@ -1,5 +1,4 @@
 "use server";
-import { cookies } from "next/headers";
 import { prisma } from "./prisma";
 import { auth } from "@/auth";
 

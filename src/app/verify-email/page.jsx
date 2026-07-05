@@ -1,4 +1,4 @@
-import verifyToken from "@/lib/actions/verify email/verifyToken";
+import verifyToken from "@/lib/actions/verify-email/verifyToken";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 

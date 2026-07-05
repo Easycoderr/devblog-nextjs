@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
-
+import Google from "next-auth/providers/google";
 export const authConfig = {
-  providers: [],
+  providers: [
+    Google({
+      allowDangerousEmailAccountLinking: true,
+    }),
+  ],
   pages: {
     signIn: "/auth/signin",
   },
