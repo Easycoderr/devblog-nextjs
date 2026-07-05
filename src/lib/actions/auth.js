@@ -7,7 +7,7 @@ import { imagekit } from "../imagekit";
 import { signIn } from "@/auth";
 import { sendVerificationEmail } from "./mail";
 import crypto from "crypto";
-import { success } from "zod";
+import { error } from "console";
 export async function registerUser(formData) {
   // 1. Grab the binary file explicitly first
   const profilePicture = formData.get("profilePicture");
@@ -23,8 +23,15 @@ export async function registerUser(formData) {
   });
   let avatar = null;
   let avatarId = null;
-  if (existingUser)
-    return { error: "This email is already in use. Please try to Sign in" };
+  if (existingUser.provider === "google") {
+    return {
+      error:
+        "This email is already registered with Google. Please continue with Google.",
+    };
+  }
+  if (existingUser) {
+    return { error: "An account with this email already exists." };
+  }
   // 4. hash password
   const hashedpassword = await bcrypt.hash(password, 10);
   if (
@@ -55,6 +62,7 @@ export async function registerUser(formData) {
       name: fullName,
       avatar: avatar,
       avatarId: avatarId,
+      provider: "credentials",
     },
   });
   // generate verification token
@@ -76,6 +84,13 @@ export async function registerUser(formData) {
 export async function signInUser(formData) {
   const { email, password } = formData;
   const user = await prisma.user.findUnique({ where: { email } });
+  if (user.provider === "google") {
+    return {
+      error: "ERROR-PROVIDER",
+      message:
+        "This account was created with Google. Please continue with Google.",
+    };
+  }
   if (!user?.emailVerified) {
     try {
       await prisma.verificationToken.deleteMany({
@@ -107,7 +122,7 @@ export async function signInUser(formData) {
     redirectTo: "/blogs",
   });
 }
-async function generateUserName(name) {
+export async function generateUserName(name) {
   let count = 1;
   let newUserName = name
     .trim()

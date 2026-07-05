@@ -4,11 +4,16 @@ import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./lib/prisma";
 import bcrypt from "bcryptjs";
 import { authConfig } from "./auth.config";
+import Google from "next-auth/providers/google";
+import CustomPrismaAdapter from "./lib/auth/custom-prisma-adapter";
 export const { handlers, signIn, auth, signOut } = NextAuth({
   ...authConfig,
-  adapter: PrismaAdapter(prisma),
+  adapter: CustomPrismaAdapter(),
   session: { strategy: "jwt" },
   providers: [
+    Google({
+      allowDangerousEmailAccountLinking: true,
+    }),
     Credentials({
       credentials: {
         email: {},
@@ -24,6 +29,11 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
           },
         });
         if (!user) return null;
+        if (user.provider === "google") {
+          throw new Error(
+            "This account was created with Google. Please continue with Google.",
+          );
+        }
         if (!user.emailVerified) {
           throw new Error("Please verify your email before signing in.");
         }
