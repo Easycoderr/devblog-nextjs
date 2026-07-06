@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 export async function sendVerificationEmail(email, token) {
-  const verificationLink = `${process.env.AUTH_URL}/verify-email?token=${token}`;
+  const verificationLink = `${process.env.AUTH_URL}/auth/verify-email?token=${token}`;
   try {
     await resend.emails.send({
       from: "DevBlog <onboarding@resend.dev>", // change later

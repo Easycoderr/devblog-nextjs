@@ -7,7 +7,6 @@ import { imagekit } from "../imagekit";
 import { signIn } from "@/auth";
 import { sendVerificationEmail } from "./mail";
 import crypto from "crypto";
-import { error } from "console";
 export async function registerUser(formData) {
   // 1. Grab the binary file explicitly first
   const profilePicture = formData.get("profilePicture");
