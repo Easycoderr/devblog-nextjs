@@ -1,7 +1,5 @@
 import VerificationFailed from "@/features/auth/components/VerificationFailed";
 import verifyToken from "@/lib/actions/verify-email/verifyToken";
-import { AlertCircle, ArrowLeft } from "lucide-react";
-import Link from "next/link";
 
 async function page({ searchParams }) {
   const { token } = await searchParams;

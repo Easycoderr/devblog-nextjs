@@ -7,7 +7,7 @@ function Footer() {
   return (
     <footer
       id="footer"
-      className="pt-6 pb-2 bg-background/80 border-t border-t-border flex flex-col"
+      className="pt-6 mt-auto pb-2 bg-background/80 border-t border-t-border flex flex-col"
     >
       <div className="container 2xl:px-10 mx-auto">
         <div className="grid grid-cols-1 gap-4 text-foreground">
