@@ -57,7 +57,7 @@ function AuthSigninForm() {
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-3 md:min-w-md"
+          className="flex flex-col gap-4 md:min-w-md"
         >
           <Input
             icon={<Mail size={18} className="text-muted-foreground" />}
@@ -66,12 +66,20 @@ function AuthSigninForm() {
             error={errors.email}
             {...register("email")}
           />
-          <Input
-            icon="password"
-            label="Password"
-            error={errors.password}
-            {...register("password")}
-          />
+          <div>
+            <Input
+              icon="password"
+              label="Password"
+              error={errors.password}
+              {...register("password")}
+            />
+            <Link
+              href="forget-password"
+              className="text-sm text-primary mt-0 hover:text-primary/75"
+            >
+              Forget password?
+            </Link>
+          </div>
           <div className="flex flex-col gap-2">
             <FormsButton
               disabled={isSubmitting}
