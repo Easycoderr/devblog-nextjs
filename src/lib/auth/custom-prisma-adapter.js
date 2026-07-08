@@ -1,9 +1,8 @@
-"use server";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "../prisma";
 import { generateUserName } from "../actions/auth";
 
-async function CustomPrismaAdapter() {
+function CustomPrismaAdapter() {
   const adapter = PrismaAdapter(prisma);
   return {
     ...adapter,
