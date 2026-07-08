@@ -7,15 +7,24 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-function CheckEmail({ email, setCheckEmail }) {
+function CheckEmail({ email, setCheckEmail, mode = "verify" }) {
   const router = useRouter();
   const { timeLeft, startTimer } = useCountdown(60);
   const isCoolDown = timeLeft > 0;
+
+  const isResetMode = mode === "reset";
+  const linkType = isResetMode ? "password reset" : "verification";
+  const actionText = isResetMode
+    ? "reset your password"
+    : "activate your account";
   async function handleResendMail() {
     startTimer();
-    const result = await resendMail(email);
+    const result = await resendMail(email, mode);
+    if (result.error) {
+      toast.error(result.message);
+    }
     if (result?.success) {
-      toast.success(`Verification email sent to ${email}`);
+      toast.success(`${linkType} email sent to ${email}`);
     } else if (!result?.success) {
       setCheckEmail(null);
       router.replace("/auth/signin?verified=true");
@@ -30,11 +39,11 @@ function CheckEmail({ email, setCheckEmail }) {
         </h2>
         <div className="space-y-0">
           <p className="text-muted-foreground">
-            We&apos;ve sent a verification link to
+            We&apos;ve sent a {linkType} link to
           </p>
           <p className="text-muted-foreground">{email}</p>
           <p className="text-muted-foreground">
-            Please click the link to activate your account.
+            Please click the link to {actionText}.
           </p>
         </div>
         <div className="flex flex-col gap-3 mt-6">

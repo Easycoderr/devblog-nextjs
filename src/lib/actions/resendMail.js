@@ -1,34 +1,42 @@
 "use server";
 import { prisma } from "../prisma";
-import { sendVerificationEmail } from "./mail";
-import crypto from "crypto";
-async function resendMail(email) {
+import { sendResetPasswordEmail } from "./mail/sendResetPasswordEmail";
+import { sendVerificationEmail } from "./mail/sendVerificationEmail";
+import generateResetPasswordToken from "./tokens/generateResetPasswordToken";
+import generateVerificationToken from "./tokens/generateVerificationToken";
+async function resendMail(email, mode) {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return null;
-    if (user.emailVerified)
+    if (user.emailVerified && mode === "verify")
       return {
         success: false,
         message: "Email already verified you can now",
       };
-    await prisma.verificationToken.deleteMany({
-      where: { identifier: email },
-    });
-    const verificationToken = crypto.randomBytes(32).toString("hex");
-    await prisma.verificationToken.create({
-      data: {
-        identifier: email,
-        token: verificationToken,
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24 hours
-      },
-    });
-    await sendVerificationEmail(email, verificationToken);
+
+    if (mode === "verify") {
+      await prisma.verificationToken.deleteMany({
+        where: { identifier: email },
+      });
+      const verificationToken = await generateVerificationToken(email);
+      await sendVerificationEmail(email, verificationToken);
+    } else {
+      await prisma.passwordResetToken.deleteMany({
+        where: { identifier: email },
+      });
+      const resetPasswordToken = await generateResetPasswordToken(email);
+      await sendResetPasswordEmail(email, resetPasswordToken);
+    }
     return {
       success: true,
       email,
     };
   } catch (error) {
     console.log("Something went wrong, Error:", error);
+    return {
+      error: true,
+      message: "Failed to send email. Please try again.",
+    };
   }
 }
 
