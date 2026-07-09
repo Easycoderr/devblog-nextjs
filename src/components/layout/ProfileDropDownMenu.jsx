@@ -24,8 +24,8 @@ function ProfileDropDownMenu({ user }) {
               src={avatar}
             />
             <AvatarFallback>
-              {firstName[0]}
-              {lastName[0]}
+              {firstName?.[0]}
+              {lastName?.[0]}
             </AvatarFallback>
           </Avatar>
         </Button>
