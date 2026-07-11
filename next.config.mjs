@@ -11,6 +11,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "lh3.googleusercontent.com", // This is Google's avatar server
+        pathname: "**",
+      },
+      {
+        protocol: "https",
         hostname: "ik.imagekit.io",
         port: "",
         pathname: "/**", // Allows all subfolders and images from your ImageKit account
