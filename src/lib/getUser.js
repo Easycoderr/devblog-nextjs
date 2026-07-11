@@ -3,23 +3,27 @@ import { prisma } from "./prisma";
 import { auth } from "@/auth";
 
 async function getCurrentUser() {
-  const session = await auth();
-  if (!session?.user) return null;
   try {
+    const session = await auth();
+    if (!session?.user) return null;
+    const { email, userName, avatar, name } = session?.user;
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: {
         id: true,
         firstName: true,
         lastName: true,
-        avatar: true,
-        userName: true,
-        name: true,
         provider: true,
       },
     });
-    return user ?? null;
-  } catch (error) {}
+    return { userName, email, avatar, name, ...user } ?? null;
+  } catch (error) {
+    console.log("Something went wrong while fetch user, ERROR:", error);
+    return {
+      success: false,
+      message: "An unexpected error occurred. Please try again.",
+    };
+  }
 }
 export async function getUserById(userId) {
   if (!userId) return null;
