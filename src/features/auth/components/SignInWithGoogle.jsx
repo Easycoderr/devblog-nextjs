@@ -16,7 +16,7 @@ function SignInWithGoogle() {
             src="/images/Google__G__logo.svg"
           />
         </div>
-        <sspan>Sign in with google</sspan>
+        <span>Sign in with google</span>
       </button>
     </form>
   );
