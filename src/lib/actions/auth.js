@@ -2,9 +2,8 @@
 import { redirect } from "next/navigation";
 import { prisma } from "../prisma";
 import bcrypt from "bcryptjs";
-import { cookies } from "next/headers";
 import { imagekit } from "../imagekit";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { sendVerificationEmail } from "./mail/sendVerificationEmail";
 import generateVerificationToken from "./tokens/generateVerificationToken";
 export async function registerUser(formData) {
@@ -128,6 +127,6 @@ export async function getUserByUserName(userName) {
   return user;
 }
 export async function signOutUser() {
-  (await cookies()).delete("userId");
+  await signOut();
   redirect("/");
 }
