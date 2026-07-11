@@ -159,7 +159,7 @@ function Name({ avatar, name, userName, isOwner, variant = "default" }) {
       "text-xs text-muted-foreground flex items-center gap-1 transition-all duration-200",
   };
   return (
-    <p className={style[variant]}>
+    <div className={style[variant]}>
       {avatar ? (
         <div className="relative rounded-full h-8 w-8 overflow-hidden border border-border">
           <Image
@@ -196,7 +196,7 @@ function Name({ avatar, name, userName, isOwner, variant = "default" }) {
           Author
         </div>
       )}
-    </p>
+    </div>
   );
 }
 export default Comment;
