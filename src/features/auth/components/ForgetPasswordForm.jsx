@@ -33,6 +33,7 @@ function ForgetPasswordForm() {
     if (!response.success) {
       toast.error(response.message);
     }
+    setCheckEmail(data.email);
   }
   if (checkEmail)
     return (

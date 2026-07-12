@@ -63,7 +63,7 @@ function AuthRegisterForm() {
     if (response.success) {
       setCheckEmail(response);
     } else if (response.error) {
-      toast.error(response.error);
+      toast.error(response.message);
     }
   }
   if (checkEmail) {

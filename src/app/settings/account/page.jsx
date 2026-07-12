@@ -5,7 +5,6 @@ import getCurrentUser from "@/lib/getUser";
 
 async function page() {
   const user = await getCurrentUser();
-  console.log(user);
   return (
     <div>
       <div className="space-y-3 mb-6">

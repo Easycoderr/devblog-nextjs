@@ -17,7 +17,7 @@ function AuthSigninForm() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, isDirty },
   } = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -28,11 +28,14 @@ function AuthSigninForm() {
   });
 
   async function onSubmit(data) {
-    const result = await signInUser(data);
-    if (result.error === "NOT-VERIFIED") {
-      setCheckEmail(result.email);
-    } else if (result.error === "ERROR-PROVIDER") {
-      toast.info(result.message);
+    const response = await signInUser(data);
+    if (response.error === "NOT-VERIFIED") {
+      toast.info("Please verify your email.");
+      setCheckEmail(response.email);
+    } else if (response.error === "ERROR-PROVIDER") {
+      toast.info(response.message);
+    } else {
+      toast.error(response.message);
     }
   }
   if (checkEmail)
@@ -82,7 +85,7 @@ function AuthSigninForm() {
           </div>
           <div className="flex flex-col gap-2">
             <FormsButton
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isDirty}
               type="submit"
               style="authForm"
               ariaLabel="Sign in account"
@@ -103,9 +106,9 @@ function AuthSigninForm() {
             </div>
           </div>
         </form>
-        <div className="h-0.5 w-full bg-gradient-to-r my-4 from-transparent via-gray-700 to-transparent relative">
+        <div className="h-0.5 w-full bg-linear-to-r my-4 from-transparent via-gray-700 to-transparent relative">
           {" "}
-          <span className="absolute bg-card top-[100%] -translate-y-[55%] left-[50%] -translate-x-[50%] text-sm">
+          <span className="absolute bg-card top-[100%] translate-y-[-55%] left-[50%] translate-x-[-50%] text-sm">
             or
           </span>
         </div>
