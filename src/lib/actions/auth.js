@@ -6,6 +6,7 @@ import { imagekit } from "../imagekit";
 import { signIn, signOut } from "@/auth";
 import { sendVerificationEmail } from "./mail/sendVerificationEmail";
 import generateVerificationToken from "./tokens/generateVerificationToken";
+
 export async function registerUser(formData) {
   // 1. Grab the binary file explicitly first
   const profilePicture = formData.get("profilePicture");
@@ -21,14 +22,20 @@ export async function registerUser(formData) {
   });
   let avatar = null;
   let avatarId = null;
-  if (existingUser.provider === "google") {
+  if (existingUser?.provider === "google") {
     return {
-      error:
+      error: true,
+      success: false,
+      message:
         "This email is already registered with Google. Please continue with Google.",
     };
   }
   if (existingUser) {
-    return { error: "An account with this email already exists." };
+    return {
+      error: true,
+      success: false,
+      message: "An account with this email already exists.",
+    };
   }
   // 4. hash password
   const hashedpassword = await bcrypt.hash(password, 10);
@@ -65,31 +72,52 @@ export async function registerUser(formData) {
   });
   // generate verification token
   const verificationToken = await generateVerificationToken(email);
-  await sendVerificationEmail(email, verificationToken);
+  const response = await sendVerificationEmail(email, verificationToken);
+  if (response.error) {
+    console.error(response.error?.message);
+    return {
+      success: false,
+      email,
+      error: true,
+      message: response.error?.message,
+    };
+  }
   return {
     success: true,
     email,
+    error: false,
   };
 }
 
 export async function signInUser(formData) {
   const { email, password } = formData;
   const user = await prisma.user.findUnique({ where: { email } });
-  if (user.provider === "google") {
+  if (user?.provider === "google") {
     return {
       error: "ERROR-PROVIDER",
       message:
         "This account was created with Google. Please continue with Google.",
     };
   }
-  if (!user?.emailVerified) {
+  if (user && !user?.emailVerified) {
     try {
       await prisma.verificationToken.deleteMany({
         where: { identifier: email },
       });
       const verificationToken = await generateVerificationToken(email);
-      await sendVerificationEmail(email, verificationToken);
+      const response = await sendVerificationEmail(email, verificationToken);
+      if (response.error) {
+        console.error(response.error?.message);
+        return {
+          success: false,
+          email,
+          error: true,
+          message: response.error?.message,
+        };
+      }
+
       return {
+        success: false,
         error: "NOT-VERIFIED",
         email: email,
       };
@@ -98,6 +126,11 @@ export async function signInUser(formData) {
         "Samething went wrong while sending email verification, ERROR:",
         error,
       );
+      return {
+        success: false,
+        error: true,
+        message: "An unexpected error occurred. Please try again.",
+      };
     }
   }
   await signIn("credentials", {
