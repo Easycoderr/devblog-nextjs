@@ -8,29 +8,52 @@ async function resendMail(email, mode) {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return null;
-    if (user.emailVerified && mode === "verify")
+    if (user.emailVerified && mode === "verify") {
       return {
-        success: false,
+        success: "VERIFIED",
         message: "Email already verified you can now",
       };
+    }
 
     if (mode === "verify") {
       await prisma.verificationToken.deleteMany({
         where: { identifier: email },
       });
       const verificationToken = await generateVerificationToken(email);
-      await sendVerificationEmail(email, verificationToken);
+      const response = await sendVerificationEmail(email, verificationToken);
+      if (!response.error) {
+        return {
+          success: true,
+          email,
+        };
+      }
+      console.error(response.error?.message);
+      return {
+        success: false,
+        email,
+        error: true,
+        message: response.error?.message,
+      };
     } else {
       await prisma.passwordResetToken.deleteMany({
         where: { identifier: email },
       });
       const resetPasswordToken = await generateResetPasswordToken(email);
-      await sendResetPasswordEmail(email, resetPasswordToken);
+      const response = await sendResetPasswordEmail(email, resetPasswordToken);
+      if (!response.error) {
+        return {
+          success: true,
+          email,
+        };
+      }
+      console.error(response.error?.message);
+      return {
+        success: false,
+        email,
+        error: true,
+        message: response.error?.message,
+      };
     }
-    return {
-      success: true,
-      email,
-    };
   } catch (error) {
     console.log("Something went wrong, Error:", error);
     return {

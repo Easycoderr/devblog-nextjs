@@ -13,19 +13,17 @@ function CheckEmail({ email, setCheckEmail, mode = "verify" }) {
   const isCoolDown = timeLeft > 0;
 
   const isResetMode = mode === "reset";
-  const linkType = isResetMode ? "password reset" : "verification";
+  const linkType = isResetMode ? "Password reset" : "Verification";
   const actionText = isResetMode
     ? "reset your password"
     : "activate your account";
   async function handleResendMail() {
     startTimer();
-    const result = await resendMail(email, mode);
-    if (result.error) {
-      toast.error(result.message);
-    }
-    if (result?.success) {
-      toast.success(`${linkType} email sent to ${email}`);
-    } else if (!result?.success) {
+    toast.success(`${linkType} email sent to ${email}`);
+    const response = await resendMail(email, mode);
+    if (response?.error) {
+      toast.error(response?.message);
+    } else if (response?.success === "VERIFIED") {
       setCheckEmail(null);
       router.replace("/auth/signin?verified=true");
     }
