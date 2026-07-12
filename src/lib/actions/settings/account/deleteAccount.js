@@ -8,7 +8,6 @@ import { imagekit } from "@/lib/imagekit";
 
 async function deleteAccount(data) {
   const currUser = await getCurrentUser();
-  console.log(currUser);
   if (!currUser || !currUser.id) {
     console.log("No valid user session found.");
     return null;
@@ -17,8 +16,10 @@ async function deleteAccount(data) {
     where: { id: currUser.id },
     select: { password: true },
   });
-  const isValid = await bcrypt.compare(data.password, user.password);
-  if (!isValid) return { error: true, message: "Invalid password" };
+  if (user.provider === "credentials") {
+    const isValid = await bcrypt.compare(data.password, user.password);
+    if (!isValid) return { error: true, message: "Invalid password" };
+  }
   try {
     const deleteUser = await prisma.user.deleteMany({
       where: { id: currUser.id },
