@@ -17,8 +17,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { deleteAccountPasswordSchema } from "@/lib/utils/schema";
 import deleteAccount from "@/lib/actions/settings/account/deleteAccount";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
-function DeleteAccount() {
+function DeleteAccount({ user }) {
+  const { provider } = user;
   const route = useRouter();
   const {
     register,
@@ -62,36 +64,60 @@ function DeleteAccount() {
                 Are you sure? This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="py-1">
-                <Input
-                  label="Please enter your
+            {provider !== "google" ? (
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="py-1">
+                  <Input
+                    label="Please enter your
                 password"
-                  icon="password"
-                  error={errors.password}
-                  {...register("password")}
-                />
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button variant="outline" onClick={() => reset()}>
-                    Cancel
+                    icon="password"
+                    error={errors.password}
+                    {...register("password")}
+                  />
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline" onClick={() => reset()}>
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button
+                    type="submit"
+                    variant="destructive"
+                    disabled={isSubmitting}
+                  >
+                    Yes, delete
                   </Button>
-                </DialogClose>
-                <Button
-                  type="submit"
-                  variant="destructive"
-                  disabled={!isDirty || isSubmitting}
-                >
-                  Yes, delete
-                </Button>
-              </DialogFooter>
-            </form>
+                </DialogFooter>
+              </form>
+            ) : (
+              <OnSubmitButton onSubmit={onSubmit} />
+            )}
           </DialogContent>
         </Dialog>
       </div>
     </div>
   );
 }
-
+function OnSubmitButton({ onSubmit }) {
+  const [isPending, startTransition] = useTransition();
+  return (
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="outline">Cancel</Button>
+      </DialogClose>
+      <Button
+        variant="destructive"
+        onClick={() => {
+          startTransition(() => {
+            onSubmit();
+          });
+        }}
+        disabled={isPending}
+      >
+        {isPending ? "Deleting..." : "Yes, delete"}
+      </Button>
+    </DialogFooter>
+  );
+}
 export default DeleteAccount;

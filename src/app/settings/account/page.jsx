@@ -5,6 +5,7 @@ import getCurrentUser from "@/lib/getUser";
 
 async function page() {
   const user = await getCurrentUser();
+  console.log(user);
   return (
     <div>
       <div className="space-y-3 mb-6">
@@ -18,7 +19,7 @@ async function page() {
       <div className="grid grid-cols-1 gap-4 py-2">
         <ChangeEmail user={user} />
         <ChangePassword />
-        <DeleteAccount />
+        <DeleteAccount user={user} />
       </div>
     </div>
   );
