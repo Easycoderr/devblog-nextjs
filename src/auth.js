@@ -9,6 +9,10 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
   ...authConfig,
   adapter: CustomPrismaAdapter(),
   session: { strategy: "jwt" },
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/auth-error",
+  },
   providers: [
     Google({
       allowDangerousEmailAccountLinking: true,
