@@ -133,11 +133,20 @@ export async function signInUser(formData) {
       };
     }
   }
-  await signIn("credentials", {
-    email,
-    password,
-    redirectTo: "/blogs",
-  });
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: "/blogs",
+    });
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error: true,
+      message: "Invalid credentials.",
+    };
+  }
 }
 export async function generateUserName(name) {
   let count = 1;
