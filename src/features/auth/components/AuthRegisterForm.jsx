@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { registerSchema } from "@/lib/utils/schema";
 import Link from "next/link";
 import { registerUser } from "@/lib/actions/auth";
-import { redirect } from "next/navigation";
 import { toast } from "sonner";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";

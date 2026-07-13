@@ -108,7 +108,7 @@ function AuthSigninForm() {
         </form>
         <div className="h-0.5 w-full bg-linear-to-r my-4 from-transparent via-gray-700 to-transparent relative">
           {" "}
-          <span className="absolute bg-card top-[100%] translate-y-[-55%] left-[50%] translate-x-[-50%] text-sm">
+          <span className="absolute bg-card top-full translate-y-[-55%] left-[50%] translate-x-[-50%] text-sm">
             or
           </span>
         </div>

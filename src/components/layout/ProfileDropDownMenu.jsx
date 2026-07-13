@@ -43,18 +43,18 @@ function ProfileDropDownMenu({ user }) {
         <DropdownMenuItem>
           <Link
             href={`/u/${userName}`}
-            className="!text-current flex gap-2 min-w-full"
+            className="text-current! flex gap-2 min-w-full"
           >
-            <User className="!text-current" />
+            <User className="text-current!" />
             Profile
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Link
             href={`/settings/profile`}
-            className="!text-current !flex !items-center gap-2 min-w-full"
+            className="text-current! flex! items-center! gap-2 min-w-full"
           >
-            <Settings className="!text-current" />
+            <Settings className="text-current!" />
             <span>Settings</span>
           </Link>
         </DropdownMenuItem>
