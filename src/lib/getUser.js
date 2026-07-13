@@ -6,7 +6,7 @@ async function getCurrentUser() {
   try {
     const session = await auth();
     if (!session?.user) return null;
-    const { email, userName, avatar, name } = session?.user;
+    const { email, userName, name } = session?.user;
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: {
@@ -14,9 +14,10 @@ async function getCurrentUser() {
         firstName: true,
         lastName: true,
         provider: true,
+        avatar: true,
       },
     });
-    return { userName, email, avatar, name, ...user } ?? null;
+    return { userName, email, name, ...user } ?? null;
   } catch (error) {
     console.log("Something went wrong while fetch user, ERROR:", error);
     return {
