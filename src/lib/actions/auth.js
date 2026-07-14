@@ -6,6 +6,8 @@ import { imagekit } from "../imagekit";
 import { signIn, signOut } from "@/auth";
 import { sendVerificationEmail } from "./mail/sendVerificationEmail";
 import generateVerificationToken from "./tokens/generateVerificationToken";
+import { AuthError } from "next-auth";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export async function registerUser(formData) {
   // 1. Grab the binary file explicitly first
@@ -34,7 +36,8 @@ export async function registerUser(formData) {
     return {
       error: true,
       success: false,
-      message: "An account with this email already exists.",
+      message:
+        "Unable to create account, Please check your information or sign in if you already have an account.",
     };
   }
   // 4. hash password
@@ -140,12 +143,20 @@ export async function signInUser(formData) {
       redirectTo: "/blogs",
     });
   } catch (error) {
-    console.log(error);
-    return {
-      success: false,
-      error: true,
-      message: "Invalid credentials.",
-    };
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
+    if (error instanceof AuthError) {
+      if (error.type === "CredentialsSignin") {
+        return {
+          success: false,
+          message: "Invalid email or password.",
+        };
+      }
+    }
+
+    throw error;
   }
 }
 export async function generateUserName(name) {

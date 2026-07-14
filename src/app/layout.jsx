@@ -43,7 +43,7 @@ export default async function RootLayout({ children }) {
             <Header user={user} />
 
             {children}
-            <Toaster richColors closeButton position="top" />
+            <Toaster richColors closeButton position="top-center" />
             <Footer />
           </AccentProvider>
         </ThemeProvider>
