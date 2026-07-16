@@ -1,4 +1,4 @@
-import ChangeEmail from "@/features/settings/components/ChangeEmail";
+import ChangeEmail from "@/features/settings/components/change-email/ChangeEmail";
 import ChangePassword from "@/features/settings/components/ChangePassword";
 import DeleteAccount from "@/features/settings/components/DeleteAccount";
 import getCurrentUser from "@/lib/getUser";
