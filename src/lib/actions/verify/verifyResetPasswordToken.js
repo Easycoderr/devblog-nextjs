@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "../prisma";
+import { prisma } from "../../prisma";
 async function verifyResetPasswordToken(token) {
   try {
     const resetToken = await prisma.passwordResetToken.findUnique({

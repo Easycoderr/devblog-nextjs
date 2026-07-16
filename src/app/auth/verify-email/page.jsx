@@ -1,5 +1,5 @@
 import VerificationFailed from "@/features/auth/components/VerificationFailed";
-import verifyToken from "@/lib/actions/verify-email/verifyToken";
+import verifyToken from "@/lib/actions/verify/verifyToken";
 
 async function page({ searchParams }) {
   const { token } = await searchParams;

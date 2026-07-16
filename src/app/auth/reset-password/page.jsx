@@ -1,6 +1,6 @@
 import ResetPasswordForm from "@/features/auth/components/ResetPasswordForm";
 import VerificationFailed from "@/features/auth/components/VerificationFailed";
-import verifyResetPasswordToken from "@/lib/actions/verifyResetPasswordToken";
+import verifyResetPasswordToken from "@/lib/actions/verify/verifyResetPasswordToken";
 
 async function page({ searchParams }) {
   const params = await searchParams;
