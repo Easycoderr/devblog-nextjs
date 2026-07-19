@@ -1,23 +1,53 @@
 "use client";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
-import { signInSchema } from "@/lib/utils/schema";
+import CheckEmail from "@/features/auth/components/CheckEmail";
+import changeEmail from "@/lib/actions/settings/account/changeEmail";
+import { changeEmailSchema } from "@/lib/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-function ChangeEmailForm({ setShowForm }) {
+import { toast } from "sonner";
+
+function ChangeEmailForm({ setShowForm, email }) {
+  const [checkEmail, setCheckEmail] = useState(false);
   const {
     register,
     reset,
     handleSubmit,
+
+    setError,
     formState: { isSubmitting, isDirty, errors },
-  } = useForm({ resolver: zodResolver(signInSchema) });
-  function onSubmit() {}
+  } = useForm({ resolver: zodResolver(changeEmailSchema(email)) });
+  async function onSubmit(formData) {
+    const { email: newEmail, password } = formData;
+    const response = await changeEmail({ email, newEmail, password });
+    if (!response) toast.error("Something went wrong, please try again.");
+    if (response.error === "DUPLICATE-EMAIL") {
+      setError("email", { message: response.message });
+    } else if (response.error === "INVALID-PASS") {
+      setError("password", { message: response.message });
+    }
+    if (response.success) {
+      setCheckEmail(newEmail);
+      toast.success(response.message);
+    }
+  }
   function onReset() {
     console.log("hi");
     reset();
     setShowForm(false);
   }
+  if (checkEmail)
+    return (
+      <CheckEmail
+        email={email}
+        newEmail={checkEmail}
+        setCheckEmail={setCheckEmail}
+        mode="change"
+      />
+    );
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2.5">
       <h3 className="col-span-2 text-foreground font-medium">
@@ -48,6 +78,7 @@ function ChangeEmailForm({ setShowForm }) {
             Cancel
           </FormsButton>
           <FormsButton
+            disabled={isSubmitting}
             isSubmiting={isSubmitting || !isDirty}
             type="submit"
             style="settingsPrimary"
