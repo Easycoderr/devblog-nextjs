@@ -132,3 +132,15 @@ export const changePasswordSchema = z
 export const deleteAccountPasswordSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
+
+// change email
+export const changeEmailSchema = (oldEmail) =>
+  z
+    .object({
+      email: z.string().email("Invalid email address"),
+      password: z.string().min(8, "Password must be at least 8 characters"),
+    })
+    .refine((data) => data.email !== oldEmail, {
+      message: "This is already your current email address.",
+      path: ["email"],
+    });
