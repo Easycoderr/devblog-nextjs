@@ -1,10 +1,12 @@
 "use server";
 import { prisma } from "../prisma";
+import sendChangeEmail from "./mail/sendChangeEmail";
 import { sendResetPasswordEmail } from "./mail/sendResetPasswordEmail";
 import { sendVerificationEmail } from "./mail/sendVerificationEmail";
+import generateChangeEmailToken from "./tokens/generateChangeEmailToken";
 import generateResetPasswordToken from "./tokens/generateResetPasswordToken";
 import generateVerificationToken from "./tokens/generateVerificationToken";
-async function resendMail(email, mode) {
+async function resendMail(newEmail, email, mode) {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return null;
@@ -34,12 +36,31 @@ async function resendMail(email, mode) {
         error: true,
         message: response.error?.message,
       };
-    } else {
+    } else if (mode === "reset") {
       await prisma.passwordResetToken.deleteMany({
         where: { identifier: email },
       });
       const resetPasswordToken = await generateResetPasswordToken(email);
       const response = await sendResetPasswordEmail(email, resetPasswordToken);
+      if (!response.error) {
+        return {
+          success: true,
+          email,
+        };
+      }
+      console.error(response.error?.message);
+      return {
+        success: false,
+        email,
+        error: true,
+        message: response.error?.message,
+      };
+    } else {
+      await prisma.emailChangeToken.deleteMany({
+        where: { identifier: email },
+      });
+      const changeEmailToken = generateChangeEmailToken(email, newEmail);
+      const response = await sendChangeEmail(email, changeEmailToken);
       if (!response.error) {
         return {
           success: true,

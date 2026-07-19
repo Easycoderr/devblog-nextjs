@@ -8,7 +8,7 @@ function ChangeEmail({ user }) {
   return (
     <div className="rounded-lg bg-card border border-border p-4">
       {showForm ? (
-        <ChangeEmailForm setShowForm={setShowForm} />
+        <ChangeEmailForm setShowForm={setShowForm} email={user.email} />
       ) : (
         <div className="flex flex-col gap-2.5 ">
           <h3 className="col-span-2 text-foreground font-medium">
