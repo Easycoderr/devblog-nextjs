@@ -78,7 +78,7 @@ function AuthRegisterForm() {
           <span>Back to Home</span>
         </button> */}
       </div>
-      <div className="border border-border rounded-xl p-4 bg-card shadow-sm min-w-full md:min-w-lg md:max-w-[38rem]">
+      <div className="border border-border rounded-xl p-4 bg-card shadow-sm min-w-full md:min-w-lg md:max-w-152">
         <div className="space-y-2 mb-8">
           <h2 className="text-3xl tracking-tight font-bold text-primary font-sora">
             Create account
@@ -92,7 +92,7 @@ function AuthRegisterForm() {
           <div className="mx-auto flex flex-col items-center justify-center mb-6">
             <label
               htmlFor="profile-picture"
-              className={`group relative flex items-center justify-center overflow-hidden cursor-pointer ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 bg-input h-36 w-36 border rounded-full focus:outline-none`}
+              className={`group relative flex items-center justify-center overflow-hidden cursor-pointer ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-focus-visible:ring-2 has-focus-visible:ring-ring has-focus-visible:ring-offset-2 bg-input h-36 w-36 border rounded-full focus:outline-none`}
             >
               <input
                 id="profile-picture"

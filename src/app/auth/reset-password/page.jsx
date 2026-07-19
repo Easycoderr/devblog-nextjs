@@ -8,7 +8,7 @@ async function page({ searchParams }) {
   const response = await verifyResetPasswordToken(token);
 
   return (
-    <div className="flex items-center justify-center min-h-[600px]">
+    <div className="flex items-center justify-center min-h-150">
       {!response.success ? (
         <VerificationFailed message={response?.message} />
       ) : (
