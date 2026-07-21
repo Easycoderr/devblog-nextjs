@@ -4,15 +4,16 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import generateChangeEmailToken from "../../tokens/generateChangeEmailToken";
 import sendChangeEmail from "../../mail/sendChangeEmail";
-import { Passions_Conflict } from "next/font/google";
 
 async function changeEmail(data) {
   const { email, newEmail, password } = data;
   try {
+    console.log(data);
     const currUser = await prisma.user.findUnique({
       where: { email },
       select: { password: true },
     });
+    console.log("USER:", currUser);
     if (!currUser) return null;
     const isUserExist = await prisma.user.findUnique({
       where: { email: newEmail },
@@ -33,7 +34,8 @@ async function changeEmail(data) {
     await prisma.emailChangeToken.deleteMany({
       where: { identifier: email },
     });
-    const changeEmailToken = generateChangeEmailToken(email, newEmail);
+    const changeEmailToken = await generateChangeEmailToken(email, newEmail);
+    console.log("TOKEN:", changeEmailToken);
     const response = await sendChangeEmail(email, changeEmailToken);
     if (response.error) {
       console.error(
