@@ -11,7 +11,11 @@ async function page({ searchParams }) {
   if (!token) {
     return (
       <div className="flex items-center justify-center min-h-150">
-        <VerificationFailed message="Missing verification token in the URL." />
+        <VerificationFailed
+          message="Missing verification token in the URL."
+          buttonTitle="back to account"
+          href="/settings/account"
+        />
       </div>
     );
   }

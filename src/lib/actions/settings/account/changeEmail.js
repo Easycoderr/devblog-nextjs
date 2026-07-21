@@ -35,7 +35,6 @@ async function changeEmail(data) {
       where: { identifier: email },
     });
     const changeEmailToken = await generateChangeEmailToken(email, newEmail);
-    console.log("TOKEN:", changeEmailToken);
     const response = await sendChangeEmail(email, changeEmailToken);
     if (response.error) {
       console.error(

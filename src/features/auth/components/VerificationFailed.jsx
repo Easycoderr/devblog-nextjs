@@ -1,7 +1,11 @@
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-function VerificationFailed({ message }) {
+function VerificationFailed({
+  message,
+  buttonTitle = "Back to Sign In",
+  href = "/auth/signin",
+}) {
   return (
     <div className="flex flex-col gap-4 items-center bg-card text-card-foreground shadow-md p-8 rounded-xl max-w-md text-center">
       <AlertCircle className="size-14 text-brand-danger" />
@@ -16,11 +20,11 @@ function VerificationFailed({ message }) {
       </div>
 
       <Link
-        href="/auth/signin"
+        href={href}
         className="flex gap-2 text-white bg-brand-danger hover:bg-brand-danger/90 transition-colors rounded-lg px-4 py-2 mt-2 items-center tracking-wide font-medium"
       >
         <ArrowLeft className="size-4" />
-        <span>Back to Sign In</span>
+        <span>{buttonTitle}</span>
       </Link>
     </div>
   );

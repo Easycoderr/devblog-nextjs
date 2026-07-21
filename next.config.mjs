@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  allowedDevOrigins: ["192.168.1.16"],
   experimental: {
     serverActions: {
       bodySizeLimit: "4mb", // Increases the allowed payload size to 4 Megabytes

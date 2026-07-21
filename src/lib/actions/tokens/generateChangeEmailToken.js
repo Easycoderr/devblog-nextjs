@@ -1,8 +1,10 @@
+"use server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 
 async function generateChangeEmailToken(email, newEmail) {
-  const token = await crypto.randomBytes(32).toString("hex");
+  const token = crypto.randomBytes(32).toString("hex");
+  console.log(token);
   try {
     await prisma.emailChangeToken.create({
       data: {
