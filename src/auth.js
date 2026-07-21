@@ -65,21 +65,27 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ session, token, trigger, user }) {
+      if (trigger === "update" && session) {
+        token.email = session.email || session.user?.email || token.email;
+      }
       if (user) {
         token.id = user.id;
         token.name = user.name;
         token.userName = user.userName;
         token.avatar = user.avatar;
+        token.email = user.email;
       }
       return token;
     },
     async session({ token, session }) {
-      session.user.id = token.id;
-      session.user.name = token.name;
-
-      session.user.userName = token.userName;
-      session.user.avatar = token.avatar;
+      if (token && session.user) {
+        session.user.email = token.email;
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.userName = token.userName;
+        session.user.avatar = token.avatar;
+      }
       return session;
     },
   },
