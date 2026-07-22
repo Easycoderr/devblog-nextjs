@@ -13,23 +13,23 @@ function HeroSection() {
             <h1 className="flex flex-col gap-1">
               <TextAnimation
                 text="Write Better Code."
-                className="bg-gradient-to-l text-5xl! lg:text-6xl font-sora tracking-tight font-bold text-foreground"
+                className="bg-linear-to-l text-4xl md:text-5xl xl:text-6xl font-sora tracking-tight font-bold text-foreground"
               />
               <TextAnimation
                 direction="down"
                 text="Share Better Ideas."
-                className="bg-gradient-to-l text-5xl! lg:text-6xl font-sora tracking-tight font-bold text-primary"
+                className="bg-linear-to-l text-4xl md:text-5xl xl:text-6xl font-sora tracking-tight font-bold text-primary"
               />
             </h1>
           </div>
-          <p className="text-foreground leading-relaxed tracking-wide text-lg text-center lg:text-left max-w-xl font-medium">
+          <p className="text-foreground leading-relaxed tracking-wide text-md md:text-lg text-center lg:text-left max-w-xl font-medium">
             DevBlog is a modern platform where developers share knowledge,
             explore ideas, and grow together through clean, high-quality
             technical content.
           </p>
           {/* CTA button */}
           <div className="flex gap-4">
-            <button className="group py-3 px-6 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-purple-500 hover:to-indigo-500 transition-all duration-500 active:scale-105 flex items-center gap-1 text-gray-50 mt-10">
+            <button className="group py-3 px-6 rounded-full bg-linear-to-r from-indigo-500 to-purple-500 hover:from-purple-500 hover:to-indigo-500 transition-all duration-500 active:scale-105 flex items-center gap-1 text-gray-50 mt-10">
               <span className="text-md font-bold text-center tracking-wider">
                 Explore Articles
               </span>

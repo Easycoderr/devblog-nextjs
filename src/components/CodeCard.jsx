@@ -4,7 +4,7 @@ import { Copy } from "lucide-react";
 
 export default function CodeCard() {
   return (
-    <div className="relative w-full max-w-4xl overflow-hidden rounded-[32px] border border-white/10 bg-[#050816] shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
+    <div className="relative w-full max-w-4xl overflow-hidden rounded-4xl border border-white/10 bg-[#050816] shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.22),transparent_38%)]" />
 
       <div className="relative flex items-center border-b border-white/5 px-6 py-4">
@@ -20,7 +20,7 @@ export default function CodeCard() {
       </div>
 
       <div className="relative p-8">
-        <pre className="font-mono text-[17px] leading-[2] tracking-tight">
+        <pre className="font-mono text-[17px] leading-loose tracking-tight">
           <code>
             <div>
               <span className="text-fuchsia-400">import</span> {"{ "}

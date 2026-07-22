@@ -54,7 +54,7 @@ export function TextAnimation({
           animate={isInView ? "animate" : ""}
           custom={i}
           className={cn(
-            "text-xl text-center sm:text-4xl font-bold tracking-tighter md:text-6xl md:leading-[4rem]",
+            "text-xl text-center sm:text-4xl font-bold tracking-tighter md:text-6xl md:leading-16",
             className,
           )}
         >
