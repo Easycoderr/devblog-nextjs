@@ -1,11 +1,11 @@
 import { getPostBySlug, getPosts } from "../actions/post";
 
-export default async function generateSlug(title) {
+export default async function generateSlug(title: string): Promise<string> {
   let count = 1;
   let newSlug = title
     .trim()
     .toLowerCase()
-    .replace(/ /g, "-")
+    .replace(/\s+/g, "-")
     .replace(/[^\w-]+/g, "");
 
   while (await getPostBySlug(newSlug)) {
