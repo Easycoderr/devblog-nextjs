@@ -1,4 +1,4 @@
-function categoryColorPicker(category) {
+function categoryColorPicker(category: string): string {
   const categoryType = category.toLowerCase();
   let categoryColor = "text-indigo-50 bg-indigo-500";
   switch (categoryType) {
