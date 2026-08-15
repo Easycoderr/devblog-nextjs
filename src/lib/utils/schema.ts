@@ -6,9 +6,16 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/jpg",
   "image/png",
   "image/webp",
-];
+] as const;
 
-export const postFormSchema = (isUpdateMode) =>
+const isAcceptedImageType = (
+  type: string | undefined,
+): type is (typeof ACCEPTED_IMAGE_TYPES)[number] => {
+  return ACCEPTED_IMAGE_TYPES.includes(
+    type as (typeof ACCEPTED_IMAGE_TYPES)[number],
+  );
+};
+export const postFormSchema = (isUpdateMode: boolean) =>
   z.object({
     title: z
       .string()
@@ -21,7 +28,7 @@ export const postFormSchema = (isUpdateMode) =>
     content: z.string().min(500, "content must be at least 500+ characters."),
     category: z.string().min(1, "Category is required"),
     image: z
-      .instanceof(FileList, "Image is required.")
+      .instanceof(FileList, { message: "Image is required." })
       .refine((files) => {
         if (isUpdateMode) return true;
         return files && files.length > 0;
@@ -34,7 +41,8 @@ export const postFormSchema = (isUpdateMode) =>
         (file) =>
           !file ||
           file.length === 0 ||
-          ACCEPTED_IMAGE_TYPES.includes(file[0]?.type),
+          file[0]?.type === undefined ||
+          isAcceptedImageType(file[0].type),
         "Only .jpg, .jpeg, .png and .webp formats are supported.",
       ),
   });
@@ -60,7 +68,8 @@ export const registerSchema = z
         (file) =>
           !file ||
           file.length === 0 ||
-          ACCEPTED_IMAGE_TYPES.includes(file[0]?.type),
+          file[0]?.type === undefined ||
+          isAcceptedImageType(file[0].type),
         "Only .jpg, .jpeg, .png and .webp formats are supported.",
       ),
   })
@@ -93,7 +102,8 @@ export const updateProfile = z
         (file) =>
           !file ||
           file.length === 0 ||
-          ACCEPTED_IMAGE_TYPES.includes(file[0]?.type),
+          file[0]?.type === undefined ||
+          isAcceptedImageType(file[0].type),
         "Only .jpg, .jpeg, .png and .webp formats are supported.",
       ),
   })
@@ -134,7 +144,7 @@ export const deleteAccountPasswordSchema = z.object({
 });
 
 // change email
-export const changeEmailSchema = (oldEmail) =>
+export const changeEmailSchema = (oldEmail: string) =>
   z
     .object({
       email: z.string().email("Invalid email address"),
