@@ -1,6 +1,14 @@
-function listToTree(list) {
-  const map = {};
-  const tree = [];
+import { Prisma } from "@prisma/client";
+
+type Comment = Prisma.CommentGetPayload<{
+  include: { user: true };
+}>;
+type CommentTree = Comment & {
+  replies: CommentTree[];
+};
+function listToTree(list: Comment[]): CommentTree[] {
+  const map: Record<string, CommentTree> = {};
+  const tree: CommentTree[] = [];
 
   // Create the Map and initialize replies
   list.forEach((comment) => {
