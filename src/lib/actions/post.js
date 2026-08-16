@@ -6,39 +6,39 @@ import { prisma } from "../prisma";
 import { cookies, headers } from "next/headers";
 import { imagekit } from "../imagekit";
 import crypto from "crypto";
-import { success } from "zod";
+
 const POSTS_PER_PAGE = 8;
-// Get all posts
-export async function getPosts(page = 1, searchQuery) {
-  const user = await getCurrentUser();
-  const { search = "", filter = "all", sort } = searchQuery || {};
+// // Get all posts
+// export async function getPosts(page = 1, searchQuery) {
+//   const user = await getCurrentUser();
+//   const { search = "", filter = "all", sort } = searchQuery || {};
 
-  const skip = (page - 1) * POSTS_PER_PAGE;
-  const whereClause = {
-    title: search ? { contains: search } : undefined,
-    // content: search ? { contains: search } : undefined,
-    category: filter !== "all" ? filter : undefined,
-  };
-  const [posts, totalCount] = await prisma.$transaction([
-    prisma.post.findMany({
-      skip: skip,
-      take: POSTS_PER_PAGE,
-      where: whereClause,
-      orderBy: { createdAt: sort === "oldest" ? "asc" : "desc" },
-      include: {
-        ...(user
-          ? { savedPosts: { where: { userId: user.id }, select: { id: true } } }
-          : {}),
-        _count: {
-          select: { viewLog: true },
-        },
-      },
-    }),
-    prisma.post.count({ where: whereClause }),
-  ]);
+//   const skip = (page - 1) * POSTS_PER_PAGE;
+//   const whereClause = {
+//     title: search ? { contains: search } : undefined,
+//     // content: search ? { contains: search } : undefined,
+//     category: filter !== "all" ? filter : undefined,
+//   };
+//   const [posts, totalCount] = await prisma.$transaction([
+//     prisma.post.findMany({
+//       skip: skip,
+//       take: POSTS_PER_PAGE,
+//       where: whereClause,
+//       orderBy: { createdAt: sort === "oldest" ? "asc" : "desc" },
+//       include: {
+//         ...(user
+//           ? { savedPosts: { where: { userId: user.id }, select: { id: true } } }
+//           : {}),
+//         _count: {
+//           select: { viewLog: true },
+//         },
+//       },
+//     }),
+//     prisma.post.count({ where: whereClause }),
+//   ]);
 
-  return { posts, totalPages: Math.ceil(totalCount / POSTS_PER_PAGE) };
-}
+//   return { posts, totalPages: Math.ceil(totalCount / POSTS_PER_PAGE) };
+// }
 
 // Get post by id
 export async function getPost(id) {

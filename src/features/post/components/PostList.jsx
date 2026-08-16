@@ -1,8 +1,9 @@
-import { getPosts } from "../../../lib/actions/post";
+// import { getPosts } from "../../../lib/actions/post";
 import getCurrentUser from "../../../lib/getUser";
 import EmptyState from "../../../components/ui/EmptyState";
 import Pagination from "../../../components/Pagination";
 import PostCard from "./PostCard";
+import getPosts from "@/lib/actions/post/getPosts";
 
 async function PostList({ params }) {
   const user = await getCurrentUser();

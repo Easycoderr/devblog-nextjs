@@ -111,6 +111,7 @@ function SearchFilterSort() {
             <SelectLabel>Sort</SelectLabel>
             <SelectItem value="newest">Newest</SelectItem>
             <SelectItem value="oldest">Oldest</SelectItem>
+            <SelectItem value="old">Old</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

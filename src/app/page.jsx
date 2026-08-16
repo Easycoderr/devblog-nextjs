@@ -1,8 +1,9 @@
 import HeroSection from "../components/layout/HeroSection";
 import AboutSection from "../components/layout/AboutSection";
-import { getPosts } from "../lib/actions/post";
+
 import FeaturedPost from "../components/layout/FeaturedPost";
 import LatestPost from "../components/layout/LatestPost";
+import getPosts from "@/lib/actions/post/getPosts";
 export const metadata = {
   title: "Developer Blog",
   description:
