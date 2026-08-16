@@ -41,32 +41,32 @@ const POSTS_PER_PAGE = 8;
 // }
 
 // Get post by id
-export async function getPost(id) {
-  const post = await prisma.post.findUnique({
-    where: {
-      id,
-    },
-  });
-  return post;
-}
+// export async function getPost(id) {
+//   const post = await prisma.post.findUnique({
+//     where: {
+//       id,
+//     },
+//   });
+//   return post;
+// }
 
 // Get post by Slug
 
-export async function getPostBySlug(slug) {
-  const user = await getCurrentUser();
-  const post = await prisma.post.findUnique({
-    where: { slug },
-    include: {
-      ...(user
-        ? { savedPosts: { where: { userId: user?.id }, select: { id: true } } }
-        : {}),
-      _count: {
-        select: { viewLog: true, likes: true },
-      },
-    },
-  });
-  return post;
-}
+// export async function getPostBySlug(slug) {
+//   const user = await getCurrentUser();
+//   const post = await prisma.post.findUnique({
+//     where: { slug },
+//     include: {
+//       ...(user
+//         ? { savedPosts: { where: { userId: user?.id }, select: { id: true } } }
+//         : {}),
+//       _count: {
+//         select: { viewLog: true, likes: true },
+//       },
+//     },
+//   });
+//   return post;
+// }
 
 // Create post server action
 async function createPost(formData) {
