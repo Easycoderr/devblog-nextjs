@@ -1,4 +1,4 @@
-import { getPostBySlug, getPosts } from "../actions/post";
+import { getPostBySlug } from "../actions/post/getPostBySlug";
 
 export default async function generateSlug(title: string): Promise<string> {
   let count = 1;

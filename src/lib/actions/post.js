@@ -68,51 +68,51 @@ const POSTS_PER_PAGE = 8;
 //   return post;
 // }
 
-// Create post server action
-async function createPost(formData) {
-  let imageUrl = null;
-  let imageId = null;
+// // Create post server action
+// async function createPost(formData) {
+//   let imageUrl = null;
+//   let imageId = null;
 
-  // checking for user auth
-  const user = await getCurrentUser();
-  if (!user) throw new Error("Not authenticated");
-  // get image
-  const image = formData.get("image");
-  const textFields = Object.fromEntries(formData.entries());
-  const { title, description, content, category } = textFields;
-  // calc readTime
-  const wordCount = content.split(/\s+/).length;
-  const readTime = Math.ceil(wordCount / 200);
+//   // checking for user auth
+//   const user = await getCurrentUser();
+//   if (!user) throw new Error("Not authenticated");
+//   // get image
+//   const image = formData.get("image");
+//   const textFields = Object.fromEntries(formData.entries());
+//   const { title, description, content, category } = textFields;
+//   // calc readTime
+//   const wordCount = content.split(/\s+/).length;
+//   const readTime = Math.ceil(wordCount / 200);
 
-  if (image && image.size > 0 && typeof image !== "string") {
-    // convert file to binary
-    const bytes = await image.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+//   if (image && image.size > 0 && typeof image !== "string") {
+//     // convert file to binary
+//     const bytes = await image.arrayBuffer();
+//     const buffer = Buffer.from(bytes);
 
-    // upload to imagekit
-    const uploadImage = await imagekit.upload({
-      file: buffer,
-      fileName: `${new Date()}-${image.name}`,
-    });
+//     // upload to imagekit
+//     const uploadImage = await imagekit.upload({
+//       file: buffer,
+//       fileName: `${new Date()}-${image.name}`,
+//     });
 
-    imageUrl = uploadImage.url;
-    imageId = uploadImage.fileId;
-  }
-  await prisma.post.create({
-    data: {
-      slug: await generateSlug(title),
-      title,
-      description,
-      content,
-      category,
-      imageUrl,
-      imageId,
-      readTime,
-      author: { connect: { id: user.id } },
-    },
-  });
-  revalidatePath("/blogs");
-}
+//     imageUrl = uploadImage.url;
+//     imageId = uploadImage.fileId;
+//   }
+//   await prisma.post.create({
+//     data: {
+//       slug: await generateSlug(title),
+//       title,
+//       description,
+//       content,
+//       category,
+//       imageUrl,
+//       imageId,
+//       readTime,
+//       author: { connect: { id: user.id } },
+//     },
+//   });
+//   revalidatePath("/blogs");
+// }
 
 // Update
 export async function updatePost(formData) {
@@ -403,7 +403,6 @@ export async function getSavedPostsByPostId(postId, userId) {
     console.log(error);
   }
 }
-export default createPost;
 
 // increment post view
 

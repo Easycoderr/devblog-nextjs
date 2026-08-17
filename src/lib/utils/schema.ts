@@ -154,3 +154,11 @@ export const changeEmailSchema = (oldEmail: string) =>
       message: "This is already your current email address.",
       path: ["email"],
     });
+
+// for server create post action
+export const createPostSchema = z.object({
+  title: z.string().min(4),
+  description: z.string().min(50).max(300),
+  content: z.string().min(500),
+  category: z.string().min(1),
+});

@@ -2,7 +2,7 @@
 import { postFormSchema } from "../../../lib/utils/schema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import createPost, { updatePost } from "../../../lib/actions/post";
+import { updatePost } from "../../../lib/actions/post";
 import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { createPost } from "@/lib/actions/post/createPost";
 
 function Form({ postData }) {
   // use useRoute to navigate
@@ -80,8 +81,10 @@ function Form({ postData }) {
     }
 
     if (postData?.id) {
-      formData.append("id", id || null);
-      formData.append("imageId", imageId || null);
+      if (id) formData.append("id", id);
+      if (data.image && data.image.length > 0) {
+        formData.append("image", data.image[0]);
+      }
       const result = await updatePost(formData);
       if (result) {
         toast.success(`${data.title} updated successfully!`);
