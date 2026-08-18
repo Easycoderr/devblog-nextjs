@@ -162,3 +162,12 @@ export const createPostSchema = z.object({
   content: z.string().min(500),
   category: z.string().min(1),
 });
+// for server update post action
+export const updatePostSchema = z.object({
+  id: z.string(),
+  title: z.string().min(4),
+  description: z.string().min(50).max(300),
+  content: z.string().min(500),
+  category: z.string().min(1),
+  imageId: z.string() || null,
+});
