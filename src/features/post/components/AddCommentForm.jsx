@@ -9,7 +9,6 @@ function AddCommentForm({
   content: updateContent,
   openReplyField,
   postId,
-
   commentId,
   parentId,
   setOpenReplyField,

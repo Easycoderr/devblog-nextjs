@@ -1,12 +1,13 @@
 import getCurrentUser from "@/lib/getUser";
 import AddCommentForm from "./AddCommentForm";
-import { getComments } from "@/lib/actions/post";
+
 import listToTree from "@/lib/utils/listToTree";
 import Link from "next/link";
 import { ArrowRightToLine } from "lucide-react";
 import PostCommentListSkeleton from "./skeletons/PostCommentSkeleton";
 import CommentList from "./CommentList";
 import { Suspense } from "react";
+import { getComments } from "@/lib/actions/post/comment/getComments";
 
 async function CommentSection({ post }) {
   const user = await getCurrentUser();

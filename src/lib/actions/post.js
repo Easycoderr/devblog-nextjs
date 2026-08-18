@@ -211,21 +211,21 @@ const POSTS_PER_PAGE = 8;
 //   }
 // }
 // fetch comments
-export async function getComments(postId) {
-  try {
-    const comments = await prisma.comment.findMany({
-      where: { postId },
-      include: {
-        user: true,
-      },
-      orderBy: { createdAt: "desc" },
-    });
-    return comments;
-  } catch (error) {
-    console.log("Failed to fetch comments:", error);
-    throw new Error("Could not load comments.");
-  }
-}
+// export async function getComments(postId) {
+//   try {
+//     const comments = await prisma.comment.findMany({
+//       where: { postId },
+//       include: {
+//         user: true,
+//       },
+//       orderBy: { createdAt: "desc" },
+//     });
+//     return comments;
+//   } catch (error) {
+//     console.log("Failed to fetch comments:", error);
+//     throw new Error("Could not load comments.");
+//   }
+// }
 // delete comment
 export async function deleteComment(commentId, userId) {
   if (!userId) throw new Error("Unauthorized");
