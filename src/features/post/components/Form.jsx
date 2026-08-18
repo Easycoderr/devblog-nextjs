@@ -2,7 +2,7 @@
 import { postFormSchema } from "../../../lib/utils/schema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updatePost } from "../../../lib/actions/post";
+// import { updatePost } from "../../../lib/actions/post";
 import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createPost } from "@/lib/actions/post/createPost";
+import { updatePost } from "@/lib/actions/post/updatePost";
 
 function Form({ postData }) {
   // use useRoute to navigate
@@ -36,7 +37,7 @@ function Form({ postData }) {
     imageUrl: image,
     imageId,
   } = postData || {};
-
+  console.log("IMAGEID:", imageId);
   const isUpdateMode = !!image;
   const {
     register,
@@ -68,6 +69,7 @@ function Form({ postData }) {
   let previewUrl = file ? URL.createObjectURL(file) : imageUrl || null;
   // read the live value of the description
   const des = watch("description");
+
   async function onSubmit(data) {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -84,6 +86,9 @@ function Form({ postData }) {
       if (id) formData.append("id", id);
       if (data.image && data.image.length > 0) {
         formData.append("image", data.image[0]);
+      }
+      if (imageId) {
+        formData.append("imageId", imageId);
       }
       const result = await updatePost(formData);
       if (result) {

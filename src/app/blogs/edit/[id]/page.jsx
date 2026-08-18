@@ -1,5 +1,6 @@
 import Form from "@/features/post/components/Form";
-import { getPost } from "@/lib/actions/post";
+import { getPost } from "@/lib/actions/post/getPostById";
+// import { getPost } from "@/lib/actions/post";
 import getCurrentUser from "@/lib/getUser";
 import { notFound } from "next/navigation";
 export async function generateMetadata({ params }) {
