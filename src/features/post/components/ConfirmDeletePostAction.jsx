@@ -1,9 +1,10 @@
 "use client";
-import { deletePost } from "../../../lib/actions/post";
+// import { deletePost } from "../../../lib/actions/post";
 import { toast } from "sonner";
 import React, { useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { deletePost } from "@/lib/actions/post/deletePost";
 
 function ConfirmDeletePostAction({ post, userId }) {
   const pathname = usePathname();
@@ -12,7 +13,7 @@ function ConfirmDeletePostAction({ post, userId }) {
   const [isPending, startTransition] = useTransition();
   async function handleDeletePost() {
     startTransition(async () => {
-      const result = await deletePost(post?.id, userId);
+      const result = await deletePost(post?.id);
       if (result?.success) {
         toast.success(`${post?.title} deleted successfully!`);
         router.push(`${pathname === "/" ? "/" : "/blogs"}`);

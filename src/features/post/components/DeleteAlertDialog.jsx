@@ -18,7 +18,7 @@ function DeleteAlertDialog({ title, children, message }) {
       <AlertDialogTrigger asChild>
         <DeleteButton
           variant="simple"
-          className="group-data-[highlighted]/dropdown-menu-item:text-indigo-50!"
+          className="group-data-highlighted/dropdown-menu-item:text-indigo-50!"
         >
           Delete
         </DeleteButton>

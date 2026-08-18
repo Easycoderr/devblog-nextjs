@@ -1,6 +1,7 @@
 "use client";
 import MiniSpinner from "@/components/ui/MiniSpinner";
-import { createComment, updateComment } from "@/lib/actions/post";
+import { updateComment } from "@/lib/actions/post";
+import { createComment } from "@/lib/actions/post/comment/createComment";
 import { Send, XIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -8,7 +9,7 @@ function AddCommentForm({
   content: updateContent,
   openReplyField,
   postId,
-  userId,
+
   commentId,
   parentId,
   setOpenReplyField,
@@ -24,7 +25,7 @@ function AddCommentForm({
     }
     if (openReplyField !== "edit") {
       startTransition(async () => {
-        const result = await createComment(postId, userId, content, parentId);
+        const result = await createComment(postId, content, parentId);
         if (result.success) {
           toast.success("Comment added");
           if (typeof setOpenReplyField === "function") {
@@ -35,7 +36,7 @@ function AddCommentForm({
       });
     } else {
       startTransition(async () => {
-        const result = await updateComment(commentId, content, userId);
+        const result = await updateComment(commentId, content);
         if (result.success) {
           toast.success("Comment updated");
           if (typeof setOpenReplyField === "function") {

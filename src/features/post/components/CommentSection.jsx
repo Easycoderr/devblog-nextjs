@@ -52,7 +52,7 @@ async function CommentSection({ post }) {
         )}
       </div>
       {userId ? (
-        <AddCommentForm postId={post?.id} userId={userId} />
+        <AddCommentForm postId={post?.id} />
       ) : (
         <p className="text-foreground  rounded-lg flex items-center gap-2">
           Sign in to add a comment.{" "}

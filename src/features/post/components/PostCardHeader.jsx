@@ -8,7 +8,7 @@ async function PostCardHeader({ post, user }) {
   const categoryColor = categoryColorPicker(category);
   return (
     <>
-      <div className="relative h-[270px] md:h-[240px]  w-full">
+      <div className="relative h-67.5 md:h-60  w-full">
         <Image
           className="object-cover"
           src={imageUrl}
@@ -23,7 +23,7 @@ async function PostCardHeader({ post, user }) {
           </span>
           <div className="flex items-center gap-1 bg-muted-foreground/20 text-white rounded-full px-2 py-0.5">
             <Eye className="size-5" />
-            <span className="!text-md">{_count?.viewLog}</span>
+            <span className="text-md!">{_count?.viewLog}</span>
           </div>
         </div>
       </div>

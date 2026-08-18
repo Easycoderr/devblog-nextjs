@@ -177,39 +177,39 @@ const POSTS_PER_PAGE = 8;
 // }
 
 // Delete post
-export async function deletePost(postId, userId) {
-  if (!userId) throw new Error("Unauthorized");
-  try {
-    const result = await prisma.post.deleteMany({
-      where: { id: postId, authorId: userId },
-    });
-    if (result.count === 0)
-      return { success: false, error: "Post not found or unauthorized" };
-    revalidatePath("/blogs");
-    revalidatePath("/");
-    return { success: true };
-  } catch (error) {
-    console.error("Delete Error:", error);
-    return { success: false, error: "Database error occurred" };
-  }
-}
+// export async function deletePost(postId, userId) {
+//   if (!userId) throw new Error("Unauthorized");
+//   try {
+//     const result = await prisma.post.deleteMany({
+//       where: { id: postId, authorId: userId },
+//     });
+//     if (result.count === 0)
+//       return { success: false, error: "Post not found or unauthorized" };
+//     revalidatePath("/blogs");
+//     revalidatePath("/");
+//     return { success: true };
+//   } catch (error) {
+//     console.error("Delete Error:", error);
+//     return { success: false, error: "Database error occurred" };
+//   }
+// }
 
 // Create Comment
-export async function createComment(postId, userId, content, parentId = null) {
-  if (!content || content.trim("") === "") {
-    throw new Error("Comment content cannot be empty");
-  }
-  try {
-    const comment = await prisma.comment.create({
-      data: { content, parentId, userId, postId },
-    });
-    revalidatePath(`/blogs/${postId}`);
-    return { success: true, comment };
-  } catch (error) {
-    console.error("Error creating comment:", error);
-    return { success: false, error: "Failed to post comment" };
-  }
-}
+// export async function createComment(postId, userId, content, parentId = null) {
+//   if (!content || content.trim("") === "") {
+//     throw new Error("Comment content cannot be empty");
+//   }
+//   try {
+//     const comment = await prisma.comment.create({
+//       data: { content, parentId, userId, postId },
+//     });
+//     revalidatePath(`/blogs/${postId}`);
+//     return { success: true, comment };
+//   } catch (error) {
+//     console.error("Error creating comment:", error);
+//     return { success: false, error: "Failed to post comment" };
+//   }
+// }
 // fetch comments
 export async function getComments(postId) {
   try {
