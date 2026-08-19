@@ -1,7 +1,7 @@
 "use client";
 import MiniSpinner from "@/components/ui/MiniSpinner";
-import { updateComment } from "@/lib/actions/post";
 import { createComment } from "@/lib/actions/post/comment/createComment";
+import { updateComment } from "@/lib/actions/post/comment/updateComment";
 import { Send, XIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
