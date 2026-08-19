@@ -227,20 +227,20 @@ const POSTS_PER_PAGE = 8;
 //   }
 // }
 // delete comment
-export async function deleteComment(commentId, userId) {
-  if (!userId) throw new Error("Unauthorized");
-  try {
-    const result = await prisma.comment.delete({
-      where: { id: commentId, userId },
-    });
-    revalidatePath("/blogs");
-    revalidatePath("/");
-    return { success: true };
-  } catch (error) {
-    console.log("Failed to delete comment:", error);
-    throw new Error("Could not delete comment.");
-  }
-}
+// export async function deleteComment(commentId, userId) {
+//   if (!userId) throw new Error("Unauthorized");
+//   try {
+//     const result = await prisma.comment.delete({
+//       where: { id: commentId, userId },
+//     });
+//     revalidatePath("/blogs");
+//     revalidatePath("/");
+//     return { success: true };
+//   } catch (error) {
+//     console.log("Failed to delete comment:", error);
+//     throw new Error("Could not delete comment.");
+//   }
+// }
 // update Comment
 export async function updateComment(commentId, content, userId) {
   if (!userId) throw new Error("Unauthorized");

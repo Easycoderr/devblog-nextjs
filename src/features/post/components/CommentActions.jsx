@@ -7,9 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
-import Link from "next/link";
 import DeleteAlertDialog from "./DeleteAlertDialog";
-import { useTransition } from "react";
 import ConfirmDeleteCommentAction from "./ConfirmDeleteCommentAction";
 
 function CommentActions({
@@ -24,7 +22,7 @@ function CommentActions({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant={`${commentId ? "simple" : "icon"}`} size="icon">
-          <EllipsisVertical className="!size-5" />
+          <EllipsisVertical className="size-5!" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -37,7 +35,7 @@ function CommentActions({
                 onClick={() =>
                   setOpenReplyField((reply) => (reply ? false : "edit"))
                 }
-                className="flex gap-1 w-full group-data-[highlighted]/dropdown-menu-item:text-indigo-50 hover:cursor-default"
+                className="flex gap-1 w-full group-data-highlighted/dropdown-menu-item:text-indigo-50 hover:cursor-default"
               >
                 Edit
               </button>
@@ -51,11 +49,7 @@ function CommentActions({
                 message="Are you sure? This will permanently delete this comment. This action
             cannot be undone"
               >
-                <ConfirmDeleteCommentAction
-                  post={post}
-                  userId={userId}
-                  commentId={commentId}
-                />
+                <ConfirmDeleteCommentAction post={post} commentId={commentId} />
               </DeleteAlertDialog>
             </DropdownMenuItem>
           </div>
