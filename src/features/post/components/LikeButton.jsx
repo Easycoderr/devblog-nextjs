@@ -1,5 +1,5 @@
 "use client";
-import { likePost } from "@/lib/actions/post";
+import { likePost } from "@/lib/actions/post/likePost";
 import { ThumbsUp } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -11,7 +11,7 @@ function LikeButton({ userLike, totalLikes, user, post }) {
       toast.error("Register to like and comment on posts.");
     } else {
       startTranstion(async () => {
-        await likePost(post.id, user?.id);
+        await likePost(post.id);
       });
     }
   }
