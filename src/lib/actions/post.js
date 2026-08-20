@@ -290,27 +290,27 @@ const POSTS_PER_PAGE = 8;
 // }
 
 // count likes
-export async function getLikesByPostId(postId, currUserId) {
-  const user = await getCurrentUser();
+// export async function getLikesByPostId(postId, currUserId) {
+//   const user = await getCurrentUser();
 
-  const post = await prisma.post.findUnique({
-    where: { id: postId },
-    include: {
-      _count: {
-        select: { likes: true },
-      },
-      likes: user?.id
-        ? {
-            where: { userId: user?.id },
-            take: 1,
-          }
-        : false,
-    },
-  });
-  if (!post) return null;
-  const { likes, _count } = post;
-  return { _count, userLike: likes && likes.length > 0 ? likes[0] : null };
-}
+//   const post = await prisma.post.findUnique({
+//     where: { id: postId },
+//     include: {
+//       _count: {
+//         select: { likes: true },
+//       },
+//       likes: user?.id
+//         ? {
+//             where: { userId: user?.id },
+//             take: 1,
+//           }
+//         : false,
+//     },
+//   });
+//   if (!post) return null;
+//   const { likes, _count } = post;
+//   return { _count, userLike: likes && likes.length > 0 ? likes[0] : null };
+// }
 // sharePost
 export async function sharePost(postId, userId = null) {
   const cookieStore = await cookies();

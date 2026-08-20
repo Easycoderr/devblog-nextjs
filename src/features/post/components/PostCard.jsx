@@ -1,13 +1,14 @@
-import { getLikesByPostId, getSharesByPostId } from "../../../lib/actions/post";
+import { getSharesByPostId } from "../../../lib/actions/post";
 import PostCardFooter from "./PostCardFooter";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import PostCardHeader from "./PostCardHeader";
 import PostCardAvatar from "./PostCardAvatar";
+import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
 
 async function PostCard({ post, user }) {
   const [{ _count: postLikes, userLike }, { _count: postShares }] =
     await Promise.all([
-      await getLikesByPostId(post.id, user?.id),
+      await getLikesByPostId(post.id),
       await getSharesByPostId(post.id),
     ]);
   const { readTime, title, createdAt } = post;
