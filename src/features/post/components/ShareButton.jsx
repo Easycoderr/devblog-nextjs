@@ -1,15 +1,9 @@
 "use client";
-import { sharePost } from "@/lib/actions/post";
+
+import { sharePost } from "@/lib/actions/post/sharePost";
 import { toast } from "sonner";
 
-function ShareButton({
-  postId,
-  userId = null,
-  totalShares,
-  title,
-  text,
-  slug,
-}) {
+function ShareButton({ postId, totalShares, title, text, slug }) {
   const pathname = "http://localhost:3000/blogs";
   const url = `${pathname}/${slug}`;
   async function handleShare() {
@@ -20,7 +14,7 @@ function ShareButton({
           text: text,
           url: url,
         });
-        sharePost(postId, userId);
+        sharePost(postId);
       } catch (error) {
         console.error("Error sharing:", error);
       }

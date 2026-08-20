@@ -312,36 +312,36 @@ const POSTS_PER_PAGE = 8;
 //   return { _count, userLike: likes && likes.length > 0 ? likes[0] : null };
 // }
 // sharePost
-export async function sharePost(postId, userId = null) {
-  const cookieStore = await cookies();
-  let guestId = null;
-  if (!userId) {
-    guestId = (await cookieStore).get("guest-id")?.value;
-    if (!guestId) {
-      guestId = crypto.randomUUID();
-      await cookieStore.set("guest-id", guestId, { httpOnly: true });
-    }
-  }
-  try {
-    const newShare = await prisma.share.upsert({
-      where: userId
-        ? { userId_postId: { userId, postId } }
-        : { guestId_postId: { guestId, postId } },
-      update: {},
-      create: {
-        postId,
-        userId: userId || null,
-        guestId: guestId || null,
-      },
-    });
-    revalidatePath("/blogs");
-    revalidatePath("/");
-    return newShare;
-  } catch (error) {
-    console.error("Share record failed:", error);
-    throw error;
-  }
-}
+// export async function sharePost(postId, userId = null) {
+//   const cookieStore = await cookies();
+//   let guestId = null;
+//   if (!userId) {
+//     guestId = (await cookieStore).get("guest-id")?.value;
+//     if (!guestId) {
+//       guestId = crypto.randomUUID();
+//       await cookieStore.set("guest-id", guestId, { httpOnly: true });
+//     }
+//   }
+//   try {
+//     const newShare = await prisma.share.upsert({
+//       where: userId
+//         ? { userId_postId: { userId, postId } }
+//         : { guestId_postId: { guestId, postId } },
+//       update: {},
+//       create: {
+//         postId,
+//         userId: userId || null,
+//         guestId: guestId || null,
+//       },
+//     });
+//     revalidatePath("/blogs");
+//     revalidatePath("/");
+//     return newShare;
+//   } catch (error) {
+//     console.error("Share record failed:", error);
+//     throw error;
+//   }
+// }
 
 export async function getSharesByPostId(postId) {
   try {
