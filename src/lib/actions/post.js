@@ -1,13 +1,13 @@
-"use server";
-import { revalidatePath } from "next/cache";
-import generateSlug from "@/lib/utils/generateSlug";
-import getCurrentUser from "../getUser";
-import { prisma } from "../prisma";
-import { cookies, headers } from "next/headers";
-import { imagekit } from "../imagekit";
-import crypto from "crypto";
+// "use server";
+// import { revalidatePath } from "next/cache";
+// import generateSlug from "@/lib/utils/generateSlug";
+// import getCurrentUser from "../getUser";
+// import { prisma } from "../prisma";
+// import { cookies, headers } from "next/headers";
+// import { imagekit } from "../imagekit";
+// import crypto from "crypto";
 
-const POSTS_PER_PAGE = 8;
+// const POSTS_PER_PAGE = 8;
 // // Get all posts
 // export async function getPosts(page = 1, searchQuery) {
 //   const user = await getCurrentUser();
