@@ -1,12 +1,12 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "../prisma";
 import { generateUserName } from "../actions/auth";
-
+import type { AdapterUser } from "next-auth/adapters";
 function CustomPrismaAdapter() {
   const adapter = PrismaAdapter(prisma);
   return {
     ...adapter,
-    async createUser(data) {
+    async createUser(data: AdapterUser) {
       const [firstName = "", ...rest] = (data.name ?? "").trim().split(" ");
       const lastName = rest.join(" ");
       return prisma.user.create({
