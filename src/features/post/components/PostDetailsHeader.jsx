@@ -1,8 +1,9 @@
 import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import PostActions from "./PostActions";
 import ShareButton from "./ShareButton";
-import { getLikesByPostId, getSharesByPostId } from "@/lib/actions/post";
 import LikeButton from "./LikeButton";
+import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
+import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
 
 async function PostDetailsHeader({ user, post }) {
   const [{ _count: postLikes, userLike }, { _count: postShares }] =

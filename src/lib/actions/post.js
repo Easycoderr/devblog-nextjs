@@ -343,17 +343,17 @@ const POSTS_PER_PAGE = 8;
 //   }
 // }
 
-export async function getSharesByPostId(postId) {
-  try {
-    const post = await prisma.post.findUnique({
-      where: { id: postId },
-      include: { _count: { select: { shares: true } } },
-    });
-    return post;
-  } catch (error) {
-    console.log("Get shares by post id Error:", error);
-  }
-}
+// export async function getSharesByPostId(postId) {
+//   try {
+//     const post = await prisma.post.findUnique({
+//       where: { id: postId },
+//       include: { _count: { select: { shares: true } } },
+//     });
+//     return post;
+//   } catch (error) {
+//     console.log("Get shares by post id Error:", error);
+//   }
+// }
 // Save post
 export async function savePost(post, userId) {
   const { id: postId, slug } = post;

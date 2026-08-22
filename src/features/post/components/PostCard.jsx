@@ -1,9 +1,9 @@
-import { getSharesByPostId } from "../../../lib/actions/post";
 import PostCardFooter from "./PostCardFooter";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import PostCardHeader from "./PostCardHeader";
 import PostCardAvatar from "./PostCardAvatar";
 import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
+import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
 
 async function PostCard({ post, user }) {
   const [{ _count: postLikes, userLike }, { _count: postShares }] =
