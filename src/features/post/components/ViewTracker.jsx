@@ -1,15 +1,14 @@
 "use client";
-import { incrementViewPost } from "@/lib/actions/post";
+import { incrementViewPost } from "@/lib/actions/post/incrementViewPost";
 import { useEffect } from "react";
 
-function ViewTracker({ userId, slug }) {
+function ViewTracker({ slug }) {
   useEffect(() => {
     const timer = setTimeout(async () => {
-      const result = await incrementViewPost(slug, userId);
-      console.log(result);
+      await incrementViewPost(slug);
     }, 4000);
     return () => clearTimeout(timer);
-  }, [slug, userId]);
+  }, [slug]);
 
   return null;
 }
