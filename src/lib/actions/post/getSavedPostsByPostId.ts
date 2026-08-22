@@ -7,7 +7,7 @@ export async function getSavedPostsByPostId(postId: string) {
   if (!user) throw new Error("Unauthorized");
   const userId: string = user.id;
   try {
-    const { savedPosts } = await prisma.post.findUnique({
+    const post = await prisma.post.findUnique({
       where: { id: postId },
       include: {
         savedPosts: userId
@@ -18,6 +18,10 @@ export async function getSavedPostsByPostId(postId: string) {
           : false,
       },
     });
+    if (!post) {
+      throw new Error("Post not found");
+    }
+    const { savedPosts } = post;
     return { savedPosts };
   } catch (error) {
     console.log("Something went wrong, Error:", error);

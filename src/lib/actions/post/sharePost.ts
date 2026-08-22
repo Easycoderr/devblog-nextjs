@@ -18,17 +18,26 @@ export async function sharePost(postId: string) {
     }
   }
   try {
-    const newShare = await prisma.share.upsert({
-      where: userId
-        ? { userId_postId: { userId, postId } }
-        : { guestId_postId: { guestId, postId } },
-      update: {},
-      create: {
-        postId,
-        userId: userId || null,
-        guestId: guestId || null,
-      },
-    });
+    const newShare = userId
+      ? await prisma.share.upsert({
+          where: { userId_postId: { userId, postId } },
+
+          update: {},
+          create: {
+            postId,
+            userId,
+            guestId: null,
+          },
+        })
+      : await prisma.share.upsert({
+          where: { guestId_postId: { guestId: guestId!, postId } },
+          update: {},
+          create: {
+            postId,
+            userId: null,
+            guestId,
+          },
+        });
     revalidatePath("/blogs");
     revalidatePath("/");
     return newShare;

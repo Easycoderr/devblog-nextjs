@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function deletePost(postId: string) {
   const user = await getCurrentUser();
-  if (!user.id) throw new Error("Unauthorized");
+  if (!user) throw new Error("Unauthorized");
   try {
     const result = await prisma.post.deleteMany({
       where: { id: postId, authorId: user.id },

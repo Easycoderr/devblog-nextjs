@@ -9,7 +9,7 @@ import { Prisma } from "@prisma/client";
 
 export async function incrementViewPost(slug: string) {
   const user = await getCurrentUser();
-  const userId: string = user?.id ?? null;
+  const userId = user?.id ?? null;
   try {
     const headersList = await headers();
     const ip = headersList.get("x-forwarded-for") || "127.0.0.1";
