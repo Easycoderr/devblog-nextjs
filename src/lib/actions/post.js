@@ -355,35 +355,35 @@ const POSTS_PER_PAGE = 8;
 //   }
 // }
 // Save post
-export async function savePost(post, userId) {
-  const { id: postId, slug } = post;
+// export async function savePost(post, userId) {
+//   const { id: postId, slug } = post;
 
-  if (!userId) throw new Error("Unauthorized");
+//   if (!userId) throw new Error("Unauthorized");
 
-  const existing = await prisma.savedPost.findUnique({
-    where: { userId_postId: { userId, postId } },
-  });
+//   const existing = await prisma.savedPost.findUnique({
+//     where: { userId_postId: { userId, postId } },
+//   });
 
-  try {
-    if (existing) {
-      await prisma.savedPost.delete({
-        where: { userId_postId: { userId, postId } },
-      });
-    } else {
-      await prisma.savedPost.create({
-        data: {
-          userId,
-          postId,
-        },
-      });
-    }
-    revalidatePath("/blogs");
-    revalidatePath(`/blogs/${slug}`);
-    revalidatePath(`/u`);
-  } catch (error) {
-    console.error("Save post record failed:", error);
-  }
-}
+//   try {
+//     if (existing) {
+//       await prisma.savedPost.delete({
+//         where: { userId_postId: { userId, postId } },
+//       });
+//     } else {
+//       await prisma.savedPost.create({
+//         data: {
+//           userId,
+//           postId,
+//         },
+//       });
+//     }
+//     revalidatePath("/blogs");
+//     revalidatePath(`/blogs/${slug}`);
+//     revalidatePath(`/u`);
+//   } catch (error) {
+//     console.error("Save post record failed:", error);
+//   }
+// }
 // get saved posts
 export async function getSavedPostsByPostId(postId, userId) {
   try {

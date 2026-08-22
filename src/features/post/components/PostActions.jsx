@@ -12,19 +12,22 @@ import {
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 import DeleteAlertDialog from "./DeleteAlertDialog";
-import { savePost } from "@/lib/actions/post";
+// import { savePost } from "@/lib/actions/post";
 import { toast } from "sonner";
 import { useTransition } from "react";
 import ConfirmDeletePostAction from "./ConfirmDeletePostAction";
+import { savePost } from "@/lib/actions/post/savePost";
 
 function PostActions({ user, post, style }) {
   const [isPending, startTransition] = useTransition();
   const { savedPosts } = post;
   function handleSavePost() {
-    startTransition(async () => {
-      await savePost(post, user?.id);
-    });
+    const { id, slug } = post;
+
     if (!user?.id) toast.info(`Sign in to save ${post.title} post.`);
+    startTransition(async () => {
+      await savePost({ id, slug });
+    });
   }
   return (
     <DropdownMenu>
