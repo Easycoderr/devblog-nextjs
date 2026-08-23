@@ -15,6 +15,7 @@ async function getCurrentUser() {
         lastName: true,
         provider: true,
         avatar: true,
+        avatarId: true,
         bio: true,
       },
     });
