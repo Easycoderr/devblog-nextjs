@@ -1,20 +1,28 @@
 "use server";
-
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import generateChangeEmailToken from "../../tokens/generateChangeEmailToken";
 import sendChangeEmail from "../../mail/sendChangeEmail";
-
-async function changeEmail(data) {
+import { Prisma } from "@prisma/client";
+type ChangeEmailTypes = {
+  email: string;
+  newEmail: string;
+  password: string;
+};
+async function changeEmail(data: ChangeEmailTypes) {
   const { email, newEmail, password } = data;
   try {
-    console.log(data);
     const currUser = await prisma.user.findUnique({
       where: { email },
       select: { password: true },
     });
-    console.log("USER:", currUser);
     if (!currUser) return null;
+    if (!currUser.password) {
+      return {
+        error: "NO-PASSWORD",
+        message: "This account does not use a password.",
+      };
+    }
     const isUserExist = await prisma.user.findUnique({
       where: { email: newEmail },
     });
@@ -36,7 +44,7 @@ async function changeEmail(data) {
     });
     const changeEmailToken = await generateChangeEmailToken(email, newEmail);
     const response = await sendChangeEmail(email, changeEmailToken);
-    if (response.error) {
+    if ("error" in response && response.error) {
       console.error(
         "[EMAIL_API_ERROR]",
         response.error.name,
