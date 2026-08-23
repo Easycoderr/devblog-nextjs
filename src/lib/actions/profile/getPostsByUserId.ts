@@ -2,7 +2,7 @@
 import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 const POSTS_PER_PAGE = 8;
-async function getPostsByUserId(userId, currPage) {
+async function getPostsByUserId(userId: string, currPage: number) {
   if (!userId) return [];
   const skip = (currPage - 1) * POSTS_PER_PAGE;
   const user = await getCurrentUser();
@@ -30,7 +30,11 @@ async function getPostsByUserId(userId, currPage) {
     ]);
     return { posts, totalCount: Math.ceil(totalCount / POSTS_PER_PAGE) };
   } catch (error) {
-    console.log(error);
+    console.error("Failed to fetch posts by user Id:", error);
+    return {
+      posts: [],
+      totalCount: 0,
+    };
   }
 }
 

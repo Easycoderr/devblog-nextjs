@@ -6,10 +6,17 @@ import UserProfilePostList from "./UserProfilePostList";
 import { Suspense } from "react";
 import PostListSkeleton from "@/features/post/components/skeletons/PostListSkeleton";
 import getPostsByUserId from "@/lib/actions/profile/getPostsByUserId";
+import { getUserActivityCounts } from "@/lib/actions/profile/getUserActivityCounts";
 
 async function ProfileTabs({ user, currUser, activeTab, params }) {
   const currentPage = Number(params?.page) || 1;
-  const { posts, totalCount } = await getPostsByUserId(user?.id, currentPage);
+
+  const [{ posts, totalCount }, { likedPostsCount, savedPostsCount }] =
+    await Promise.all([
+      getPostsByUserId(user.id, currentPage),
+      getUserActivityCounts(user.id),
+    ]);
+
   return (
     <Tabs defaultValue={activeTab}>
       <TabsList variant="line" className="gap-8">
@@ -26,11 +33,21 @@ async function ProfileTabs({ user, currUser, activeTab, params }) {
         <TabsTrigger value="liked" asChild>
           <Link href="?tabs=liked" scroll={false} className="w-full">
             Liked
+            <span>
+              <span>(</span>
+              {likedPostsCount}
+              <span>)</span>
+            </span>
           </Link>
         </TabsTrigger>
         <TabsTrigger value="saved" asChild>
           <Link href="?tabs=saved" scroll={false} className="w-full">
             Saved
+            <span>
+              <span>(</span>
+              {savedPostsCount}
+              <span>)</span>
+            </span>
           </Link>
         </TabsTrigger>
       </TabsList>

@@ -2,8 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 
-export async function getTotalUserPosts(userId) {
-  if (!userId) return [];
+export async function getTotalUserPosts(userId: string) {
   try {
     const allPosts = prisma.post.count({ where: { authorId: userId } });
     return allPosts;
@@ -11,8 +10,7 @@ export async function getTotalUserPosts(userId) {
     console.log("Can't get number of user posts:", error);
   }
 }
-export async function getTotalUserLikes(userId) {
-  if (!userId) return [];
+export async function getTotalUserLikes(userId: string) {
   try {
     const likes = prisma.like.count({
       where: {
@@ -26,8 +24,7 @@ export async function getTotalUserLikes(userId) {
     console.log("Can't get total user likes:", error);
   }
 }
-export async function getTotalUserComments(userId) {
-  if (!userId) return [];
+export async function getTotalUserComments(userId: string) {
   try {
     const comments = prisma.comment.count({
       where: {
@@ -41,8 +38,7 @@ export async function getTotalUserComments(userId) {
     console.log("Can't get total user comments:", error);
   }
 }
-export async function getTotalUserShares(userId) {
-  if (!userId) return [];
+export async function getTotalUserShares(userId: string) {
   try {
     const shares = prisma.comment.count({
       where: {

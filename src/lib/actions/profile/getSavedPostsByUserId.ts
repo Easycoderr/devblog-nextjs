@@ -1,16 +1,15 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 const POSTS_PER_PAGE = 8;
-async function getLikedPostsByUserId(userId, currPage) {
+async function getSavedPostsByUserId(userId: string, currPage: number) {
   const skip = (currPage - 1) * POSTS_PER_PAGE;
-  if (!userId) return [];
   try {
-    const [likedPosts, totalCount] = await prisma.$transaction([
+    const [savedPosts, totalCount] = await prisma.$transaction([
       prisma.post.findMany({
         skip: skip,
         take: POSTS_PER_PAGE,
         where: {
-          likes: {
+          savedPosts: {
             some: {
               userId,
             },
@@ -27,7 +26,7 @@ async function getLikedPostsByUserId(userId, currPage) {
       }),
       prisma.post.count({
         where: {
-          likes: {
+          savedPosts: {
             some: {
               userId,
             },
@@ -35,10 +34,14 @@ async function getLikedPostsByUserId(userId, currPage) {
         },
       }),
     ]);
-    return { likedPosts, totalCount: Math.ceil(totalCount / POSTS_PER_PAGE) };
+    return { savedPosts, totalCount: Math.ceil(totalCount / POSTS_PER_PAGE) };
   } catch (error) {
-    console.log(error);
+    console.error("Failed to fetch saved posts by user:", error);
+    return {
+      saevdPosts: [],
+      totalCount: 0,
+    };
   }
 }
 
-export default getLikedPostsByUserId;
+export default getSavedPostsByUserId;
