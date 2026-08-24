@@ -171,3 +171,14 @@ export const updatePostSchema = z.object({
   category: z.string().min(1),
   imageId: z.string() || null,
 });
+export const updateProfileSchema = z.object({
+  avatarId: z.string(),
+  firstName: z.string().min(2),
+  lastName: z.string().min(2),
+  userName: z
+    .string()
+    .min(3)
+    .regex(/^[a-zA-Z0-9](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$/),
+
+  bio: z.string().min(0).max(160),
+});
