@@ -2,26 +2,26 @@
 import getCurrentUser from "@/lib/getUser";
 import { imagekit } from "@/lib/imagekit";
 import { prisma } from "@/lib/prisma";
+import { updateProfileSchema } from "@/lib/utils/schema";
 import { revalidatePath } from "next/cache";
 
-async function updateUserProfile(formData) {
-  let avatarUrl = null;
-  let avatarId = null;
+async function updateUserProfile(formData: FormData) {
   const user = await getCurrentUser();
   if (!user) throw new Error("Unauthorized");
-
+  let avatarUrl: string | null = null;
+  let avatarId: string | null = null;
   const image = formData.get("profilePicture");
-  const textFields = Object.fromEntries(formData.entries());
 
-  const {
-    avatarId: oldAvatarId,
-    firstName,
-    lastName,
-    userName,
-    bio,
-  } = textFields;
+  const data = updateProfileSchema.parse({
+    avatarId: formData.get("avatarId"),
+    bio: formData.get("bio"),
+    userName: formData.get("userName"),
+    firstName: formData.get("firstName"),
+    lastName: formData.get("lastName"),
+  });
+  const { avatarId: oldAvatarId, firstName, lastName, userName, bio } = data;
 
-  if (image && image.size > 0 && typeof image !== "string") {
+  if (image instanceof File && image.size > 0) {
     const bytes = await image.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -31,11 +31,12 @@ async function updateUserProfile(formData) {
     });
     avatarUrl = uploadImage.url;
     avatarId = uploadImage.fileId;
-
-    try {
-      await imagekit.deleteFile(oldAvatarId);
-    } catch (deleteError) {
-      console.error("Failed to delete old image from ImageKit:", deleteError);
+    if (oldAvatarId) {
+      try {
+        await imagekit.deleteFile(oldAvatarId);
+      } catch (deleteError) {
+        console.error("Failed to delete old image from ImageKit:", deleteError);
+      }
     }
   }
   try {
@@ -52,8 +53,16 @@ async function updateUserProfile(formData) {
       },
     });
     revalidatePath("/");
+    return {
+      success: true,
+      message: "Profile updated successfully.",
+    };
   } catch (error) {
     console.log("Failed to update profile please try again.", error);
+    return {
+      success: false,
+      message: "Failed to update profile. Please try again.",
+    };
   }
 }
 
