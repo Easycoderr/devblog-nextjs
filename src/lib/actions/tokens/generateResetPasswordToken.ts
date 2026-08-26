@@ -1,7 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
-async function generateResetPasswordToken(email) {
+async function generateResetPasswordToken(email: string) {
   const token = crypto.randomBytes(32).toString("hex");
   try {
     await prisma.passwordResetToken.create({
@@ -17,6 +17,7 @@ async function generateResetPasswordToken(email) {
       "Something went wrong while generate reset password token, ERROR:",
       error,
     );
+    throw error;
   }
 }
 

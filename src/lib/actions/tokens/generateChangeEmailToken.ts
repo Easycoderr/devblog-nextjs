@@ -2,9 +2,8 @@
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 
-async function generateChangeEmailToken(email, newEmail) {
+async function generateChangeEmailToken(email: string, newEmail: string) {
   const token = crypto.randomBytes(32).toString("hex");
-  console.log(token);
   try {
     await prisma.emailChangeToken.create({
       data: {
@@ -20,6 +19,7 @@ async function generateChangeEmailToken(email, newEmail) {
       "Something went wrong while generate reset password token, ERROR:",
       error,
     );
+    throw error;
   }
 }
 

@@ -1,7 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
-async function generateVerificationToken(email) {
+async function generateVerificationToken(email: string) {
   try {
     const token = crypto.randomBytes(32).toString("hex");
     await prisma.verificationToken.create({
@@ -14,6 +14,7 @@ async function generateVerificationToken(email) {
     return token;
   } catch (error) {
     console.log("Something went wrong while generate token, ERROR:", error);
+    throw error;
   }
 }
 
