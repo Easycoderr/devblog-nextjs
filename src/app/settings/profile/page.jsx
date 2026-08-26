@@ -1,5 +1,6 @@
 import UpdateProfileForm from "@/features/settings/components/UpdateProfileForm";
 import getCurrentUser from "@/lib/getUser";
+import { SessionProvider } from "next-auth/react";
 
 async function page() {
   const user = await getCurrentUser();
@@ -13,6 +14,7 @@ async function page() {
           Manage your presonal information and how others see you on DevBlog.
         </p>
       </div>
+
       <UpdateProfileForm user={user} />
     </div>
   );

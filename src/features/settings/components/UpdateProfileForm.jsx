@@ -1,4 +1,5 @@
 "use client";
+
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
 import MiniSpinner from "@/components/ui/MiniSpinner";
@@ -8,12 +9,15 @@ import calcTextRange from "@/lib/utils/calcTextLength";
 import { updateProfile } from "@/lib/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, CheckCircle2Icon, XCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 function UpdateProfileForm({ user }) {
+  const { update } = useSession();
   const [isValidUserName, setIsValidUserName] = useState(false);
   const [isLoadingForValid, setIsLoadingForValid] = useState(false);
   const { avatarId, avatar, firstName, lastName, bio, userName } = user || {};
@@ -36,15 +40,19 @@ function UpdateProfileForm({ user }) {
       bio: bio || "",
     },
   });
-
   // checking username existing
   const newUserName = watch("userName");
 
   useEffect(() => {
+    if (!newUserName || newUserName === userName) {
+      setIsLoadingForValid(false);
+      return;
+    }
     let time;
     async function check() {
       const user = await isUserNameExist(newUserName);
-      if (user && user.userName !== userName && newUserName.length !== 0) {
+      console.log(user);
+      if (user) {
         setIsValidUserName(true);
         setError("userName", {
           type: "manual",
@@ -57,7 +65,7 @@ function UpdateProfileForm({ user }) {
     setIsLoadingForValid(true);
     time = setTimeout(() => {
       check();
-    }, 3000);
+    }, 1500);
 
     return () => {
       clearTimeout(time);
@@ -65,7 +73,7 @@ function UpdateProfileForm({ user }) {
       setIsLoadingForValid(false);
       setIsValidUserName(false);
     };
-  }, [newUserName]);
+  }, [newUserName, userName]);
 
   const bioChar = watch("bio");
 
@@ -75,6 +83,7 @@ function UpdateProfileForm({ user }) {
   const previewUrl = file ? URL.createObjectURL(file) : avatar;
 
   async function onSubmit(data) {
+    if (!isDirty) return null;
     const formData = new FormData();
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
@@ -87,8 +96,15 @@ function UpdateProfileForm({ user }) {
       formData.append("profilePicture", fileBinary);
     }
 
-    await updateUserProfile(formData);
-    toast.success("Profile updated!");
+    const response = await updateUserProfile(formData);
+    if (response?.success) {
+      toast.success(response.message);
+      await update({
+        userName: data.userName,
+      });
+    } else {
+      toast.error(response.message);
+    }
   }
 
   return (

@@ -6,6 +6,7 @@ import getCurrentUser from "../lib/getUser";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
 import AccentProvider from "@/providers/AccentProvider";
+import { SessionProvider } from "next-auth/react";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -33,20 +34,22 @@ export default async function RootLayout({ children }) {
       className={`${sora.variable} ${spaceGrotesk.variable} ${inter.variable} h-full scroll-smooth antialiased`}
     >
       <body className="relative min-h-full flex flex-col font-inter">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AccentProvider>
-            <Header user={user} />
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AccentProvider>
+              <Header user={user} />
 
-            {children}
-            <Toaster richColors closeButton position="top-center" />
-            <Footer />
-          </AccentProvider>
-        </ThemeProvider>
+              {children}
+              <Toaster richColors closeButton position="top-center" />
+              <Footer />
+            </AccentProvider>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

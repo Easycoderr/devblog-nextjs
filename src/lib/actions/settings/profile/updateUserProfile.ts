@@ -46,7 +46,7 @@ async function updateUserProfile(formData: FormData) {
         firstName,
         lastName,
         name: `${firstName} ${lastName}`,
-        ...(user.userName !== userName && { userName }),
+        ...(user.userName !== userName && { userName: userName }),
         bio,
         ...(avatarUrl && { avatar: avatarUrl }),
         ...(avatarId && { avatarId }),
@@ -55,6 +55,7 @@ async function updateUserProfile(formData: FormData) {
     revalidatePath("/");
     return {
       success: true,
+      newUserName: data.userName,
       message: "Profile updated successfully.",
     };
   } catch (error) {

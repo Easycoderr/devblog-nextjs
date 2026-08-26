@@ -11,7 +11,6 @@ function FormsButton({
   style,
   onClick,
 }) {
-  console.log("DISABLED:", disabled);
   const styles = {
     authForm: `${
       disabled
