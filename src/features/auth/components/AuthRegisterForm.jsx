@@ -4,14 +4,13 @@ import { Camera } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "@/lib/utils/schema";
 import Link from "next/link";
-import { registerUser } from "@/lib/actions/auth";
 import { toast } from "sonner";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import CheckEmail from "./CheckEmail";
-
+import registerUser from "@/lib/actions/auth/register";
 function AuthRegisterForm() {
   const [checkEmail, setCheckEmail] = useState(null);
   const {

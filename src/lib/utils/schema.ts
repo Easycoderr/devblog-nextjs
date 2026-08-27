@@ -162,7 +162,7 @@ export const createPostSchema = z.object({
   content: z.string().min(500),
   category: z.string().min(1),
 });
-// for server update post action
+// for server actions
 export const updatePostSchema = z.object({
   id: z.string(),
   title: z.string().min(4),
@@ -181,4 +181,10 @@ export const updateProfileSchema = z.object({
     .regex(/^[a-zA-Z0-9](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$/),
 
   bio: z.string().min(0).max(160),
+});
+export const registerUserSchema = z.object({
+  firstName: z.string().min(2),
+  lastName: z.string().min(2),
+  email: z.string(),
+  password: z.string().min(8),
 });
