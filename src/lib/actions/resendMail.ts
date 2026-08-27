@@ -6,7 +6,10 @@ import { sendVerificationEmail } from "./mail/sendVerificationEmail";
 import generateChangeEmailToken from "./tokens/generateChangeEmailToken";
 import generateResetPasswordToken from "./tokens/generateResetPasswordToken";
 import generateVerificationToken from "./tokens/generateVerificationToken";
-async function resendMail(newEmail, email, mode) {
+
+type modeTypes = "verify" | "reset" | "change";
+
+async function resendMail(newEmail: string, email: string, mode: modeTypes) {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return null;
@@ -23,18 +26,18 @@ async function resendMail(newEmail, email, mode) {
       });
       const verificationToken = await generateVerificationToken(email);
       const response = await sendVerificationEmail(email, verificationToken);
-      if (!response.error) {
+      if ("error" in response && response.error) {
+        console.error(response.error.message);
         return {
-          success: true,
+          success: false,
           email,
+          error: true,
+          message: response.error.message,
         };
       }
-      console.error(response.error?.message);
       return {
-        success: false,
+        success: true,
         email,
-        error: true,
-        message: response.error?.message,
       };
     } else if (mode === "reset") {
       await prisma.passwordResetToken.deleteMany({
@@ -42,37 +45,37 @@ async function resendMail(newEmail, email, mode) {
       });
       const resetPasswordToken = await generateResetPasswordToken(email);
       const response = await sendResetPasswordEmail(email, resetPasswordToken);
-      if (!response.error) {
+      if ("error" in response && response.error) {
+        console.error(response.error.message);
         return {
-          success: true,
+          success: false,
           email,
+          error: true,
+          message: response.error.message,
         };
       }
-      console.error(response.error?.message);
       return {
-        success: false,
+        success: true,
         email,
-        error: true,
-        message: response.error?.message,
       };
-    } else {
+    } else if (mode === "change") {
       await prisma.emailChangeToken.deleteMany({
         where: { identifier: email },
       });
-      const changeEmailToken = generateChangeEmailToken(email, newEmail);
+      const changeEmailToken = await generateChangeEmailToken(email, newEmail);
       const response = await sendChangeEmail(email, changeEmailToken);
-      if (!response.error) {
+      if ("error" in response && response.error) {
+        console.error(response.error.message);
         return {
-          success: true,
+          success: false,
           email,
+          error: true,
+          message: response.error.message,
         };
       }
-      console.error(response.error?.message);
       return {
-        success: false,
+        success: true,
         email,
-        error: true,
-        message: response.error?.message,
       };
     }
   } catch (error) {

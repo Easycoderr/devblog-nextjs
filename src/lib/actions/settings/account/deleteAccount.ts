@@ -3,7 +3,7 @@
 import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { signOutUser } from "../../auth";
+import signOutUser from "@/lib/actions/auth/signOut";
 import { imagekit } from "@/lib/imagekit";
 
 async function deleteAccount(data: { password: string }) {
