@@ -92,73 +92,73 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 //   };
 // }
 
-export async function signInUser(formData) {
-  const { email, password } = formData;
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (user?.provider === "google") {
-    return {
-      error: "ERROR-PROVIDER",
-      message:
-        "This account was created with Google. Please continue with Google.",
-    };
-  }
-  if (user && !user?.emailVerified) {
-    try {
-      await prisma.verificationToken.deleteMany({
-        where: { identifier: email },
-      });
-      const verificationToken = await generateVerificationToken(email);
-      const response = await sendVerificationEmail(email, verificationToken);
-      if (response.error) {
-        console.error(response.error?.message);
-        return {
-          success: false,
-          email,
-          error: true,
-          message: response.error?.message,
-        };
-      }
+// export async function signInUser(formData) {
+//   const { email, password } = formData;
+//   const user = await prisma.user.findUnique({ where: { email } });
+//   if (user?.provider === "google") {
+//     return {
+//       error: "ERROR-PROVIDER",
+//       message:
+//         "This account was created with Google. Please continue with Google.",
+//     };
+//   }
+//   if (user && !user?.emailVerified) {
+//     try {
+//       await prisma.verificationToken.deleteMany({
+//         where: { identifier: email },
+//       });
+//       const verificationToken = await generateVerificationToken(email);
+//       const response = await sendVerificationEmail(email, verificationToken);
+//       if (response.error) {
+//         console.error(response.error?.message);
+//         return {
+//           success: false,
+//           email,
+//           error: true,
+//           message: response.error?.message,
+//         };
+//       }
 
-      return {
-        success: false,
-        error: "NOT-VERIFIED",
-        email: email,
-      };
-    } catch (error) {
-      console.error(
-        "Samething went wrong while sending email verification, ERROR:",
-        error,
-      );
-      return {
-        success: false,
-        error: true,
-        message: "An unexpected error occurred. Please try again.",
-      };
-    }
-  }
-  try {
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/blogs",
-    });
-  } catch (error) {
-    if (isRedirectError(error)) {
-      throw error;
-    }
+//       return {
+//         success: false,
+//         error: "NOT-VERIFIED",
+//         email: email,
+//       };
+//     } catch (error) {
+//       console.error(
+//         "Samething went wrong while sending email verification, ERROR:",
+//         error,
+//       );
+//       return {
+//         success: false,
+//         error: true,
+//         message: "An unexpected error occurred. Please try again.",
+//       };
+//     }
+//   }
+//   try {
+//     await signIn("credentials", {
+//       email,
+//       password,
+//       redirectTo: "/blogs",
+//     });
+//   } catch (error) {
+//     if (isRedirectError(error)) {
+//       throw error;
+//     }
 
-    if (error instanceof AuthError) {
-      if (error.type === "CredentialsSignin") {
-        return {
-          success: false,
-          message: "Invalid email or password.",
-        };
-      }
-    }
+//     if (error instanceof AuthError) {
+//       if (error.type === "CredentialsSignin") {
+//         return {
+//           success: false,
+//           message: "Invalid email or password.",
+//         };
+//       }
+//     }
 
-    throw error;
-  }
-}
+//     throw error;
+//   }
+// }
 export async function generateUserName(name) {
   let count = 1;
   let newUserName = name

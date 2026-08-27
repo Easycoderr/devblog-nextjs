@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { signInUser } from "@/lib/actions/auth";
+
 import { signInSchema } from "@/lib/utils/schema";
 import FormsButton from "@/components/ui/FormsButton";
 import Input from "@/components/ui/Input";
@@ -11,12 +11,15 @@ import { useState } from "react";
 import CheckEmail from "./CheckEmail";
 import { toast } from "sonner";
 import SignInWithGoogle from "./SignInWithGoogle";
+import { signInUser } from "@/lib/actions/auth/signIn";
 
 function AuthSigninForm() {
+  const [invalidError, setInvalidError] = useState(null);
   const [checkEmail, setCheckEmail] = useState(null);
   const {
     register,
     handleSubmit,
+
     formState: { isSubmitting, errors, isDirty },
   } = useForm({
     resolver: zodResolver(signInSchema),
@@ -28,14 +31,19 @@ function AuthSigninForm() {
   });
 
   async function onSubmit(data) {
-    const response = await signInUser(data);
+    setInvalidError(null);
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+
+    const response = await signInUser(formData);
     if (response.error === "NOT-VERIFIED") {
       toast.info("Please verify your email.");
       setCheckEmail(response.email);
     } else if (response.error === "ERROR-PROVIDER") {
       toast.info(response.message);
     } else {
-      toast.error(response.message);
+      setInvalidError(response.message);
     }
   }
   if (checkEmail)
@@ -58,6 +66,11 @@ function AuthSigninForm() {
             Welcome back, please sign in to your account.
           </p>
         </div>
+        {invalidError && (
+          <div className="bg-brand-danger/30 text-brand-danger px-4 py-2 rounded-lg mb-2 text-center">
+            {invalidError}
+          </div>
+        )}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 md:min-w-md"
