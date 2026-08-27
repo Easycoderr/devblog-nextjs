@@ -1,4 +1,4 @@
-import { getUserByUserName } from "@/lib/actions/auth";
+import { getUserByUserName } from "@/lib/actions/auth/getUserByUserName";
 
 import ProfileTabs from "@/features/profile/components/ProfileTabs";
 import getCurrentUser from "@/lib/getUser";

@@ -159,27 +159,23 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 //     throw error;
 //   }
 // }
-export async function generateUserName(name) {
-  let count = 1;
-  let newUserName = name
-    .trim()
-    .toLowerCase()
-    .replace(/ /g, "")
-    .replace(/[^\w-]+/g, "");
+// export async function generateUserName(name) {
+//   let count = 1;
+//   let newUserName = name
+//     .trim()
+//     .toLowerCase()
+//     .replace(/ /g, "")
+//     .replace(/[^\w-]+/g, "");
 
-  while (await getUserByUserName(newUserName)) {
-    newUserName = `${newUserName}${count}`;
-    count++;
-  }
+//   while (await getUserByUserName(newUserName)) {
+//     newUserName = `${newUserName}${count}`;
+//     count++;
+//   }
 
-  return newUserName;
-}
-export async function getUserByUserName(userName) {
-  if (!userName) return null;
-  const user = await prisma.user.findUnique({ where: { userName } });
-  return user;
-}
-export async function signOutUser() {
-  await signOut();
-  redirect("/");
-}
+//   return newUserName;
+// }
+// export async function getUserByUserName(userName) {
+//   if (!userName) return null;
+//   const user = await prisma.user.findUnique({ where: { userName } });
+//   return user;
+// }

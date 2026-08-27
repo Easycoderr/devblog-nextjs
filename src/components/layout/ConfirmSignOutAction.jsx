@@ -1,7 +1,7 @@
 "use client";
 import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { signOutUser } from "@/lib/actions/auth";
+import signOutUser from "@/lib/actions/auth/signOut";
 
 function ConfirmSignOutAction() {
   const [isPending, startTransition] = useTransition();

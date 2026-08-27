@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { sendVerificationEmail } from "../mail/sendVerificationEmail";
 import generateVerificationToken from "../tokens/generateVerificationToken";
-import { generateUserName } from "../auth";
+import { generateUserName } from "@/lib/actions/auth/generaetUserName";
 import { imagekit } from "@/lib/imagekit";
 import bcrypt from "bcryptjs";
 import { registerUserSchema } from "@/lib/utils/schema";
