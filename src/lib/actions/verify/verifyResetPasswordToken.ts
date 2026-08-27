@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "../../prisma";
-async function verifyResetPasswordToken(token) {
+async function verifyResetPasswordToken(token: string) {
   try {
     const resetToken = await prisma.passwordResetToken.findUnique({
       where: { token },
@@ -9,12 +9,12 @@ async function verifyResetPasswordToken(token) {
     if (!resetToken)
       return {
         success: false,
-        message: "Invalid or expired reset password link.",
+        message: "Invalid or esxpired reset password link.",
       };
-    if (resetToken?.expires < new Date()) {
+    if (resetToken.expires < new Date()) {
       await prisma.passwordResetToken.delete({
         where: {
-          token: token,
+          token,
         },
       });
       return {
@@ -24,8 +24,7 @@ async function verifyResetPasswordToken(token) {
     }
     return {
       success: true,
-      message:
-        "Now you can reset your password, you should make your move before link get expired",
+      message: "Your reset link is valid. You can now choose a new password.",
     };
   } catch (error) {
     console.log("Something went wrong while reset password, ERROR:", error);

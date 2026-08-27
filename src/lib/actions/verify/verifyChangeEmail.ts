@@ -1,7 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 
-async function verifyChangeEmail(token) {
+async function verifyChangeEmail(token: string) {
   try {
     const changeToken = await prisma.emailChangeToken.findUnique({
       where: { token: token },
@@ -24,7 +24,7 @@ async function verifyChangeEmail(token) {
     }
     const user = await prisma.user.update({
       where: { email: changeToken.identifier },
-      data: { email: changeToken.newEmail },
+      data: { email: changeToken.newEmail, emailVerified: new Date() },
     });
     await prisma.emailChangeToken.delete({
       where: {
