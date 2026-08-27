@@ -1,8 +1,8 @@
 "use server";
 import { Resend } from "resend";
-const resend = new Resend(process.env.RESEND_API_KEY);
-async function sendChangeEmail(email, token) {
-  const verificationLink = `${process.env.AUTH_URL}/auth/change-email?token=${token}`;
+const resend = new Resend(process.env.RESEND_API_KEY!);
+async function sendChangeEmail(email: string, token: string) {
+  const verificationLink = `${process.env.AUTH_URL!}/auth/change-email?token=${token}`;
   try {
     const response = await resend.emails.send({
       from: "DevBlog <onboarding@resend.dev>", // change later
@@ -13,7 +13,7 @@ async function sendChangeEmail(email, token) {
       <p>Change your email by clicking the button below.</p>
 
       <a href="${verificationLink}">
-      Chnage email
+      Change email
       </a>
       `,
     });
