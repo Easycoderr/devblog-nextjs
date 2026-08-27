@@ -2,7 +2,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../prisma";
 
-async function resetPassword(token, newPassword) {
+async function resetPassword(token: string, newPassword: string) {
   try {
     const resetToken = await prisma.passwordResetToken.findUnique({
       where: { token },
@@ -12,10 +12,10 @@ async function resetPassword(token, newPassword) {
         success: false,
         message: "Invalid or expired reset password link.",
       };
-    if (resetToken?.expires < new Date()) {
+    if (resetToken.expires < new Date()) {
       await prisma.passwordResetToken.delete({
         where: {
-          token: token,
+          token,
         },
       });
       return {
