@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Google from "next-auth/providers/google";
+import { Session } from "next-auth";
 export const authConfig = {
   providers: [
     Google({
@@ -10,7 +11,13 @@ export const authConfig = {
     signIn: "/auth/signin",
   },
   callbacks: {
-    authorized({ auth, request }) {
+    authorized({
+      auth,
+      request,
+    }: {
+      auth: Session | null;
+      request: NextRequest;
+    }) {
       const { pathname } = request.nextUrl;
       const isLoggedIn = !!auth?.user;
       const isProtectedRoute =
