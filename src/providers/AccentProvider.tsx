@@ -1,16 +1,17 @@
 "use client";
 import { accentThemes } from "@/config/accent-colors";
 import { useTheme } from "next-themes";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { keyof } from "zod";
 
-function AccentProvider({ children }) {
+function AccentProvider({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
   useEffect(() => {
     const isDark = document.documentElement.classList.contains("dark");
-    const accent = localStorage.getItem("accent-theme");
     const selectedTheme = isDark ? "dark" : "light";
+    const accent = localStorage.getItem("accent-theme");
 
-    if (accent) {
+    if (accent && isAccentTheme(accent)) {
       document.documentElement.style.setProperty(
         "--color-primary",
         accentThemes[accent][selectedTheme].primary,
@@ -34,5 +35,7 @@ function AccentProvider({ children }) {
   }, [theme]);
   return children;
 }
-
+function isAccentTheme(value: string): value is keyof typeof accentThemes {
+  return value in accentThemes;
+}
 export default AccentProvider;
