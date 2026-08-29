@@ -1,4 +1,15 @@
-function AboutCard({ item }) {
+import type { ReactNode } from "react";
+
+type AboutCardTypes = {
+  id: number;
+  title: string;
+  description: string;
+  icon: ReactNode;
+};
+type AboutCardProps = {
+  item: AboutCardTypes;
+};
+function AboutCard({ item }: AboutCardProps) {
   const { title, description, icon } = item;
   return (
     <div

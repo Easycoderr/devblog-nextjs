@@ -35,7 +35,7 @@ function AboutSection() {
             <h2 className="text-2xl md:text-4xl ml-3 md:ml-0 font-sora font-bold">
               About DevBlog
             </h2>
-            <div className="bg-gradient-to-r from-transparent via-primary to-transparent h-0.5 max-w-2xs md:max-w-2xs"></div>
+            <div className="bg-linear-to-r from-transparent via-primary to-transparent h-0.5 max-w-2xs md:max-w-2xs"></div>
           </div>
           <p className="font-semibold text-muted-foreground pr-4 hyphens-auto text-pretty max-w-5xl">
             DevBlog is a modern platform for developers to share knowledge,
