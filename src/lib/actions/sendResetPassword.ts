@@ -3,10 +3,10 @@ import { prisma } from "../prisma";
 import { sendResetPasswordEmail } from "./mail/sendResetPasswordEmail";
 import generateResetPasswordToken from "./tokens/generateResetPasswordToken";
 
-async function sendResetPassword(email) {
+async function sendResetPassword(email: string) {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user || user?.provider === "google") {
+    if (!user || user.provider === "google") {
       return {
         success: true,
         message:
@@ -16,12 +16,9 @@ async function sendResetPassword(email) {
     await prisma.passwordResetToken.deleteMany({
       where: { identifier: email },
     });
-    const resetPassVerificationToken = await generateResetPasswordToken(email);
-    const response = await sendResetPasswordEmail(
-      email,
-      resetPassVerificationToken,
-    );
-    if (response.error) {
+    const resetPasswordToken = await generateResetPasswordToken(email);
+    const response = await sendResetPasswordEmail(email, resetPasswordToken);
+    if ("error" in response && response.error) {
       console.error(
         "[EMAIL_API_ERROR]",
         response.error.name,
@@ -34,7 +31,7 @@ async function sendResetPassword(email) {
       };
     }
     return {
-      email: email,
+      email,
       success: true,
       message:
         "If an account with this email exists, we've sent a password reset link.",
