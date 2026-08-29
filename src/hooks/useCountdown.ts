@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-function useCountdown(initialTime = 60) {
+function useCountdown(initialTime: number = 60): {
+  timeLeft: number;
+  startTimer: () => void;
+} {
   const [timeLeft, setTimeLeft] = useState(0);
   const startTimer = () => {
     setTimeLeft(initialTime);
