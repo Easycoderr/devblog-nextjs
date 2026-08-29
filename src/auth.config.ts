@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Google from "next-auth/providers/google";
 import { Session } from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 export const authConfig = {
   providers: [
     Google({
@@ -40,4 +41,4 @@ export const authConfig = {
       return true;
     },
   },
-};
+} satisfies NextAuthConfig;

@@ -1,11 +1,13 @@
-import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./lib/prisma";
 import bcrypt from "bcryptjs";
 import { authConfig } from "./auth.config";
 import Google from "next-auth/providers/google";
 import CustomPrismaAdapter from "./lib/auth/custom-prisma-adapter";
-export const { handlers, signIn, auth, signOut } = NextAuth({
+import NextAuth, { Session, type NextAuthResult } from "next-auth";
+import { signInSchema } from "./lib/utils/schema";
+import type { JWT } from "next-auth/jwt";
+const authResult: NextAuthResult = NextAuth({
   ...authConfig,
   adapter: CustomPrismaAdapter(),
   session: { strategy: "jwt" },
@@ -25,7 +27,11 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
 
       async authorize(credentials) {
         if (!credentials) return null;
-        const { email, password } = credentials;
+
+        const { email, password } = signInSchema.parse({
+          email: credentials.email,
+          password: credentials.password,
+        });
         const user = await prisma.user.findUnique({
           where: {
             email,
@@ -40,9 +46,10 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
         if (!user.emailVerified) {
           throw new Error("Please verify your email before signing in.");
         }
-        const isMatch = await bcrypt.compare(password, user.password);
+        if (!user.password) return null;
+        const isMatch = bcrypt.compare(password, user.password);
         if (!isMatch) return null;
-        const { password: pass, ...safeUser } = user;
+        const { password: _, ...safeUser } = user;
         return safeUser;
       },
     }),
@@ -51,6 +58,9 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
     ...authConfig.callbacks,
     async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
+        if (!profile?.email) {
+          return false;
+        }
         const existingUser = await prisma.user.findUnique({
           where: {
             email: profile.email,
@@ -73,15 +83,15 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
         if (session.avatar) token.avatar = session.avatar;
       }
       if (user) {
-        token.id = user.id;
+        token.id = user.id!;
         token.name = user.name;
         token.userName = user.userName;
         token.avatar = user.avatar;
-        token.email = user.email;
+        token.email = user.email!;
       }
       return token;
     },
-    async session({ token, session }) {
+    async session({ token, session }: { token: JWT; session: Session }) {
       if (token && session.user) {
         session.user.email = token.email;
         session.user.id = token.id;
@@ -93,3 +103,8 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
     },
   },
 });
+
+export const handlers = authResult.handlers;
+export const signIn = authResult.signIn;
+export const auth = authResult.auth;
+export const signOut = authResult.signOut;
