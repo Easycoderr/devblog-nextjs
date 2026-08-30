@@ -3,8 +3,25 @@ import ArticleCard from "../../features/post/components/FeaturedPostCard";
 import FeaturedPostSkeleton from "../../features/post/components/skeletons/FeaturedPostSkeleton";
 import EmptyState from "../ui/EmptyState";
 import Image from "next/image";
+import { Prisma } from "@prisma/client";
 
-function FeaturedPost({ posts }) {
+type FeaturedPostProps = {
+  posts: Prisma.PostGetPayload<{
+    include: {
+      savedPosts: {
+        select: {
+          id: true;
+        };
+      };
+      _count: {
+        select: {
+          viewLog: true;
+        };
+      };
+    };
+  }>[];
+};
+function FeaturedPost({ posts }: FeaturedPostProps) {
   const featuredPost = posts[0];
 
   return (
@@ -15,7 +32,7 @@ function FeaturedPost({ posts }) {
           <h2 className="text-2xl md:text-4xl ml-3 md:ml-0 font-sora font-bold">
             Featured Article
           </h2>
-          <div className="bg-gradient-to-r from-transparent via-primary to-transparent h-0.5 max-w-3xs md:max-w-2xs"></div>
+          <div className="bg-linear-to-r from-transparent via-primary to-transparent h-0.5 max-w-3xs md:max-w-2xs"></div>
         </div>
         {/* content */}
         {!featuredPost ? (
@@ -24,7 +41,7 @@ function FeaturedPost({ posts }) {
           <Suspense fallback={<FeaturedPostSkeleton />}>
             <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 gap-6 bg-card p-6 mx-4 md:mx-0 rounded-xl border border-border hover:shadow-lg transition-all duration-200">
               {/* LEFT */}
-              <div className="relative overflow-hidden h-[400px] w-full rounded-xl">
+              <div className="relative overflow-hidden h-100 w-full rounded-xl">
                 <Image
                   sizes="400px"
                   src={featuredPost.imageUrl}
