@@ -9,6 +9,11 @@ import HeaderDeskNav from "./HeaderDeskNav";
 import { MenuIcon, Plus, XIcon } from "lucide-react";
 import ProfileDropDownMenu from "./ProfileDropDownMenu";
 import ThemeToggle from "../ui/ThemeToggle";
+import getCurrentUser from "@/lib/getUser";
+type User = NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>;
+type HeaderProps = {
+  user: User | null;
+};
 
 const links = [
   { id: "home", label: "Home", href: "/" },
@@ -16,7 +21,7 @@ const links = [
   { id: "about", label: "About", href: "/#about" },
 ];
 
-function Header({ user }) {
+function Header({ user }: HeaderProps) {
   const activeSection = useActiveSection(links);
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -67,7 +72,7 @@ function Header({ user }) {
                 <div className="lg:flex gap-8 items-center hidden">
                   <Link
                     title="Create post"
-                    href={!user ? "/auth/signin" : "/blogs/create"}
+                    href="/blogs/create"
                     className="group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 size-8"
                   >
                     <Plus />

@@ -19,7 +19,7 @@ function Footer() {
             <p className="leading-relaxed text-center">
               A platform for developers to share knowledge and grow together.
             </p>
-            <div className="bg-gradient-to-l from-transparent mt-2 via-primary to-transparent w-full h-0.5"></div>
+            <div className="bg-linear-to-l from-transparent mt-2 via-primary to-transparent w-full h-0.5"></div>
           </div>
           {/* links */}
           <div className="flex text-sm text-muted-foreground  gap-8 mx-auto">
@@ -50,7 +50,7 @@ function Footer() {
           </div>
 
           {/* register buttons */}
-          <div className="text-muted text-sm mx-auto text-muted-foreground">
+          <div className="text-sm mx-auto text-muted-foreground">
             &copy; <span>{year}</span> DevBlog. All rights reserved.
           </div>
         </div>
