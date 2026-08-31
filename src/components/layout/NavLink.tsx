@@ -1,7 +1,20 @@
 "use client";
 import Link from "next/link";
-
-function NavLink({ children, href, pathname, id, activeSection }) {
+import { ReactNode } from "react";
+type NavLinkProps = {
+  children: ReactNode;
+  href: string;
+  pathname: string;
+  id: string;
+  activeSection: string;
+};
+function NavLink({
+  children,
+  href,
+  pathname,
+  id,
+  activeSection,
+}: NavLinkProps) {
   // console.log(
   //   `Link: ${id}, ActiveSec: ${activeSection}, Path: ${pathname}, Href: ${href}`,
   // );

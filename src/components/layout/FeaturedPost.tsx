@@ -5,21 +5,23 @@ import EmptyState from "../ui/EmptyState";
 import Image from "next/image";
 import { Prisma } from "@prisma/client";
 
-type FeaturedPostProps = {
-  posts: Prisma.PostGetPayload<{
-    include: {
-      savedPosts: {
-        select: {
-          id: true;
-        };
-      };
-      _count: {
-        select: {
-          viewLog: true;
-        };
+export type PostWithMeta = Prisma.PostGetPayload<{
+  include: {
+    savedPosts: {
+      select: {
+        id: true;
       };
     };
-  }>[];
+    _count: {
+      select: {
+        viewLog: true;
+      };
+    };
+  };
+}>;
+
+type FeaturedPostProps = {
+  posts: PostWithMeta[];
 };
 function FeaturedPost({ posts }: FeaturedPostProps) {
   const featuredPost = posts[0];

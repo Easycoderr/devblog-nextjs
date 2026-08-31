@@ -4,8 +4,11 @@ import EmptyState from "../ui/EmptyState";
 import PostCard from "../../features/post/components/PostCard";
 import getCurrentUser from "@/lib/getUser";
 import Link from "next/link";
-
-async function LatestPost({ posts }) {
+import type { PostWithMeta } from "./FeaturedPost";
+type LatestPostProps = {
+  posts: PostWithMeta[];
+};
+async function LatestPost({ posts }: LatestPostProps) {
   const user = await getCurrentUser();
   const latestPosts = posts.slice(0, 6);
   return (
@@ -23,7 +26,7 @@ async function LatestPost({ posts }) {
             <p className="ml-3 md:ml-0 text-md font-semibold text-muted-foreground">
               Discover the newest insights and tutorials
             </p>
-            <div className="bg-gradient-to-r from-transparent via-primary to-transparent h-0.5 max-w-44 md:max-w-2xs"></div>
+            <div className="bg-linear-to-r from-transparent via-primary to-transparent h-0.5 max-w-44 md:max-w-2xs"></div>
           </div>
           <div>
             <Link
