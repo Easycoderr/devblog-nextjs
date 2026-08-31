@@ -3,7 +3,7 @@ import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import signOutUser from "@/lib/actions/auth/signOut";
 
-function ConfirmSignOutAction({ className }: { className: string }) {
+function ConfirmSignOutAction({ className }: { className: string | null }) {
   const [isPending, startTransition] = useTransition();
   function handleSignout() {
     startTransition(async () => {

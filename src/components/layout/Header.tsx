@@ -10,9 +10,11 @@ import { MenuIcon, Plus, XIcon } from "lucide-react";
 import ProfileDropDownMenu from "./ProfileDropDownMenu";
 import ThemeToggle from "../ui/ThemeToggle";
 import getCurrentUser from "@/lib/getUser";
-type User = NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>;
+export type UserWithMeta = NonNullable<
+  Awaited<ReturnType<typeof getCurrentUser>>
+>;
 type HeaderProps = {
-  user: User | null;
+  user: UserWithMeta | null;
 };
 
 const links = [

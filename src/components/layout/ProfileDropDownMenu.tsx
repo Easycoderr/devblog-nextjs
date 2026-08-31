@@ -12,17 +12,25 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import ConfirmationAlertDialog from "../ConfirmationAlertDialog";
 import ConfirmSignOutAction from "./ConfirmSignOutAction";
 import Link from "next/link";
-function ProfileDropDownMenu({ user }) {
+import type { UserWithMeta } from "./Header";
+
+type ProfileDropDownProps = {
+  user: UserWithMeta | null;
+};
+function ProfileDropDownMenu({ user }: ProfileDropDownProps) {
+  if (!user) return null;
   const { name, avatar, email, firstName, lastName, userName } = user;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="relative h-10 w-10 rounded-full" variant="ghost">
           <Avatar>
-            <AvatarImage
-              alt={`${firstName || "User"}'s profile picture`}
-              src={avatar}
-            />
+            {avatar && (
+              <AvatarImage
+                alt={`${firstName || "User"}'s profile picture`}
+                src={avatar}
+              />
+            )}
             <AvatarFallback>
               {firstName?.[0]}
               {lastName?.[0]}
@@ -78,7 +86,7 @@ function ProfileDropDownMenu({ user }) {
             message="Are you sure you want to sign out?"
             icon={<LogOut />}
           >
-            <ConfirmSignOutAction />
+            <ConfirmSignOutAction className={null} />
           </ConfirmationAlertDialog>
         </DropdownMenuItem>
       </DropdownMenuContent>
