@@ -1,7 +1,7 @@
-import { SectionType } from "@/hooks/useActiveSection";
+import type { SectionType } from "@/hooks/useActiveSection";
 import NavLink from "./NavLink";
 
-type HeaderDeskProps = {
+export type HeaderDeskProps = {
   links: SectionType[];
   activeSection: string;
   pathname: string;
@@ -12,7 +12,7 @@ function HeaderDeskNav({ links, activeSection, pathname }: HeaderDeskProps) {
       <ul className="flex items-center truncate gap-6 font-sans text-md font-medium tracking-wider">
         {links.map((link, index) => (
           <NavLink
-            key={index}
+            key={link.id}
             id={link.id}
             activeSection={activeSection}
             href={link.href}
