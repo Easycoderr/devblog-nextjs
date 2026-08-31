@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-type SectionType = { id: string; label: string; href: string };
+export type SectionType = { id: string; label: string; href: string };
 
 function useActiveSection(sectionIds: SectionType[]): string {
   const [activeSection, setActiveSection] = useState("");
