@@ -44,6 +44,7 @@ const buttonVariants = cva(
 );
 type ButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
+    className?: string;
     asChild?: boolean;
   };
 function Button({

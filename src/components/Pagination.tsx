@@ -3,20 +3,25 @@ import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
-function Pagination({ totalPages, currentPage }) {
+function Pagination({
+  totalPages,
+  currentPage,
+}: {
+  totalPages: number;
+  currentPage: number;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const createPageURL = (pageNumber) => {
+  function createPageURL(pageNumber: number): string {
     const params = new URLSearchParams(searchParams);
     params.set("page", pageNumber.toString());
     return `${pathname}?${params.toString()}`;
-  };
+  }
 
   const groupSize = 4;
   const pages = Array.from({ length: totalPages || 0 }, (_, i) => i + 1);
   const jumpStart = Math.floor((currentPage - 1) / groupSize) * groupSize;
 
-  console.log(currentPage, jumpStart);
   const showPages =
     currentPage > 4 ? pages.slice(jumpStart, jumpStart + 4) : pages.slice(0, 5);
   return (
@@ -24,8 +29,8 @@ function Pagination({ totalPages, currentPage }) {
       <Link
         scroll={false}
         href={createPageURL(currentPage - 1)}
-        disabled={currentPage <= 1}
-        className={`${currentPage <= 1 ? "text-muted-foreground pointer-events-none" : "text-primary hover:text-ring hover:scale-103 active:scale-95 "} transition-all duration-200`}
+        aria-disabled={currentPage <= 1}
+        className={`${currentPage <= 1 ? "text-muted-foreground pointer-events-none cursor-not-allowed " : "text-primary hover:text-ring hover:scale-103 active:scale-95 "} transition-all duration-200`}
       >
         <ArrowLeftCircleIcon size={34} />
       </Link>
@@ -53,15 +58,23 @@ function Pagination({ totalPages, currentPage }) {
       <Link
         scroll={false}
         href={createPageURL(currentPage + 1)}
-        disabled={currentPage >= totalPages}
-        className={`${currentPage >= totalPages ? "text-muted-foreground pointer-events-none" : "text-primary hover:text-ring hover:scale-103 active:scale-95"}  transition-all duration-200`}
+        aria-disabled={currentPage >= totalPages}
+        className={`${currentPage >= totalPages ? "text-muted-foreground pointer-events-none cursor-not-allowed" : "text-primary hover:text-ring hover:scale-103 active:scale-95"}  transition-all duration-200`}
       >
         <ArrowRightCircleIcon size={34} />
       </Link>
     </div>
   );
 }
-function PagLink({ pageNumber, currentPage, createPageURL }) {
+function PagLink({
+  pageNumber,
+  currentPage,
+  createPageURL,
+}: {
+  pageNumber: number;
+  currentPage: number;
+  createPageURL: (pageNumber: number) => string;
+}) {
   return (
     <Link
       scroll={false}

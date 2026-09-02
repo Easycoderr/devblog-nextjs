@@ -86,7 +86,7 @@ function ProfileDropDownMenu({ user }: ProfileDropDownProps) {
             message="Are you sure you want to sign out?"
             icon={<LogOut />}
           >
-            <ConfirmSignOutAction className={null} />
+            <ConfirmSignOutAction />
           </ConfirmationAlertDialog>
         </DropdownMenuItem>
       </DropdownMenuContent>
