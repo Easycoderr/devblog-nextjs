@@ -11,13 +11,21 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import CheckEmail from "./CheckEmail";
 import registerUser from "@/lib/actions/auth/register";
+import z from "zod";
+type RegisterData = z.infer<typeof registerSchema>;
+type CheckEmailState = {
+  success: boolean;
+  email: string;
+  error: boolean;
+};
 function AuthRegisterForm() {
-  const [checkEmail, setCheckEmail] = useState(null);
+  const [checkEmail, setCheckEmail] = useState<CheckEmailState | null>(null);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isDirty },
     reset,
+
     watch,
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -42,7 +50,7 @@ function AuthRegisterForm() {
     };
   }, [previewUrl]);
 
-  async function onSubmit(data) {
+  async function onSubmit(data: RegisterData) {
     //  Create a FormData container to safely transport files
     const formData = new FormData();
 
@@ -57,8 +65,7 @@ function AuthRegisterForm() {
     }
 
     const response = await registerUser(formData);
-
-    if (response.success) {
+    if (response.success && response.email && !response.error) {
       setCheckEmail(response);
     } else if (response.error) {
       toast.error(response.message);
@@ -162,7 +169,7 @@ function AuthRegisterForm() {
               disabled={isSubmitting || !isDirty}
               isSubmiting={isSubmitting}
               type="submit"
-              style="authForm"
+              buttonStyle="authForm"
               ariaLabel="Register account"
             >
               {" "}
