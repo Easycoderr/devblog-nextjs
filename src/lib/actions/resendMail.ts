@@ -7,9 +7,13 @@ import generateChangeEmailToken from "./tokens/generateChangeEmailToken";
 import generateResetPasswordToken from "./tokens/generateResetPasswordToken";
 import generateVerificationToken from "./tokens/generateVerificationToken";
 
-type modeTypes = "verify" | "reset" | "change";
+export type CheckEmailModeTypes = "verify" | "reset" | "change";
 
-async function resendMail(newEmail: string, email: string, mode: modeTypes) {
+async function resendMail(
+  newEmail: string,
+  email: string,
+  mode: CheckEmailModeTypes,
+) {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return null;

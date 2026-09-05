@@ -8,6 +8,7 @@ async function sendResetPassword(email: string) {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user || user.provider === "google") {
       return {
+        email: null,
         success: true,
         message:
           "If an account with this email exists, we've sent a password reset link.",
@@ -25,6 +26,7 @@ async function sendResetPassword(email: string) {
         response.error.message,
       );
       return {
+        email: null,
         success: false,
         message:
           "We're having trouble sending emails right now. Please try again later.",
@@ -39,6 +41,7 @@ async function sendResetPassword(email: string) {
   } catch (error) {
     console.log("Samething went wrong, ERROR:", error);
     return {
+      email: null,
       success: false,
       message: "An unexpected error occurred. Please try again.",
     };

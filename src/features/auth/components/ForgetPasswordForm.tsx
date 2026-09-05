@@ -10,10 +10,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import CheckEmail from "./CheckEmail";
 import sendResetPassword from "@/lib/actions/sendResetPassword";
+import { z } from "zod";
 
 const forgotPasswordSchema = signInSchema.pick({ email: true });
+type FormData = z.infer<typeof forgotPasswordSchema>;
 function ForgetPasswordForm() {
-  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkEmail, setCheckEmail] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -24,8 +26,12 @@ function ForgetPasswordForm() {
       email: "",
     },
   });
-  async function onSubmit(data) {
+  async function onSubmit(data: FormData) {
     const response = await sendResetPassword(data.email);
+    if (!response) {
+      toast.error("Something went wrong, please try again.");
+      return;
+    }
     if (response.success) {
       toast.success(response.message);
       setCheckEmail(response.email);

@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import useCountdown from "@/hooks/useCountdown";
-import resendMail from "@/lib/actions/resendMail";
+import resendMail, { type CheckEmailModeTypes } from "@/lib/actions/resendMail";
 import { MailCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ type CheckEmailProps = {
   email: string;
   newEmail?: string;
   setCheckEmail: React.Dispatch<React.SetStateAction<string | null>>;
-  mode?: "reset" | "change" | "verify";
+  mode?: CheckEmailModeTypes;
 };
 function CheckEmail({
   email,
@@ -32,12 +32,12 @@ function CheckEmail({
   const actionText = isResetMode
     ? "reset your password"
     : isChangeEmail
-      ? "Change your password"
+      ? "Change your email"
       : "activate your account";
   async function handleResendMail() {
     startTimer();
-    toast.success(`${linkType} email sent to ${email}`);
     const response = await resendMail(newEmail, email, mode);
+    toast.success(`${linkType} email sent to ${email}`);
     if (!response) {
       toast.error("Somthing went wrong, please try again.");
       return;
