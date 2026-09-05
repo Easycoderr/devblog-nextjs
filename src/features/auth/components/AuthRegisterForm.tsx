@@ -13,13 +13,13 @@ import CheckEmail from "./CheckEmail";
 import registerUser from "@/lib/actions/auth/register";
 import z from "zod";
 type RegisterData = z.infer<typeof registerSchema>;
-type CheckEmailState = {
+export type CheckEmailState = {
   success: boolean;
   email: string;
   error: boolean;
 };
 function AuthRegisterForm() {
-  const [checkEmail, setCheckEmail] = useState<CheckEmailState | null>(null);
+  const [checkEmail, setCheckEmail] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -66,14 +66,13 @@ function AuthRegisterForm() {
 
     const response = await registerUser(formData);
     if (response.success && response.email && !response.error) {
-      setCheckEmail(response);
+      setCheckEmail(response.email);
     } else if (response.error) {
       toast.error(response.message);
     }
   }
   if (checkEmail) {
-    const { email } = checkEmail;
-    return <CheckEmail email={email} setCheckEmail={setCheckEmail} />;
+    return <CheckEmail email={checkEmail} setCheckEmail={setCheckEmail} />;
   }
   return (
     <>

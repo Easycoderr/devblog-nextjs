@@ -6,8 +6,18 @@ import { MailCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
-function CheckEmail({ email, newEmail = "", setCheckEmail, mode = "verify" }) {
+type CheckEmailProps = {
+  email: string;
+  newEmail?: string;
+  setCheckEmail: React.Dispatch<React.SetStateAction<string | null>>;
+  mode?: "reset" | "change" | "verify";
+};
+function CheckEmail({
+  email,
+  newEmail = "",
+  setCheckEmail,
+  mode = "verify",
+}: CheckEmailProps) {
   const router = useRouter();
   const { timeLeft, startTimer } = useCountdown(60);
   const isCoolDown = timeLeft > 0;
@@ -28,9 +38,13 @@ function CheckEmail({ email, newEmail = "", setCheckEmail, mode = "verify" }) {
     startTimer();
     toast.success(`${linkType} email sent to ${email}`);
     const response = await resendMail(newEmail, email, mode);
-    if (response?.error) {
-      toast.error(response?.message);
-    } else if (response?.success === "VERIFIED") {
+    if (!response) {
+      toast.error("Somthing went wrong, please try again.");
+      return;
+    }
+    if (response.error) {
+      toast.error(response.message);
+    } else if (response.success === "VERIFIED") {
       setCheckEmail(null);
       router.replace("/auth/signin?verified=true");
     }
