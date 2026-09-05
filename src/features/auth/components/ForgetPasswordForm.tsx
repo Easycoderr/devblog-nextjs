@@ -20,7 +20,7 @@ function ForgetPasswordForm() {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isDirty },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",

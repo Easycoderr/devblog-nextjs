@@ -8,27 +8,32 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import resetPassword from "@/lib/actions/resetPassword";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 
 const resetPasswordSchema = signInSchema.pick({ password: true });
-function ResetPasswordForm({ token }) {
+type FormData = z.infer<typeof resetPasswordSchema>;
+function ResetPasswordForm({ token }: { token: string }) {
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isDirty },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
     },
   });
-  async function onSubmit(data) {
+  async function onSubmit(data: FormData) {
     const response = await resetPassword(token, data.password);
+    if (!response) {
+      toast.error("Something went wrong, please try again.");
+      return;
+    }
     if (response.success) {
       toast.success(response.message);
       router.replace("/auth/signin");
-    }
-    if (!response.success) {
+    } else {
       toast.error(response.message);
     }
   }
@@ -60,7 +65,7 @@ function ResetPasswordForm({ token }) {
           </Button>
           <Link
             className="p-2 text-center w-full inline-block bg-black/70 text-white rounded-lg hover:opacity-75"
-            href="signin"
+            href="/auth/signin"
           >
             Back to Sign In
           </Link>
