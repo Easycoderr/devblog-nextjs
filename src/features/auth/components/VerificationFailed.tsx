@@ -1,11 +1,15 @@
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-
+type VerificationFailedProps = {
+  message?: string;
+  buttonTitle?: string;
+  href?: string;
+};
 function VerificationFailed({
   message,
   buttonTitle = "Back to Sign In",
   href = "/auth/signin",
-}) {
+}: VerificationFailedProps) {
   return (
     <div className="flex flex-col gap-4 items-center bg-card text-card-foreground shadow-md p-8 rounded-xl max-w-md text-center">
       <AlertCircle className="size-14 text-brand-danger" />
