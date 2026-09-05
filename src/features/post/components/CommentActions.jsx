@@ -16,7 +16,6 @@ function CommentActions({
   commentUserId,
   userId,
   post,
-  style,
 }) {
   return (
     <DropdownMenu>

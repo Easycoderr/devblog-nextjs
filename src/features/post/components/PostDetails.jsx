@@ -4,7 +4,7 @@ import CommentSection from "./CommentSection";
 import MarkdownRenderer from "./MarkdownRenderer";
 import PostCardAvatar from "./PostCardAvatar";
 import categoryColorPicker from "@/lib/utils/categoryColorPicker";
-import { Eye, ThumbsUp } from "lucide-react";
+import { Eye } from "lucide-react";
 function PostDetails({ post }) {
   const {
     id,

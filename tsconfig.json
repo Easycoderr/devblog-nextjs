@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "src/app/auth/auth-error/page.jsx"
+    "src/app/auth/auth-error/page.jsx",
+    "src/features/post/components/AddCommentForm.jsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,5 +1,5 @@
 import { format, formatDistance } from "date-fns";
-function dateCalculation(date: Date, type: string): string {
+function dateCalculation(date: Date, type?: string): string {
   const newDate = new Date(date);
   const isValidDate = !isNaN(newDate.getTime());
   if (isValidDate && type === "full") {

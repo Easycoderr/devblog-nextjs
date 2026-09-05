@@ -7,16 +7,38 @@ import { toast } from "sonner";
 import CommentActions from "./CommentActions";
 import Image from "next/image";
 import Link from "next/link";
+import { Prisma } from "@prisma/client";
+type CommentData = Prisma.CommentGetPayload<{
+  include: {
+    user: true;
+  };
+}> & { replies: CommentData[] };
 
+type PostData = Prisma.PostGetPayload<{}>;
+type CommentProps = {
+  comment: CommentData;
+  post: PostData;
+  userId: string;
+  // replyedUser:
+  replayedUserId?: string;
+  depth?: number;
+};
+type NameProps = {
+  avatar?: string | null;
+  name: string;
+  userName: string;
+  isOwner?: boolean;
+  variant?: "secondary" | "default";
+};
 function Comment({
   comment,
   post,
   userId,
-  replyedUser,
+  // replyedUser,
   replayedUserId,
   depth = 0,
-}) {
-  const [openReplyField, setOpenReplyField] = useState(false);
+}: CommentProps) {
+  const [openReplyField, setOpenReplyField] = useState<string | boolean>(false);
   const [repliesNumber, setRepliesNumber] = useState(0);
   const {
     id,
@@ -36,10 +58,10 @@ function Comment({
         <div>
           <div className="flex items-center gap-1 flex-wrap">
             <Name
-              avatar={user?.avatar}
-              name={user?.name}
-              userName={user?.userName}
-              isOwner={commentUserId === post?.authorId}
+              avatar={user.avatar}
+              name={user.name!}
+              userName={user.userName}
+              isOwner={commentUserId === post.authorId}
             />
 
             <span className="text-gray-300 hidden sm:inline">-</span>
@@ -119,7 +141,6 @@ function Comment({
           <AddCommentForm
             commentId={id}
             postId={post?.id}
-            userId={userId}
             parentId={id}
             openReplyField={openReplyField}
             setOpenReplyField={setOpenReplyField}
@@ -139,7 +160,7 @@ function Comment({
               <Comment
                 key={reply.id}
                 comment={reply}
-                replyedUser={user?.userName}
+                // replyedUser={user?.userName}
                 replayedUserId={commentUserId}
                 userId={userId}
                 post={post}
@@ -152,7 +173,13 @@ function Comment({
     </div>
   );
 }
-function Name({ avatar, name, userName, isOwner, variant = "default" }) {
+function Name({
+  avatar,
+  name,
+  userName,
+  isOwner,
+  variant = "default",
+}: NameProps) {
   const style = {
     default: "text-sm text-muted-foreground flex items-center gap-1",
     secondary:
