@@ -12,10 +12,12 @@ import CheckEmail from "./CheckEmail";
 import { toast } from "sonner";
 import SignInWithGoogle from "./SignInWithGoogle";
 import { signInUser } from "@/lib/actions/auth/signIn";
+import z from "zod";
+type formData = z.infer<typeof signInSchema>;
 
 function AuthSigninForm() {
-  const [invalidError, setInvalidError] = useState(null);
-  const [checkEmail, setCheckEmail] = useState(null);
+  const [invalidError, setInvalidError] = useState<string | null>(null);
+  const [checkEmail, setCheckEmail] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -30,15 +32,19 @@ function AuthSigninForm() {
     },
   });
 
-  async function onSubmit(data) {
+  async function onSubmit(data: formData) {
     setInvalidError(null);
     const formData = new FormData();
     formData.append("email", data.email);
     formData.append("password", data.password);
 
     const response = await signInUser(formData);
-    if (response.error === "NOT-VERIFIED") {
+    if (!response) {
       toast.info("Please verify your email.");
+      return null;
+    }
+    if (response.error === "NOT-VERIFIED") {
+      toast.info(response.message);
       setCheckEmail(response.email);
     } else if (response.error === "ERROR-PROVIDER") {
       toast.info(response.message);
@@ -100,7 +106,7 @@ function AuthSigninForm() {
             <FormsButton
               disabled={isSubmitting || !isDirty}
               type="submit"
-              style="authForm"
+              buttonStyle="authForm"
               ariaLabel="Sign in account"
             >
               {" "}

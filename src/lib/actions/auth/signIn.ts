@@ -1,7 +1,6 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import generateVerificationToken from "../tokens/generateVerificationToken";
 import { sendVerificationEmail } from "../mail/sendVerificationEmail";
@@ -19,8 +18,10 @@ export async function signInUser(formData: FormData) {
   if (user && user.provider === "google") {
     return {
       error: "ERROR-PROVIDER",
+      success: false,
       message:
         "This account was created with Google. Please continue with Google.",
+      email: null,
     };
   }
   if (user && !user.emailVerified) {
@@ -36,14 +37,15 @@ export async function signInUser(formData: FormData) {
           success: false,
           email,
           error: true,
-          message: response.error?.message,
+          message: response.error?.message || "Something went wrong!",
         };
       }
 
       return {
         success: false,
         error: "NOT-VERIFIED",
-        email: email,
+        email,
+        message: "Please verify your email.",
       };
     } catch (error) {
       console.error(
@@ -51,6 +53,7 @@ export async function signInUser(formData: FormData) {
         error,
       );
       return {
+        email: null,
         success: false,
         error: true,
         message: "An unexpected error occurred. Please try again.",
@@ -72,6 +75,8 @@ export async function signInUser(formData: FormData) {
       if (error.type === "CredentialsSignin") {
         return {
           success: false,
+          error: true,
+          email: null,
           message: "Invalid email or password.",
         };
       }
