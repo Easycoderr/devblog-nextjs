@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function getLikesByPostId(postId: string) {
   const user = await getCurrentUser();
-  if (!user) throw new Error("Not authenticated");
+  // if (!user) throw new Error("Not authenticated");
   try {
     const post = await prisma.post.findUnique({
       where: { id: postId },

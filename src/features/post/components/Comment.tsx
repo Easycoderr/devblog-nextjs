@@ -8,17 +8,13 @@ import CommentActions from "./CommentActions";
 import Image from "next/image";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
-type CommentData = Prisma.CommentGetPayload<{
-  include: {
-    user: true;
-  };
-}> & { replies: CommentData[] };
+import { PostData } from "./CommentSection";
+import { CommentData } from "./CommentList";
 
-type PostData = Prisma.PostGetPayload<{}>;
 type CommentProps = {
   comment: CommentData;
   post: PostData;
-  userId: string;
+  userId?: string;
   // replyedUser:
   replayedUserId?: string;
   depth?: number;
