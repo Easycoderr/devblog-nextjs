@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "src/app/auth/auth-error/page.jsx",
-    "src/features/post/components/AddCommentForm.jsx"
+    "src/features/post/components/AddCommentForm.tsx"
   ],
   "exclude": ["node_modules"]
 }

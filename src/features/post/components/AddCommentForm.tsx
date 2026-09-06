@@ -5,6 +5,18 @@ import { updateComment } from "@/lib/actions/post/comment/updateComment";
 import { Send, XIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
+type SetOpenReplyFieldType = React.Dispatch<
+  React.SetStateAction<string | boolean>
+>;
+type AddCommentForm = {
+  content?: string | null;
+  openReplyField?: string | boolean;
+  postId: string;
+  commentId?: string;
+  parentId?: string;
+  setOpenReplyField?: SetOpenReplyFieldType;
+  placeholder?: string;
+};
 function AddCommentForm({
   content: updateContent,
   openReplyField,
@@ -13,12 +25,12 @@ function AddCommentForm({
   parentId,
   setOpenReplyField,
   placeholder = "Write your comment...",
-}) {
+}: AddCommentForm) {
   const [content, setContent] = useState(updateContent || "");
   const [isPending, startTransition] = useTransition();
-  async function handleSubmitComment(e) {
+  async function handleSubmitComment(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!content || content.trim("") === "") {
+    if (!content || content.trim() === "") {
       toast.info("Please write your comment");
       return null;
     }
@@ -33,7 +45,7 @@ function AddCommentForm({
           setContent("");
         }
       });
-    } else {
+    } else if (commentId) {
       startTransition(async () => {
         const result = await updateComment(commentId, content);
         if (result.success) {
@@ -60,7 +72,6 @@ function AddCommentForm({
         <div className="relative w-full max-w-2xl">
           <textarea
             onChange={(e) => setContent(e.target.value)}
-            type="text"
             value={content}
             name="comment"
             className="w-full max-w-2xl placeholder:text-sm rounded-lg border-border bg-input outline-none focus:ring focus:ring-ring p-2 pr-19"
