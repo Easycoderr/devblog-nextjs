@@ -8,7 +8,7 @@ export async function deleteComment(commentId: string) {
   const user = await getCurrentUser();
   if (!user) throw new Error("Unauthorized");
   try {
-    const result = await prisma.comment.delete({
+    await prisma.comment.delete({
       where: { id: commentId, userId: user.id },
     });
     revalidatePath("/blogs");

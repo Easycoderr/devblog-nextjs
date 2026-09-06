@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { deleteComment } from "@/lib/actions/post/comment/deleteComment";
 
-function ConfirmDeleteCommentAction({ commentId }) {
+function ConfirmDeleteCommentAction({ commentId }: { commentId: string }) {
   const pathname = usePathname();
   // to navigate page;
   const [isPending, startTransition] = useTransition();
