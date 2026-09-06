@@ -8,11 +8,15 @@ import PostCommentListSkeleton from "./skeletons/PostCommentSkeleton";
 import CommentList from "./CommentList";
 import { Suspense } from "react";
 import { getComments } from "@/lib/actions/post/comment/getComments";
-
-async function CommentSection({ post }) {
-  const user = await getCurrentUser();
+import { Prisma } from "@prisma/client";
+export type PostData = Prisma.PostGetPayload<{}>;
+async function CommentSection({ post }: { post: PostData }) {
+  const [user, comments] = await Promise.all([
+    getCurrentUser(),
+    getComments(post?.id),
+  ]);
   const userId = user?.id;
-  const comments = await getComments(post?.id);
+
   const listOfComments = listToTree(comments);
   return (
     <div className="col-span-2 mt-8 space-y-4">
