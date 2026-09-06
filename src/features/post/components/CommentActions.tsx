@@ -9,14 +9,19 @@ import {
 import { EllipsisVertical } from "lucide-react";
 import DeleteAlertDialog from "./DeleteAlertDialog";
 import ConfirmDeleteCommentAction from "./ConfirmDeleteCommentAction";
-
+import { SetOpenReplyFieldType } from "./AddCommentForm";
+type CommetnActionsProps = {
+  setOpenReplyField: SetOpenReplyFieldType;
+  commentId: string;
+  commentUserId: string;
+  userId?: string;
+};
 function CommentActions({
   setOpenReplyField,
   commentId,
   commentUserId,
   userId,
-  post,
-}) {
+}: CommetnActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,13 +47,11 @@ function CommentActions({
             {/* delete */}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <DeleteAlertDialog
-                post={post}
-                userId={userId}
                 title="Comment"
                 message="Are you sure? This will permanently delete this comment. This action
             cannot be undone"
               >
-                <ConfirmDeleteCommentAction post={post} commentId={commentId} />
+                <ConfirmDeleteCommentAction commentId={commentId} />
               </DeleteAlertDialog>
             </DropdownMenuItem>
           </div>

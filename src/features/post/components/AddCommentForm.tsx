@@ -5,7 +5,7 @@ import { updateComment } from "@/lib/actions/post/comment/updateComment";
 import { Send, XIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-type SetOpenReplyFieldType = React.Dispatch<
+export type SetOpenReplyFieldType = React.Dispatch<
   React.SetStateAction<string | boolean>
 >;
 type AddCommentForm = {

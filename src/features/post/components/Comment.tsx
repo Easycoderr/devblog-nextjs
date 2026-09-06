@@ -93,7 +93,6 @@ function Comment({
           commentId={id}
           commentUserId={commentUserId}
           userId={userId}
-          post={post}
         />
       </div>
       <div className="flex flex-col gap-2">
