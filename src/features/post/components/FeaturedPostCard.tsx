@@ -3,18 +3,14 @@ import dateCalculation from "@/lib/utils/dateCalculation";
 import { ArrowRight, Calendar, Eye, Flame } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-async function FeaturedPostCard({ post }) {
-  const {
-    slug,
-    title,
-    description,
-    createdAt: date,
-    category,
-    // readTime,
-    authorId,
-  } = post;
+import { PostData } from "./CommentSection";
+type FeaturedPostCardProps = {
+  post: PostData;
+};
+async function FeaturedPostCard({ post }: FeaturedPostCardProps) {
+  const { slug, title, description, createdAt: date, authorId } = post;
   const author = await getUserById(authorId);
+  if (!author) return null;
   return (
     <>
       <div className="relative text-foreground flex flex-col gap-10 shadow-sm bg-bg rounded-xl py-8 px-5">
@@ -31,7 +27,7 @@ async function FeaturedPostCard({ post }) {
             {title}
           </h3>
           {/* description */}
-          <p className="leading-relaxed text-lg text-muted-foreground hyphens-auto text-pretty break-words">
+          <p className="leading-relaxed text-lg text-muted-foreground hyphens-auto text-pretty wrap-break-word">
             {description.split(" ").slice(0, 40).join(" ")}
           </p>
         </div>
@@ -43,14 +39,16 @@ async function FeaturedPostCard({ post }) {
           <div className="flex flex-col gap-6 text-sm mt-auto">
             <div className="flex items-center gap-3">
               <div className="relative rounded-full h-12 w-12 overflow-hidden border border-border">
-                <Image
-                  fill
-                  sizes="48px"
-                  src={author?.avatar}
-                  className="object-cover"
-                  alt={`${author?.name}-user`}
-                  quality={100}
-                />
+                {author.avatar && (
+                  <Image
+                    fill
+                    sizes="48px"
+                    src={author.avatar}
+                    className="object-cover"
+                    alt={`${author?.name}-user`}
+                    quality={100}
+                  />
+                )}
               </div>
               <div className="flex flex-col gap-0">
                 <Link
