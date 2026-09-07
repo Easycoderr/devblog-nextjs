@@ -5,17 +5,20 @@ import React, { useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { deletePost } from "@/lib/actions/post/deletePost";
-
-function ConfirmDeletePostAction({ post, userId }) {
+import { PostData } from "./CommentSection";
+type ConfirmDeletePostActionProps = {
+  post: PostData;
+};
+function ConfirmDeletePostAction({ post }: ConfirmDeletePostActionProps) {
   const pathname = usePathname();
   // to navigate page
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   async function handleDeletePost() {
     startTransition(async () => {
-      const result = await deletePost(post?.id);
-      if (result?.success) {
-        toast.success(`${post?.title} deleted successfully!`);
+      const result = await deletePost(post.id);
+      if (result.success) {
+        toast.success(`${post.title} deleted successfully!`);
         router.push(`${pathname === "/" ? "/" : "/blogs"}`);
       } else {
         toast.error(`There was an error happend while deleting ${post.title}`);
