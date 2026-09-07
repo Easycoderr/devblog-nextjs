@@ -28,7 +28,7 @@ function PostCardFooter({ post, user, totalShares, totalLikes, userLike }) {
           <LikeButton
             userLike={userLike}
             totalLikes={totalLikes}
-            user={user}
+            userId={user?.id}
             post={post}
           />
         </div>

@@ -23,7 +23,7 @@ async function FeaturedPostCard({ post }: FeaturedPostCardProps) {
         </div>
         <div className="space-y-4">
           {/* header */}
-          <h3 className="text-4xl font-sora font-semibold tracking-tight mt-3">
+          <h3 className="text-4xl font-sora font-semibold tracking-tight mt-3 wrap-break-word">
             {title}
           </h3>
           {/* description */}

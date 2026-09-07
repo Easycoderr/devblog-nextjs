@@ -3,14 +3,22 @@ import { likePost } from "@/lib/actions/post/likePost";
 import { ThumbsUp } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import type { PostData } from "./CommentSection";
 
-function LikeButton({ userLike, totalLikes, user, post }) {
-  const [isPending, startTranstion] = useTransition();
+import type { Like } from "@prisma/client";
+type LikeButtonProps = {
+  post: PostData;
+  userId?: string | null;
+  totalLikes: number;
+  userLike?: Like | null;
+};
+function LikeButton({ userLike, totalLikes, userId, post }: LikeButtonProps) {
+  const [isPending, startTransition] = useTransition();
   async function handleLikePost() {
-    if (!user) {
+    if (!userId) {
       toast.error("Register to like and comment on posts.");
     } else {
-      startTranstion(async () => {
+      startTransition(async () => {
         await likePost(post.id);
       });
     }
