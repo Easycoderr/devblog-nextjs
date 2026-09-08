@@ -2,8 +2,20 @@
 
 import { sharePost } from "@/lib/actions/post/sharePost";
 import { toast } from "sonner";
-
-function ShareButton({ postId, totalShares, title, text, slug }) {
+type ShareButtonProps = {
+  postId: string;
+  totalShares: number;
+  title: string;
+  text: string;
+  slug: string;
+};
+function ShareButton({
+  postId,
+  totalShares,
+  title,
+  text,
+  slug,
+}: ShareButtonProps) {
   const pathname = "http://localhost:3000/blogs";
   const url = `${pathname}/${slug}`;
   async function handleShare() {
