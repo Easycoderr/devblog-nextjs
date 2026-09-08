@@ -8,8 +8,9 @@ import PostCommentListSkeleton from "./skeletons/PostCommentSkeleton";
 import CommentList from "./CommentList";
 import { Suspense } from "react";
 import { getComments } from "@/lib/actions/post/comment/getComments";
-import { Prisma } from "@prisma/client";
-export type PostData = Prisma.PostGetPayload<{}>;
+
+import type { PostData } from "@/types/postTypes";
+
 async function CommentSection({ post }: { post: PostData }) {
   const [user, comments] = await Promise.all([
     getCurrentUser(),

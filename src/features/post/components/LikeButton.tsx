@@ -3,9 +3,9 @@ import { likePost } from "@/lib/actions/post/likePost";
 import { ThumbsUp } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import type { PostData } from "./CommentSection";
 
 import type { Like } from "@prisma/client";
+import type { PostData } from "@/types/postTypes";
 type LikeButtonProps = {
   post: PostData;
   userId?: string | null;

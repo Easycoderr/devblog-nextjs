@@ -1,11 +1,11 @@
 "use client";
 // import { deletePost } from "../../../lib/actions/post";
 import { toast } from "sonner";
-import React, { useTransition } from "react";
+import { useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { deletePost } from "@/lib/actions/post/deletePost";
-import { PostData } from "./CommentSection";
+import type { PostData } from "@/types/postTypes";
 type ConfirmDeletePostActionProps = {
   post: PostData;
 };

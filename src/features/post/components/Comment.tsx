@@ -7,9 +7,8 @@ import { toast } from "sonner";
 import CommentActions from "./CommentActions";
 import Image from "next/image";
 import Link from "next/link";
-import { Prisma } from "@prisma/client";
-import { PostData } from "./CommentSection";
-import { CommentData } from "./CommentList";
+import type { CommentData } from "./CommentList";
+import type { PostData } from "@/types/postTypes";
 
 type CommentProps = {
   comment: CommentData;

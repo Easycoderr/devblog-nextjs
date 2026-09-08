@@ -25,7 +25,7 @@ import {
 import { createPost } from "@/lib/actions/post/createPost";
 import { updatePost } from "@/lib/actions/post/updatePost";
 import { z } from "zod";
-import { PostData } from "./CommentSection";
+import type { PostData } from "@/types/postTypes";
 
 function Form({ postData }: { postData: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;

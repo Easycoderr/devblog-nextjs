@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import Comment from "./Comment";
-import type { PostData } from "./CommentSection";
+import type { PostData } from "@/types/postTypes";
+
 export type CommentData = Prisma.CommentGetPayload<{
   include: {
     user: true;

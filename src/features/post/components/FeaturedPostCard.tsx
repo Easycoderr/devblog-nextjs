@@ -1,9 +1,9 @@
 import { getUserById } from "@/lib/getUser";
 import dateCalculation from "@/lib/utils/dateCalculation";
-import { ArrowRight, Calendar, Eye, Flame } from "lucide-react";
+import type { PostData } from "@/types/postTypes";
+import { ArrowRight, Flame } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { PostData } from "./CommentSection";
 type FeaturedPostCardProps = {
   post: PostData;
 };
