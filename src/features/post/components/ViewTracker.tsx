@@ -2,7 +2,7 @@
 import { incrementViewPost } from "@/lib/actions/post/incrementViewPost";
 import { useEffect } from "react";
 
-function ViewTracker({ slug }) {
+function ViewTracker({ slug }: { slug: string }) {
   useEffect(() => {
     const timer = setTimeout(async () => {
       await incrementViewPost(slug);
