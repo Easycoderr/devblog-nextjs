@@ -4,8 +4,15 @@ import EmptyState from "../../../components/ui/EmptyState";
 import Pagination from "../../../components/Pagination";
 import PostCard from "./PostCard";
 import getPosts from "@/lib/actions/post/getPosts";
-
-async function PostList({ params }) {
+type PostListProps = {
+  params: {
+    search?: string;
+    filter?: string;
+    sort?: "oldest" | "newest";
+    page?: number;
+  };
+};
+async function PostList({ params }: PostListProps) {
   const user = await getCurrentUser();
   // const params = await searchParams;
   const search = params.search;
