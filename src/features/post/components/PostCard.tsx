@@ -4,13 +4,27 @@ import PostCardHeader from "./PostCardHeader";
 import PostCardAvatar from "./PostCardAvatar";
 import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
 import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
-
-async function PostCard({ post, user }) {
-  const [{ _count: postLikes, userLike }, { _count: postShares }] =
-    await Promise.all([
-      await getLikesByPostId(post.id),
-      await getSharesByPostId(post.id),
-    ]);
+import type { PostData } from "@/types/postTypes";
+import type { UserType } from "@/types/userType";
+type PostCardProps = {
+  post: PostData;
+  user: UserType | null;
+};
+async function PostCard({ post, user }: PostCardProps) {
+  const [likesResult, sharesResult] = await Promise.all([
+    getLikesByPostId(post.id),
+    getSharesByPostId(post.id),
+  ]);
+  if (
+    !likesResult ||
+    !sharesResult ||
+    !likesResult._count ||
+    !sharesResult._count
+  ) {
+    return null;
+  }
+  const { _count: postLikes, userLike } = likesResult;
+  const { _count: postShares } = sharesResult;
   const { readTime, title, createdAt } = post;
   const description = post.description.slice(0, 80);
   return (
