@@ -24,8 +24,13 @@ import {
 } from "@/components/ui/select";
 import { createPost } from "@/lib/actions/post/createPost";
 import { updatePost } from "@/lib/actions/post/updatePost";
+import { z } from "zod";
+import { PostData } from "./CommentSection";
 
-function Form({ postData }) {
+function Form({ postData }: { postData: PostData | null }) {
+  const isUpdateMode = !!postData?.imageUrl;
+  const schema = postFormSchema(isUpdateMode);
+  type FormData = z.infer<typeof schema>;
   // use useRoute to navigate
   const router = useRouter();
   const {
@@ -37,8 +42,7 @@ function Form({ postData }) {
     imageUrl: image,
     imageId,
   } = postData || {};
-  console.log("IMAGEID:", imageId);
-  const isUpdateMode = !!image;
+
   const {
     register,
     control,
@@ -47,7 +51,7 @@ function Form({ postData }) {
     setValue,
     formState: { errors, isSubmitting, isDirty },
     watch,
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(postFormSchema(isUpdateMode)),
     defaultValues: {
       title: title || "",
@@ -57,8 +61,8 @@ function Form({ postData }) {
     },
   });
 
-  const [showImage, setShowImage] = useState();
-  const [imageUrl, setImageUrl] = useState(image);
+  const [showImage, setShowImage] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | undefined | null>(image);
 
   // read the live value of the "image"
   const fileList = watch("image");
@@ -70,7 +74,7 @@ function Form({ postData }) {
   // read the live value of the description
   const des = watch("description");
 
-  async function onSubmit(data) {
+  async function onSubmit(data: FormData) {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
@@ -102,17 +106,19 @@ function Form({ postData }) {
     }
   }
 
-  function handleRemoveImage(e) {
+  function handleRemoveImage(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     e.stopPropagation();
+    const emptyFileList = new DataTransfer().files;
 
-    setValue("image", null, { shouldValidate: true });
+    setValue("image", emptyFileList, { shouldValidate: true });
+
     setImageUrl(null);
   }
 
   function handleResetForm() {
     reset({
-      image: null,
+      image: undefined,
       title: title || "",
       description: description || "",
       content: content || "",
@@ -123,7 +129,7 @@ function Form({ postData }) {
   return (
     <>
       {/* form body */}
-      {showImage && (
+      {showImage && previewUrl && (
         <div className="absolute z-40 top-0 bottom-0 right-0 left-0 bg-white/10 backdrop-blur-md flex items-center justify-center">
           <div className="relative z-50 group">
             <Image
@@ -212,7 +218,6 @@ function Form({ postData }) {
                 className="hidden"
                 type="file"
                 id="image"
-                name="image"
                 accept="image/*"
                 {...register("image")}
               />
@@ -241,7 +246,6 @@ function Form({ postData }) {
             </label>
             <textarea
               {...register("description")}
-              type="text"
               className={`${errors.description ? "border-destructive focus:border-destructive" : "border-border focus:border-ring"} bg-input p-1 border rounded-lg w-full text-sm focus:outline-none`}
             />
             <span className="flex">
@@ -264,7 +268,6 @@ function Form({ postData }) {
             </label>
             <textarea
               {...register("content")}
-              type="text"
               className={`${errors.content ? "border-destructive focus:border-destructive" : "bg-input border-border focus:border-primary"} p-1 border min-h-48 rounded-lg w-full text-sm focus:outline-none`}
             />
             <span className="flex">
@@ -316,7 +319,7 @@ function Form({ postData }) {
             <FormsButton
               disabled={isSubmitting || !isDirty}
               type="submit"
-              style="form"
+              buttonStyle="form"
               ariaLabel={postData?.id ? "Update article" : "Create article"}
             >
               {postData?.id ? "Update" : "Create"}
