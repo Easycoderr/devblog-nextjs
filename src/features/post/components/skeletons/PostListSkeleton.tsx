@@ -12,7 +12,7 @@ function PostListSkeleton() {
 }
 function SkeletonItem() {
   return (
-    <div className="h-[400px] flex overflow-hidden flex-col gap-4 shadow rounded-lg">
+    <div className="h-100 flex overflow-hidden flex-col gap-4 shadow rounded-lg">
       {/* image */}
       <Skeleton className="h-64 w-full rounded-b-none shrink-0" />
       {/* content */}
