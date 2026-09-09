@@ -1,5 +1,5 @@
 "use client";
-import { Filter, Search, SortAscIcon } from "lucide-react";
+import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
@@ -14,9 +14,9 @@ import {
 
 function SearchFilterSort() {
   // local states
-  const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState("");
-  const [sort, setSort] = useState("");
+  const [query, setQuery] = useState<string>("");
+  const [filter, setFilter] = useState<string>("");
+  const [sort, setSort] = useState<string>("");
 
   // navigators
   const router = useRouter();
@@ -79,17 +79,17 @@ function SearchFilterSort() {
         />
         <label
           htmlFor="search"
-          className="transition-all duration-200 absolute peer-[:not(:placeholder-shown)]:-top-0.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-primary peer-[:not(:placeholder-shown)]:rounded-lg peer-[:not(:placeholder-shown)]:text-gray-50 peer-[:not(:placeholder-shown)]:px-1 peer-focus:px-1 peer-focus:-top-0.5 peer-focus:bg-primary peer-focus:text-xs z-40 peer-focus:rounded-lg peer-focus:text-gray-50 top-[50%] -translate-y-[50%] left-8 peer-focus:left-2 font-sora text-muted-foreground tracking-wide text-sm"
+          className="transition-all duration-200 absolute peer-not-placeholder-shown:-top-0.5 peer-not-placeholder-shown:left-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:bg-primary peer-not-placeholder-shown:rounded-lg peer-not-placeholder-shown:text-gray-50 peer-not-placeholder-shown:px-1 peer-focus:px-1 peer-focus:-top-0.5 peer-focus:bg-primary peer-focus:text-xs z-40 peer-focus:rounded-lg peer-focus:text-gray-50 top-[50%] translate-y-[-50%] left-8 peer-focus:left-2 font-sora text-muted-foreground tracking-wide text-sm"
         >
           Search: Enter articles title..
         </label>
-        <span className="absolute text-muted-foreground z-30 left-1 top-[50%] -translate-y-[50%] peer-focus:text-primary">
+        <span className="absolute text-muted-foreground z-30 left-1 top-[50%] translate-y-[-50%] peer-focus:text-primary">
           <Search />
         </span>
       </div>
       {/* filter */}
 
-      <Select onValueChange={(value) => setFilter(value)}>
+      <Select onValueChange={(value: string) => setFilter(value)}>
         <SelectTrigger className="w-full border-border" size="lg">
           <SelectValue placeholder="Select a Category" />
         </SelectTrigger>
@@ -102,7 +102,7 @@ function SearchFilterSort() {
         </SelectContent>
       </Select>
 
-      <Select onValueChange={(value) => setSort(value)}>
+      <Select onValueChange={(value: string) => setSort(value)}>
         <SelectTrigger className="w-full border-border" size="lg">
           <SelectValue placeholder="Sort by" />
         </SelectTrigger>
