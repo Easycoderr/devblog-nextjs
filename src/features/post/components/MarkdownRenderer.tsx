@@ -1,11 +1,12 @@
 "use client";
 import { Copy } from "lucide-react";
+import { ReactNode } from "react";
 import Markdown from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { toast } from "sonner";
 
-function MarkdownRenderer({ content }) {
-  function handleCopyToClipboard(children) {
+function MarkdownRenderer({ content }: { content: string }) {
+  function handleCopyToClipboard(children: ReactNode) {
     try {
       navigator.clipboard.writeText(String(children));
       toast.success("Code copied!");

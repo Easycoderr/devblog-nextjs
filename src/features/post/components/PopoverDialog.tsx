@@ -8,20 +8,22 @@ import {
 import { VariantProps } from "class-variance-authority";
 import { ReactNode } from "react";
 type PopoverDialogProps = VariantProps<typeof buttonVariants> & {
-  button: string;
+  button: ReactNode;
   children: ReactNode;
   variant: string;
+  className?: string;
 };
 function PopoverDialog({
   button,
   children,
   variant,
+  className,
   ...props
 }: PopoverDialogProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={variant} {...props}>
+        <Button variant={variant} className={className} {...props}>
           {button}
         </Button>
       </PopoverTrigger>
