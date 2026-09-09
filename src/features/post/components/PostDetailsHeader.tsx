@@ -4,13 +4,27 @@ import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
 import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
 import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
-
-async function PostDetailsHeader({ user, post }) {
-  const [{ _count: postLikes, userLike }, { _count: postShares }] =
-    await Promise.all([
-      await getLikesByPostId(post.id, user?.id),
-      await getSharesByPostId(post.id),
-    ]);
+import { UserType } from "@/types/userType";
+import { PostData } from "@/types/postTypes";
+type PostDetailsHeaderProps = {
+  user: UserType;
+  post: PostData;
+};
+async function PostDetailsHeader({ user, post }: PostDetailsHeaderProps) {
+  const [likeResult, shareResult] = await Promise.all([
+    getLikesByPostId(post.id),
+    getSharesByPostId(post.id),
+  ]);
+  if (
+    !likeResult ||
+    !shareResult ||
+    !likeResult._count ||
+    !shareResult._count
+  ) {
+    return null;
+  }
+  const { _count: postLikes, userLike } = likeResult;
+  const { _count: postShares } = shareResult;
   return (
     <div className="flex justify-between items-center">
       <NavigateBackButton>Back to blogs</NavigateBackButton>
@@ -20,12 +34,11 @@ async function PostDetailsHeader({ user, post }) {
           <LikeButton
             totalLikes={postLikes.likes}
             userLike={userLike}
-            user={user}
+            userId={user?.id}
             post={post}
           />
           <ShareButton
             totalShares={postShares.shares}
-            userId={user?.id}
             postId={post.id}
             slug={post.slug}
             title={post.title}
