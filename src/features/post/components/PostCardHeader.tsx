@@ -2,8 +2,13 @@ import Image from "next/image";
 import PostActions from "./PostActions";
 import categoryColorPicker from "@/lib/utils/categoryColorPicker";
 import { Eye } from "lucide-react";
-
-async function PostCardHeader({ post, user }) {
+import type { UserType } from "@/types/userType";
+import type { PostCardPostData } from "./PostCard";
+type PostCardHeaderProps = {
+  user: UserType;
+  post: PostCardPostData;
+};
+async function PostCardHeader({ post, user }: PostCardHeaderProps) {
   const { category, title, imageUrl, _count } = post;
   const categoryColor = categoryColorPicker(category);
   return (

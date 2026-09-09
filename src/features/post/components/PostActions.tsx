@@ -17,8 +17,9 @@ import { toast } from "sonner";
 import { useTransition } from "react";
 import ConfirmDeletePostAction from "./ConfirmDeletePostAction";
 import { savePost } from "@/lib/actions/post/savePost";
-
-function PostActions({ user, post, style }) {
+import { PostCardProps } from "./PostCard";
+type PostActionsProps = PostCardProps & { style?: boolean };
+function PostActions({ user, post, style }: PostActionsProps) {
   const [isPending, startTransition] = useTransition();
   const { savedPosts } = post;
   function handleSavePost() {
@@ -83,7 +84,7 @@ function PostActions({ user, post, style }) {
             cannot be undone"
                 userId={user?.id}
               >
-                <ConfirmDeletePostAction post={post} userId={user?.id} />
+                <ConfirmDeletePostAction title={post.title} id={post.id} />
               </DeleteAlertDialog>
             </DropdownMenuItem>
           </div>
