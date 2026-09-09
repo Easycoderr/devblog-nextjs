@@ -1,6 +1,5 @@
 import UserAvatar from "@/components/ui/UserAvatar";
 import getAuthorById from "@/lib/actions/post/getAuthorById";
-import { getUserById } from "@/lib/getUser";
 
 async function PostCardAvatar({ authorId }: { authorId: string }) {
   const author = await getAuthorById(authorId);

@@ -4,8 +4,8 @@ import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
 import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
 import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
-import { UserType } from "@/types/userType";
-import { PostData } from "@/types/postTypes";
+import type { UserType } from "@/types/userType";
+import type { PostData } from "@/types/postTypes";
 type PostDetailsHeaderProps = {
   user: UserType;
   post: PostData;

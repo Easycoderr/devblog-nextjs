@@ -5,10 +5,17 @@ import MarkdownRenderer from "./MarkdownRenderer";
 import PostCardAvatar from "./PostCardAvatar";
 import categoryColorPicker from "@/lib/utils/categoryColorPicker";
 import { Eye } from "lucide-react";
-function PostDetails({ post }) {
+import { Prisma } from "@prisma/client";
+function PostDetails({
+  post,
+}: {
+  post: Prisma.PostGetPayload<{
+    include: {
+      _count: { select: { viewLog: true; likes: true } };
+    };
+  }>;
+}) {
   const {
-    id,
-    slug,
     title,
     description,
     content,
@@ -16,6 +23,8 @@ function PostDetails({ post }) {
     category,
     readTime,
     _count,
+    authorId,
+    imageUrl,
   } = post;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7">
@@ -32,13 +41,13 @@ function PostDetails({ post }) {
           {title}
         </h2>
         {/* description */}
-        <p className="font-medium leading-relaxed text-muted-foreground max-w-xl break-words">
+        <p className="font-medium leading-relaxed text-muted-foreground max-w-xl wrap-break-word">
           {description}
         </p>
         {/* category + date */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 mt-auto">
-            <PostCardAvatar post={post} />
+            <PostCardAvatar authorId={authorId} />
             <span className="text-sm text-muted-foreground"> •</span>
             <p className="text-sm text-muted-foreground flex items-center gap-1">
               <span>{dateCalculation(date)}</span>
@@ -54,9 +63,9 @@ function PostDetails({ post }) {
           </div>
         </div>
       </div>
-      <div className="relative col-span-2 h-[29rem] w-full rounded-xl overflow-hidden">
+      <div className="relative col-span-2 h-116 w-full rounded-xl overflow-hidden">
         <Image
-          src={post.imageUrl}
+          src={imageUrl}
           alt={`${title || "Post"}'s picture`}
           sizes="464px"
           fill
