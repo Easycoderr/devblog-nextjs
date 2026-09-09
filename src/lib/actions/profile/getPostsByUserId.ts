@@ -3,7 +3,6 @@ import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 const POSTS_PER_PAGE = 8;
 async function getPostsByUserId(userId: string, currPage: number) {
-  if (!userId) return [];
   const skip = (currPage - 1) * POSTS_PER_PAGE;
   const user = await getCurrentUser();
   try {

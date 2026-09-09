@@ -5,9 +5,9 @@ import ProfileStatus from "./ProfileStatus";
 import Link from "next/link";
 import type { UserType } from "@/types/userType";
 import { Prisma } from "@prisma/client";
-type userData = Prisma.UserGetPayload<{}>;
+export type ProfileUserData = Prisma.UserGetPayload<{}>;
 type ProfileHeaderProps = {
-  user: userData;
+  user: ProfileUserData;
   username: string;
   currUser: UserType;
 };

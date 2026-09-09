@@ -7,16 +7,31 @@ import { Suspense } from "react";
 import PostListSkeleton from "@/features/post/components/skeletons/PostListSkeleton";
 import getPostsByUserId from "@/lib/actions/profile/getPostsByUserId";
 import { getUserActivityCounts } from "@/lib/actions/profile/getUserActivityCounts";
-
-async function ProfileTabs({ user, currUser, activeTab, params }) {
+import type { ProfileUserData } from "./ProfileHeader";
+import type { UserType } from "@/types/userType";
+type ProfileTabsProps = {
+  user: ProfileUserData;
+  currUser: UserType;
+  activeTab: string;
+  params: {
+    page: number;
+  };
+};
+async function ProfileTabs({
+  user,
+  currUser,
+  activeTab,
+  params,
+}: ProfileTabsProps) {
   const currentPage = Number(params?.page) || 1;
 
-  const [{ posts, totalCount }, { likedPostsCount, savedPostsCount }] =
-    await Promise.all([
-      getPostsByUserId(user.id, currentPage),
-      getUserActivityCounts(user.id),
-    ]);
+  const [postStatus, activityCounts] = await Promise.all([
+    getPostsByUserId(user.id, currentPage),
+    getUserActivityCounts(user.id),
+  ]);
 
+  const { posts, totalCount } = postStatus;
+  const { likedPostsCount, savedPostsCount } = activityCounts;
   return (
     <Tabs defaultValue={activeTab}>
       <TabsList variant="line" className="gap-8">
@@ -55,7 +70,6 @@ async function ProfileTabs({ user, currUser, activeTab, params }) {
         <TabsContent value="posts" className="mt-6 min-w-full">
           <Suspense key={activeTab} fallback={<PostListSkeleton />}>
             <UserProfilePostList
-              user={user}
               totalCount={totalCount}
               posts={posts}
               currUser={currUser}
