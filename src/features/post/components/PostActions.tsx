@@ -78,11 +78,9 @@ function PostActions({ user, post, style }: PostActionsProps) {
             {/* delete */}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <DeleteAlertDialog
-                post={post}
                 title={post?.title}
                 message="Are you sure? This will permanently delete this post. This action
             cannot be undone"
-                userId={user?.id}
               >
                 <ConfirmDeletePostAction title={post.title} id={post.id} />
               </DeleteAlertDialog>

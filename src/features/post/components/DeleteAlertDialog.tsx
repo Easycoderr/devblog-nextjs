@@ -11,8 +11,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import DeleteButton from "./DeleteButton";
 import { Trash2Icon } from "lucide-react";
-
-function DeleteAlertDialog({ title, children, message }) {
+import type { ReactNode } from "react";
+type DeleteAlertDialogProps = {
+  title: string;
+  children: ReactNode;
+  message: string;
+};
+function DeleteAlertDialog({
+  title,
+  children,
+  message,
+}: DeleteAlertDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
