@@ -1,12 +1,23 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 import {
-  Popover,
   PopoverContent,
   PopoverTrigger,
+  Popover,
 } from "@/components/ui/popover";
-
-function PopoverDialog({ button, children, variant, ...props }) {
+import { VariantProps } from "class-variance-authority";
+import { ReactNode } from "react";
+type PopoverDialogProps = VariantProps<typeof buttonVariants> & {
+  button: string;
+  children: ReactNode;
+  variant: string;
+};
+function PopoverDialog({
+  button,
+  children,
+  variant,
+  ...props
+}: PopoverDialogProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
