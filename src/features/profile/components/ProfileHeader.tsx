@@ -1,10 +1,17 @@
 import { CalendarArrowDown, Edit2 } from "lucide-react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import ProfileStatus from "./ProfileStatus";
 import Link from "next/link";
-function ProfileHeader({ user, username, currUser }) {
+import type { UserType } from "@/types/userType";
+import { Prisma } from "@prisma/client";
+type userData = Prisma.UserGetPayload<{}>;
+type ProfileHeaderProps = {
+  user: userData;
+  username: string;
+  currUser: UserType;
+};
+function ProfileHeader({ user, username, currUser }: ProfileHeaderProps) {
   const { id, avatar, firstName, lastName, bio, name, createdAt } = user || {};
   return (
     <div className="bg-gradient bg-linear-to-tl rounded-lg from-indigo-400/10 via-purple-400/10 to-indigo-400/10 dark:from-indigo-400/5 dark:via-purple-400/5 dark:to-indigo-400/5 p-2 py-6 md:p-8 lg:px-20">

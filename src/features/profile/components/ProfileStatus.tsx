@@ -5,7 +5,7 @@ import {
   getTotalUserShares,
 } from "@/lib/actions/profile/getProfileStatus";
 
-async function ProfileStatus({ userId }) {
+async function ProfileStatus({ userId }: { userId: string }) {
   const [totalPosts, totalLikes, totalComments, totalShares] =
     await Promise.all([
       getTotalUserPosts(userId),
