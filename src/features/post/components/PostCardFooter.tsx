@@ -3,8 +3,23 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
-
-function PostCardFooter({ post, user, totalShares, totalLikes, userLike }) {
+import { PostCardPostData } from "./PostCard";
+import { UserType } from "@/types/userType";
+import { Like } from "@prisma/client";
+type PostCardFooterProps = {
+  post: PostCardPostData;
+  user: UserType;
+  totalShares: number;
+  totalLikes: number;
+  userLike?: Like | null;
+};
+function PostCardFooter({
+  post,
+  user,
+  totalShares,
+  totalLikes,
+  userLike,
+}: PostCardFooterProps) {
   return (
     <div className="text-sm mt-auto px-3 pb-3">
       <div className="flex justify-between">
@@ -19,7 +34,6 @@ function PostCardFooter({ post, user, totalShares, totalLikes, userLike }) {
         <div className="flex gap-3 items-center place-content-center text-sm">
           <ShareButton
             totalShares={totalShares}
-            userId={user?.id}
             postId={post.id}
             slug={post.slug}
             title={post.title}
