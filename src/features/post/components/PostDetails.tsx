@@ -6,15 +6,13 @@ import PostCardAvatar from "./PostCardAvatar";
 import categoryColorPicker from "@/lib/utils/categoryColorPicker";
 import { Eye } from "lucide-react";
 import { Prisma } from "@prisma/client";
-function PostDetails({
-  post,
-}: {
-  post: Prisma.PostGetPayload<{
-    include: {
-      _count: { select: { viewLog: true; likes: true } };
-    };
-  }>;
-}) {
+export type PostDetailsData = Prisma.PostGetPayload<{
+  include: {
+    savedPosts: true;
+    _count: { select: { viewLog: true; likes: true } };
+  };
+}>;
+function PostDetails({ post }: { post: PostDetailsData }) {
   const {
     title,
     description,
@@ -37,7 +35,7 @@ function PostDetails({
           </span>
         </div>
         {/* title */}
-        <h2 className="text-3xl text-foreground md:text-4xl font-bold tracking-tight mb-3 max-w-xl break-words">
+        <h2 className="text-3xl text-foreground md:text-4xl font-bold tracking-tight mb-3 max-w-xl wrap-break-word">
           {title}
         </h2>
         {/* description */}
