@@ -16,6 +16,7 @@ async function getLikedPostsByUserId(userId: string, currPage: number) {
           },
         },
         include: {
+          savedPosts: { where: { userId }, select: { id: true } },
           _count: {
             select: { viewLog: true, likes: true },
           },

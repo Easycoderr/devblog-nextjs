@@ -1,8 +1,20 @@
 import Pagination from "@/components/Pagination";
 import PostCard from "@/features/post/components/PostCard";
 import getLikedPostsByUserId from "@/lib/actions/profile/getLikedPostsByUserId";
+import { ProfileUserData } from "./ProfileHeader";
+import { UserType } from "@/types/userType";
 
-async function UserProfileLikedPosts({ user, currUser, currPage }) {
+type UserProfileLikedPostsProps = {
+  user: ProfileUserData;
+  currUser: UserType;
+  currPage: number;
+};
+
+async function UserProfileLikedPosts({
+  user,
+  currUser,
+  currPage,
+}: UserProfileLikedPostsProps) {
   const { likedPosts, totalCount } = await getLikedPostsByUserId(
     user.id,
     currPage,
