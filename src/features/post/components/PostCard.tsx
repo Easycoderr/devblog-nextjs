@@ -5,10 +5,27 @@ import PostCardAvatar from "./PostCardAvatar";
 import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
 import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
 import type { UserType } from "@/types/userType";
-import { Prisma } from "@prisma/client";
-export type PostCardPostData = Prisma.PostGetPayload<{
-  include: { savedPosts: true; _count: { select: { viewLog: true } } };
-}>;
+// import { Prisma } from "@prisma/client";
+export type PostCardPostData = {
+  id: string;
+  createdAt: Date;
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  category: string;
+  readTime: number;
+  imageUrl: string;
+  imageId: string;
+  authorId: string;
+  savedPosts: {
+    id: string;
+  }[];
+  _count: {
+    viewLog: number;
+    likes?: number;
+  };
+};
 export type PostCardProps = {
   post: PostCardPostData;
   user: UserType | null;

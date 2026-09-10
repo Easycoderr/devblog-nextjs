@@ -7,7 +7,7 @@ import { Prisma } from "@prisma/client";
 
 export type PostWithMeta = Prisma.PostGetPayload<{
   include: {
-    savedPosts: true;
+    savedPosts: { select: { id: true } };
     _count: {
       select: {
         viewLog: true;
