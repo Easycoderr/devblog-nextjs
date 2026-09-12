@@ -4,23 +4,23 @@ import { Check } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { useEffect, useState } from "react";
-
+type Color = keyof typeof accentThemes;
 function AccentColor() {
   const { theme } = useTheme();
-  const [currTheme, setCurrTheme] = useState("dark");
-  const [color, setColor] = useState(
-    localStorage.getItem("accent-theme") || "indigo",
-  );
-
+  const [currTheme, setCurrTheme] = useState<"dark" | "light">("dark");
+  const [color, setColor] = useState<Color>("indigo");
   useEffect(() => {
-    console.log("COLOR:", color);
+    const savedColor = localStorage.getItem("accent-theme") as Color;
+
+    if (savedColor && savedColor in accentThemes) {
+      setColor(savedColor);
+    }
+  }, []);
+  useEffect(() => {
     const isDark = document.documentElement.classList.contains("dark");
     isDark ? setCurrTheme("dark") : setCurrTheme("light");
     localStorage.setItem("accent-theme", color);
-    document.documentElement.style.setProperty(
-      "--color-primary",
-      accentThemes[color][currTheme],
-    );
+
     document.documentElement.style.setProperty(
       "--color-primary",
       accentThemes[color][currTheme].primary,
@@ -55,10 +55,11 @@ function AccentColor() {
       <div className="flex flex-wrap gap-4 p-2">
         {accentColors.map((colorItem, index) => (
           <button
-            onClick={() => setColor(colorItem)}
+            onClick={() => setColor(colorItem as Color)}
             key={index}
             style={{
-              backgroundColor: accentThemes[colorItem][currTheme].primary,
+              backgroundColor:
+                accentThemes[colorItem as Color][currTheme].primary,
             }}
             className={`size-12 cursor-pointer rounded-full flex items-center justify-center ${color === colorItem && "outline-offset-1 outline-2 outline-white/30"}`}
           >
