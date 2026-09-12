@@ -18,9 +18,11 @@ import { deleteAccountPasswordSchema } from "@/lib/utils/schema";
 import deleteAccount from "@/lib/actions/settings/account/deleteAccount";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import z from "zod";
+import type { UserType } from "@/types/userType";
+type FormData = z.infer<typeof deleteAccountPasswordSchema>;
 
-function DeleteAccount({ user }) {
-  const { provider } = user;
+function DeleteAccount({ user }: { user: UserType }) {
   const route = useRouter();
   const {
     register,
@@ -28,14 +30,22 @@ function DeleteAccount({ user }) {
     formState: { isSubmitting, isDirty, errors },
     setError,
     handleSubmit,
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(deleteAccountPasswordSchema),
   });
-  async function onSubmit(data) {
-    const result = await deleteAccount(data);
-    if (result?.error) {
-      setError("password", { type: "manual", message: result?.message });
+  if (!user) return null;
+  const { provider } = user;
+  async function onSubmit(data: FormData) {
+    const response = await deleteAccount(data);
+    if (response && response.error) {
+      setError("password", { type: "manual", message: response.message });
     }
+    route.replace("/");
+  }
+  // for google provider
+  async function handleDeleteAccount() {
+    const response = await deleteAccount({ password: "" });
+    if (response?.error) return;
     route.replace("/");
   }
   return (
@@ -49,9 +59,8 @@ function DeleteAccount({ user }) {
         <Dialog>
           <DialogTrigger asChild>
             <Button
-              size="8"
               variant="destructive"
-              className="flex justify-center md:justify-normal gap-1 items-center text-brand-danger border border-brand-danger/40 whitespace-nowrap rounded-lg !py-2 !px-4 hover:opacity-75 cursor-pointer text-md"
+              className="flex justify-center md:justify-normal gap-1 items-center text-brand-danger border border-brand-danger/40 whitespace-nowrap rounded-lg py-2! px-4! hover:opacity-75 cursor-pointer text-md"
             >
               <Trash2 className="size-4 mb-0.5" />
               Delete account
@@ -91,7 +100,7 @@ function DeleteAccount({ user }) {
                 </DialogFooter>
               </form>
             ) : (
-              <OnSubmitButton onSubmit={onSubmit} />
+              <OnSubmitButton onSubmit={handleDeleteAccount} />
             )}
           </DialogContent>
         </Dialog>
@@ -99,7 +108,7 @@ function DeleteAccount({ user }) {
     </div>
   );
 }
-function OnSubmitButton({ onSubmit }) {
+function OnSubmitButton({ onSubmit }: { onSubmit: () => Promise<void> }) {
   const [isPending, startTransition] = useTransition();
   return (
     <DialogFooter>
