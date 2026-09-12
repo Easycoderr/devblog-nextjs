@@ -1,9 +1,15 @@
 import Pagination from "@/components/Pagination";
 import PostCard from "@/features/post/components/PostCard";
 import getSavedPostsByUserId from "@/lib/actions/profile/getSavedPostsByUserId";
-import Link from "next/link";
+import type { UserProfileLikedPostsProps } from "./UserProfileLikedPosts";
 
-async function UserProfileSavedPosts({ user, currUser, currPage }) {
+type UserProfileSavedPostsProps = UserProfileLikedPostsProps;
+
+async function UserProfileSavedPosts({
+  user,
+  currUser,
+  currPage,
+}: UserProfileSavedPostsProps) {
   const { savedPosts, totalCount } = await getSavedPostsByUserId(
     user.id,
     currPage,

@@ -1,10 +1,10 @@
 import Pagination from "@/components/Pagination";
 import PostCard from "@/features/post/components/PostCard";
 import getLikedPostsByUserId from "@/lib/actions/profile/getLikedPostsByUserId";
-import { ProfileUserData } from "./ProfileHeader";
-import { UserType } from "@/types/userType";
+import type { ProfileUserData } from "./ProfileHeader";
+import type { UserType } from "@/types/userType";
 
-type UserProfileLikedPostsProps = {
+export type UserProfileLikedPostsProps = {
   user: ProfileUserData;
   currUser: UserType;
   currPage: number;

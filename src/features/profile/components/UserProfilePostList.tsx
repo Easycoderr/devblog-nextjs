@@ -1,9 +1,8 @@
 import Pagination from "@/components/Pagination";
 import PostCard, {
-  PostCardPostData,
+  type PostCardPostData,
 } from "@/features/post/components/PostCard";
-import getPostsByUserId from "@/lib/actions/profile/getPostsByUserId";
-import { UserType } from "@/types/userType";
+import type { UserType } from "@/types/userType";
 type UserProfilePostListProps = {
   posts: PostCardPostData[];
   totalCount: number;

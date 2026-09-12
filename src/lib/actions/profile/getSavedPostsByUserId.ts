@@ -15,7 +15,9 @@ async function getSavedPostsByUserId(userId: string, currPage: number) {
             },
           },
         },
+
         include: {
+          savedPosts: { where: { userId }, select: { id: true } },
           _count: {
             select: { viewLog: true, likes: true },
           },
@@ -38,7 +40,7 @@ async function getSavedPostsByUserId(userId: string, currPage: number) {
   } catch (error) {
     console.error("Failed to fetch saved posts by user:", error);
     return {
-      saevdPosts: [],
+      savedPosts: [],
       totalCount: 0,
     };
   }
