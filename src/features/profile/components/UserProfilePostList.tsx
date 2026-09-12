@@ -1,8 +1,21 @@
 import Pagination from "@/components/Pagination";
-import PostCard from "@/features/post/components/PostCard";
+import PostCard, {
+  PostCardPostData,
+} from "@/features/post/components/PostCard";
 import getPostsByUserId from "@/lib/actions/profile/getPostsByUserId";
-
-async function UserProfilePostList({ posts, totalCount, currUser, currPage }) {
+import { UserType } from "@/types/userType";
+type UserProfilePostListProps = {
+  posts: PostCardPostData[];
+  totalCount: number;
+  currUser: UserType;
+  currPage: number;
+};
+async function UserProfilePostList({
+  posts,
+  totalCount,
+  currUser,
+  currPage,
+}: UserProfilePostListProps) {
   return (
     <>
       {posts?.length > 0 ? (
