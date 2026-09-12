@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import ChangeEmailForm from "./ChangeEmailForm";
+import type { UserType } from "@/types/userType";
 
-function ChangeEmail({ user }) {
+function ChangeEmail({ user }: { user: UserType }) {
   const [showForm, setShowForm] = useState(false);
+  if (!user) return null;
   return (
     <div className="rounded-lg bg-card border border-border p-4">
       {showForm ? (
