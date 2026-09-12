@@ -6,7 +6,8 @@ import { changePasswordSchema } from "@/lib/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
+import z from "zod";
+type FormData = z.infer<typeof changePasswordSchema>;
 function ChangePassword() {
   const {
     register,
@@ -16,17 +17,19 @@ function ChangePassword() {
     setError,
     clearErrors,
     watch,
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(changePasswordSchema),
   });
-  async function onSubmit(data) {
+  async function onSubmit(data: FormData) {
     const { error, message } = await updatePassword(data);
     if (error) {
       toast.error(message);
-      setError("currentPassword", {
-        type: "manual",
-        message: "Incorrect password",
-      });
+      if (message === "Incorrect-password") {
+        setError("currentPassword", {
+          type: "manual",
+          message: "Incorrect password",
+        });
+      }
     } else if (!error && message) {
       toast.success(message);
       reset();
@@ -60,7 +63,7 @@ function ChangePassword() {
           <FormsButton
             disabled={isSubmitting || !isDirty}
             isSubmiting={isSubmitting}
-            style="authForm"
+            buttonStyle="authForm"
           >
             Update Password
           </FormsButton>

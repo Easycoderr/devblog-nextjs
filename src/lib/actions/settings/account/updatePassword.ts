@@ -1,7 +1,9 @@
 "use server";
+import { messages } from "@/config/auth-error-messages";
 import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { error } from "node:console";
 
 type UpdatePassword = {
   currentPassword: string;
@@ -10,17 +12,18 @@ type UpdatePassword = {
 
 async function updatePassword(data: UpdatePassword) {
   const currUser = await getCurrentUser();
-  if (!currUser) return null;
+  if (!currUser) return { error: true, message: "Not authenticated" };
   const user = await prisma.user.findUnique({
     where: { id: currUser.id },
     select: { password: true },
   });
-  if (!user) return null;
+  if (!user)
+    return { error: true, message: "Something went wrong, try again!" };
   if (!user.password)
     return { error: true, message: "Something went wrong, try again!" };
   const isValid = await bcrypt.compare(data.currentPassword, user.password);
   if (!isValid) {
-    return { error: true, message: "Incorrect password" };
+    return { error: true, message: "Incorrect-password" };
   }
   const hashedPassword = await bcrypt.hash(data.newPassword, 10);
   try {
