@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 type CheckEmailProps = {
   email: string;
-  newEmail?: string;
+  newEmail?: string | null;
   setCheckEmail: React.Dispatch<React.SetStateAction<string | null>>;
   mode?: CheckEmailModeTypes;
 };
@@ -36,6 +36,7 @@ function CheckEmail({
       : "activate your account";
   async function handleResendMail() {
     startTimer();
+    if (!newEmail || !email) return;
     const response = await resendMail(newEmail, email, mode);
     toast.success(`${linkType} email sent to ${email}`);
     if (!response) {

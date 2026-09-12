@@ -9,18 +9,23 @@ import { Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-function ChangeEmailForm({ setShowForm, email }) {
-  const [checkEmail, setCheckEmail] = useState(false);
+import z from "zod";
+type ChangeEamilFormProps = {
+  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
+  email: string;
+};
+function ChangeEmailForm({ setShowForm, email }: ChangeEamilFormProps) {
+  const schema = changeEmailSchema(email);
+  type FormData = z.infer<typeof schema>;
+  const [checkEmail, setCheckEmail] = useState<string | null>(null);
   const {
     register,
     reset,
     handleSubmit,
-
     setError,
     formState: { isSubmitting, isDirty, errors },
-  } = useForm({ resolver: zodResolver(changeEmailSchema(email)) });
-  async function onSubmit(formData) {
+  } = useForm<FormData>({ resolver: zodResolver(changeEmailSchema(email)) });
+  async function onSubmit(formData: FormData) {
     const { email: newEmail, password } = formData;
     const response = await changeEmail({ email, newEmail, password });
     if (!response) toast.error("Something went wrong, please try again.");
@@ -35,7 +40,6 @@ function ChangeEmailForm({ setShowForm, email }) {
     }
   }
   function onReset() {
-    console.log("hi");
     reset();
     setShowForm(false);
   }
@@ -72,7 +76,7 @@ function ChangeEmailForm({ setShowForm, email }) {
         <div className="flex gap-2 flex-auto w-full">
           <FormsButton
             type="button"
-            style="settingsSecondary"
+            buttonStyle="settingsSecondary"
             onClick={() => onReset()}
           >
             Cancel
@@ -81,7 +85,7 @@ function ChangeEmailForm({ setShowForm, email }) {
             disabled={isSubmitting}
             isSubmiting={isSubmitting || !isDirty}
             type="submit"
-            style="settingsPrimary"
+            buttonStyle="settingsPrimary"
           >
             Send Verification Email
           </FormsButton>
