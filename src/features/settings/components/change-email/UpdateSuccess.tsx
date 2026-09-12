@@ -3,10 +3,10 @@
 import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
-
-export default function UpdateSuccess({ email, message }) {
+type UpdateSuccessProps = { email: string; message: string };
+export default function UpdateSuccess({ email, message }: UpdateSuccessProps) {
   const { status, update } = useSession();
-  const hasUpdated = useRef(false);
+  const hasUpdated = useRef<boolean>(false);
 
   useEffect(() => {
     // ONLY run if the session is fully loaded and authenticated
