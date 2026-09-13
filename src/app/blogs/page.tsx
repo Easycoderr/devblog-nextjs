@@ -2,16 +2,21 @@ import { Suspense } from "react";
 import PostListSkeleton from "@/features/post/components/skeletons/PostListSkeleton";
 import SearchFilterSort from "@/features/post/components/SearchFilterSort";
 import PostList from "@/features/post/components/PostList";
-export async function generateMetadata({ params }) {
-  const param = await params;
+export type BlogPageParams = {
+  search?: string;
+  filter?: string;
+  sort?: "oldest" | "newest";
+  page?: number;
+};
+export async function generateMetadata() {
   return {
     title: "Blogs",
     description:
       "Explore in-depth tutorials, best practices, and code solutions for modern software development. Expert insights on JavaScript, Python, cloud, and AI. Read now.",
   };
 }
-async function page({ searchParams }) {
-  const params = await searchParams;
+async function page({ searchParams }: { searchParams: BlogPageParams }) {
+  const params = searchParams;
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}

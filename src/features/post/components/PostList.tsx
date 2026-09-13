@@ -4,13 +4,9 @@ import EmptyState from "../../../components/ui/EmptyState";
 import Pagination from "../../../components/Pagination";
 import PostCard from "./PostCard";
 import getPosts from "@/lib/actions/post/getPosts";
+import type { BlogPageParams } from "@/app/blogs/page";
 type PostListProps = {
-  params: {
-    search?: string;
-    filter?: string;
-    sort?: "oldest" | "newest";
-    page?: number;
-  };
+  params: BlogPageParams;
 };
 async function PostList({ params }: PostListProps) {
   const user = await getCurrentUser();

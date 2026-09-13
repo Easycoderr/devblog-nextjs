@@ -27,7 +27,7 @@ import { updatePost } from "@/lib/actions/post/updatePost";
 import { z } from "zod";
 import type { PostData } from "@/types/postTypes";
 
-function Form({ postData }: { postData: PostData | null }) {
+function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
   const schema = postFormSchema(isUpdateMode);
   type FormData = z.infer<typeof schema>;

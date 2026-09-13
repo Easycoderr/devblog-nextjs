@@ -6,19 +6,19 @@ import { getPostBySlug } from "@/lib/actions/post/getPostBySlug";
 import getCurrentUser from "@/lib/getUser";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-
-export async function generateMetadata({ params }) {
-  const { slug } = await params;
+type Params = { slug: string };
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = params;
   const post = await getPostBySlug(slug);
   return {
     title: `Blog: ${slug}`,
-    description: post.description,
+    description: post?.description ?? "Blog posts",
   };
 }
 // This imports the component only on the client and avoids the useEffect warning
 
-async function page({ params }) {
-  const { slug } = await params;
+async function page({ params }: { params: Params }) {
+  const { slug } = params;
   const userDataPromise = getCurrentUser();
   const postsDataPromise = getPostBySlug(slug);
 
@@ -32,7 +32,7 @@ async function page({ params }) {
   return (
     <div className="min-h-screen">
       <article className="container 2xl:px-50 px-2 py-10 mx-auto">
-        <ViewTracker userId={user?.id} slug={post.slug} />
+        <ViewTracker slug={post.slug} />
         <PostDetailsHeader user={user} post={post} />
         <div className="mt-8">
           <div className="flex flex-col gap-6">
