@@ -32,7 +32,9 @@ async function page({ searchParams }: { searchParams: BlogPageParams }) {
           </div>
         </div>
         {/* search + filter */}
-        <SearchFilterSort />
+        <Suspense fallback={null}>
+          <SearchFilterSort />
+        </Suspense>
         {/* article list */}
         <Suspense fallback={<PostListSkeleton />}>
           <PostList params={params} />
