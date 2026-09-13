@@ -1,8 +1,9 @@
 "use client";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ReactNode } from "react";
 
-function NavigateBackButton({ children }) {
+function NavigateBackButton({ children }: { children: ReactNode }) {
   const router = useRouter();
   return (
     <button

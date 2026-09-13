@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
@@ -18,7 +17,7 @@ function PopoverContent({
   align = "center",
   sideOffset = 4,
   ...props
-}) {
+}: PopoverPrimitive.PopoverContentProps) {
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
@@ -38,8 +37,8 @@ function PopoverContent({
 function PopoverAnchor({ ...props }) {
   return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
 }
-
-function PopoverHeader({ className, ...props }) {
+type PopoverHeaderProps = React.ComponentProps<"div">;
+function PopoverHeader({ className, ...props }: PopoverHeaderProps) {
   return (
     <div
       data-slot="popover-header"
@@ -49,7 +48,7 @@ function PopoverHeader({ className, ...props }) {
   );
 }
 
-function PopoverTitle({ className, ...props }) {
+function PopoverTitle({ className, ...props }: PopoverHeaderProps) {
   return (
     <div
       data-slot="popover-title"
@@ -59,7 +58,10 @@ function PopoverTitle({ className, ...props }) {
   );
 }
 
-function PopoverDescription({ className, ...props }) {
+function PopoverDescription({
+  className,
+  ...props
+}: PopoverPrimitive.PopoverAnchorProps) {
   return (
     <p
       data-slot="popover-description"

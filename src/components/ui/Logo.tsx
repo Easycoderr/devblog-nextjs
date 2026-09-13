@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-function Logo({ w, h }) {
+function Logo({ w, h }: { w: number; h: number }) {
   return (
     <Image
       src="/images/logo.png"

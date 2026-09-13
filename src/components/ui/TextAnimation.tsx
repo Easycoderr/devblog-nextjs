@@ -22,7 +22,9 @@ export function TextAnimation({
     right: { x: -30, y: 0 },
   };
 
-  const selectedOffset = directionOffsets[direction] || directionOffsets.up;
+  const selectedOffset =
+    directionOffsets[direction as keyof typeof directionOffsets] ||
+    directionOffsets.up;
 
   const pullupVariant = {
     initial: {
@@ -30,12 +32,12 @@ export function TextAnimation({
       y: selectedOffset.y,
       opacity: 0,
     },
-    animate: (i) => ({
+    animate: (i: number) => ({
       x: 0,
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         damping: 15,
         stiffness: 100,
         duration: duration,
