@@ -5,8 +5,8 @@ import UpdateSuccess from "@/features/settings/components/change-email/UpdateSuc
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 
-async function page({ searchParams }) {
-  const { token } = await searchParams;
+async function page({ searchParams }: { searchParams: { token: string } }) {
+  const { token } = searchParams;
   const session = await auth();
   if (!token) {
     return (
@@ -20,7 +20,15 @@ async function page({ searchParams }) {
     );
   }
   const response = await verifyChangeEmail(token);
-  if (response.error || !response.success) {
+  if (!response) {
+    <ErrorCard
+      title="Error"
+      description="Something went wrong while Change email, please try again !"
+      buttonText="Back to Settings"
+      href="/settings/account"
+    />;
+  }
+  if (!response.success) {
     return (
       <ErrorCard
         title="Error"
