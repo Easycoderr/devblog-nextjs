@@ -4,8 +4,11 @@ import ProfileTabs from "@/features/profile/components/ProfileTabs";
 import getCurrentUser from "@/lib/getUser";
 import ProfileHeader from "@/features/profile/components/ProfileHeader";
 import NotFound from "../not-found";
-
-async function page({ params, searchParams }) {
+type UserProfilePageProps = {
+  params: { username: string };
+  searchParams: { tabs: string };
+};
+async function page({ params, searchParams }: UserProfilePageProps) {
   const { username } = await params;
   const resolvedParams = await searchParams;
   const [user, currUser] = await Promise.all([

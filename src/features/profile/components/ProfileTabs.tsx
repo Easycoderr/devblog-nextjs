@@ -13,7 +13,7 @@ type ProfileTabsProps = {
   user: ProfileUserData;
   currUser: UserType;
   activeTab: string;
-  params: {
+  params?: {
     page: number;
   };
 };
