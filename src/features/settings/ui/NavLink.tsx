@@ -1,8 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-function NavLink({ href, children, icon, ...props }) {
+import type { ReactNode } from "react";
+type NavLinkProps = {
+  href: string;
+  children: ReactNode;
+  icon: ReactNode;
+};
+function NavLink({ href, children, icon, ...props }: NavLinkProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
 
