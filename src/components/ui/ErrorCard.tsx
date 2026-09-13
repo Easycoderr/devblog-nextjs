@@ -1,13 +1,18 @@
 import Link from "next/link";
 import { CircleX } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+type ErrorCardProps = {
+  title: string;
+  description: string;
+  href?: string;
+  buttonText?: string;
+};
 function ErrorCard({
   title,
   description,
   href = "/auth/signin",
   buttonText = "Back to Sign In",
-}) {
+}: ErrorCardProps) {
   return (
     <div className="bg-background flex min-h-screen items-center justify-center px-4">
       <div className="bg-card border-border w-full max-w-md rounded-2xl border p-8 shadow-xl">
