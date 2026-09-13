@@ -62,6 +62,7 @@ async function updateUserProfile(formData: FormData) {
     console.log("Failed to update profile please try again.", error);
     return {
       success: false,
+      newUserName: null,
       message: "Failed to update profile. Please try again.",
     };
   }

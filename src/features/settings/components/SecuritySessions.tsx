@@ -49,9 +49,8 @@ function SecuritySessions() {
           </div>
           <div>
             <Button
-              size="8"
               variant="secondary"
-              className="w-full md:w-auto text-center text-primary rounded-lg cursor-pointer !p-2 bg-primary/20 text-sm font-medium tracking-wide hover:bg-primary/10"
+              className="w-full md:w-auto text-center text-primary rounded-lg cursor-pointer p-2! bg-primary/20 text-sm font-medium tracking-wide hover:bg-primary/10"
             >
               Logout
             </Button>
@@ -72,9 +71,8 @@ function SecuritySessions() {
           </div>
           <div>
             <Button
-              size="8"
               variant="secondary"
-              className="w-full md:w-auto text-center text-primary rounded-lg cursor-pointer !p-2 bg-primary/20 text-sm font-medium tracking-wide hover:bg-primary/10"
+              className="w-full md:w-auto text-center text-primary rounded-lg cursor-pointer p-2! bg-primary/20 text-sm font-medium tracking-wide hover:bg-primary/10"
             >
               Logout
             </Button>
@@ -82,9 +80,8 @@ function SecuritySessions() {
         </div>
         <div className="w-full">
           <Button
-            size="8"
             variant="secondary"
-            className="w-full md:w-auto text-center text-primary rounded-lg cursor-pointer !p-2 border border-primary/50 text-sm font-medium tracking-wide hover:bg-primary/30"
+            className="w-full md:w-auto text-center text-primary rounded-lg cursor-pointer p-2! border border-primary/50 text-sm font-medium tracking-wide hover:bg-primary/30"
           >
             Logout all other sessions
           </Button>

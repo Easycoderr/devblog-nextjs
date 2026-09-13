@@ -7,29 +7,30 @@ import isUserNameExist from "@/lib/actions/settings/profile/isUserNameExist";
 import updateUserProfile from "@/lib/actions/settings/profile/updateUserProfile";
 import calcTextRange from "@/lib/utils/calcTextLength";
 import { updateProfile } from "@/lib/utils/schema";
+import { UserType } from "@/types/userType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, CheckCircle2Icon, XCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 
-function UpdateProfileForm({ user }) {
+type FormData = z.infer<typeof updateProfile>;
+function UpdateProfileForm({ user }: { user: UserType }) {
   const { update } = useSession();
-  const [isValidUserName, setIsValidUserName] = useState(false);
-  const [isLoadingForValid, setIsLoadingForValid] = useState(false);
+  const [isValidUserName, setIsValidUserName] = useState<boolean>(false);
+  const [isLoadingForValid, setIsLoadingForValid] = useState<boolean>(false);
   const { avatarId, avatar, firstName, lastName, bio, userName } = user || {};
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors, isDirty },
-    reset,
     setError,
     clearErrors,
     watch,
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(updateProfile),
     mode: "onChange",
     defaultValues: {
@@ -82,14 +83,14 @@ function UpdateProfileForm({ user }) {
   const file = fileList && fileList.length > 0 ? fileList[0] : null;
   const previewUrl = file ? URL.createObjectURL(file) : avatar;
 
-  async function onSubmit(data) {
+  async function onSubmit(data: FormData) {
     if (!isDirty) return null;
     const formData = new FormData();
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
     formData.append("userName", data.userName);
     formData.append("bio", data.bio);
-    formData.append("avatarId", avatarId || null);
+    if (avatarId) formData.append("avatarId", avatarId);
 
     if (data.profilePicture && data.profilePicture.length > 0) {
       const fileBinary = data.profilePicture[0];
@@ -103,7 +104,7 @@ function UpdateProfileForm({ user }) {
         userName: data.userName,
       });
     } else {
-      toast.error(response.message);
+      toast.error(response?.message ?? "Something went wrong.");
     }
   }
 
@@ -119,7 +120,7 @@ function UpdateProfileForm({ user }) {
             Profile Picture
           </label>
           <div
-            className={`relative flex items-center justify-center overflow-hidden ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 bg-input h-36 w-36 border rounded-full focus:outline-none`}
+            className={`relative flex items-center justify-center overflow-hidden ${errors.profilePicture ? "border-red-500" : "border-border"} ${previewUrl && "ring-ring ring"} has-focus-visible:ring-2 has-focus-visible:ring-ring has-focus-visible:ring-offset-2 bg-input h-36 w-36 border rounded-full focus:outline-none`}
           >
             {previewUrl ? (
               <Image
@@ -176,8 +177,8 @@ function UpdateProfileForm({ user }) {
           isLoadingForValid,
           isValidUserName,
           newUserName,
-          userName,
           errors.userName,
+          userName,
         )}
         {...register("userName")}
       />
@@ -190,7 +191,6 @@ function UpdateProfileForm({ user }) {
         </label>
         <textarea
           {...register("bio")}
-          type="text"
           className={`${errors.bio ? "border-destructive focus:border-destructive" : "border-border focus:border-primary"} bg-input p-1 border rounded-lg w-full min-h-18 text-sm focus:outline-none`}
         />
         <span className="flex">
@@ -208,7 +208,7 @@ function UpdateProfileForm({ user }) {
           }
           isSubmiting={isSubmitting}
           type="submit"
-          style="authForm"
+          buttonStyle="authForm"
           ariaLabel="Save changes"
         >
           {" "}
@@ -218,15 +218,14 @@ function UpdateProfileForm({ user }) {
     </form>
   );
 }
-function userNameInputFieldIcon(
-  isLoading,
-  isValid,
-  newUserName,
-  userName,
-  error,
-) {
-  let icon = null;
 
+function userNameInputFieldIcon(
+  isLoading: boolean,
+  isValid: boolean,
+  newUserName: string,
+  error?: FieldError,
+  userName?: string,
+) {
   if (isLoading && !error) {
     return <MiniSpinner />;
   } else if (newUserName === "" || newUserName.length === 0) {
@@ -236,5 +235,6 @@ function userNameInputFieldIcon(
   } else if (!isValid && userName !== newUserName && !error) {
     return <CheckCircle2Icon className="text-brand-success" />;
   }
+  return null;
 }
 export default UpdateProfileForm;
