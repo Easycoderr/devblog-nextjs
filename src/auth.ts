@@ -4,10 +4,10 @@ import bcrypt from "bcryptjs";
 import { authConfig } from "./auth.config";
 import Google from "next-auth/providers/google";
 import CustomPrismaAdapter from "./lib/auth/custom-prisma-adapter";
-import NextAuth, { Session, type NextAuthResult } from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import { signInSchema } from "./lib/utils/schema";
 import type { JWT } from "next-auth/jwt";
-const authResult: NextAuthResult = NextAuth({
+export const { handlers, signIn, auth, signOut } = NextAuth({
   ...authConfig,
   adapter: CustomPrismaAdapter(),
   session: { strategy: "jwt" },
@@ -47,7 +47,7 @@ const authResult: NextAuthResult = NextAuth({
           throw new Error("Please verify your email before signing in.");
         }
         if (!user.password) return null;
-        const isMatch = bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return null;
         const { password: _, ...safeUser } = user;
         return safeUser;
@@ -103,8 +103,3 @@ const authResult: NextAuthResult = NextAuth({
     },
   },
 });
-
-export const handlers = authResult.handlers;
-export const signIn = authResult.signIn;
-export const auth = authResult.auth;
-export const signOut = authResult.signOut;

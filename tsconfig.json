@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "src/app/auth/auth-error/page.tsx",
-    "src/features/post/components/AddCommentForm.tsx"
+    "src/features/post/components/AddCommentForm.tsx",
+    "src/app/api/auth/[...nextauth]/route.js"
   ],
   "exclude": ["node_modules"]
 }
