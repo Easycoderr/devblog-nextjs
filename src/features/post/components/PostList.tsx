@@ -6,11 +6,12 @@ import PostCard from "./PostCard";
 import getPosts from "@/lib/actions/post/getPosts";
 import type { BlogPageParams } from "@/app/blogs/page";
 type PostListProps = {
-  params: BlogPageParams;
+  searchParams: BlogPageParams;
 };
-async function PostList({ params }: PostListProps) {
+async function PostList({ searchParams }: PostListProps) {
   const user = await getCurrentUser();
-  // const params = await searchParams;
+  const params = await searchParams;
+
   const search = params.search;
   const filter = params.filter;
   const sort = params.sort;

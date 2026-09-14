@@ -4,7 +4,7 @@ import VerificationFailed from "@/features/auth/components/VerificationFailed";
 import verifyResetPasswordToken from "@/lib/actions/verify/verifyResetPasswordToken";
 
 async function page({ searchParams }: { searchParams: { token: string } }) {
-  const { token } = searchParams;
+  const { token } = await searchParams;
 
   const response = await verifyResetPasswordToken(token);
   if (!response) return null;

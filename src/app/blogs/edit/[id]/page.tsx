@@ -5,7 +5,7 @@ import getCurrentUser from "@/lib/getUser";
 import { notFound } from "next/navigation";
 type Params = { id?: string };
 export async function generateMetadata({ params }: { params: Params }) {
-  const { id } = params;
+  const { id } = await params;
   if (!id)
     return {
       title: `Page not found`,
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   };
 }
 async function page({ params }: { params: Params }) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) {
     return (
       <div className="bg-destructive/10 text-destructive text-lg inline-block mx-auto my-auto px-4 py-2 rounded-lg">

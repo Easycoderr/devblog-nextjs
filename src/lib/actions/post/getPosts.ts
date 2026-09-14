@@ -9,7 +9,7 @@ type PostSearchQueryTypes = {
   filter?: string;
   sort?: "oldest" | "newest";
 };
-async function getPosts(page: number = 1, searchQuery?: PostSearchQueryTypes) {
+async function getPosts(page: number = 1, searchQuery: PostSearchQueryTypes) {
   const user = await getCurrentUser();
   const { search = "", filter = "all", sort } = searchQuery || {};
 

@@ -46,7 +46,7 @@ async function updateUserProfile(formData: FormData) {
         firstName,
         lastName,
         name: `${firstName} ${lastName}`,
-        ...(user.userName !== userName && { userName: userName }),
+        ...(user.userName !== userName && { userName: userName.toLowerCase() }),
         bio,
         ...(avatarUrl && { avatar: avatarUrl }),
         ...(avatarId && { avatarId }),

@@ -2,7 +2,7 @@ import VerificationFailed from "@/features/auth/components/VerificationFailed";
 import verifyToken from "@/lib/actions/verify/verifyToken";
 
 async function page({ searchParams }: { searchParams: { token: string } }) {
-  const { token } = searchParams;
+  const { token } = await searchParams;
   const verificationToken = await verifyToken(token);
   if (!verificationToken) {
     return (

@@ -1,10 +1,12 @@
+"use server";
 import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 
 export async function getPostBySlug(slug: string) {
+  console.log(slug);
   const user = await getCurrentUser();
   const post = await prisma.post.findUnique({
-    where: { slug },
+    where: { slug: slug },
     include: {
       ...(user
         ? { savedPosts: { where: { userId: user.id }, select: { id: true } } }

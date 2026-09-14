@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 
 async function page({ searchParams }: { searchParams: { token: string } }) {
-  const { token } = searchParams;
+  const { token } = await searchParams;
   const session = await auth();
   if (!token) {
     return (

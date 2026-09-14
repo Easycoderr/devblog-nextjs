@@ -16,7 +16,7 @@ export async function generateMetadata() {
   };
 }
 async function page({ searchParams }: { searchParams: BlogPageParams }) {
-  const params = searchParams;
+  const params = await searchParams;
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}
@@ -37,7 +37,7 @@ async function page({ searchParams }: { searchParams: BlogPageParams }) {
         </Suspense>
         {/* article list */}
         <Suspense fallback={<PostListSkeleton />}>
-          <PostList params={params} />
+          <PostList searchParams={params} />
         </Suspense>
       </main>
     </div>
