@@ -23,7 +23,7 @@ async function deleteAccount(data: { password: string }) {
       message: "Password is not set for this account.",
     };
   }
-  const isValid = bcrypt.compare(data.password, user.password);
+  const isValid = await bcrypt.compare(data.password, user.password);
   if (user?.provider === "credentials") {
     if (!isValid) return { error: true, message: "Invalid password" };
   }

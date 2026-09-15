@@ -15,15 +15,12 @@ function ChangePassword() {
     formState: { isSubmitting, errors, isDirty },
     reset,
     setError,
-    clearErrors,
-    watch,
   } = useForm<FormData>({
     resolver: zodResolver(changePasswordSchema),
   });
   async function onSubmit(data: FormData) {
     const { error, message } = await updatePassword(data);
     if (error) {
-      toast.error(message);
       if (message === "Incorrect-password") {
         setError("currentPassword", {
           type: "manual",

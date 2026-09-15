@@ -10,7 +10,7 @@ export const metadata = {
     "DevBlog is a modern platform where developers share knowledge, explore ideas, and grow together through clean, high-quality technical content.",
 };
 export default async function Home() {
-  const { posts } = await getPosts();
+  const { posts } = await getPosts(1);
 
   return (
     <div className="relative w-full">

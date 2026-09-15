@@ -10,7 +10,7 @@ import type { JWT } from "next-auth/jwt";
 export const { handlers, signIn, auth, signOut } = NextAuth({
   ...authConfig,
   adapter: CustomPrismaAdapter(),
-  session: { strategy: "jwt" },
+  session: { strategy: "database" },
   pages: {
     signIn: "/auth/signin",
     error: "/auth/auth-error",
@@ -75,29 +75,29 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
       }
       return true;
     },
-    async jwt({ session, token, trigger, user }) {
-      if (trigger === "update" && session) {
-        if (session.name) token.name = session.name;
-        if (session.email) token.email = session.email;
-        if (session.userName) token.userName = session.userName;
-        if (session.avatar) token.avatar = session.avatar;
-      }
-      if (user) {
-        token.id = user.id!;
-        token.name = user.name;
-        token.userName = user.userName;
-        token.avatar = user.avatar;
-        token.email = user.email!;
-      }
-      return token;
-    },
-    async session({ token, session }: { token: JWT; session: Session }) {
-      if (token && session.user) {
-        session.user.email = token.email;
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.userName = token.userName;
-        session.user.avatar = token.avatar;
+    // async jwt({ session, token, trigger, user }) {
+    //   if (trigger === "update" && session) {
+    //     if (session.name) token.name = session.name;
+    //     if (session.email) token.email = session.email;
+    //     if (session.userName) token.userName = session.userName;
+    //     if (session.avatar) token.avatar = session.avatar;
+    //   }
+    //   if (user) {
+    //     token.id = user.id!;
+    //     token.name = user.name;
+    //     token.userName = user.userName;
+    //     token.avatar = user.avatar;
+    //     token.email = user.email!;
+    //   }
+    //   return token;
+    // },
+    async session({ session, user }) {
+      if (session.user) {
+        session.user.email = user.email;
+        session.user.id = user.id;
+        session.user.name = user.name;
+        session.user.userName = user.userName;
+        session.user.avatar = user.avatar;
       }
       return session;
     },
