@@ -16,12 +16,26 @@ async function page() {
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 py-2">
-        <ChangeEmail user={user} />
-        <ChangePassword />
+        {user?.provider === "google" ? (
+          <div>
+            You have signin with google provider you can manage your account by
+            visiting{" "}
+            <a
+              className="bg-clip-text text-transparent bg-linear-to-r from-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:opacity-75 hover:underline"
+              href="https://support.google.com/accounts/answer/3118621?hl=en"
+            >
+              Manage Google Account
+            </a>
+          </div>
+        ) : (
+          <>
+            <ChangeEmail user={user} />
+            <ChangePassword />
+          </>
+        )}
         <DeleteAccount user={user} />
       </div>
     </div>
   );
 }
-
 export default page;
