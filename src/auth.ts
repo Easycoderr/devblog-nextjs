@@ -6,10 +6,12 @@ import Google from "next-auth/providers/google";
 import CustomPrismaAdapter from "./lib/auth/custom-prisma-adapter";
 import NextAuth, { Session } from "next-auth";
 import { signInSchema } from "./lib/utils/schema";
-import type { JWT } from "next-auth/jwt";
+import { encode, type JWT } from "next-auth/jwt";
+import { randomUUID } from "node:crypto";
+const adapter = CustomPrismaAdapter();
 export const { handlers, signIn, auth, signOut } = NextAuth({
   ...authConfig,
-  adapter: CustomPrismaAdapter(),
+  adapter,
   session: { strategy: "database" },
   pages: {
     signIn: "/auth/signin",
@@ -75,22 +77,13 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
       }
       return true;
     },
-    // async jwt({ session, token, trigger, user }) {
-    //   if (trigger === "update" && session) {
-    //     if (session.name) token.name = session.name;
-    //     if (session.email) token.email = session.email;
-    //     if (session.userName) token.userName = session.userName;
-    //     if (session.avatar) token.avatar = session.avatar;
-    //   }
-    //   if (user) {
-    //     token.id = user.id!;
-    //     token.name = user.name;
-    //     token.userName = user.userName;
-    //     token.avatar = user.avatar;
-    //     token.email = user.email!;
-    //   }
-    //   return token;
-    // },
+    async jwt({ token, account }) {
+      if (account?.provider === "credentials") {
+        token.credentials = true;
+      }
+
+      return token;
+    },
     async session({ session, user }) {
       if (session.user) {
         session.user.email = user.email;
@@ -100,6 +93,23 @@ export const { handlers, signIn, auth, signOut } = NextAuth({
         session.user.avatar = user.avatar;
       }
       return session;
+    },
+  },
+  jwt: {
+    async encode(params) {
+      if (params.token?.credentials) {
+        if (!params.token.sub) {
+          throw new Error("No user ID found in token");
+        }
+        const sessionToken = randomUUID();
+        await adapter.createSession?.({
+          sessionToken,
+          userId: params.token.sub,
+          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        });
+        return sessionToken;
+      }
+      return encode(params);
     },
   },
 });
