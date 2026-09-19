@@ -6,7 +6,12 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
-
+enum NotificationType {
+  COMMENT
+  REPLY
+  LIKE
+  FOLLOW
+}
 model User {
   id       String @id @default(cuid())
   userName String  @unique
@@ -38,6 +43,8 @@ model User {
   accounts Account[]
   sessions Session[]
    
+  notifications     Notification[]
+  sentNotifications Notification[] @relation("NotificationActor")
   @@map("users")
 }
 model Account {
@@ -123,6 +130,8 @@ model Post {
   shares    Share[]
 
   savedPosts SavedPost[]
+
+  notifications Notification[]
   
   comments Comment[] 
 }
@@ -190,6 +199,8 @@ model Comment {
   parentId String?
   parent Comment? @relation("Replies",fields: [parentId],references: [id],onDelete: Cascade)
   replies Comment[] @relation("Replies")
+
+  notifications Notification[]
 }
 model ViewLog{
   id String @id @default(cuid())
@@ -203,4 +214,27 @@ model ViewLog{
   token String @unique
 
   createdAt DateTime @default(now())
+}
+model Notification{
+  id String @id @default(cuid())
+  type NotificationType
+  read Boolean @default(false)
+  createdAt DateTime @default(now())
+
+  // user who receives the notfi..
+  userId String
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  // user who coused the notfi...
+  actorId String?
+  actor User? @relation("NotificationActor",fields: [actorId],references: [id],onDelete: SetNull)
+    // Related post
+  postId String?
+  post   Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+    // Related comment
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+ @@index([userId, read, createdAt])
+  @@index([postId])
+  @@index([commentId])
 }
