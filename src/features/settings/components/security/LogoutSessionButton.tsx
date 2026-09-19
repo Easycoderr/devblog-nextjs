@@ -10,10 +10,10 @@ function SessionLogoutButton({ sessionId }: { sessionId: string }) {
     if (!response) {
       toast.error("Something went wrong!");
     }
-    if (!response.success) {
-      toast.error(response.message);
+    if (!response?.success) {
+      toast.error(response?.message);
     } else {
-      toast.success(response.message);
+      toast.success(response?.message);
     }
   }
   return (

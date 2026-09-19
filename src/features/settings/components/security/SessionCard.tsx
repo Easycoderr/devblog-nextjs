@@ -1,6 +1,6 @@
 import parseUserAgent from "@/lib/utils/parseUserAgent";
 import { Dot, MapPin } from "lucide-react";
-import SessionLogoutButton from "./SessionLogoutButton";
+import LogoutSessionButton from "./LogoutSessionButton";
 type SessionCardProps = {
   session: {
     isCurrent: boolean;
@@ -50,7 +50,7 @@ function SessionCard({ session }: SessionCardProps) {
           </div>
         )}
         <div>
-          <SessionLogoutButton sessionId={session.id} />
+          <LogoutSessionButton sessionId={session.id} />
         </div>
       </div>
     </div>

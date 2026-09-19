@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import getUserSessions from "@/lib/actions/auth/getUserSessions";
 import SessionCard from "./SessionCard";
+import LogoutAllSessionButton from "./LogoutAllSessionButton";
 
 async function SecuritySessions() {
   const sessions = await getUserSessions();
@@ -20,12 +21,7 @@ async function SecuritySessions() {
         ))}
 
         <div className="w-full">
-          <Button
-            variant="secondary"
-            className="w-full md:w-auto text-center text-primary rounded-lg cursor-pointer p-2! border border-primary/50 text-sm font-medium tracking-wide hover:bg-primary/30"
-          >
-            Logout all other sessions
-          </Button>
+          <LogoutAllSessionButton />
         </div>
       </div>
     </div>

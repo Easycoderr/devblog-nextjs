@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/auth";
 
 async function logoutAllSessions() {
   const session = await auth();
