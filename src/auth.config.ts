@@ -29,7 +29,9 @@ export const authConfig = {
         pathname.startsWith("/settings/security");
       // route protection logic
       if (isProtectedRoute && !isLoggedIn) {
-        return false;
+        const signInUrl = new URL("/auth/signin", request.url);
+        signInUrl.searchParams.set("callbackUrl", request.nextUrl.href);
+        return NextResponse.redirect(signInUrl);
       }
 
       if (
