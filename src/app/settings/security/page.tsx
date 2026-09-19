@@ -1,10 +1,7 @@
-import { Button } from "@/components/ui/button";
-import SecuritySessions from "@/features/settings/components/SecuritySessions";
+import SecuritySessions from "@/features/settings/components/security/SecuritySessions";
 import getCurrentUser from "@/lib/getUser";
-import { Dot } from "lucide-react";
 
 async function page() {
-  const user = await getCurrentUser();
   return (
     <div>
       <div className="space-y-3">
