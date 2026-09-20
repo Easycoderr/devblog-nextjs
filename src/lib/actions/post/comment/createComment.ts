@@ -3,6 +3,7 @@
 import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import createNotification from "../../notification/createNotification";
 
 export async function createComment(
   postId: string,
@@ -18,6 +19,11 @@ export async function createComment(
     const comment = await prisma.comment.create({
       data: { content, parentId, userId: user.id, postId },
     });
+    if (parentId) {
+      await createNotification("REPLY", postId, parentId);
+    } else {
+      await createNotification("COMMENT", postId, comment.id);
+    }
     revalidatePath(`/blogs/${postId}`);
     return { success: true, comment };
   } catch (error) {

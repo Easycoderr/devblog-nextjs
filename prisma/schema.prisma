@@ -234,7 +234,7 @@ model Notification{
     // Related comment
   commentId String?
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
- @@index([userId, read, createdAt])
+  @@index([userId, read, createdAt])
   @@index([postId])
   @@index([commentId])
 }
