@@ -1,0 +1,47 @@
+import Link from "next/link";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
+import type { NotificationType } from "@/components/layout/Header";
+import dateCalculation from "@/lib/utils/dateCalculation";
+import NotificationContent from "./NotificationContent";
+import selectHref from "./selectHref";
+
+function NotificationItem({
+  notifications,
+}: {
+  notifications: NotificationType;
+}) {
+  const { commentId, actor, post, actorId, postId, type, createdAt, read } =
+    notifications;
+  if (!actor) return null;
+  const selectedHref = selectHref(type, postId, actorId, post?.slug, commentId);
+  return (
+    <Link
+      href={selectedHref}
+      className="flex relative gap-2 items-center bg-accent hover:bg-accent/60 transition-all duration-300 p-1.5 rounded-lg ring-primary/60 hover:ring-1"
+    >
+      <Avatar className="h-6 w-6">
+        {actor.avatar && (
+          <AvatarImage
+            sizes="lg"
+            src={actor.avatar}
+            alt={actor.name || "User avatar"}
+          />
+        )}
+        <AvatarFallback>{actor.name?.charAt(0)}</AvatarFallback>
+      </Avatar>
+      <NotificationContent actor={actor} type={type} />
+      <span className="text-muted-foreground text-xs">
+        {dateCalculation(createdAt)}
+      </span>
+      {read || (
+        <span className="bg-destructive h-2.5 w-2.5 rounded-full absolute top-0 right-0"></span>
+      )}
+    </Link>
+  );
+}
+
+export default NotificationItem;
