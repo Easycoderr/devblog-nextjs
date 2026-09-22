@@ -10,11 +10,22 @@ import { MenuIcon, Plus, XIcon } from "lucide-react";
 import ProfileDropDownMenu from "./ProfileDropDownMenu";
 import ThemeToggle from "../ui/ThemeToggle";
 import getCurrentUser from "@/lib/getUser";
+
+import { Prisma } from "@prisma/client";
+import Notifications from "../../features/notification/Notifications";
+
 export type UserWithMeta = NonNullable<
   Awaited<ReturnType<typeof getCurrentUser>>
 >;
+export type NotificationType = Prisma.NotificationGetPayload<{
+  include: {
+    post: { select: { slug: true } };
+    actor: { select: { name: true; avatar: true } };
+  };
+}>;
 type HeaderProps = {
   user: UserWithMeta | null;
+  notifications: NotificationType[];
 };
 
 const links = [
@@ -23,7 +34,7 @@ const links = [
   { id: "about", label: "About", href: "/#about" },
 ];
 
-function Header({ user }: HeaderProps) {
+function Header({ user, notifications }: HeaderProps) {
   const activeSection = useActiveSection(links);
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -100,6 +111,8 @@ function Header({ user }: HeaderProps) {
                 </div>
               )}
             </div>
+            <Notifications notifications={notifications} />
+
             {/* Burger menu Icon */}
             <button
               className="lg:hidden"
