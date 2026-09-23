@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import AccentProvider from "@/providers/AccentProvider";
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
+import getNotifications from "@/lib/actions/notification/getNotifications";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -31,7 +32,11 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const user = await getCurrentUser();
+  const [user, notifications] = await Promise.all([
+    getCurrentUser(),
+    getNotifications(),
+  ]);
+
   return (
     <html
       lang="en"
@@ -47,7 +52,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <AccentProvider>
-              <Header user={user} />
+              <Header user={user} notifications={notifications} />
 
               {children}
               <Toaster richColors closeButton position="top-center" />
