@@ -39,7 +39,6 @@ async function page({ params }: { params: Promise<Params> }) {
     <div className="min-h-screen">
       <article className="container 2xl:px-50 px-2 py-10 mx-auto">
         <ViewTracker slug={post.slug} />
-        <ScrollToComment />
         <PostDetailsHeader user={user} post={post} />
         <div className="mt-8">
           <div className="flex flex-col gap-6">

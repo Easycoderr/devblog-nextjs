@@ -5,19 +5,25 @@ import listToTree from "@/lib/utils/listToTree";
 import Link from "next/link";
 import { ArrowRightToLine } from "lucide-react";
 import PostCommentListSkeleton from "./skeletons/PostCommentSkeleton";
-import CommentList from "./CommentList";
+import CommentList, { CommentData } from "./CommentList";
 import { Suspense } from "react";
-import { getComments } from "@/lib/actions/post/comment/getComments";
 
 import type { PostData } from "@/types/postTypes";
+import { Comment, Prisma } from "@prisma/client";
 
-async function CommentSection({ post }: { post: PostData }) {
-  const [user, comments] = await Promise.all([
-    getCurrentUser(),
-    getComments(post?.id),
-  ]);
+async function CommentSection({
+  post,
+  comments,
+}: {
+  post: PostData;
+  comments: Prisma.CommentGetPayload<{
+    include: {
+      user: true;
+    };
+  }>[];
+}) {
+  const user = await getCurrentUser();
   const userId = user?.id;
-
   const listOfComments = listToTree(comments);
   return (
     <div className="col-span-2 mt-8 space-y-4">
@@ -25,9 +31,7 @@ async function CommentSection({ post }: { post: PostData }) {
         Comments ({comments?.length})
       </h3>
       {/* Initial list of top-level comments */}
-      <div
-        className={`space-y-6 w-full max-h-96 ${listOfComments.length !== 0 && "overflow-y-scroll"} ${listOfComments.length !== 0 || "flex items-center gap-1"}`}
-      >
+      <div className={`space-y-6 w-full`}>
         {listOfComments.length === 0 ? (
           !userId ? (
             <div className="flex items-center gap-1 text-foreground bg-gray-100 p-2 rounded-lg mx-auto">

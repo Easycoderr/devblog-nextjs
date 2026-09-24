@@ -6,13 +6,17 @@ import PostCardAvatar from "./PostCardAvatar";
 import categoryColorPicker from "@/lib/utils/categoryColorPicker";
 import { Eye } from "lucide-react";
 import { Prisma } from "@prisma/client";
+import { getComments } from "@/lib/actions/post/comment/getComments";
+import ScrollToComment from "@/providers/ScrollToComment";
+import { Suspense } from "react";
 export type PostDetailsData = Prisma.PostGetPayload<{
   include: {
     savedPosts: true;
     _count: { select: { viewLog: true; likes: true } };
   };
 }>;
-function PostDetails({ post }: { post: PostDetailsData }) {
+async function PostDetails({ post }: { post: PostDetailsData }) {
+  const comments = await getComments(post.id);
   const {
     title,
     description,
@@ -26,6 +30,9 @@ function PostDetails({ post }: { post: PostDetailsData }) {
   } = post;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-7">
+      <Suspense fallback={null}>
+        <ScrollToComment />
+      </Suspense>
       <div className="space-y-6 col-span-2">
         <div className="mb-4">
           <span
@@ -88,7 +95,7 @@ prose-pre:p-0 md:col-span-2 max-w-none prose-lg
         <MarkdownRenderer content={content} />
       </article>
       {/* comments */}
-      <CommentSection post={post} />
+      <CommentSection post={post} comments={comments} />
     </div>
   );
 }
