@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 async function getNotifications() {
   try {
     const session = await auth();
-    if (!session?.user?.id) return;
+    if (!session?.user?.id) return [];
     const notifications = await prisma.notification.findMany({
       where: { userId: session.user.id },
       orderBy: { createdAt: "desc" },

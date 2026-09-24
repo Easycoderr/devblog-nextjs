@@ -2,7 +2,6 @@
 import { accentThemes } from "@/config/accent-colors";
 import { useTheme } from "next-themes";
 import React, { useEffect } from "react";
-import { keyof } from "zod";
 
 function AccentProvider({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
