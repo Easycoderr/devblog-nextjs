@@ -136,6 +136,19 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.comment-box {
+  transition: background-color 0.5s ease;
+}
+
+.highlight-comment {
+  background-color: oklch(
+    75.966% 0.0034 15.833 / 0.608
+  ); /* Soft yellow highlight */
+}
+.dark .highlight-comment {
+  background-color: #a1a1aa54; /* Soft yellow highlight */
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
