@@ -21,19 +21,21 @@ function NotificationItem({
   return (
     <Link
       href={selectedHref}
-      className="flex relative gap-2 items-center bg-accent hover:bg-accent/60 transition-all duration-300 p-1.5 rounded-lg ring-primary/60 hover:ring-1"
+      className="flex justify-between relative gap-2 items-center bg-accent hover:bg-accent/60 transition-all duration-300 p-1.5 rounded-lg ring-primary/60 hover:ring-1"
     >
-      <Avatar className="h-6 w-6">
-        {actor.avatar && (
-          <AvatarImage
-            sizes="lg"
-            src={actor.avatar}
-            alt={actor.name || "User avatar"}
-          />
-        )}
-        <AvatarFallback>{actor.name?.charAt(0)}</AvatarFallback>
-      </Avatar>
-      <NotificationContent actor={actor} type={type} />
+      <div className="flex items-center gap-2">
+        <Avatar className="h-6 w-6">
+          {actor.avatar && (
+            <AvatarImage
+              sizes="lg"
+              src={actor.avatar}
+              alt={actor.name || "User avatar"}
+            />
+          )}
+          <AvatarFallback>{actor.name?.charAt(0)}</AvatarFallback>
+        </Avatar>
+        <NotificationContent actor={actor} type={type} />
+      </div>
       <span className="text-muted-foreground text-xs">
         {dateCalculation(createdAt)}
       </span>

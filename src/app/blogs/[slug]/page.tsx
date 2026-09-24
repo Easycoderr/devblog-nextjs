@@ -4,8 +4,10 @@ import PostDetailsSkeleton from "@/features/post/components/skeletons/PostDetail
 import ViewTracker from "@/features/post/components/ViewTracker";
 import { getPostBySlug } from "@/lib/actions/post/getPostBySlug";
 import getCurrentUser from "@/lib/getUser";
+import ScrollToComment from "@/providers/ScrollToComment";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+
 type Params = { slug: string };
 export async function generateMetadata({
   params,
@@ -37,6 +39,7 @@ async function page({ params }: { params: Promise<Params> }) {
     <div className="min-h-screen">
       <article className="container 2xl:px-50 px-2 py-10 mx-auto">
         <ViewTracker slug={post.slug} />
+        <ScrollToComment />
         <PostDetailsHeader user={user} post={post} />
         <div className="mt-8">
           <div className="flex flex-col gap-6">

@@ -1,6 +1,6 @@
 "use client";
 import { Clock, PenLine } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddCommentForm from "./AddCommentForm";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import { toast } from "sonner";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CommentData } from "./CommentList";
 import type { PostData } from "@/types/postTypes";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type CommentProps = {
   comment: CommentData;
@@ -34,7 +35,39 @@ function Comment({
   depth = 0,
 }: CommentProps) {
   const [openReplyField, setOpenReplyField] = useState<string | boolean>(false);
-  const [repliesNumber, setRepliesNumber] = useState(0);
+  const [repliesNumber, setRepliesNumber] = useState<number>(0);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const targetCommentId = hash.split("#").pop()?.replace("comment-", "");
+    if (!targetCommentId) return;
+
+    // Verify if the target comment is inside this specific reply subtree branch
+    const hasTargetIdInTree = (node: any, id: string): boolean => {
+      if (!node) return false;
+      if (node.id === id) return true;
+      if (Array.isArray(node.replies)) {
+        return node.replies.some((reply: any) => hasTargetIdInTree(reply, id));
+      }
+      return false;
+    };
+
+    const containsTarget = comment.replies?.some((reply: any) =>
+      hasTargetIdInTree(reply, targetCommentId),
+    );
+
+    // Force expand the subtree branches dynamically when a new notification hash triggers
+    if (containsTarget && comment.replies) {
+      setRepliesNumber(comment.replies.length);
+    }
+  }, [pathname, searchParams, comment]); // 🚀 Forces the tree open on inside-page link updates!
+
   const {
     id,
     content,
@@ -45,9 +78,11 @@ function Comment({
   } = comment;
   const repliesList = replies.slice(0, repliesNumber);
   const shouldIndent = depth < 3;
+
   return (
     <div
-      className={`p-2 rounded-tr-lg max-w-2xl shadow-sm my-2 rounded-br-lg bg-card ${shouldIndent ? "border-l-2 border-border my-0" : "border-t  border-dashed border-border mt-2 ml-0 pl-1"}`}
+      id={`comment-${id}`}
+      className={`transition duration-500 p-2 rounded-tr-lg max-w-2xl shadow-sm my-2 rounded-br-lg bg-card ${shouldIndent ? "border-l-2 border-border my-0" : "border-t  border-dashed border-border mt-2 ml-0 pl-1"}`}
     >
       <div className="flex justify-between">
         <div>
@@ -154,7 +189,6 @@ function Comment({
               <Comment
                 key={reply.id}
                 comment={reply}
-                // replyedUser={user?.userName}
                 replayedUserId={commentUserId}
                 userId={userId}
                 post={post}
