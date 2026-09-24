@@ -8,6 +8,7 @@ async function createNotification(
   type: NotificationType,
   postId: string,
   commentId?: string,
+  parentId?: string,
 ) {
   const session = await auth();
   const actorId = session?.user?.id;
@@ -15,7 +16,7 @@ async function createNotification(
   let userId: string;
   if (type === "REPLY") {
     const parentComment = await prisma.comment.findUnique({
-      where: { id: commentId },
+      where: { id: parentId },
       select: {
         userId: true,
       },
@@ -23,24 +24,34 @@ async function createNotification(
     if (!parentComment) throw new Error("Parent comment not found");
 
     userId = parentComment.userId;
+    if (userId === actorId) return;
+    await prisma.notification.create({
+      data: {
+        postId,
+        commentId,
+        userId,
+        actorId,
+        type,
+      },
+    });
   } else {
     const post = await prisma.post.findUnique({
       where: { id: postId },
-      select: { authorId: true },
+      select: { authorId: true, slug: true },
     });
     if (!post) throw new Error("Post not found");
     userId = post.authorId;
+    if (userId === actorId) return;
+    await prisma.notification.create({
+      data: {
+        postId,
+        commentId,
+        userId,
+        actorId,
+        type,
+      },
+    });
   }
-  if (userId === actorId) return;
-  await prisma.notification.create({
-    data: {
-      postId,
-      commentId,
-      userId,
-      actorId,
-      type,
-    },
-  });
 }
 
 export default createNotification;

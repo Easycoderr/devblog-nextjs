@@ -20,7 +20,7 @@ export async function createComment(
       data: { content, parentId, userId: user.id, postId },
     });
     if (parentId) {
-      await createNotification("REPLY", postId, parentId);
+      await createNotification("REPLY", postId, comment.id, parentId);
     } else {
       await createNotification("COMMENT", postId, comment.id);
     }
