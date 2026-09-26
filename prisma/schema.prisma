@@ -234,6 +234,7 @@ model Notification{
     // Related comment
   commentId String?
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  @@unique([userId, actorId, postId, type])
   @@index([userId, read, createdAt])
   @@index([postId])
   @@index([commentId])
