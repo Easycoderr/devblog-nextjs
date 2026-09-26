@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import type { Like } from "@prisma/client";
 import type { PostData } from "@/types/postTypes";
+
 type LikeButtonProps = {
   post: PostData;
   userId?: string | null;

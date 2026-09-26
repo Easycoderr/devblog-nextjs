@@ -2,6 +2,7 @@
 import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import createNotification from "../notification/createNotification";
 
 export async function likePost(
   postId: string,
@@ -24,12 +25,14 @@ export async function likePost(
       },
     });
   } else {
-    await prisma.like.create({
+    const like = await prisma.like.create({
       data: {
         userId,
         postId,
       },
     });
+    console.log(like);
+    await createNotification("LIKE", post.id);
   }
   revalidatePath("/blogs");
   return { success: true, message: "Post liked successfully" };

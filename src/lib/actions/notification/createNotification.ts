@@ -14,6 +14,41 @@ async function createNotification(
   const actorId = session?.user?.id;
   if (!actorId) throw new Error("Unauthorized");
   let userId: string;
+  if (type === "LIKE") {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      select: { authorId: true },
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    userId = post.authorId;
+
+    if (userId === actorId) return;
+
+    await prisma.notification.upsert({
+      where: {
+        userId_actorId_postId_type: {
+          userId,
+          actorId,
+          postId,
+          type: "LIKE",
+        },
+      },
+      update: {
+        read: false,
+        createdAt: new Date(),
+      },
+      create: {
+        type: "LIKE",
+        userId,
+        actorId,
+        postId,
+      },
+    });
+  }
   if (type === "REPLY") {
     const parentComment = await prisma.comment.findUnique({
       where: { id: parentId },
@@ -34,7 +69,7 @@ async function createNotification(
         type,
       },
     });
-  } else {
+  } else if (type === "COMMENT") {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       select: { authorId: true, slug: true },
