@@ -10,16 +10,19 @@ function NotificationContent({ type, actor }: NotificationContentProps) {
 
   switch (type) {
     case "COMMENT":
-      content = "Commented to your post.";
+      content = "commented on your post.";
       break;
+
     case "REPLY":
-      content = "Replied to your comment.";
+      content = "replied to your comment.";
       break;
+
     case "LIKE":
-      content = "Liked to your post.";
+      content = "liked your post.";
       break;
+
     case "FOLLOW":
-      content = "Followed you.";
+      content = "followed you.";
       break;
     default:
       content = "";

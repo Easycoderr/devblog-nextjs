@@ -5,12 +5,12 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "../../components/ui/popover";
-import { Button } from "../../components/ui/button";
+} from "../../../components/ui/popover";
+import { Button } from "../../../components/ui/button";
 import { Bell, BellDot } from "lucide-react";
-import type { NotificationType } from "../../components/layout/Header";
+import type { NotificationType } from "../../../components/layout/Header";
 
-import NotificationItem from "./NotificationItem";
+import NotificationItem from "../popover/NotificationItem";
 import { useState } from "react";
 
 function Notifications({
