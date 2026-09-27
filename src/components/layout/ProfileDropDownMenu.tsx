@@ -1,4 +1,4 @@
-import { HelpCircle, LogOut, Settings, User } from "lucide-react";
+import { BellIcon, HelpCircle, LogOut, Settings, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -55,6 +55,15 @@ function ProfileDropDownMenu({ user }: ProfileDropDownProps) {
           >
             <User className="text-current!" />
             Profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link
+            href={`/notifications`}
+            className="text-current! flex items-center! gap-2 min-w-full"
+          >
+            <BellIcon className="text-current!" />
+            Notifications
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
