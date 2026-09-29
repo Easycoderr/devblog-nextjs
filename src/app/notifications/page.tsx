@@ -1,5 +1,6 @@
 import NotificationList from "@/features/notification/manage-notification-page/NotificationList";
 import NotificationListSkeleton from "@/features/notification/manage-notification-page/NotificationListSkeleton";
+import NotificationsFilterSort from "@/features/notification/manage-notification-page/NotificationsFilterSort ";
 import getNotificationsCommentContent from "@/lib/actions/notification/getNotificationCommentConntent";
 import { Prisma } from "@prisma/client";
 import { Suspense } from "react";
@@ -10,9 +11,15 @@ export type Notification = Prisma.NotificationGetPayload<{
     actor: { select: { userName: true; name: true; avatar: true } };
   };
 }>;
-async function page() {
-  const notifications = await getNotificationsCommentContent();
-
+export type NotificationPageParams = {
+  filter?: "all" | "read" | "unread";
+  sort?: "oldest" | "newest";
+};
+async function page({
+  searchParams,
+}: {
+  searchParams: NotificationPageParams;
+}) {
   return (
     <div className="space-y-12 relative w-full">
       {/* main */}
@@ -27,16 +34,11 @@ async function page() {
             </p>
           </div>
         </div>
-
+        <NotificationsFilterSort />
         <div className="border-t mb-2"></div>
         <Suspense fallback={<NotificationListSkeleton />}>
-          <NotificationList notifications={notifications} />
+          <NotificationList searchParams={searchParams} />
         </Suspense>
-        {!notifications.length && (
-          <div className="mx-auto text-xl text-foreground px-4 py-2 rounded-lg bg-card shadow-sm">
-            No notification yet, check back later
-          </div>
-        )}
       </main>
     </div>
   );
