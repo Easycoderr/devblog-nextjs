@@ -1,12 +1,27 @@
-import { Notification } from "@/app/notifications/page";
-import NotificationCard, { NotificationCardProps } from "./NotificationCard";
-import { NotificationType } from "@/components/layout/Header";
+import type {
+  Notification,
+  NotificationPageParams,
+} from "@/app/notifications/page";
+import NotificationCard from "./NotificationCard";
+import getNotificationsCommentContent from "@/lib/actions/notification/getNotificationCommentConntent";
 
-function NotificationList({
-  notifications,
-}: {
-  notifications: Notification[];
-}) {
+type NotificationListProps = {
+  searchParams: NotificationPageParams;
+};
+
+async function NotificationList({ searchParams }: NotificationListProps) {
+  const params = await searchParams;
+  const sort = params?.sort;
+  const filter = params?.filter;
+  const notifications = await getNotificationsCommentContent({ filter, sort });
+  if (!notifications.length) {
+    return (
+      <div className="mx-auto text-xl text-foreground px-4 py-2 rounded-lg bg-card shadow-sm">
+        No notification yet, check back later
+      </div>
+    );
+  }
+
   return (
     <div className="p-1 overflow-y-scroll scrollbar-none scrollbar-thumb-primary scrollbar-track-accent">
       {notifications && (
