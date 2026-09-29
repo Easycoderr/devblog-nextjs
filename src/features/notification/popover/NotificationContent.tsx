@@ -3,9 +3,14 @@ import type { NotificationType } from "@prisma/client";
 
 type NotificationContentProps = {
   type: NotificationType;
-  actor: { name: string | null; avatar: string | null };
+  section?: string;
+  actor: { userName: string; name: string | null; avatar: string | null };
 };
-function NotificationContent({ type, actor }: NotificationContentProps) {
+function NotificationContent({
+  type,
+  section,
+  actor,
+}: NotificationContentProps) {
   let content: string;
 
   switch (type) {
@@ -29,9 +34,9 @@ function NotificationContent({ type, actor }: NotificationContentProps) {
       break;
   }
   return (
-    <div className="text-xs font-medium">
-      {actor?.name} {content}
-    </div>
+    <span className="text-xs font-medium">
+      {section !== "main-page" && actor?.name} {content}
+    </span>
   );
 }
 
