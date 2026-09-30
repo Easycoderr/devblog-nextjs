@@ -2,14 +2,15 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { ta } from "zod/v4/locales";
 type getNotificationsCommentContentProps = {
   filter?: "all" | "read" | "unread";
   sort?: "oldest" | "newest";
 };
-async function getNotificationsCommentContent({
-  filter,
-  sort,
-}: getNotificationsCommentContentProps) {
+async function getNotificationsCommentContent(
+  { filter, sort }: getNotificationsCommentContentProps,
+  take: number = 8,
+) {
   try {
     const session = await auth();
     if (!session?.user?.id) return [];
@@ -18,6 +19,7 @@ async function getNotificationsCommentContent({
         userId: session.user.id,
         ...(filter !== "all" && { read: filter === "read" ? true : false }),
       },
+      take: Number(take),
       orderBy: { createdAt: sort === "newest" ? "desc" : "asc" },
       include: {
         comment: { select: { content: true } },
