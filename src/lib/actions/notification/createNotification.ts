@@ -27,15 +27,10 @@ async function createNotification(
     userId = post.authorId;
 
     if (userId === actorId) return;
-
+    const likeKey = `LIKE:${userId}:${actorId}:${postId}`;
     await prisma.notification.upsert({
       where: {
-        userId_actorId_postId_type: {
-          userId,
-          actorId,
-          postId,
-          type: "LIKE",
-        },
+        likeKey,
       },
       update: {
         read: false,
@@ -46,6 +41,7 @@ async function createNotification(
         userId,
         actorId,
         postId,
+        likeKey,
       },
     });
   }
