@@ -215,26 +215,26 @@ model ViewLog{
 
   createdAt DateTime @default(now())
 }
-model Notification{
-  id String @id @default(cuid())
-  type NotificationType
-  read Boolean @default(false)
-  createdAt DateTime @default(now())
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
 
-  // user who receives the notfi..
   userId String
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // user who coused the notfi...
   actorId String?
-  actor User? @relation("NotificationActor",fields: [actorId],references: [id],onDelete: SetNull)
-    // Related post
+  actor   User? @relation("NotificationActor",fields: [actorId],references: [id],onDelete: SetNull)
+
   postId String?
   post   Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
-    // Related comment
+
   commentId String?
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  @@unique([userId, actorId, postId, type])
+
+  likeKey String? @unique
+
   @@index([userId, read, createdAt])
   @@index([postId])
   @@index([commentId])
