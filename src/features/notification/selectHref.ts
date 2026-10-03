@@ -2,7 +2,6 @@ import type { NotificationType } from "@prisma/client";
 
 export function selectHref(
   type: NotificationType,
-  postId: string | null,
   actorId: string | null,
   slug: string | undefined,
   commentId: string | null,

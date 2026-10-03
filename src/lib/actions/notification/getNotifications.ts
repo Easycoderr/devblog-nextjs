@@ -12,7 +12,7 @@ async function getNotifications() {
       orderBy: { createdAt: "desc" },
       include: {
         post: { select: { slug: true } },
-        actor: { select: { name: true, avatar: true } },
+        actor: { select: { userName: true, name: true, avatar: true } },
       },
     });
     return notifications;

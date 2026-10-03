@@ -14,6 +14,7 @@ export type Notification = Prisma.NotificationGetPayload<{
 export type NotificationPageParams = {
   filter?: "all" | "read" | "unread";
   sort?: "oldest" | "newest";
+  take?: number;
 };
 async function page({
   searchParams,

@@ -12,7 +12,7 @@ import ThemeToggle from "../ui/ThemeToggle";
 import getCurrentUser from "@/lib/getUser";
 
 import { Prisma } from "@prisma/client";
-import Notifications from "../../features/notification/Notifications";
+import Notifications from "../../features/notification/popover/Notifications";
 
 export type UserWithMeta = NonNullable<
   Awaited<ReturnType<typeof getCurrentUser>>
@@ -20,7 +20,7 @@ export type UserWithMeta = NonNullable<
 export type NotificationType = Prisma.NotificationGetPayload<{
   include: {
     post: { select: { slug: true } };
-    actor: { select: { name: true; avatar: true } };
+    actor: { select: { userName: true; name: true; avatar: true } };
   };
 }>;
 type HeaderProps = {

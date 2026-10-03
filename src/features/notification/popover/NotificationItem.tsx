@@ -25,7 +25,7 @@ function NotificationItem({
   const { id, commentId, actor, post, actorId, postId, type, createdAt, read } =
     notifications;
   if (!actor) return null;
-  const selectedHref = selectHref(type, postId, actorId, post?.slug, commentId);
+  const selectedHref = selectHref(type, actorId, post?.slug, commentId);
 
   async function handleMarkAsReadTheNotification(
     e: React.MouseEvent<HTMLAnchorElement>,
