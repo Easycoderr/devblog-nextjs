@@ -44,7 +44,7 @@ function Notifications({
           <Button
             variant="outline"
             size="icon"
-            className="relative rounded-full cursor-pointer"
+            className="relative rounded-lg cursor-pointer"
           >
             <Bell />
             {unreadNotification.length !== 0 && (

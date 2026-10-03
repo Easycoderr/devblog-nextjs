@@ -13,6 +13,7 @@ import getCurrentUser from "@/lib/getUser";
 
 import { Prisma } from "@prisma/client";
 import Notifications from "../../features/notification/popover/Notifications";
+import { Button } from "../ui/button";
 
 export type UserWithMeta = NonNullable<
   Awaited<ReturnType<typeof getCurrentUser>>
@@ -80,6 +81,7 @@ function Header({ user, notifications }: HeaderProps) {
               />
             </div>
             <div className="flex items-center gap-2">
+              <Notifications notifications={notifications} />
               <ThemeToggle />
               {user ? (
                 <div className="lg:flex gap-8 items-center hidden">
@@ -110,21 +112,21 @@ function Header({ user, notifications }: HeaderProps) {
                   </Link>
                 </div>
               )}
+              {/* Burger menu Icon */}
+              <Button
+                size="icon"
+                variant="outline"
+                className="lg:hidden bg-card rounded-lg"
+                aria-expanded={isExpanded}
+                onClick={() => setIsExpanded((expanded) => !expanded)}
+              >
+                {isExpanded ? (
+                  <XIcon className="text-foreground transition-all duration-200" />
+                ) : (
+                  <MenuIcon className="text-foreground" />
+                )}
+              </Button>
             </div>
-            <Notifications notifications={notifications} />
-
-            {/* Burger menu Icon */}
-            <button
-              className="lg:hidden"
-              aria-expanded={isExpanded}
-              onClick={() => setIsExpanded((expanded) => !expanded)}
-            >
-              {isExpanded ? (
-                <XIcon className="text-current mr-6 hover:text-gray-300 transition-all duration-200" />
-              ) : (
-                <MenuIcon className="text-current mr-6" />
-              )}
-            </button>
           </div>
           {/* mobile */}
           <HeaderMobNav

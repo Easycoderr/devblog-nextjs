@@ -15,7 +15,7 @@ function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" className="cursor-pointer">
           {theme === "light" ? (
             <Sun className="h-[1.2rem] w-[1.2rem] transition-all dark:-rotate-90" />
           ) : (
