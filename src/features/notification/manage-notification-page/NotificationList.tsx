@@ -12,13 +12,16 @@ async function NotificationList({ searchParams }: NotificationListProps) {
   const sort = params?.sort;
   const filter = params?.filter;
   const take = params?.take;
-  const notifications = await getNotificationsCommentContent(
+  const response = await getNotificationsCommentContent(
     {
       filter,
       sort,
     },
     take,
   );
+
+  const { notifications, notificationCount } = response;
+
   if (!notifications.length) {
     return (
       <div className="mx-auto mt-30 text-lg text-foreground px-4 py-2 rounded-lg bg-card shadow-sm">
@@ -36,7 +39,11 @@ async function NotificationList({ searchParams }: NotificationListProps) {
           ))}
         </div>
       )}
-      <LoadMoreNotificationPagination />
+      {notificationCount > 8 && (
+        <LoadMoreNotificationPagination
+          notificationLength={notificationCount}
+        />
+      )}
     </div>
   );
 }
