@@ -101,7 +101,7 @@ function NotificationCard({ notification }: NotificationCardProps) {
             </span>
           </p>
           {comment?.content && (
-            <p className="flex items-center gap-0.5 text-muted-foreground leading-5">
+            <p className="flex items-center gap-0.5 text-muted-foreground leading-5 wrap-break-word text-pretty">
               <span>{comment.content}</span>
             </p>
           )}

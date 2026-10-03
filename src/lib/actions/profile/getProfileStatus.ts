@@ -40,7 +40,7 @@ export async function getTotalUserComments(userId: string) {
 }
 export async function getTotalUserShares(userId: string) {
   try {
-    const shares = prisma.comment.count({
+    const shares = prisma.share.count({
       where: {
         post: {
           authorId: userId,
