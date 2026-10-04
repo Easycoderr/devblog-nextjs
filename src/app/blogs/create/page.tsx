@@ -1,3 +1,4 @@
+import ArticleEditor from "@/features/post/components/editor/ArticleEditor";
 import Form from "@/features/post/components/Form";
 export const metadata = {
   title: "Create blog",
@@ -5,7 +6,8 @@ export const metadata = {
 async function page() {
   return (
     <div className="container w-full mx-auto px-2 2xl:px-10 flex gap-8 flex-col items-center justify-end py-12">
-      <Form />
+      {/* <Form /> */}
+      <ArticleEditor />
     </div>
   );
 }
