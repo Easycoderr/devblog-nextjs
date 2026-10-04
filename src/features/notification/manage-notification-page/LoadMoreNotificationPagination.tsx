@@ -14,18 +14,16 @@ function LoadMoreNotificationPagination({
   const router = useRouter();
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-    if (visibleCount && visibleCount >= MAX_GROUP_SIZE) {
-      params.set("take", visibleCount.toString());
-      router.replace(`${pathName}?${params.toString()}`, { scroll: false });
-    }
+    params.set("take", visibleCount.toString());
+    router.replace(`${pathName}?${params.toString()}`, { scroll: false });
   }, [visibleCount]);
+
   function handleShowMore() {
     const length = notificationLength - MAX_GROUP_SIZE;
     const extraValue = length < MAX_GROUP_SIZE ? length : MAX_GROUP_SIZE;
     setVisibleCount((value) => value + extraValue);
   }
   function handleShowLess() {
-    console.log(notificationLength);
     const length = visibleCount - MAX_GROUP_SIZE;
     const extraValue = length < MAX_GROUP_SIZE ? length : MAX_GROUP_SIZE;
     setVisibleCount((value) => value - extraValue);

@@ -23,6 +23,7 @@ function NotificationsFilterSort() {
     const params = new URLSearchParams(searchParams.toString());
     if (sort === "newest" || sort === "oldest") {
       params.set("sort", sort);
+      params.set("take", "8");
       router.replace(`${pathName}?${params.toString()}`, { scroll: false });
     }
   }, [sort]);
@@ -31,6 +32,7 @@ function NotificationsFilterSort() {
     const params = new URLSearchParams(searchParams.toString());
     if (filter === "all" || filter === "read" || filter === "unread") {
       params.set("filter", filter);
+      params.set("take", "8");
       router.replace(`${pathName}?${params.toString()}`, { scroll: false });
     }
   }, [filter]);

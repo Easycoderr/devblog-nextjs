@@ -1,5 +1,4 @@
 "use server";
-
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
@@ -12,7 +11,6 @@ async function getNotificationsCommentContent(
   { filter = "all", sort }: getNotificationsCommentContentProps,
   take: number = 8,
 ) {
-  const filtered = filter !== "all";
   try {
     const session = await auth();
     if (!session?.user?.id) return { notifications: [], notificationCount: 0 };
@@ -20,10 +18,13 @@ async function getNotificationsCommentContent(
       userId: session.user.id,
       ...(filter !== "all" && { read: filter === "read" ? true : false }),
     };
+    const parsedTake = Number(take);
+    const safeTake =
+      Number.isInteger(parsedTake) && parsedTake >= 8 ? parsedTake : 8;
     const [notifications, notificationCount] = await prisma.$transaction([
       prisma.notification.findMany({
         where: whereClause,
-        take: Number(take),
+        take: safeTake,
         orderBy: { createdAt: sort === "oldest" ? "asc" : "desc" },
         include: {
           comment: { select: { content: true } },
@@ -35,7 +36,7 @@ async function getNotificationsCommentContent(
     ]);
     return { notifications, notificationCount };
   } catch (error) {
-    console.log("Failed to delete comment:", error);
+    console.error("Failed to fetch notifications:", error);
     return { notifications: [], notificationCount: 0 };
   }
 }
