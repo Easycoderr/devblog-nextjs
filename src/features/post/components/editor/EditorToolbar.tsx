@@ -1,7 +1,17 @@
 "use client";
 
 import type { Editor } from "@tiptap/react";
-import { Bold, Heading1, Heading2, Italic, Redo, Undo } from "lucide-react";
+import {
+  Bold,
+  Heading1,
+  Heading2,
+  Italic,
+  List,
+  ListOrdered,
+  Quote,
+  Redo,
+  Undo,
+} from "lucide-react";
 
 type EditorToolbarProps = {
   editor: Editor;
@@ -95,6 +105,38 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         }`}
       >
         <Italic size={18} />
+      </button>
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        title="Bullet list"
+        className={`rounded-md p-2 hover:bg-muted ${
+          editor.isActive("bulletList") ? "bg-muted" : ""
+        }`}
+      >
+        <List size={18} />
+      </button>
+
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        title="Numbered list"
+        className={`rounded-md p-2 hover:bg-muted ${
+          editor.isActive("orderedList") ? "bg-muted" : ""
+        }`}
+      >
+        <ListOrdered size={18} />
+      </button>
+
+      <button
+        type="button"
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        title="Blockquote"
+        className={`rounded-md p-2 hover:bg-muted ${
+          editor.isActive("blockquote") ? "bg-muted" : ""
+        }`}
+      >
+        <Quote size={18} />
       </button>
     </div>
   );
