@@ -3,6 +3,7 @@
 import type { Editor } from "@tiptap/react";
 import {
   Bold,
+  Code,
   Code2Icon,
   Heading1,
   Heading2,
@@ -140,7 +141,17 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       >
         <Italic size={18} />
       </button>
-
+      <button
+        type="button"
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        title="Inline code"
+        className={`rounded-md p-2 hover:bg-muted ${
+          editor.isActive("code") ? "bg-muted" : ""
+        }`}
+      >
+        <Code size={18} />
+      </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
