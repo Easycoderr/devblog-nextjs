@@ -12,6 +12,7 @@ import {
   Redo,
   Undo,
 } from "lucide-react";
+import CodeBlockLanguageSelect from "./CodeBlockLanguageSelect";
 
 type EditorToolbarProps = {
   editor: Editor;
@@ -138,6 +139,23 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       >
         <Quote size={18} />
       </button>
+      <button
+        type="button"
+        onClick={() =>
+          editor
+            .chain()
+            .focus()
+            .toggleCodeBlock()
+            .updateAttributes("codeBlock", {
+              language: "javascript",
+            })
+            .run()
+        }
+        title="Code block"
+      >
+        {"</>"}
+      </button>
+      <CodeBlockLanguageSelect editor={editor} />
     </div>
   );
 }

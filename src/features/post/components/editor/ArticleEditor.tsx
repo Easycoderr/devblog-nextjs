@@ -3,6 +3,9 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import EditorToolbar from "./EditorToolbar";
+import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
+import { common, createLowlight } from "lowlight";
+const lowlight = createLowlight(common);
 
 function ArticleEditor() {
   const editor = useEditor({
@@ -11,6 +14,9 @@ function ArticleEditor() {
         heading: {
           levels: [1, 2],
         },
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
       }),
     ],
     content: "<p>Start writing your article...</p>",

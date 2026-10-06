@@ -32,7 +32,7 @@ function SelectTrigger({
   size = "default",
   children,
   ...props
-}: SelectPrimitive.SelectTriggerProps & { size: string }) {
+}: SelectPrimitive.SelectTriggerProps & { size?: string }) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
