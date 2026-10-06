@@ -3,8 +3,8 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import EditorToolbar from "./EditorToolbar";
-import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 import { common, createLowlight } from "lowlight";
+import CodeBlockNode from "./CodeBlockNode";
 const lowlight = createLowlight(common);
 
 function ArticleEditor() {
@@ -15,7 +15,7 @@ function ArticleEditor() {
           levels: [1, 2],
         },
       }),
-      CodeBlockLowlight.configure({
+      CodeBlockNode.configure({
         lowlight,
       }),
     ],

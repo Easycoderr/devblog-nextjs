@@ -3,6 +3,7 @@
 import type { Editor } from "@tiptap/react";
 import {
   Bold,
+  Code2Icon,
   Heading1,
   Heading2,
   Italic,
@@ -19,6 +20,48 @@ type EditorToolbarProps = {
 };
 
 function EditorToolbar({ editor }: EditorToolbarProps) {
+  function handleCodeBlock() {
+    const { from, to } = editor.state.selection;
+
+    // If we're already inside a code block, toggle it off.
+    if (editor.isActive("codeBlock")) {
+      editor.chain().focus().toggleCodeBlock().run();
+      return;
+    }
+
+    // No selection → normal code block.
+    if (from === to) {
+      editor
+        .chain()
+        .focus()
+        .setCodeBlock()
+        .updateAttributes("codeBlock", {
+          language: "javascript",
+        })
+        .run();
+
+      return;
+    }
+
+    // Multiple selected blocks → ONE code block.
+    const selectedText = editor.state.doc.textBetween(from, to, "\n");
+
+    editor.commands.insertContentAt(
+      { from, to },
+      {
+        type: "codeBlock",
+        attrs: {
+          language: "javascript",
+        },
+        content: selectedText
+          ? [{ type: "text", text: selectedText }]
+          : undefined,
+      },
+      {
+        updateSelection: true,
+      },
+    );
+  }
   return (
     <div className="flex items-center gap-1 border-b border-border p-2">
       <button
@@ -56,17 +99,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
 
       <button
         type="button"
-        onClick={() => {
-          console.log("H1 clicked");
-
-          const result = editor
-            .chain()
-            .focus()
-            .toggleHeading({ level: 1 })
-            .run();
-
-          console.log("H1 result:", result);
-        }}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         title="Heading 1"
         className={`rounded-md p-2 hover:bg-muted ${
           editor.isActive("heading", { level: 1 }) ? "bg-muted" : ""
@@ -107,6 +140,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       >
         <Italic size={18} />
       </button>
+
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -141,21 +175,14 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       </button>
       <button
         type="button"
-        onClick={() =>
-          editor
-            .chain()
-            .focus()
-            .toggleCodeBlock()
-            .updateAttributes("codeBlock", {
-              language: "javascript",
-            })
-            .run()
-        }
+        onClick={handleCodeBlock}
         title="Code block"
+        className={`rounded-md p-2 hover:bg-muted ${
+          editor.isActive("codeblock") ? "bg-muted" : ""
+        }`}
       >
-        {"</>"}
+        <Code2Icon size={19} />
       </button>
-      <CodeBlockLanguageSelect editor={editor} />
     </div>
   );
 }

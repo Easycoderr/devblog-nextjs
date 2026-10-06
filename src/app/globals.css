@@ -204,3 +204,49 @@
 /* .tiptap li {
   margin: 0.25rem 0;
 } */
+
+.tiptap pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #18181b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.tiptap pre code {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* syntax highlighting */
+.tiptap .hljs-comment,
+.tiptap .hljs-quote {
+  color: #6b7280;
+}
+
+.tiptap .hljs-keyword,
+.tiptap .hljs-selector-tag,
+.tiptap .hljs-literal {
+  color: #c084fc;
+}
+
+.tiptap .hljs-string,
+.tiptap .hljs-attr {
+  color: #86efac;
+}
+
+.tiptap .hljs-number,
+.tiptap .hljs-symbol {
+  color: #facc15;
+}
+
+.tiptap .hljs-title,
+.tiptap .hljs-title.function_,
+.tiptap .hljs-title.class_ {
+  color: #60a5fa;
+}
+
+.tiptap .hljs-variable,
+.tiptap .hljs-params {
+  color: #f9a8d4;
+}

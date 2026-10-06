@@ -36,7 +36,7 @@ function CodeBlockLanguageSelect({ editor }: CodeBlockLanguageSelectProps) {
   return (
     <Select
       value={language}
-      onValueChange={(value) => {
+      onValueChange={(value: string) => {
         editor
           .chain()
           .focus()
