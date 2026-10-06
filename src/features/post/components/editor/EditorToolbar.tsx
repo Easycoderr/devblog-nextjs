@@ -8,13 +8,13 @@ import {
   Heading1,
   Heading2,
   Italic,
+  Link,
   List,
   ListOrdered,
   Quote,
   Redo,
   Undo,
 } from "lucide-react";
-import CodeBlockLanguageSelect from "./CodeBlockLanguageSelect";
 
 type EditorToolbarProps = {
   editor: Editor;
@@ -193,6 +193,35 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         }`}
       >
         <Code2Icon size={19} />
+      </button>
+      <button
+        type="button"
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={() => {
+          if (editor.isActive("link")) {
+            editor.chain().focus().unsetLink().run();
+            return;
+          }
+
+          const url = window.prompt("Enter URL");
+
+          if (!url) return;
+
+          editor
+            .chain()
+            .focus()
+            .setLink({
+              href: url,
+              target: "_blank",
+            })
+            .run();
+        }}
+        title="Add link"
+        className={`rounded-md p-2 hover:bg-muted ${
+          editor.isActive("link") ? "bg-muted" : ""
+        }`}
+      >
+        <Link size={18} />
       </button>
     </div>
   );
