@@ -6,9 +6,14 @@ import EditorToolbar from "./EditorToolbar";
 import { common, createLowlight } from "lowlight";
 import CodeBlockNode from "./CodeBlockNode";
 import Image from "@tiptap/extension-image";
-const lowlight = createLowlight(common);
+import type { JSONContent } from "@tiptap/core";
 
-function ArticleEditor() {
+const lowlight = createLowlight(common);
+type ArticleEditorProps = {
+  content?: JSONContent;
+  onChange?: (content: JSONContent) => void;
+};
+function ArticleEditor({ content, onChange }: ArticleEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -25,7 +30,7 @@ function ArticleEditor() {
     content: "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      console.log(editor.getJSON());
+      onChange?.(editor.getJSON());
     },
   });
 

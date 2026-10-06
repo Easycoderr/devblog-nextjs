@@ -25,7 +25,7 @@ export const postFormSchema = (isUpdateMode: boolean) =>
       .string()
       .min(50, "Description must be at least 50 characters.")
       .max(300, "Description must be less than 300 characters."),
-    content: z.string().min(500, "content must be at least 500+ characters."),
+    content: z.string().min(3, "content must be at least 500+ characters."),
     category: z.string().min(1, "Category is required"),
     image: z
       .custom<FileList | undefined>(
@@ -163,7 +163,7 @@ export const changeEmailSchema = (oldEmail: string) =>
 export const createPostSchema = z.object({
   title: z.string().min(4),
   description: z.string().min(50).max(300),
-  content: z.string().min(500),
+  content: z.string().min(3),
   category: z.string().min(1),
 });
 // for server actions

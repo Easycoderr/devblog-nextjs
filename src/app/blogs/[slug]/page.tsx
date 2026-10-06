@@ -1,6 +1,7 @@
 import PostDetails from "@/features/post/components/PostDetails";
 import PostDetailsHeader from "@/features/post/components/PostDetailsHeader";
 import PostDetailsSkeleton from "@/features/post/components/skeletons/PostDetailsSkeleton";
+import TiptapArticleRenderer from "@/features/post/components/TiptapArticleRenderer";
 import ViewTracker from "@/features/post/components/ViewTracker";
 import { getPostBySlug } from "@/lib/actions/post/getPostBySlug";
 import getCurrentUser from "@/lib/getUser";
@@ -38,6 +39,22 @@ async function page({ params }: { params: Promise<Params> }) {
   return (
     <div className="min-h-screen">
       <article className="container 2xl:px-50 px-2 py-10 mx-auto">
+        <TiptapArticleRenderer
+          content={{
+            type: "doc",
+            content: [
+              {
+                type: "heading",
+                attrs: { level: 1 },
+                content: [{ type: "text", text: "Hello Babe" }],
+              },
+              {
+                type: "paragraph",
+                content: [{ type: "text", text: "This is my article." }],
+              },
+            ],
+          }}
+        />
         <ViewTracker slug={post.slug} />
         <PostDetailsHeader user={user} post={post} />
         <div className="mt-8">

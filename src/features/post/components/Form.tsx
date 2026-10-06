@@ -26,6 +26,9 @@ import { createPost } from "@/lib/actions/post/createPost";
 import { updatePost } from "@/lib/actions/post/updatePost";
 import { z } from "zod";
 import type { PostData } from "@/types/postTypes";
+import ArticleEditor from "./editor/ArticleEditor";
+import type { JSONContent } from "@tiptap/core";
+import extractTiptapText from "@/lib/utils/extractTiptapText";
 
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
@@ -49,6 +52,7 @@ function Form({ postData }: { postData?: PostData | null }) {
     handleSubmit,
     reset,
     setValue,
+    getValues,
     formState: { errors, isSubmitting, isDirty },
     watch,
   } = useForm<FormData>({
@@ -266,10 +270,25 @@ function Form({ postData }: { postData?: PostData | null }) {
                 <ContentPopoverHelper />
               </span>
             </label>
-            <textarea
-              {...register("content")}
-              className={`${errors.content ? "border-destructive focus:border-destructive" : "bg-input border-border focus:border-primary"} p-1 border min-h-48 rounded-lg w-full text-sm focus:outline-none`}
+            <ArticleEditor
+              onChange={(content: JSONContent) => {
+                setValue("content", JSON.stringify(content), {
+                  shouldDirty: true,
+                  shouldValidate: true,
+                });
+                const json = JSON.parse(getValues("content"));
+                const text = extractTiptapText(json);
+
+                console.log(text);
+              }}
             />
+            {/* 
+              <textarea
+                {...register("content")}
+                className={`${errors.content ? "border-destructive focus:border-destructive" : "bg-input border-border focus:border-primary"} p-1 border min-h-48 rounded-lg w-full text-sm focus:outline-none`}
+              />
+ */}
+
             <span className="flex">
               {errors.content && (
                 <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
