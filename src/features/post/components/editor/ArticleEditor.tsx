@@ -15,6 +15,7 @@ function ArticleEditor() {
         heading: {
           levels: [1, 2],
         },
+        codeBlock: false,
       }),
       CodeBlockNode.configure({
         lowlight,

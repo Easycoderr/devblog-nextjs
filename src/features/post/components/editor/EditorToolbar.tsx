@@ -1,5 +1,6 @@
 "use client";
-
+import { useRef, useState } from "react";
+import uploadEditorImage from "@/lib/actions/editor/uploadEditorImage";
 import type { Editor } from "@tiptap/react";
 import {
   Bold,
@@ -22,6 +23,8 @@ type EditorToolbarProps = {
 };
 
 function EditorToolbar({ editor }: EditorToolbarProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   function handleCodeBlock() {
     const { from, to } = editor.state.selection;
 
@@ -153,28 +156,58 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       >
         <Code size={18} />
       </button>
-      <button
-        type="button"
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={() => {
-          const src = window.prompt("Enter image URL");
+      <>
+        <button
+          type="button"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => fileInputRef.current?.click()}
+          title="Insert image"
+          disabled={isUploadingImage}
+          className="rounded-md p-2 hover:bg-muted disabled:opacity-50"
+        >
+          <ImageIcon size={18} />
+        </button>
 
-          if (!src) return;
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={async (event) => {
+            const file = event.target.files?.[0];
 
-          editor
-            .chain()
-            .focus()
-            .setImage({
-              src,
-              alt: "Article image",
-            })
-            .run();
-        }}
-        title="Insert image"
-        className="rounded-md p-2 hover:bg-muted"
-      >
-        <ImageIcon size={18} />
-      </button>
+            if (!file) return;
+
+            setIsUploadingImage(true);
+
+            try {
+              const formData = new FormData();
+              formData.append("image", file);
+
+              const result = await uploadEditorImage(formData);
+
+              if (!result.success) {
+                console.error(result.message);
+                return;
+              }
+
+              editor
+                .chain()
+                .focus()
+                .setImage({
+                  src: result.url,
+                  alt: file.name,
+                })
+                .run();
+            } finally {
+              setIsUploadingImage(false);
+
+              // Allows selecting the same image again later.
+              event.target.value = "";
+            }
+          }}
+        />
+      </>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
