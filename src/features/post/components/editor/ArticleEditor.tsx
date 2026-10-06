@@ -5,6 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import EditorToolbar from "./EditorToolbar";
 import { common, createLowlight } from "lowlight";
 import CodeBlockNode from "./CodeBlockNode";
+import Image from "@tiptap/extension-image";
 const lowlight = createLowlight(common);
 
 function ArticleEditor() {
@@ -18,6 +19,7 @@ function ArticleEditor() {
       CodeBlockNode.configure({
         lowlight,
       }),
+      Image,
     ],
     content: "<p>Start writing your article...</p>",
     immediatelyRender: false,

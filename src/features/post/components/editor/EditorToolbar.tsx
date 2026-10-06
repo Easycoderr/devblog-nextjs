@@ -7,6 +7,7 @@ import {
   Code2Icon,
   Heading1,
   Heading2,
+  ImageIcon,
   Italic,
   Link,
   List,
@@ -151,6 +152,28 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         }`}
       >
         <Code size={18} />
+      </button>
+      <button
+        type="button"
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={() => {
+          const src = window.prompt("Enter image URL");
+
+          if (!src) return;
+
+          editor
+            .chain()
+            .focus()
+            .setImage({
+              src,
+              alt: "Article image",
+            })
+            .run();
+        }}
+        title="Insert image"
+        className="rounded-md p-2 hover:bg-muted"
+      >
+        <ImageIcon size={18} />
       </button>
       <button
         type="button"
