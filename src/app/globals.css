@@ -78,6 +78,7 @@
   --code-border: #cbd5e1;
   --code-foreground: #0f172a;
   --code-muted: #475569;
+  --media-border: #cbd5e1;
 
   --code-keyword: #7c3aed;
   --code-string: #15803d;
@@ -153,6 +154,7 @@
   --code-border: #34343f;
   --code-foreground: #fafafa;
   --code-muted: #a1a1aa;
+  --media-border: #34343f;
 
   --code-keyword: #c084fc;
   --code-string: #86efac;
@@ -246,6 +248,19 @@
   font-size: 0.875rem;
   line-height: 1.7;
 }
+.tiptap img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+  border: 1px solid var(--media-border);
+  border-radius: 0.75rem;
+}
+.tiptap .ProseMirror-selectednode {
+  outline: 2px solid var(--color-primary);
+  border-radius: 0.75rem;
+}
+
 .tiptap .hljs-comment,
 .tiptap .hljs-quote {
   color: var(--code-comment);
