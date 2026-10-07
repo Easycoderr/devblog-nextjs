@@ -9,7 +9,7 @@ import { Prisma } from "@prisma/client";
 import { getComments } from "@/lib/actions/post/comment/getComments";
 import ScrollToComment from "@/providers/ScrollToComment";
 import { Suspense } from "react";
-import TiptapArticleRenderer from "./TiptapArticleRenderer";
+import TiptapArticleRenderer from "./editor/TiptapArticleRenderer";
 export type PostDetailsData = Prisma.PostGetPayload<{
   include: {
     savedPosts: true;

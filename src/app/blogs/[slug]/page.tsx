@@ -1,7 +1,7 @@
 import PostDetails from "@/features/post/components/PostDetails";
 import PostDetailsHeader from "@/features/post/components/PostDetailsHeader";
 import PostDetailsSkeleton from "@/features/post/components/skeletons/PostDetailsSkeleton";
-import TiptapArticleRenderer from "@/features/post/components/TiptapArticleRenderer";
+import TiptapArticleRenderer from "@/features/post/components/editor/TiptapArticleRenderer";
 import ViewTracker from "@/features/post/components/ViewTracker";
 import { getPostBySlug } from "@/lib/actions/post/getPostBySlug";
 import getCurrentUser from "@/lib/getUser";
