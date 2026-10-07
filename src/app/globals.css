@@ -252,9 +252,24 @@
   display: block;
   max-width: 100%;
   height: auto;
-  margin: 1.5rem auto;
+  margin-block: 1.5rem;
   border: 1px solid var(--media-border);
   border-radius: 0.75rem;
+}
+
+.tiptap img[data-alignment="left"] {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.tiptap img[data-alignment="center"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tiptap img[data-alignment="right"] {
+  margin-left: auto;
+  margin-right: 0;
 }
 .tiptap .ProseMirror-selectednode {
   outline: 2px solid var(--color-primary);

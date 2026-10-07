@@ -16,7 +16,11 @@ import {
   Quote,
   Redo,
   Undo,
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
 } from "lucide-react";
+import TextAlignDropdown from "./UI/TextAlignDropdown";
 
 type EditorToolbarProps = {
   editor: Editor;
@@ -123,7 +127,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       >
         <Heading2 size={18} />
       </button>
-
+      <TextAlignDropdown editor={editor} />
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -208,6 +212,60 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
           }}
         />
       </>
+
+      {editor.isActive("image") && (
+        <>
+          <div className="mx-1 h-6 w-px bg-border" />
+
+          <button
+            type="button"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() =>
+              editor
+                .chain()
+                .focus()
+                .updateAttributes("image", { alignment: "left" })
+                .run()
+            }
+            title="Align left"
+            className="rounded-md p-2 hover:bg-muted"
+          >
+            <AlignLeft size={18} />
+          </button>
+
+          <button
+            type="button"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() =>
+              editor
+                .chain()
+                .focus()
+                .updateAttributes("image", { alignment: "center" })
+                .run()
+            }
+            title="Align center"
+            className="rounded-md p-2 hover:bg-muted"
+          >
+            <AlignCenter size={18} />
+          </button>
+
+          <button
+            type="button"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() =>
+              editor
+                .chain()
+                .focus()
+                .updateAttributes("image", { alignment: "right" })
+                .run()
+            }
+            title="Align right"
+            className="rounded-md p-2 hover:bg-muted"
+          >
+            <AlignRight size={18} />
+          </button>
+        </>
+      )}
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}

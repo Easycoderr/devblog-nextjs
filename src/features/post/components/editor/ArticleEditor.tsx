@@ -5,9 +5,9 @@ import StarterKit from "@tiptap/starter-kit";
 import EditorToolbar from "./EditorToolbar";
 import { common, createLowlight } from "lowlight";
 import CodeBlockNode from "./CodeBlockNode";
-import Image from "@tiptap/extension-image";
+import TextAlign from "@tiptap/extension-text-align";
 import type { JSONContent } from "@tiptap/core";
-
+import CustomImage from "./CustomImage";
 const lowlight = createLowlight(common);
 type ArticleEditorProps = {
   content?: JSONContent;
@@ -25,7 +25,10 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
       CodeBlockNode.configure({
         lowlight,
       }),
-      Image,
+      CustomImage,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
     ],
     content: "<p>Start writing your article...</p>",
     immediatelyRender: false,
