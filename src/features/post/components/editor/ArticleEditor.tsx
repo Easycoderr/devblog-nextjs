@@ -8,6 +8,7 @@ import CodeBlockNode from "./CodeBlockNode";
 import TextAlign from "@tiptap/extension-text-align";
 import type { JSONContent } from "@tiptap/core";
 import CustomImage from "./CustomImage";
+import ImageBubbleMenu from "./ImageBubbleMenu";
 const lowlight = createLowlight(common);
 type ArticleEditorProps = {
   content?: JSONContent;
@@ -44,7 +45,7 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-border">
       <EditorToolbar editor={editor} />
-
+      <ImageBubbleMenu editor={editor} />
       <EditorContent className="tiptap" editor={editor} />
     </div>
   );
