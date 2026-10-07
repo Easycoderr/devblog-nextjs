@@ -39,22 +39,6 @@ async function page({ params }: { params: Promise<Params> }) {
   return (
     <div className="min-h-screen">
       <article className="container 2xl:px-50 px-2 py-10 mx-auto">
-        <TiptapArticleRenderer
-          content={{
-            type: "doc",
-            content: [
-              {
-                type: "heading",
-                attrs: { level: 1 },
-                content: [{ type: "text", text: "Hello Babe" }],
-              },
-              {
-                type: "paragraph",
-                content: [{ type: "text", text: "This is my article." }],
-              },
-            ],
-          }}
-        />
         <ViewTracker slug={post.slug} />
         <PostDetailsHeader user={user} post={post} />
         <div className="mt-8">

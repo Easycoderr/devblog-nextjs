@@ -72,6 +72,19 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Code block - light mode */
+  --code-bg: #f8fafc;
+  --code-header-bg: #e2e8f0;
+  --code-border: #cbd5e1;
+  --code-foreground: #0f172a;
+  --code-muted: #475569;
+
+  --code-keyword: #7c3aed;
+  --code-string: #15803d;
+  --code-number: #b45309;
+  --code-function: #2563eb;
+  --code-variable: #be185d;
+  --code-comment: #64748b;
 }
 
 .dark {
@@ -134,6 +147,19 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Code block - dark mode */
+  --code-bg: #18181b;
+  --code-header-bg: #09090b;
+  --code-border: #34343f;
+  --code-foreground: #fafafa;
+  --code-muted: #a1a1aa;
+
+  --code-keyword: #c084fc;
+  --code-string: #86efac;
+  --code-number: #facc15;
+  --code-function: #60a5fa;
+  --code-variable: #f9a8d4;
+  --code-comment: #71717a;
 }
 
 .comment-box {
@@ -207,50 +233,50 @@
 
 .tiptap pre {
   overflow-x: auto;
-  border-radius: 0.75rem;
+
   padding: 1rem;
-  background: #18181b;
+  background: var(--code-bg);
+  color: var(--code-foreground);
+
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .tiptap pre code {
+  color: var(--code-foreground);
   font-size: 0.875rem;
   line-height: 1.7;
 }
-
-/* syntax highlighting */
 .tiptap .hljs-comment,
 .tiptap .hljs-quote {
-  color: #6b7280;
+  color: var(--code-comment);
 }
 
 .tiptap .hljs-keyword,
 .tiptap .hljs-selector-tag,
 .tiptap .hljs-literal {
-  color: #c084fc;
+  color: var(--code-keyword);
 }
 
 .tiptap .hljs-string,
 .tiptap .hljs-attr {
-  color: #86efac;
+  color: var(--code-string);
 }
 
 .tiptap .hljs-number,
 .tiptap .hljs-symbol {
-  color: #facc15;
+  color: var(--code-number);
 }
 
 .tiptap .hljs-title,
 .tiptap .hljs-title.function_,
 .tiptap .hljs-title.class_ {
-  color: #60a5fa;
+  color: var(--code-function);
 }
 
 .tiptap .hljs-variable,
 .tiptap .hljs-params {
-  color: #f9a8d4;
+  color: var(--code-variable);
 }
-
 /* inline code highlight */
 
 .tiptap :not(pre) > code {
@@ -271,4 +297,61 @@
 
 .tiptap a:hover {
   opacity: 0.8;
+}
+
+/* post Card classes */
+.code-card {
+  background: var(--code-bg);
+  border-color: var(--code-border);
+  color: var(--code-foreground);
+}
+
+.code-card-header {
+  background: var(--code-header-bg);
+  border-bottom: 1px solid var(--code-border);
+}
+
+.code-card-language {
+  color: var(--code-muted);
+}
+
+.code-card-copy {
+  color: var(--code-muted);
+}
+
+.code-card-copy:hover {
+  background: var(--code-border);
+  color: var(--code-foreground);
+}
+
+.code-card pre,
+.code-card code {
+  color: var(--code-foreground);
+}
+
+.code-card .hljs-keyword {
+  color: var(--code-keyword);
+}
+
+.code-card .hljs-string {
+  color: var(--code-string);
+}
+
+.code-card .hljs-number {
+  color: var(--code-number);
+}
+
+.code-card .hljs-title,
+.code-card .hljs-title.function_ {
+  color: var(--code-function);
+}
+
+.code-card .hljs-variable,
+.code-card .hljs-params {
+  color: var(--code-variable);
+}
+
+.code-card .hljs-comment,
+.code-card .hljs-quote {
+  color: var(--code-comment);
 }

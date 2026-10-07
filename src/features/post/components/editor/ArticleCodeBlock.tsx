@@ -2,11 +2,16 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState, type ReactNode } from "react";
+import { common, createLowlight } from "lowlight";
+import { toJsxRuntime } from "hast-util-to-jsx-runtime";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 
 type ArticleCodeBlockProps = {
   language?: string | null;
   children: ReactNode;
 };
+
+const lowlight = createLowlight(common);
 
 const languageLabels: Record<string, string> = {
   javascript: "JavaScript",
@@ -19,19 +24,32 @@ const languageLabels: Record<string, string> = {
   bash: "Bash",
 };
 
-function PostCodeBlock({ language, children }: ArticleCodeBlockProps) {
+function ArticleCodeBlock({ language, children }: ArticleCodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const label = languageLabels[language ?? ""] ?? language ?? "Code";
 
-  async function handleCopy() {
-    const text = extractText(children);
+  const code = extractText(children);
 
+  const highlighted = language
+    ? lowlight.highlight(language, code)
+    : lowlight.highlightAuto(code);
+
+  const highlightedCode = toJsxRuntime(highlighted, {
+    Fragment,
+    jsx,
+    jsxs,
+  });
+
+  async function handleCopy() {
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(code);
+
       setCopied(true);
 
-      setTimeout(() => setCopied(false), 1500);
+      setTimeout(() => {
+        setCopied(false);
+      }, 1500);
     } catch (error) {
       console.error("Failed to copy code:", error);
     }
@@ -62,7 +80,7 @@ function PostCodeBlock({ language, children }: ArticleCodeBlockProps) {
       </div>
 
       <pre className="m-0 overflow-x-auto p-4">
-        <code className="text-sm leading-7">{children}</code>
+        <code className="text-sm leading-7">{highlightedCode}</code>
       </pre>
     </div>
   );
@@ -84,4 +102,4 @@ function extractText(node: ReactNode): string {
   return "";
 }
 
-export default PostCodeBlock;
+export default ArticleCodeBlock;
