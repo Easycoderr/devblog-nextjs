@@ -9,6 +9,7 @@ import {
   ImageIcon,
   Trash2,
 } from "lucide-react";
+import ImageSizeDropdown from "./UI/ImageSizeDropdown";
 
 type ImageBubbleMenuProps = {
   editor: Editor;
@@ -66,7 +67,7 @@ function ImageBubbleMenu({ editor }: ImageBubbleMenuProps) {
         </button>
 
         <div className="h-5 w-px bg-border" />
-
+        <ImageSizeDropdown editor={editor} />
         <button
           type="button"
           title="Delete image"
