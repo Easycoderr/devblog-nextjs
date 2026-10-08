@@ -34,10 +34,10 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
     content: "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
+      console.log(editor.getJSON());
       onChange?.(editor.getJSON());
     },
   });
-
   if (!editor) {
     return null;
   }

@@ -10,6 +10,7 @@ import {
   Trash2,
 } from "lucide-react";
 import ImageSizeDropdown from "./UI/ImageSizeDropdown";
+import ImageAltText from "./UI/ImageAltText";
 
 type ImageBubbleMenuProps = {
   editor: Editor;
@@ -30,7 +31,7 @@ function ImageBubbleMenu({ editor }: ImageBubbleMenuProps) {
           <ImageIcon size={14} />
           Image
         </span>
-
+        <ImageAltText editor={editor} />
         <div className="h-5 w-px bg-border" />
 
         <button
