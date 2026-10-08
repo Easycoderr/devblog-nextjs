@@ -31,7 +31,7 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
         types: ["heading", "paragraph"],
       }),
     ],
-    content: "<p>Start writing your article...</p>",
+    content: content ?? "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       console.log(editor.getJSON());

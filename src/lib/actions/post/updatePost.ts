@@ -2,6 +2,7 @@
 import getCurrentUser from "@/lib/getUser";
 import { imagekit } from "@/lib/imagekit";
 import { prisma } from "@/lib/prisma";
+import extractTiptapText from "@/lib/utils/extractTiptapText";
 import generateSlug from "@/lib/utils/generateSlug";
 import { updatePostSchema } from "@/lib/utils/schema";
 import { revalidatePath } from "next/cache";
@@ -43,7 +44,9 @@ export async function updatePost(formData: FormData) {
   }
 
   // calc readTime
-  const wordCount = data.content.trim().split(/\s+/).length;
+  const parsedContent = JSON.parse(content);
+  const text = extractTiptapText(parsedContent);
+  const wordCount = text.trim().split(/\s+/).length;
   const readTime = Math.ceil(wordCount / 200);
 
   const currentPost = await prisma.post.findUnique({ where: { id } });

@@ -64,7 +64,7 @@ function Form({ postData }: { postData?: PostData | null }) {
       category: category || "",
     },
   });
-
+  const initialContent = content ? JSON.parse(content) : "";
   const [showImage, setShowImage] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined | null>(image);
 
@@ -271,6 +271,7 @@ function Form({ postData }: { postData?: PostData | null }) {
               </span>
             </label>
             <ArticleEditor
+              content={initialContent}
               onChange={(content: JSONContent) => {
                 setValue("content", JSON.stringify(content), {
                   shouldDirty: true,
