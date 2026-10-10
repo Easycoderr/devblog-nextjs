@@ -43,7 +43,7 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-border">
+    <div className="tiptap-editor overflow-hidden rounded-xl border border-border">
       <EditorToolbar editor={editor} />
       <ImageBubbleMenu editor={editor} />
       <EditorContent className="tiptap" editor={editor} />

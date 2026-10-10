@@ -34,9 +34,7 @@ function TiptapArticleRenderer({ content }: TiptapRendererProps) {
     },
   });
   return (
-    <div className="tiptap prose prose-lg dark:prose-invert max-w-none">
-      {renderedContent}
-    </div>
+    <article className="tiptap-article max-w-none">{renderedContent}</article>
   );
 }
 
