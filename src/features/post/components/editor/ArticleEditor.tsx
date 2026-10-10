@@ -9,6 +9,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import type { JSONContent } from "@tiptap/core";
 import CustomImage from "./CustomImage";
 import ImageBubbleMenu from "./ImageBubbleMenu";
+import { Placeholder } from "@tiptap/extensions";
 const lowlight = createLowlight(common);
 type ArticleEditorProps = {
   content?: JSONContent;
@@ -30,8 +31,15 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
+      Placeholder.configure({
+        placeholder: "Start writing your article...",
+      }),
     ],
-    content: content ?? "<p>Start writing your article...</p>",
+
+    content: content ?? {
+      type: "doc",
+      content: [{ type: "paragraph" }],
+    },
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       console.log(editor.getJSON());

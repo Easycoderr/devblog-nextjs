@@ -242,7 +242,14 @@
   border-left: 3px solid var(--color-primary);
   font-style: italic;
 }
-
+/* Tiptap editor placeholder */
+.tiptap-editor .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--color-muted-foreground);
+  pointer-events: none;
+  height: 0;
+}
 /* =========================================================
    INLINE CODE
    ========================================================= */
