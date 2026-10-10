@@ -277,10 +277,6 @@ function Form({ postData }: { postData?: PostData | null }) {
                   shouldDirty: true,
                   shouldValidate: true,
                 });
-                const json = JSON.parse(getValues("content"));
-                const text = extractTiptapText(json);
-
-                console.log(text);
               }}
             />
             {/* 

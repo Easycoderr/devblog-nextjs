@@ -1,4 +1,6 @@
 import { z } from "zod";
+import type { JSONContent } from "@tiptap/core";
+import extractTiptapText from "@/lib/utils/extractTiptapText";
 // Define acceptable file types and maximum size (4MB)
 const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 Megabytes in bytes
 const ACCEPTED_IMAGE_TYPES = [
@@ -15,6 +17,24 @@ const isAcceptedImageType = (
     type as (typeof ACCEPTED_IMAGE_TYPES)[number],
   );
 };
+
+const articleContentSchema = z.string().superRefine((value, ctx) => {
+  try {
+    const json = JSON.parse(value) as JSONContent;
+    const text = extractTiptapText(json).trim();
+    if (text.length < 500) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Article must contain at least 500 characters.",
+      });
+    }
+  } catch {
+    ctx.addIssue({
+      code: "custom",
+      message: "Please write your article.",
+    });
+  }
+});
 export const postFormSchema = (isUpdateMode: boolean) =>
   z.object({
     title: z
@@ -25,7 +45,7 @@ export const postFormSchema = (isUpdateMode: boolean) =>
       .string()
       .min(50, "Description must be at least 50 characters.")
       .max(300, "Description must be less than 300 characters."),
-    content: z.string().min(3, "content must be at least 500+ characters."),
+    content: articleContentSchema,
     category: z.string().min(1, "Category is required"),
     image: z
       .custom<FileList | undefined>(
