@@ -1,18 +1,25 @@
 "use client";
-import { postFormSchema } from "../../../lib/utils/schema";
+import { postFormSchema } from "../../../../lib/utils/schema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { updatePost } from "../../../lib/actions/post";
 import FormsButton from "@/components/ui/FormsButton";
-import NavigateBackButton from "../../../components/ui/NavigateBackButton";
+import NavigateBackButton from "../../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
-import { CameraIcon, Maximize, Minimize, X } from "lucide-react";
+import {
+  ImageDownIcon,
+  ImageIcon,
+  Maximize,
+  RefreshCcw,
+  Upload,
+  X,
+} from "lucide-react";
 import calcTextRange from "@/lib/utils/calcTextLength";
 import Input from "@/components/ui/Input";
-import ContentPopoverHelper from "./ContentPopoverHelper";
+import ContentPopoverHelper from "../ContentPopoverHelper";
 import {
   Select,
   SelectContent,
@@ -26,9 +33,9 @@ import { createPost } from "@/lib/actions/post/createPost";
 import { updatePost } from "@/lib/actions/post/updatePost";
 import { z } from "zod";
 import type { PostData } from "@/types/postTypes";
-import ArticleEditor from "./editor/ArticleEditor";
+import ArticleEditor from "../editor/ArticleEditor";
 import type { JSONContent } from "@tiptap/core";
-import extractTiptapText from "@/lib/utils/extractTiptapText";
+import ImageField from "./imageField";
 
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
@@ -52,7 +59,6 @@ function Form({ postData }: { postData?: PostData | null }) {
     handleSubmit,
     reset,
     setValue,
-    getValues,
     formState: { errors, isSubmitting, isDirty },
     watch,
   } = useForm<FormData>({
@@ -65,16 +71,7 @@ function Form({ postData }: { postData?: PostData | null }) {
     },
   });
   const initialContent = content ? JSON.parse(content) : "";
-  const [showImage, setShowImage] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string | undefined | null>(image);
 
-  // read the live value of the "image"
-  const fileList = watch("image");
-
-  //  Extract the first actual file object safely
-  const file = fileList && fileList.length > 0 ? fileList[0] : null;
-  // Preview URL
-  let previewUrl = file ? URL.createObjectURL(file) : imageUrl || null;
   // read the live value of the description
   const des = watch("description");
 
@@ -110,16 +107,6 @@ function Form({ postData }: { postData?: PostData | null }) {
     }
   }
 
-  function handleRemoveImage(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    const emptyFileList = new DataTransfer().files;
-
-    setValue("image", emptyFileList, { shouldValidate: true });
-
-    setImageUrl(null);
-  }
-
   function handleResetForm() {
     reset({
       image: undefined,
@@ -133,26 +120,7 @@ function Form({ postData }: { postData?: PostData | null }) {
   return (
     <>
       {/* form body */}
-      {showImage && previewUrl && (
-        <div className="absolute z-40 top-0 bottom-0 right-0 left-0 bg-white/10 backdrop-blur-md flex items-center justify-center">
-          <div className="relative z-50 group">
-            <Image
-              width={1000}
-              height={1000}
-              className="object-cover"
-              src={previewUrl}
-              alt={title || "Post image"}
-            />
-            <button
-              type="button"
-              onClick={() => setShowImage(!showImage)}
-              className="hidden group-hover:block absolute bottom-2 right-2 rounded-full bg-gray-300/50 text-gray-700 cursor-pointer hover:opacity-75 p-1 transition-all duration-300"
-            >
-              <Minimize className="text-sm" />
-            </button>
-          </div>
-        </div>
-      )}
+
       <div className="flex-1 self-start">
         <div className="self-start">
           <NavigateBackButton>Back to blogs</NavigateBackButton>
@@ -172,75 +140,20 @@ function Form({ postData }: { postData?: PostData | null }) {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 w-full"
         >
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              className={`group cursor-pointer relative bg-input overflow-hidden border ${errors.image ? "border-destructive focus:border-destructive" : " border-border focus:border-primary"} rounded-lg`}
-              htmlFor="image"
-            >
-              <div
-                className={`${previewUrl && "min-h-64"} z-20 p-2 py-8 flex flex-col gap-1 items-center`}
-              >
-                {!previewUrl && (
-                  <>
-                    <CameraIcon className="text-muted-foreground" size={50} />
-
-                    <span className="text-muted-foreground">
-                      Click to select or upload image
-                    </span>
-                  </>
-                )}
-              </div>
-              {/* preview */}
-              {previewUrl && (
-                <>
-                  <div>
-                    <Image
-                      fill
-                      sizes="256px"
-                      className="object-cover"
-                      src={previewUrl}
-                      alt={title || "Post image"}
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="hidden group-hover:block absolute top-2 right-2 rounded-full bg-red-300/50 text-red-700 cursor-pointer hover:opacity-75 p-1 transition-all duration-300"
-                  >
-                    <X className="text-sm" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowImage(!showImage)}
-                    className="hidden group-hover:block absolute bottom-2 right-2 rounded-full bg-gray-300/50 text-gray-700 cursor-pointer hover:opacity-75 p-1 transition-all duration-300"
-                  >
-                    <Maximize className="text-sm" />
-                  </button>
-                </>
-              )}
-              <input
-                className="hidden"
-                type="file"
-                id="image"
-                accept="image/*"
-                {...register("image")}
-              />
-            </label>
-            <span className="flex">
-              {errors.image && (
-                <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
-                  {errors.image.message}
-                </p>
-              )}
-            </span>
-          </div>
+          <ImageField
+            image={image}
+            error={errors.image}
+            title={title}
+            setValue={setValue}
+            register={register}
+            watch={watch}
+          />
           <Input
             label="Title"
             error={errors.title}
             type="text"
             {...register("title")}
           />
-
           <div className="flex flex-col gap-1 w-full">
             <label
               htmlFor="description"
@@ -279,20 +192,14 @@ function Form({ postData }: { postData?: PostData | null }) {
                 });
               }}
             />
-            {/* 
-              <textarea
-                {...register("content")}
-                className={`${errors.content ? "border-destructive focus:border-destructive" : "bg-input border-border focus:border-primary"} p-1 border min-h-48 rounded-lg w-full text-sm focus:outline-none`}
-              />
- */}
 
-            <span className="flex">
-              {errors.content && (
+            {errors.content?.message && (
+              <span className="flex">
                 <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
                   {errors.content.message}
                 </p>
-              )}
-            </span>
+              </span>
+            )}
           </div>
           <div className="flex flex-col gap-1 w-full">
             <Controller
@@ -328,9 +235,10 @@ function Form({ postData }: { postData?: PostData | null }) {
             <button
               type="reset"
               onClick={handleResetForm}
-              className="px-2 py-1 text-stone-900 tracking-wider border bg-white shadow rounded-lg hover:opacity-75 transition-all duration-200 active:scale-105"
+              className="flex items-center gap-1 cursor-pointer px-3 py-1.5 text-foreground tracking-wider border bg-card shadow rounded-lg hover:opacity-75 transition-all duration-200 active:scale-105"
             >
-              Reset
+              <RefreshCcw size={18} />
+              <span>Reset</span>
             </button>
             <FormsButton
               disabled={isSubmitting || !isDirty}
