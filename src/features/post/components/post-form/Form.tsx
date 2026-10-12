@@ -2,21 +2,12 @@
 import { postFormSchema } from "../../../../lib/utils/schema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { updatePost } from "../../../lib/actions/post";
 import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { useState } from "react";
-import {
-  ImageDownIcon,
-  ImageIcon,
-  Maximize,
-  RefreshCcw,
-  Upload,
-  X,
-} from "lucide-react";
+
+import { RefreshCcw } from "lucide-react";
 import calcTextRange from "@/lib/utils/calcTextLength";
 import Input from "@/components/ui/Input";
 import ContentPopoverHelper from "../ContentPopoverHelper";
@@ -35,7 +26,8 @@ import { z } from "zod";
 import type { PostData } from "@/types/postTypes";
 import ArticleEditor from "../editor/ArticleEditor";
 import type { JSONContent } from "@tiptap/core";
-import ImageField from "./imageField";
+import ImageField from "./ImageField";
+import CategorySelector from "./CategorySelector";
 
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
@@ -149,6 +141,7 @@ function Form({ postData }: { postData?: PostData | null }) {
             watch={watch}
           />
           <Input
+            required={true}
             label="Title"
             error={errors.title}
             type="text"
@@ -160,6 +153,7 @@ function Form({ postData }: { postData?: PostData | null }) {
               className="text-muted-foreground font-semibold tracking-wide text-sm"
             >
               Description <span>{calcTextRange(des, 300)}</span>
+              <span className="text-destructive">*</span>
             </label>
             <textarea
               {...register("description")}
@@ -179,9 +173,7 @@ function Form({ postData }: { postData?: PostData | null }) {
               className="text-muted-foreground flex items-center gap-1 font-semibold tracking-wide text-sm"
             >
               Content
-              <span>
-                <ContentPopoverHelper />
-              </span>
+              <span className="text-destructive">*</span>
             </label>
             <ArticleEditor
               content={initialContent}
@@ -201,36 +193,8 @@ function Form({ postData }: { postData?: PostData | null }) {
               </span>
             )}
           </div>
-          <div className="flex flex-col gap-1 w-full">
-            <Controller
-              name="category"
-              control={control}
-              render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger
-                    className={`w-full dark:bg-input ${errors.category ? "border-destructive focus:border-destructive" : "border-border focus:border-primary"}`}
-                    size="lg"
-                  >
-                    <SelectValue placeholder="Select a Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Categories</SelectLabel>
-                      <SelectItem value="react">React</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              )}
-            />
+          <CategorySelector control={control} error={errors.category} />
 
-            <span className="flex">
-              {errors.category && (
-                <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
-                  {errors.category.message}
-                </p>
-              )}
-            </span>
-          </div>
           <div className="ml-auto flex gap-2">
             <button
               type="reset"
