@@ -7,8 +7,9 @@ type InputProps = React.ComponentProps<"input"> & {
   error?: FieldError;
   icon?: ReactNode;
   type?: string;
+  required?: boolean;
 };
-function Input({ label, error, icon, type, ...props }: InputProps) {
+function Input({ label, error, icon, type, required, ...props }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -16,7 +17,7 @@ function Input({ label, error, icon, type, ...props }: InputProps) {
         htmlFor={label.split(" ").join("")}
         className="text-muted-foreground font-semibold tracking-wide text-sm"
       >
-        {label}
+        {label} {required && <span className="text-destructive">*</span>}
       </label>
       <div className="relative">
         <input
