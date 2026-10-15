@@ -1,25 +1,16 @@
 "use client";
 import { postFormSchema } from "../../../../lib/utils/schema";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-import { RefreshCcw } from "lucide-react";
+import { Edit, Edit2Icon, PencilIcon, RefreshCcw } from "lucide-react";
 import calcTextRange from "@/lib/utils/calcTextLength";
 import Input from "@/components/ui/Input";
-import ContentPopoverHelper from "../ContentPopoverHelper";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { createPost } from "@/lib/actions/post/createPost";
 import { updatePost } from "@/lib/actions/post/updatePost";
 import { z } from "zod";
@@ -28,6 +19,7 @@ import ArticleEditor from "../editor/ArticleEditor";
 import type { JSONContent } from "@tiptap/core";
 import ImageField from "./ImageField";
 import CategorySelector from "./CategorySelector";
+import PostFormButtonActions from "./PostFormButtonActions";
 
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
@@ -195,24 +187,15 @@ function Form({ postData }: { postData?: PostData | null }) {
           </div>
           <CategorySelector control={control} error={errors.category} />
 
-          <div className="ml-auto flex gap-2">
-            <button
-              type="reset"
-              onClick={handleResetForm}
-              className="flex items-center gap-1 cursor-pointer px-3 py-1.5 text-foreground tracking-wider border bg-card shadow rounded-lg hover:opacity-75 transition-all duration-200 active:scale-105"
-            >
-              <RefreshCcw size={18} />
-              <span>Reset</span>
-            </button>
-            <FormsButton
-              disabled={isSubmitting || !isDirty}
-              type="submit"
-              buttonStyle="form"
-              ariaLabel={postData?.id ? "Update article" : "Create article"}
-            >
-              {postData?.id ? "Update" : "Create"}
-            </FormsButton>
-          </div>
+          <PostFormButtonActions
+            postId={postData?.id}
+            reset={reset}
+            isSubmiting={isSubmitting}
+            isDirty={isDirty}
+            title={title}
+            content={content}
+            description={description}
+          />
         </form>
       </div>
     </>
