@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import uploadEditorImage from "@/lib/actions/editor/uploadEditorImage";
-import type { Editor } from "@tiptap/react";
+import { useEditorState, type Editor } from "@tiptap/react";
 import {
   Bold,
   Code,
@@ -16,9 +16,6 @@ import {
   Quote,
   Redo,
   Undo,
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
 } from "lucide-react";
 import TextAlignDropdown from "./UI/TextAlignDropdown";
 
@@ -27,13 +24,31 @@ type EditorToolbarProps = {
 };
 
 function EditorToolbar({ editor }: EditorToolbarProps) {
+  const toolbarState = useEditorState({
+    editor,
+    selector: ({ editor }) => ({
+      canUndo: editor.can().undo(),
+      canRedo: editor.can().redo(),
+      paragraph: editor.isActive("paragraph"),
+      heading1: editor.isActive("heading", { level: 1 }),
+      heading2: editor.isActive("heading", { level: 2 }),
+      bold: editor.isActive("bold"),
+      italic: editor.isActive("italic"),
+      code: editor.isActive("code"),
+      bulletList: editor.isActive("bulletList"),
+      orderedList: editor.isActive("orderedList"),
+      blockquote: editor.isActive("blockquote"),
+      codeBlock: editor.isActive("codeBlock"),
+      link: editor.isActive("link"),
+    }),
+  });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   function handleCodeBlock() {
     const { from, to } = editor.state.selection;
 
     // If we're already inside a code block, toggle it off.
-    if (editor.isActive("codeBlock")) {
+    if (toolbarState.codeBlock) {
       editor.chain().focus().toggleCodeBlock().run();
       return;
     }
@@ -76,7 +91,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       <button
         type="button"
         onClick={() => editor.chain().focus().undo().run()}
-        disabled={!editor.can().undo()}
+        disabled={!toolbarState.canUndo}
         title="Undo"
         className="rounded-md p-2 hover:bg-muted disabled:opacity-40"
       >
@@ -86,7 +101,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
       <button
         type="button"
         onClick={() => editor.chain().focus().redo().run()}
-        disabled={!editor.can().redo()}
+        disabled={!toolbarState.canRedo}
         title="Redo"
         className="rounded-md p-2 hover:bg-muted disabled:opacity-40"
       >
@@ -100,7 +115,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().setParagraph().run()}
         title="Paragraph"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("paragraph") ? "bg-muted" : ""
+          toolbarState.paragraph ? "bg-muted" : ""
         }`}
       >
         P
@@ -111,7 +126,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         title="Heading 1"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("heading", { level: 1 }) ? "bg-muted" : ""
+          toolbarState.heading1 ? "bg-muted" : ""
         }`}
       >
         <Heading1 size={18} />
@@ -122,7 +137,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         title="Heading 2"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("heading", { level: 2 }) ? "bg-muted" : ""
+          toolbarState.heading2 ? "bg-muted" : ""
         }`}
       >
         <Heading2 size={18} />
@@ -133,7 +148,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleBold().run()}
         title="Bold"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("bold") ? "bg-muted" : ""
+          toolbarState.bold ? "bg-muted" : ""
         }`}
       >
         <Bold size={18} />
@@ -144,7 +159,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleItalic().run()}
         title="Italic"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("italic") ? "bg-muted" : ""
+          toolbarState.italic ? "bg-muted" : ""
         }`}
       >
         <Italic size={18} />
@@ -155,7 +170,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleCode().run()}
         title="Inline code"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("code") ? "bg-muted" : ""
+          toolbarState.code ? "bg-muted" : ""
         }`}
       >
         <Code size={18} />
@@ -218,7 +233,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         title="Bullet list"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("bulletList") ? "bg-muted" : ""
+          toolbarState.bulletList ? "bg-muted" : ""
         }`}
       >
         <List size={18} />
@@ -229,7 +244,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         title="Numbered list"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("orderedList") ? "bg-muted" : ""
+          toolbarState.orderedList ? "bg-muted" : ""
         }`}
       >
         <ListOrdered size={18} />
@@ -240,7 +255,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         title="Blockquote"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("blockquote") ? "bg-muted" : ""
+          toolbarState.blockquote ? "bg-muted" : ""
         }`}
       >
         <Quote size={18} />
@@ -250,7 +265,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         onClick={handleCodeBlock}
         title="Code block"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("codeblock") ? "bg-muted" : ""
+          toolbarState.codeBlock ? "bg-muted" : ""
         }`}
       >
         <Code2Icon size={19} />
@@ -279,7 +294,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         }}
         title="Add link"
         className={`rounded-md p-2 hover:bg-muted ${
-          editor.isActive("link") ? "bg-muted" : ""
+          toolbarState.link ? "bg-muted" : ""
         }`}
       >
         <Link size={18} />

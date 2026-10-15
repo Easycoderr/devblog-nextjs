@@ -1,6 +1,6 @@
 "use client";
 
-import type { Editor } from "@tiptap/react";
+import { useEditorState, type Editor } from "@tiptap/react";
 import {
   AlignCenter,
   AlignJustify,
@@ -22,37 +22,27 @@ type TextAlignDropdownProps = {
 };
 
 const alignments = [
-  {
-    value: "left",
-    label: "Align left",
-    icon: AlignLeft,
-  },
-  {
-    value: "center",
-    label: "Align center",
-    icon: AlignCenter,
-  },
-  {
-    value: "right",
-    label: "Align right",
-    icon: AlignRight,
-  },
-  {
-    value: "justify",
-    label: "Justify",
-    icon: AlignJustify,
-  },
+  { value: "left", label: "Align left", icon: AlignLeft },
+  { value: "center", label: "Align center", icon: AlignCenter },
+  { value: "right", label: "Align right", icon: AlignRight },
+  { value: "justify", label: "Justify", icon: AlignJustify },
 ] as const;
 
 function TextAlignDropdown({ editor }: TextAlignDropdownProps) {
-  if (editor.isActive("codeBlock")) {
+  const { currentAlignment, isCodeBlock } = useEditorState({
+    editor,
+    selector: ({ editor }) => ({
+      isCodeBlock: editor.isActive("codeBlock"),
+      currentAlignment:
+        editor.getAttributes("paragraph").textAlign ??
+        editor.getAttributes("heading").textAlign ??
+        "left",
+    }),
+  });
+
+  if (isCodeBlock) {
     return null;
   }
-
-  const currentAlignment =
-    editor.getAttributes("paragraph").textAlign ??
-    editor.getAttributes("heading").textAlign ??
-    "left";
 
   const current =
     alignments.find((item) => item.value === currentAlignment) ?? alignments[0];
@@ -87,7 +77,6 @@ function TextAlignDropdown({ editor }: TextAlignDropdownProps) {
             >
               <Icon size={18} />
               <span>{item.label}</span>
-
               {isActive && <Check className="ml-auto" size={16} />}
             </DropdownMenuItem>
           );
