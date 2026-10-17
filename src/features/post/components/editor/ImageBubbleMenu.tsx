@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import ImageSizeDropdown from "./UI/ImageSizeDropdown";
 import ImageAltText from "./UI/ImageAltText";
+import deleteImage from "@/lib/imageKit/deleteImage";
 
 type ImageBubbleMenuProps = {
   editor: Editor;
@@ -21,6 +22,10 @@ function ImageBubbleMenu({ editor }: ImageBubbleMenuProps) {
     editor.chain().focus().updateAttributes("image", { alignment }).run();
   };
 
+  async function handleDeleteImage() {
+    console.log(editor);
+    editor.chain().focus().deleteSelection().run();
+  }
   return (
     <BubbleMenu
       editor={editor}
@@ -74,7 +79,7 @@ function ImageBubbleMenu({ editor }: ImageBubbleMenuProps) {
           title="Delete image"
           aria-label="Delete image"
           onMouseDown={(event) => event.preventDefault()}
-          onClick={() => editor.chain().focus().deleteSelection().run()}
+          onClick={handleDeleteImage}
           className="rounded-md p-1.5 text-destructive hover:bg-destructive/10"
         >
           <Trash2 size={16} />

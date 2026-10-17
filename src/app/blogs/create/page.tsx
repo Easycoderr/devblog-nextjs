@@ -1,5 +1,5 @@
 import ArticleEditor from "@/features/post/components/editor/ArticleEditor";
-import Form from "@/features/post/components/Form";
+import Form from "@/features/post/components/post-form/Form";
 export const metadata = {
   title: "Create blog",
 };

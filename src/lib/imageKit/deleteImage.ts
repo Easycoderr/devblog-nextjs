@@ -1,3 +1,4 @@
+"server-only";
 import { imagekit } from "../imagekit";
 
 async function deleteImage(imageId: string) {

@@ -14,7 +14,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
-interface FormValues {
+export interface FormValues {
   title: string;
   description: string;
   content: string;

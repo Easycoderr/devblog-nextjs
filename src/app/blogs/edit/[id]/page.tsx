@@ -1,4 +1,4 @@
-import Form from "@/features/post/components/Form";
+import Form from "@/features/post/components/post-form/Form";
 import { getPost } from "@/lib/actions/post/getPostById";
 // import { getPost } from "@/lib/actions/post";
 import getCurrentUser from "@/lib/getUser";
