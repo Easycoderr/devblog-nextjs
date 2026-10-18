@@ -58,6 +58,7 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
+      console.log(json);
       const text = extractTiptapText(json);
 
       setWordCount(countWords(text));

@@ -203,10 +203,10 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
               const formData = new FormData();
               formData.append("image", file);
 
-              const result = await uploadEditorImage(formData);
+              const response = await uploadEditorImage(formData);
 
-              if (!result.success) {
-                console.error(result.message);
+              if (!response.success) {
+                console.error(response.message);
                 return;
               }
 
@@ -214,8 +214,9 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
                 .chain()
                 .focus()
                 .setImage({
-                  src: result.url,
+                  src: response.url,
                   alt: file.name,
+                  fileId: response.fileId,
                 })
                 .run();
             } finally {
