@@ -23,7 +23,6 @@ function ImageBubbleMenu({ editor }: ImageBubbleMenuProps) {
   };
 
   async function handleDeleteImage() {
-    console.log(editor);
     editor.chain().focus().deleteSelection().run();
   }
   return (

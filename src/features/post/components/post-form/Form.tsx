@@ -79,10 +79,10 @@ function Form({ postData }: { postData?: PostData | null }) {
       if (imageId) {
         formData.append("imageId", imageId);
       }
-      const result = await updatePost(formData);
-      if (result) {
+      const response = await updatePost(formData);
+      if (response) {
         toast.success(`${data.title} updated successfully!`);
-        router.push(`/blogs/${result.slug}`);
+        // router.push(`/blogs/${response.slug}`);
       }
     } else {
       await createPost(formData);

@@ -245,7 +245,7 @@ model EditorImage {
   url       String
   userId    String
   createdAt DateTime @default(now())
-
+  unusedAt DateTime?
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
 
   @@index([userId])
