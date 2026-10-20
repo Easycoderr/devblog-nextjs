@@ -193,10 +193,10 @@ export const updatePostSchema = z.object({
   description: z.string().min(50).max(300),
   content: z.string().min(500),
   category: z.string().min(1),
-  imageId: z.string() || null,
+  imageId: z.string().nullable(),
 });
 export const updateProfileSchema = z.object({
-  avatarId: z.string(),
+  avatarId: z.string().nullable(),
   firstName: z.string().min(2),
   lastName: z.string().min(2),
   userName: z
