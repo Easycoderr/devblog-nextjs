@@ -19,10 +19,10 @@ const getCacheNotifications = unstable_cache(
   { tags: ["header-notifications"] },
 );
 async function getNotifications() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return [];
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
-    if (!userId) return [];
     return await getCacheNotifications(userId);
   } catch (error) {
     console.log("Failed to fetch notifications:", error);

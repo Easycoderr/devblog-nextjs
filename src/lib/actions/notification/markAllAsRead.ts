@@ -16,7 +16,6 @@ async function markAllAsRead() {
         read: true,
       },
     });
-    // revalidatePath("/");
     updateTag("header-notifications");
   } catch (error) {
     console.log(

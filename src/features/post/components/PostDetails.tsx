@@ -9,6 +9,7 @@ import { Prisma } from "@prisma/client";
 import { getComments } from "@/lib/actions/post/comment/getComments";
 import ScrollToComment from "@/providers/ScrollToComment";
 import { Suspense } from "react";
+import TiptapArticleRenderer from "./editor/TiptapArticleRenderer";
 export type PostDetailsData = Prisma.PostGetPayload<{
   include: {
     savedPosts: true;
@@ -52,7 +53,7 @@ async function PostDetails({ post }: { post: PostDetailsData }) {
         {/* category + date */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 mt-auto">
-            <PostCardAvatar authorId={authorId} />
+            <PostCardAvatar authorId={authorId} size="14" />
             <span className="text-sm text-muted-foreground"> •</span>
             <p className="text-sm text-muted-foreground flex items-center gap-1">
               <span>{dateCalculation(date)}</span>
@@ -81,18 +82,18 @@ async function PostDetails({ post }: { post: PostDetailsData }) {
       <div className="w-full h-0.5 bg-border col-span-2 rounded-full"></div>
       {/* content */}
       <article
-        className="
-        break-all
-        text-pretty
-        prose prose-pre:bg-transparent
-prose-pre:p-0 md:col-span-2 max-w-none prose-lg
-    prose-headings:text-foreground
-    prose-p:text-muted-foreground
-    prose-strong:text-foreground
-    prose-li:text-muted-foreground
-  "
+      //         className="
+      //         break-all
+      //         text-pretty
+      //         prose prose-pre:bg-transparent
+      // prose-pre:p-0 md:col-span-2 max-w-none prose-lg
+      //     prose-headings:text-foreground
+      //     prose-p:text-muted-foreground
+      //     prose-strong:text-foreground
+      //     prose-li:text-muted-foreground
+      //   "
       >
-        <MarkdownRenderer content={content} />
+        <TiptapArticleRenderer content={JSON.parse(content)} />
       </article>
       {/* comments */}
       <CommentSection post={post} comments={comments} />

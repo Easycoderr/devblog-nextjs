@@ -2,6 +2,7 @@
 import getCurrentUser from "@/lib/getUser";
 import { imagekit } from "@/lib/imagekit";
 import { prisma } from "@/lib/prisma";
+import extractTiptapText from "@/lib/utils/extractTiptapText";
 import generateSlug from "@/lib/utils/generateSlug";
 import { createPostSchema } from "@/lib/utils/schema";
 import { revalidatePath } from "next/cache";
@@ -46,7 +47,10 @@ export async function createPost(formData: FormData): Promise<void> {
   imageId = uploadImage.fileId;
 
   // calc readTime
-  const wordCount = data.content.trim().split(/\s+/).length;
+  const json = JSON.parse(data.content);
+  const text = extractTiptapText(json);
+
+  const wordCount = text.trim().split(/\s+/).length;
   const readTime = Math.ceil(wordCount / 200);
   await prisma.post.create({
     data: {

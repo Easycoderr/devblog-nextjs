@@ -3,9 +3,9 @@ import { prisma } from "./prisma";
 import { auth } from "@/auth";
 
 async function getCurrentUser() {
+  const session = await auth();
+  if (!session?.user?.id) return null;
   try {
-    const session = await auth();
-    if (!session?.user?.id) return null;
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       select: {

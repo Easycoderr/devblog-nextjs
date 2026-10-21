@@ -35,7 +35,9 @@ async function page({
             </p>
           </div>
         </div>
-        <NotificationsFilterSort />
+        <Suspense fallback={null}>
+          <NotificationsFilterSort />
+        </Suspense>
         <div className="border-t mb-2"></div>
         <Suspense fallback={<NotificationListSkeleton />}>
           <NotificationList searchParams={searchParams} />

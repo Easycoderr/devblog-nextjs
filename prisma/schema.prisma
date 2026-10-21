@@ -33,7 +33,7 @@ model User {
   provider String
   posts     Post[]  
   likes     Like[]
-
+  editorImages EditorImage[]
   shares    Share[]
   savedPosts SavedPost[]
 
@@ -238,4 +238,16 @@ model Notification {
   @@index([userId, read, createdAt])
   @@index([postId])
   @@index([commentId])
+}
+model EditorImage {
+  id        String   @id @default(cuid())
+  fileId    String   @unique
+  url       String
+  userId    String
+  createdAt DateTime @default(now())
+  unusedAt DateTime?
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  @@index([userId])
+  @@map("editor_images")
 }

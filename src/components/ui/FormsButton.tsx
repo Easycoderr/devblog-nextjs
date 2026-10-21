@@ -1,5 +1,6 @@
 "use client";
 
+import { ReactNode } from "react";
 import MiniSpinner from "./MiniSpinner";
 
 type styleTypes = {
@@ -8,8 +9,10 @@ type styleTypes = {
 type FormButtonProps = React.ComponentProps<"button"> & {
   isSubmiting?: boolean;
   ariaLabel?: string;
+  icon?: ReactNode;
 } & styleTypes;
 function FormsButton({
+  icon,
   disabled,
   isSubmiting = false,
   children,
@@ -23,13 +26,13 @@ function FormsButton({
       disabled
         ? "bg-primary/75 cursor-not-allowed"
         : "cursor-pointer bg-primary hover:opacity-75 active:scale-103"
-    } px-4 py-2 tracking-wider border text-indigo-50 shadow rounded-lg text-nowrap transition-all duration-200`,
+    } px-4 py-2 tracking-wider border text-foreground shadow rounded-lg text-nowrap transition-all duration-200`,
 
     form: `${
       disabled
         ? "bg-primary/75 cursor-not-allowed"
         : "cursor-pointer bg-primary hover:opacity-75 active:scale-103"
-    } px-2 py-1 tracking-wider border text-indigo-50 shadow rounded-lg text-nowrap transition-all duration-200`,
+    } px-2 py-1 tracking-wider border text-foreground shadow rounded-lg text-nowrap transition-all duration-200`,
 
     settingsPrimary: `${
       disabled
@@ -58,7 +61,10 @@ function FormsButton({
           <MiniSpinner />
         </div>
       ) : (
-        children
+        <div className="flex items-center gap-1">
+          {icon}
+          <span>{children}</span>
+        </div>
       )}
     </button>
   );

@@ -1,4 +1,4 @@
-import { CalendarArrowDown, Edit2 } from "lucide-react";
+import { CalendarArrowDown, Edit2, UserPenIcon } from "lucide-react";
 import Image from "next/image";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import ProfileStatus from "./ProfileStatus";
@@ -14,7 +14,7 @@ type ProfileHeaderProps = {
 function ProfileHeader({ user, username, currUser }: ProfileHeaderProps) {
   const { id, avatar, firstName, lastName, bio, name, createdAt } = user || {};
   return (
-    <div className="bg-gradient bg-linear-to-tl rounded-lg from-indigo-400/10 via-purple-400/10 to-indigo-400/10 dark:from-indigo-400/5 dark:via-purple-400/5 dark:to-indigo-400/5 p-2 py-6 md:p-8 lg:px-20">
+    <div className="bg-gradient bg-linear-to-tl rounded-lg from-primary/10 via-purple-400/10 to-primary/10 dark:from-primary/5 dark:via-secondary/5 dark:to-primary/5 p-2 py-6 md:p-8 lg:px-20">
       <div className="relative grid grid-cols-[10rem_50%_1fr] gap-4 md:gap-8 md:gap-y-2">
         <div
           className={`${!avatar && "flex items-center border-primary justify-center shadow-inner shadow-primary"} relative border mx-auto md:mx-0 border-border z-30 col-span-3 md:col-span-1 h-40 w-40 overflow-hidden rounded-full`}
@@ -67,17 +67,18 @@ function ProfileHeader({ user, username, currUser }: ProfileHeaderProps) {
             <div className="md:block hidden ml-auto">
               <Link
                 href="/settings/profile"
-                className="bg-primary whitespace-nowrap rounded-lg text-indigo-50 px-4 py-2! hover:bg-primary/75 active:bg-primary/75"
+                className="flex gap-1 items-center bg-primary whitespace-nowrap rounded-lg text-indigo-50 px-4 py-2! hover:bg-primary/75 active:bg-primary/75"
               >
+                <UserPenIcon size={18} />
                 Edit Profile
               </Link>
             </div>
             <div className="md:hidden block absolute top-0 right-2">
               <Link
                 href="/settings/profile"
-                className="bg-primary rounded-lg flex items-center backdrop-blur-sm p-2 text-indigo-700 dark:text-indigo-100 active:bg-primary/75"
+                className="bg-primary rounded-full flex items-center justify-center backdrop-blur-sm p-1 text-indigo-700 dark:text-indigo-100 active:bg-primary/75"
               >
-                <Edit2 className="size-4" />
+                <UserPenIcon size={24} />
               </Link>
             </div>
           </>

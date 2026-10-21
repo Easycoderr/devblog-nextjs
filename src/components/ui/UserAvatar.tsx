@@ -8,21 +8,28 @@ type UserAvatarProps = {
     select: { name: true; avatar: true; userName: true };
   }>;
   variant?: "default" | "secondary";
+  size?: string;
 };
-function UserAvatar({ user, variant = "default" }: UserAvatarProps) {
+function UserAvatar({
+  user,
+  variant = "default",
+  size = "8",
+}: UserAvatarProps) {
   const style = {
     default: "text-xs text-text flex items-center gap-1",
     secondary: "text-xs text-text flex items-center gap-1",
   };
-
+  const sizes = String((Number(size) * 14) / 8);
   const { name, avatar, userName } = user || {};
   return (
     <div className={style[variant]}>
       {avatar ? (
-        <div className="relative rounded-full h-8 w-8 overflow-hidden border border-border">
+        <div
+          className={`relative rounded-full h-6 h-${size} w-${size} overflow-hidden border border-border`}
+        >
           <Image
             fill
-            sizes="32px"
+            sizes={`${sizes}px}`}
             src={avatar}
             className="object-cover"
             alt={`${name}-user`}

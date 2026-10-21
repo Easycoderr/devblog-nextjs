@@ -8,6 +8,9 @@ export type BlogPageParams = {
   sort?: "oldest" | "newest";
   page?: number;
 };
+type Props = {
+  searchParams: Promise<BlogPageParams>;
+};
 export async function generateMetadata() {
   return {
     title: "Blogs",
@@ -15,7 +18,7 @@ export async function generateMetadata() {
       "Explore in-depth tutorials, best practices, and code solutions for modern software development. Expert insights on JavaScript, Python, cloud, and AI. Read now.",
   };
 }
-async function page({ searchParams }: { searchParams: BlogPageParams }) {
+async function page({ searchParams }: Props) {
   const params = await searchParams;
   return (
     <div className="space-y-12 relative w-full">

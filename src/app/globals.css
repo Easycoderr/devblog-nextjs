@@ -72,6 +72,20 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Code block - light mode */
+  --code-bg: #f8fafc;
+  --code-header-bg: #e2e8f0;
+  --code-border: #cbd5e1;
+  --code-foreground: #0f172a;
+  --code-muted: #475569;
+  --media-border: #cbd5e1;
+
+  --code-keyword: #7c3aed;
+  --code-string: #15803d;
+  --code-number: #b45309;
+  --code-function: #2563eb;
+  --code-variable: #be185d;
+  --code-comment: #64748b;
 }
 
 .dark {
@@ -134,6 +148,20 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Code block - dark mode */
+  --code-bg: #18181b;
+  --code-header-bg: #09090b;
+  --code-border: #34343f;
+  --code-foreground: #fafafa;
+  --code-muted: #a1a1aa;
+  --media-border: #34343f;
+
+  --code-keyword: #c084fc;
+  --code-string: #86efac;
+  --code-number: #facc15;
+  --code-function: #60a5fa;
+  --code-variable: #f9a8d4;
+  --code-comment: #71717a;
 }
 
 .comment-box {
@@ -165,4 +193,278 @@
 
 .active {
   color: var(--color-brand-primary);
+}
+
+/* =========================================================
+   TIPTAP EDITOR
+   ========================================================= */
+
+/* Editor typography */
+.tiptap-editor {
+  color: var(--color-foreground);
+}
+
+.tiptap-editor p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.tiptap-editor h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.tiptap-editor h2 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.tiptap-editor ul,
+.tiptap-editor ol {
+  padding-left: 1.5rem;
+}
+
+.tiptap-editor ul {
+  list-style-type: disc;
+}
+
+.tiptap-editor ol {
+  list-style-type: decimal;
+}
+
+.tiptap-editor blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-primary);
+  font-style: italic;
+}
+/* Tiptap editor placeholder */
+.tiptap-editor .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--color-muted-foreground);
+  pointer-events: none;
+  height: 0;
+}
+.tiptap-editor .ProseMirror {
+  min-height: 280px;
+  padding: 1rem;
+  box-sizing: border-box;
+  outline: none;
+  background-color: var(--color-input);
+}
+/* =========================================================
+   INLINE CODE
+   ========================================================= */
+
+.tiptap :not(pre) > code {
+  border-radius: 0.375rem;
+  background: var(--color-muted);
+  padding: 0.15rem 0.35rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875em;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+.tiptap a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.tiptap a:hover {
+  opacity: 0.8;
+}
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+.tiptap img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-block: 1.5rem;
+  border: 1px solid var(--media-border);
+  border-radius: 0.75rem;
+}
+
+.tiptap img[data-alignment="left"] {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.tiptap img[data-alignment="center"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tiptap img[data-alignment="right"] {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.tiptap img[data-width="50%"] {
+  width: 50%;
+}
+
+.tiptap img[data-width="75%"] {
+  width: 75%;
+}
+
+.tiptap img[data-width="100%"] {
+  width: 100%;
+}
+
+.tiptap .ProseMirror-selectednode {
+  outline: 2px solid var(--color-primary);
+  border-radius: 0.75rem;
+}
+
+/* =========================================================
+   PUBLIC ARTICLE
+   ========================================================= */
+
+.tiptap-article {
+  color: var(--color-foreground);
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.tiptap-article p {
+  margin: 0 0 0.3rem;
+  line-height: 1.75;
+}
+
+.tiptap-article p:empty {
+  margin: 0;
+  min-height: 0;
+}
+
+.tiptap-article h1 {
+  margin: 0 0 1.25rem;
+  font-size: 2.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.tiptap-article h2 {
+  margin: 2rem 0 0.875rem;
+  font-size: 1.75rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.tiptap-article ul,
+.tiptap-article ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+}
+
+.tiptap-article ul {
+  list-style-type: disc;
+}
+
+.tiptap-article ol {
+  list-style-type: decimal;
+}
+
+.tiptap-article blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-primary);
+  font-style: italic;
+}
+
+/* =========================================================
+   CODE CARD
+   ========================================================= */
+
+.code-card {
+  margin-block: 1.5rem;
+  overflow: hidden;
+  border: 1px solid var(--code-border);
+  border-radius: 0.75rem;
+  background: var(--code-bg);
+  color: var(--code-foreground);
+}
+
+.code-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1rem;
+  background: var(--code-header-bg);
+  border-bottom: 1px solid var(--code-border);
+}
+
+.code-card-language {
+  color: var(--code-muted);
+}
+
+.code-card-copy {
+  color: var(--code-muted);
+}
+
+.code-card-copy:hover {
+  background: var(--code-border);
+  color: var(--code-foreground);
+}
+
+.code-card pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 1rem;
+  background: transparent;
+}
+
+.code-card code {
+  color: var(--code-foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   SYNTAX HIGHLIGHTING
+   ========================================================= */
+
+.code-card .hljs-comment,
+.code-card .hljs-quote {
+  color: var(--code-comment);
+}
+
+.code-card .hljs-keyword,
+.code-card .hljs-selector-tag,
+.code-card .hljs-literal {
+  color: var(--code-keyword);
+}
+
+.code-card .hljs-string,
+.code-card .hljs-attr {
+  color: var(--code-string);
+}
+
+.code-card .hljs-number,
+.code-card .hljs-symbol {
+  color: var(--code-number);
+}
+
+.code-card .hljs-title,
+.code-card .hljs-title.function_,
+.code-card .hljs-title.class_ {
+  color: var(--code-function);
+}
+
+.code-card .hljs-variable,
+.code-card .hljs-params {
+  color: var(--code-variable);
 }
