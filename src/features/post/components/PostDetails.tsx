@@ -53,7 +53,7 @@ async function PostDetails({ post }: { post: PostDetailsData }) {
         {/* category + date */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 mt-auto">
-            <PostCardAvatar authorId={authorId} />
+            <PostCardAvatar authorId={authorId} size="14" />
             <span className="text-sm text-muted-foreground"> •</span>
             <p className="text-sm text-muted-foreground flex items-center gap-1">
               <span>{dateCalculation(date)}</span>
