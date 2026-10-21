@@ -1,10 +1,10 @@
 import Form from "@/features/post/components/post-form/Form";
 import { getPost } from "@/lib/actions/post/getPostById";
-// import { getPost } from "@/lib/actions/post";
 import getCurrentUser from "@/lib/getUser";
 import { notFound } from "next/navigation";
 type Params = { id?: string };
-export async function generateMetadata({ params }: { params: Params }) {
+type Props = { params: Promise<Params> };
+export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   if (!id)
     return {
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Params }) {
     description: post?.description,
   };
 }
-async function page({ params }: { params: Params }) {
+async function page({ params }: Props) {
   const { id } = await params;
   if (!id) {
     return (
