@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 import type { JSONContent } from "@tiptap/core";
 import extractTiptapText from "@/lib/utils/extractTiptapText";
 // Define acceptable file types and maximum size (4MB)
