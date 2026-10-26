@@ -20,10 +20,11 @@ import type { JSONContent } from "@tiptap/core";
 import ImageField from "./ImageField";
 import CategorySelector from "./CategorySelector";
 import PostFormButtonActions from "./PostFormButtonActions";
+import { useMemo } from "react";
 
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
-  const schema = postFormSchema(isUpdateMode);
+  const schema = useMemo(() => postFormSchema(isUpdateMode), [isUpdateMode]);
   type FormData = z.infer<typeof schema>;
   // use useRoute to navigate
   const router = useRouter();
@@ -46,7 +47,7 @@ function Form({ postData }: { postData?: PostData | null }) {
     formState: { errors, isSubmitting, isDirty },
     watch,
   } = useForm<FormData>({
-    resolver: zodResolver(postFormSchema(isUpdateMode)),
+    resolver: zodResolver(schema),
     defaultValues: {
       title: title || "",
       description: description || "",
@@ -54,7 +55,10 @@ function Form({ postData }: { postData?: PostData | null }) {
       category: category || "",
     },
   });
-  const initialContent = content ? JSON.parse(content) : "";
+  // useMemo for re-render when content change
+  const initialContent = useMemo<JSONContent | undefined>(() => {
+    return content ? JSON.parse(content) : "";
+  }, [content]);
 
   // read the live value of the description
   const des = watch("description");

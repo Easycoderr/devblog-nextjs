@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import uploadEditorImage from "@/lib/actions/editor/uploadEditorImage";
 import { useEditorState, type Editor } from "@tiptap/react";
 import {
@@ -304,4 +304,4 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
   );
 }
 
-export default EditorToolbar;
+export default memo(EditorToolbar);
