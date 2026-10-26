@@ -2,7 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState, type ReactNode } from "react";
-import { common, createLowlight } from "lowlight";
+import lowlight from "./lowlight-config";
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 
@@ -10,8 +10,6 @@ type ArticleCodeBlockProps = {
   language?: string | null;
   children: ReactNode;
 };
-
-const lowlight = createLowlight(common);
 
 const languageLabels: Record<string, string> = {
   javascript: "JavaScript",

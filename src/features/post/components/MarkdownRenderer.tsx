@@ -1,9 +1,15 @@
 "use client";
+"use client";
+
 import { Copy } from "lucide-react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import Markdown from "react-markdown";
-import SyntaxHighlighter from "react-syntax-highlighter";
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
+import javascript from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
+import defaultStyle from "react-syntax-highlighter/dist/esm/styles/hljs/default-style";
 import { toast } from "sonner";
+
+SyntaxHighlighter.registerLanguage("javascript", javascript);
 
 function MarkdownRenderer({ content }: { content: string }) {
   function handleCopyToClipboard(children: ReactNode) {

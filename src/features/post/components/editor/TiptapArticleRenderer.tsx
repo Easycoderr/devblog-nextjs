@@ -3,13 +3,13 @@ import Image from "@tiptap/extension-image";
 import { renderToReactElement } from "@tiptap/static-renderer/pm/react";
 import type { JSONContent } from "@tiptap/core";
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
-import { common, createLowlight } from "lowlight";
+import lowlight from "./lowlight-config";
 import ArticleCodeBlock from "./ArticleCodeBlock";
 
 type TiptapRendererProps = {
   content: JSONContent;
 };
-const lowlight = createLowlight(common);
+
 function TiptapArticleRenderer({ content }: TiptapRendererProps) {
   const renderedContent = renderToReactElement({
     extensions: [

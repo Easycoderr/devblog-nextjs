@@ -3,7 +3,7 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import EditorToolbar from "./EditorToolbar";
-import { common, createLowlight } from "lowlight";
+import lowlight from "./lowlight-config";
 import CodeBlockNode from "./CodeBlockNode";
 import TextAlign from "@tiptap/extension-text-align";
 import type { JSONContent } from "@tiptap/core";
@@ -13,7 +13,6 @@ import { Placeholder } from "@tiptap/extensions";
 import { useState } from "react";
 import extractTiptapText from "@/lib/utils/extractTiptapText";
 
-const lowlight = createLowlight(common);
 type ArticleEditorProps = {
   content?: JSONContent;
   onChange?: (content: JSONContent) => void;

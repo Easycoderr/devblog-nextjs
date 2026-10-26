@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 import { imagekit } from "@/lib/imagekit";
 import uploadImage from "@/lib/imageKit/uploadImage";
 import { prisma } from "@/lib/prisma";
-import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 type UploadEditorImageResult =
   | {
