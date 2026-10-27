@@ -12,6 +12,7 @@ import {
 import ImageSizeDropdown from "./UI/ImageSizeDropdown";
 import ImageAltText from "./UI/ImageAltText";
 import deleteImage from "@/lib/imageKit/deleteImage";
+import { memo } from "react";
 
 type ImageBubbleMenuProps = {
   editor: Editor;
@@ -88,4 +89,4 @@ function ImageBubbleMenu({ editor }: ImageBubbleMenuProps) {
   );
 }
 
-export default ImageBubbleMenu;
+export default memo(ImageBubbleMenu);
