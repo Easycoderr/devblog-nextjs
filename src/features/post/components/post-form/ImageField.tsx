@@ -7,12 +7,14 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  Control,
   FieldError,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
+  useWatch,
 } from "react-hook-form";
 export interface FormValues {
   title: string;
@@ -24,7 +26,7 @@ export interface FormValues {
 type ImageFieldProps = {
   setValue: UseFormSetValue<FormValues>;
   register: UseFormRegister<FormValues>;
-  watch: UseFormWatch<FormValues>;
+  control: Control<FormValues>;
   error?: FieldError;
   title?: string;
   image?: string;
@@ -34,7 +36,7 @@ function ImageField({
   error,
   image,
   title,
-  watch,
+  control,
   register,
 }: ImageFieldProps) {
   const [showImage, setShowImage] = useState(false);
@@ -42,9 +44,21 @@ function ImageField({
   const [isDragging, setIsDragging] = useState(false);
   //  Create a native DOM reference pointer to manage explicit manual triggers
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const fileList = watch("image");
-  const file = fileList && fileList[0];
-  let previewUrl = file ? URL.createObjectURL(file) : imageUrl || null;
+  const fileList = useWatch({ control, name: "image" });
+  const file = fileList?.[0];
+  const [localPreviewUrl, setLocalPreviewUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (!file) {
+      setLocalPreviewUrl(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setLocalPreviewUrl(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
+  let previewUrl = file ? localPreviewUrl : imageUrl || null;
 
   // Extract ref tracking logic cleanly out from React Hook Form's assignment loop
   const { ref: registerRef, ...registerRest } = register("image");
@@ -77,7 +91,6 @@ function ImageField({
     const files = e.dataTransfer.files;
     if (files && files[0] && files[0].type.startsWith("image/")) {
       setValue("image", files, { shouldValidate: true });
-      setImageUrl(URL.createObjectURL(files[0]));
     }
   }
   const triggerFileBrowser = (e: React.MouseEvent) => {

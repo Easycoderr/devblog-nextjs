@@ -160,7 +160,7 @@ function Form({ postData }: { postData?: PostData | null }) {
             title={title}
             setValue={setValue}
             register={register}
-            watch={watch}
+            control={control}
           />
           <Input
             required={true}
