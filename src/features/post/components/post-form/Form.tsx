@@ -20,7 +20,7 @@ import type { JSONContent } from "@tiptap/core";
 import ImageField from "./ImageField";
 import CategorySelector from "./CategorySelector";
 import PostFormButtonActions from "./PostFormButtonActions";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
@@ -94,7 +94,15 @@ function Form({ postData }: { postData?: PostData | null }) {
       router.back();
     }
   }
-
+  const handleEditorChange = useCallback(
+    (editorContent: JSONContent) => {
+      setValue("content", JSON.stringify(editorContent), {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    },
+    [setValue],
+  );
   function handleResetForm() {
     reset({
       image: undefined,
@@ -173,12 +181,7 @@ function Form({ postData }: { postData?: PostData | null }) {
             </label>
             <ArticleEditor
               content={initialContent}
-              onChange={(content: JSONContent) => {
-                setValue("content", JSON.stringify(content), {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                });
-              }}
+              onChange={handleEditorChange}
             />
 
             {errors.content?.message && (

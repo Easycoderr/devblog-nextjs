@@ -10,7 +10,7 @@ import type { JSONContent } from "@tiptap/core";
 import CustomImage from "./CustomImage";
 import ImageBubbleMenu from "./ImageBubbleMenu";
 import { Placeholder } from "@tiptap/extensions";
-import { useState } from "react";
+import { memo, useState } from "react";
 import extractTiptapText from "@/lib/utils/extractTiptapText";
 
 type ArticleEditorProps = {
@@ -89,4 +89,4 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
   );
 }
 
-export default ArticleEditor;
+export default memo(ArticleEditor);
