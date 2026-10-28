@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { memo } from "react";
 
 type ImageSizeDropdownProps = {
   editor: Editor;
@@ -61,4 +62,4 @@ function ImageSizeDropdown({ editor }: ImageSizeDropdownProps) {
   );
 }
 
-export default ImageSizeDropdown;
+export default memo(ImageSizeDropdown);

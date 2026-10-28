@@ -19,7 +19,7 @@ type ImageAltTextProps = {
 
 function ImageAltText({ editor }: ImageAltTextProps) {
   const currentAlt = (editor.getAttributes("image").alt as string | null) ?? "";
-  console.log("CURRALT:", currentAlt);
+
   const [alt, setAlt] = useState(currentAlt);
 
   function handleSave() {
@@ -66,7 +66,7 @@ function ImageAltText({ editor }: ImageAltTextProps) {
             label="Describe image"
             onChange={(event) => setAlt(event.target.value)}
             placeholder="Describe this image..."
-            defaultValue={alt}
+            value={alt}
           />
 
           <Button
