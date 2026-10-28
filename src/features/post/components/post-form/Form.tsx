@@ -1,6 +1,12 @@
 "use client";
 import { postFormSchema } from "../../../../lib/utils/schema";
-import { useForm } from "react-hook-form";
+import {
+  Control,
+  FieldPath,
+  FieldValues,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../../components/ui/NavigateBackButton";
@@ -21,7 +27,19 @@ import ImageField from "./ImageField";
 import CategorySelector from "./CategorySelector";
 import PostFormButtonActions from "./PostFormButtonActions";
 import { useCallback, useMemo } from "react";
+type DescriptionCounterProps<TFieldValues extends FieldValues> = {
+  control: Control<TFieldValues>;
+};
+function DescriptionCounter<TFieldValues extends FieldValues>({
+  control,
+}: DescriptionCounterProps<TFieldValues>) {
+  const description = useWatch({
+    control,
+    name: "description" as FieldPath<TFieldValues>,
+  }) as string | undefined;
 
+  return <span>{calcTextRange(description ?? "", 300)}</span>;
+}
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
   const schema = useMemo(() => postFormSchema(isUpdateMode), [isUpdateMode]);
@@ -55,13 +73,13 @@ function Form({ postData }: { postData?: PostData | null }) {
       category: category || "",
     },
   });
+
   // useMemo for re-render when content change
   const initialContent = useMemo<JSONContent | undefined>(() => {
     return content ? JSON.parse(content) : "";
   }, [content]);
 
   // read the live value of the description
-  const des = watch("description");
 
   async function onSubmit(data: FormData) {
     const formData = new FormData();
@@ -156,7 +174,7 @@ function Form({ postData }: { postData?: PostData | null }) {
               htmlFor="description"
               className="text-muted-foreground font-semibold tracking-wide text-sm"
             >
-              Description <span>{calcTextRange(des, 300)}</span>
+              <DescriptionCounter control={control} />
               <span className="text-destructive">*</span>
             </label>
             <textarea
