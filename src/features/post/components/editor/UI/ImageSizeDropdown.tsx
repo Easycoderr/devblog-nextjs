@@ -1,6 +1,6 @@
 "use client";
 
-import type { Editor } from "@tiptap/react";
+import { useEditorState, type Editor } from "@tiptap/react";
 import {
   Select,
   SelectContent,
@@ -20,8 +20,11 @@ const sizes = [
 ];
 
 function ImageSizeDropdown({ editor }: ImageSizeDropdownProps) {
-  const currentWidth =
-    (editor.getAttributes("image").imageWidth as string | undefined) ?? "100%";
+  const currentWidth = useEditorState({
+    editor,
+    selector: ({ editor }) =>
+      (editor.getAttributes("image").width as string | undefined) ?? "100%",
+  });
 
   function handleChange(value: string) {
     console.log("VALUE:", value);
@@ -37,7 +40,7 @@ function ImageSizeDropdown({ editor }: ImageSizeDropdownProps) {
   }
 
   return (
-    <Select defaultValue={currentWidth} onValueChange={handleChange}>
+    <Select value={currentWidth} onValueChange={handleChange}>
       <SelectTrigger
         className="h-8 w-26.25"
         onPointerDown={(event) => {

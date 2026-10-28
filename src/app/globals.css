@@ -312,15 +312,15 @@
   margin-right: 0;
 }
 
-.tiptap img[data-width="50%"] {
+.tiptap-editor img[data-image-width="50%"] {
   width: 50%;
 }
 
-.tiptap img[data-width="75%"] {
+.tiptap-editor img[data-image-width="75%"] {
   width: 75%;
 }
 
-.tiptap img[data-width="100%"] {
+.tiptap-editor img[data-image-width="100%"] {
   width: 100%;
 }
 
