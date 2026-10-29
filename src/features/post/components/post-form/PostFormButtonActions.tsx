@@ -1,12 +1,11 @@
 import FormsButton from "@/components/ui/FormsButton";
 import { PencilIcon, RefreshCcw } from "lucide-react";
-import { UseFormReset } from "react-hook-form";
-import { FormValues } from "./ImageField";
+import { type UseFormReset, useFormState, type Control } from "react-hook-form";
+import type { FormValues } from "./ImageField";
 type PostFormButtonActionsProps = {
   postId?: string;
   reset: UseFormReset<FormValues>;
-  isSubmiting?: boolean;
-  isDirty?: boolean;
+  control: Control<FormValues>;
   title?: string;
   content?: string;
   description?: string;
@@ -16,8 +15,7 @@ type PostFormButtonActionsProps = {
 function PostFormButtonActions({
   postId,
   reset,
-  isSubmiting,
-  isDirty,
+  control,
   title,
   content,
   description,
@@ -32,6 +30,7 @@ function PostFormButtonActions({
       category: category || "",
     });
   }
+  const { isSubmitting, isDirty } = useFormState({ control });
   return (
     <div className="ml-auto flex gap-2">
       <button
@@ -48,7 +47,7 @@ function PostFormButtonActions({
 
       <FormsButton
         icon={<PencilIcon size={18} />}
-        disabled={isSubmiting || !isDirty}
+        disabled={isSubmitting || !isDirty}
         type="submit"
         buttonStyle="form"
         ariaLabel={postId ? "Update article" : "Create article"}

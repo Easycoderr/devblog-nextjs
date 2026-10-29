@@ -8,12 +8,10 @@ import {
   useWatch,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormsButton from "@/components/ui/FormsButton";
 import NavigateBackButton from "../../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-import { Edit, Edit2Icon, PencilIcon, RefreshCcw } from "lucide-react";
 import calcTextRange from "@/lib/utils/calcTextLength";
 import Input from "@/components/ui/Input";
 
@@ -62,8 +60,7 @@ function Form({ postData }: { postData?: PostData | null }) {
     handleSubmit,
     reset,
     setValue,
-    formState: { errors, isSubmitting, isDirty },
-    watch,
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -215,8 +212,7 @@ function Form({ postData }: { postData?: PostData | null }) {
           <PostFormButtonActions
             postId={postData?.id}
             reset={reset}
-            isSubmiting={isSubmitting}
-            isDirty={isDirty}
+            control={control}
             title={title}
             content={content}
             description={description}
