@@ -8,12 +8,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+
 import {
   Control,
   FieldError,
   UseFormRegister,
   UseFormSetValue,
-  UseFormWatch,
+  useFormState,
   useWatch,
 } from "react-hook-form";
 export interface FormValues {
@@ -33,12 +34,17 @@ type ImageFieldProps = {
 };
 function ImageField({
   setValue,
-  error,
   image,
   title,
   control,
   register,
 }: ImageFieldProps) {
+  const { errors } = useFormState({
+    control,
+    name: "image",
+    exact: true,
+  });
+  const error = errors.image;
   const [showImage, setShowImage] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined | null>(image);
   const [isDragging, setIsDragging] = useState(false);

@@ -12,7 +12,6 @@ import NavigateBackButton from "../../../../components/ui/NavigateBackButton";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-import calcTextRange from "@/lib/utils/calcTextLength";
 import Input from "@/components/ui/Input";
 
 import { createPost } from "@/lib/actions/post/createPost";
@@ -25,19 +24,10 @@ import ImageField from "./ImageField";
 import CategorySelector from "./CategorySelector";
 import PostFormButtonActions from "./PostFormButtonActions";
 import { useCallback, useMemo } from "react";
-type DescriptionCounterProps<TFieldValues extends FieldValues> = {
-  control: Control<TFieldValues>;
-};
-function DescriptionCounter<TFieldValues extends FieldValues>({
-  control,
-}: DescriptionCounterProps<TFieldValues>) {
-  const description = useWatch({
-    control,
-    name: "description" as FieldPath<TFieldValues>,
-  }) as string | undefined;
+import DescriptionField from "./descriptionField";
+import EditorField from "./editorField";
+import TitleField from "./TitleField";
 
-  return <span>{calcTextRange(description ?? "", 300)}</span>;
-}
 function Form({ postData }: { postData?: PostData | null }) {
   const isUpdateMode = !!postData?.imageUrl;
   const schema = useMemo(() => postFormSchema(isUpdateMode), [isUpdateMode]);
@@ -54,29 +44,16 @@ function Form({ postData }: { postData?: PostData | null }) {
     imageId,
   } = postData || {};
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      title: title || "",
-      description: description || "",
-      content: content || "",
-      category: category || "",
-    },
-  });
-
-  // useMemo for re-render when content change
-  const initialContent = useMemo<JSONContent | undefined>(() => {
-    return content ? JSON.parse(content) : "";
-  }, [content]);
-
-  // read the live value of the description
+  const { register, control, handleSubmit, reset, setValue } =
+    useForm<FormData>({
+      resolver: zodResolver(schema),
+      defaultValues: {
+        title: title || "",
+        description: description || "",
+        content: content || "",
+        category: category || "",
+      },
+    });
 
   async function onSubmit(data: FormData) {
     const formData = new FormData();
@@ -109,25 +86,6 @@ function Form({ postData }: { postData?: PostData | null }) {
       router.back();
     }
   }
-  const handleEditorChange = useCallback(
-    (editorContent: JSONContent) => {
-      setValue("content", JSON.stringify(editorContent), {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-    },
-    [setValue],
-  );
-  function handleResetForm() {
-    reset({
-      image: undefined,
-      title: title || "",
-      description: description || "",
-      content: content || "",
-      category: category || "",
-    });
-  }
-
   return (
     <>
       {/* form body */}
@@ -153,61 +111,19 @@ function Form({ postData }: { postData?: PostData | null }) {
         >
           <ImageField
             image={image}
-            error={errors.image}
             title={title}
             setValue={setValue}
             register={register}
             control={control}
           />
-          <Input
-            required={true}
-            label="Title"
-            error={errors.title}
-            type="text"
-            {...register("title")}
+          <TitleField control={control} {...register("title")} />
+          <DescriptionField control={control} {...register("description")} />
+          <EditorField
+            content={content}
+            control={control}
+            setValue={setValue}
           />
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="description"
-              className="text-muted-foreground font-semibold tracking-wide text-sm"
-            >
-              <DescriptionCounter control={control} />
-              <span className="text-destructive">*</span>
-            </label>
-            <textarea
-              {...register("description")}
-              className={`${errors.description ? "border-destructive focus:border-destructive" : "border-border focus:border-ring"} bg-input p-1 border rounded-lg w-full text-sm focus:outline-none`}
-            />
-            <span className="flex">
-              {errors.description && (
-                <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
-                  {errors.description.message}
-                </p>
-              )}
-            </span>
-          </div>
-          <div className="flex flex-col gap-1 w-full">
-            <label
-              htmlFor="content"
-              className="text-muted-foreground flex items-center gap-1 font-semibold tracking-wide text-sm"
-            >
-              Content
-              <span className="text-destructive">*</span>
-            </label>
-            <ArticleEditor
-              content={initialContent}
-              onChange={handleEditorChange}
-            />
-
-            {errors.content?.message && (
-              <span className="flex">
-                <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
-                  {errors.content.message}
-                </p>
-              </span>
-            )}
-          </div>
-          <CategorySelector control={control} error={errors.category} />
+          <CategorySelector control={control} />
 
           <PostFormButtonActions
             postId={postData?.id}

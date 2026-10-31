@@ -1,12 +1,4 @@
-import {
-  Control,
-  Controller,
-  ControllerFieldState,
-  ControllerProps,
-  FieldError,
-  UseControllerProps,
-} from "react-hook-form";
-import ContentPopoverHelper from "../ContentPopoverHelper";
+import { Control, Controller, FieldError } from "react-hook-form";
 
 import {
   Select,
@@ -21,9 +13,8 @@ import { FormValues } from "./ImageField";
 
 type CategorySelector = {
   control: Control<FormValues>;
-  error?: FieldError;
 };
-function CategorySelector({ control, error }: CategorySelector) {
+function CategorySelector({ control }: CategorySelector) {
   return (
     <div className="flex flex-col gap-1 w-full">
       <label className="text-muted-foreground flex items-center gap-1 font-semibold tracking-wide text-sm">
@@ -33,31 +24,32 @@ function CategorySelector({ control, error }: CategorySelector) {
       <Controller
         name="category"
         control={control}
-        render={({ field }) => (
-          <Select onValueChange={field.onChange} value={field.value}>
-            <SelectTrigger
-              className={`w-full dark:bg-input ${error ? "border-destructive focus:border-destructive" : "border-border focus:border-primary"}`}
-              size="lg"
-            >
-              <SelectValue placeholder="Select a Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Categories</SelectLabel>
-                <SelectItem value="react">React</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        render={({ field, fieldState }) => (
+          <>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <SelectTrigger
+                className={`w-full dark:bg-input ${fieldState.error ? "border-destructive focus:border-destructive" : "border-border focus:border-primary"}`}
+                size="lg"
+              >
+                <SelectValue placeholder="Select a Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Categories</SelectLabel>
+                  <SelectItem value="react">React</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <span className="flex">
+              {fieldState.error && (
+                <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
+                  {fieldState.error.message}
+                </p>
+              )}
+            </span>
+          </>
         )}
       />
-
-      <span className="flex">
-        {error && (
-          <p className="text-destructive bg-destructive/10 px-2 py-1 rounded-md text-xs">
-            {error.message}
-          </p>
-        )}
-      </span>
     </div>
   );
 }
