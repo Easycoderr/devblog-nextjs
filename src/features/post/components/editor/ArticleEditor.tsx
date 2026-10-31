@@ -16,8 +16,9 @@ import extractTiptapText from "@/lib/utils/extractTiptapText";
 type ArticleEditorProps = {
   content?: JSONContent;
   onChange?: (content: JSONContent) => void;
+  onBlur: () => void;
 };
-function ArticleEditor({ content, onChange }: ArticleEditorProps) {
+function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
   const initialContent: JSONContent = content ?? {
     type: "doc",
     content: [{ type: "paragraph" }],
@@ -49,7 +50,7 @@ function ArticleEditor({ content, onChange }: ArticleEditorProps) {
         placeholder: "Start writing your article...",
       }),
     ],
-
+    onBlur: () => onBlur?.(),
     content: content ?? {
       type: "doc",
       content: [{ type: "paragraph" }],

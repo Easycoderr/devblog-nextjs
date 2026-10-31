@@ -44,7 +44,7 @@ function Form({ postData }: { postData?: PostData | null }) {
     imageId,
   } = postData || {};
 
-  const { register, control, handleSubmit, reset, setValue } =
+  const { register, control, handleSubmit, reset, setValue, trigger } =
     useForm<FormData>({
       resolver: zodResolver(schema),
       defaultValues: {
@@ -119,6 +119,7 @@ function Form({ postData }: { postData?: PostData | null }) {
           <TitleField control={control} {...register("title")} />
           <DescriptionField control={control} {...register("description")} />
           <EditorField
+            trigger={trigger}
             content={content}
             control={control}
             setValue={setValue}

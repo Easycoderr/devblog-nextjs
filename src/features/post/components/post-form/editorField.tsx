@@ -1,14 +1,25 @@
 import { memo, useCallback, useMemo } from "react";
 import ArticleEditor from "../editor/ArticleEditor";
 import type { JSONContent } from "@tiptap/react";
-import { Control, useFormState, type UseFormSetValue } from "react-hook-form";
+import {
+  Control,
+  useFormState,
+  UseFormTrigger,
+  type UseFormSetValue,
+} from "react-hook-form";
 import type { FormValues } from "./ImageField";
 type EditorFieldProps = {
   setValue: UseFormSetValue<FormValues>;
   content?: string;
   control: Control<FormValues>;
+  trigger: UseFormTrigger<FormValues>;
 };
-function EditorField({ setValue, content, control }: EditorFieldProps) {
+function EditorField({
+  setValue,
+  content,
+  control,
+  trigger,
+}: EditorFieldProps) {
   const { errors } = useFormState({ control, name: "content", exact: true });
   // Parse saved content only when it changes.
   const initialContent = useMemo<JSONContent | undefined>(() => {
@@ -19,11 +30,13 @@ function EditorField({ setValue, content, control }: EditorFieldProps) {
     (editorContent: JSONContent) => {
       setValue("content", JSON.stringify(editorContent), {
         shouldDirty: true,
-        shouldValidate: true,
       });
     },
     [setValue],
   );
+  const handleEditorBlur = useCallback(() => {
+    void trigger("content");
+  }, [trigger]);
   return (
     <div className="flex flex-col gap-1 w-full">
       <label
@@ -33,7 +46,11 @@ function EditorField({ setValue, content, control }: EditorFieldProps) {
         Content
         <span className="text-destructive">*</span>
       </label>
-      <ArticleEditor content={initialContent} onChange={handleEditorChange} />
+      <ArticleEditor
+        onBlur={handleEditorBlur}
+        content={initialContent}
+        onChange={handleEditorChange}
+      />
 
       {errors.content?.message && (
         <span className="flex">
