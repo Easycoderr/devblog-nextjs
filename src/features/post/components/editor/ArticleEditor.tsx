@@ -12,6 +12,7 @@ import ImageBubbleMenu from "./ImageBubbleMenu";
 import { Placeholder } from "@tiptap/extensions";
 import { memo, useState } from "react";
 import extractTiptapText from "@/lib/utils/extractTiptapText";
+import EditorStats from "./EditorStats";
 
 type ArticleEditorProps = {
   content?: JSONContent;
@@ -30,9 +31,6 @@ function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
     return trimmed ? trimmed.split(/\s+/).length : 0;
   }
 
-  const [wordCount, setWordCount] = useState(() =>
-    countWords(extractTiptapText(initialContent)),
-  );
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -60,9 +58,7 @@ function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
-      const text = editor.getText({ blockSeparator: " " });
 
-      setWordCount(countWords(text));
       onChange?.(json);
     },
   });
@@ -77,17 +73,7 @@ function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
         <ImageBubbleMenu editor={editor} />
       </div>
       <EditorContent editor={editor} />
-      <div className="flex flex-wrap items-center justify-end gap-3 border-t border-border px-3 py-2 text-xs text-muted-foreground">
-        <span>{wordCount.toLocaleString()} words</span>
-
-        <span aria-hidden="true">·</span>
-
-        <span>
-          {wordCount === 0
-            ? "Less than 1 min read"
-            : `~${Math.max(1, Math.ceil(wordCount / 200))} min read`}
-        </span>
-      </div>
+      <EditorStats editor={editor} />
     </div>
   );
 }
