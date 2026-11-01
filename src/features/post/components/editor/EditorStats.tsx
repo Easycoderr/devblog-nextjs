@@ -1,7 +1,7 @@
 "use client";
 
+import { memo, useEffect, useState } from "react";
 import type { Editor } from "@tiptap/core";
-import { useEditorState } from "@tiptap/react";
 
 type EditorStatsProps = {
   editor: Editor;
@@ -13,15 +13,24 @@ function countWords(text: string): number {
   return trimmed ? trimmed.split(/\s+/).length : 0;
 }
 
-function EditorStats({ editor }: EditorStatsProps) {
-  const doc = useEditorState({
-    editor,
-    selector: ({ editor }) => editor.state.doc,
-    equalityFn: (prev, next) => prev === next,
-  });
+function getWordCount(editor: Editor): number {
+  return countWords(editor.getText({ blockSeparator: " " }));
+}
 
-  const text = doc.textBetween(0, doc.content.size, " ");
-  const wordCount = countWords(text);
+function EditorStats({ editor }: EditorStatsProps) {
+  const [wordCount, setWordCount] = useState(() => getWordCount(editor));
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setWordCount(getWordCount(editor));
+    };
+
+    editor.on("update", handleUpdate);
+
+    return () => {
+      editor.off("update", handleUpdate);
+    };
+  }, [editor]);
 
   return (
     <div className="flex flex-wrap items-center justify-end gap-3 border-t border-border px-3 py-2 text-xs text-muted-foreground">
@@ -38,4 +47,4 @@ function EditorStats({ editor }: EditorStatsProps) {
   );
 }
 
-export default EditorStats;
+export default memo(EditorStats);

@@ -25,12 +25,6 @@ function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
     content: [{ type: "paragraph" }],
   };
 
-  function countWords(text: string) {
-    const trimmed = text.trim();
-
-    return trimmed ? trimmed.split(/\s+/).length : 0;
-  }
-
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
