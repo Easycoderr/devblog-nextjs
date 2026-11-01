@@ -25,7 +25,9 @@ function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
   };
 
   function countWords(text: string) {
-    return text.trim() ? text.trim().split(/\s+/).length : 0;
+    const trimmed = text.trim();
+
+    return trimmed ? trimmed.split(/\s+/).length : 0;
   }
 
   const [wordCount, setWordCount] = useState(() =>
@@ -58,7 +60,7 @@ function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
-      const text = extractTiptapText(json);
+      const text = editor.getText({ blockSeparator: " " });
 
       setWordCount(countWords(text));
       onChange?.(json);
