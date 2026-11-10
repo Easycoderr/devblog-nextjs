@@ -7,7 +7,7 @@ function Logo({ w, h }: { w: number; h: number }) {
       width={w}
       height={h}
       alt="devBlog logo"
-      quality={100}
+      quality={70}
     />
   );
 }

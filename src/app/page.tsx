@@ -13,7 +13,7 @@ export default async function Home() {
   const { posts } = await getPosts(1);
 
   return (
-    <div className="relative w-full">
+    <div className="relative">
       <main className="grid grid-cols-1">
         {/* hero */}
         <HeroSection />

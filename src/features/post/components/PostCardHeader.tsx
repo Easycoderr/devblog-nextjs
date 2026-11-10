@@ -20,7 +20,7 @@ async function PostCardHeader({ post, user }: PostCardHeaderProps) {
           fill
           sizes="200px"
           alt={title}
-          quality={100}
+          quality={70}
         />
         <div className="absolute bottom-2 left-2 flex gap-4 text-xs capitalize tracking-wide font-sora font-medium  items-center">
           <span className={`${categoryColor} px-2 py-0.5 rounded-full`}>
