@@ -3,8 +3,8 @@ import getCurrentUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma";
 
 export async function getPostBySlug(slug: string) {
-  console.log(slug);
   const user = await getCurrentUser();
+
   const post = await prisma.post.findUnique({
     where: { slug: slug },
     include: {
@@ -12,7 +12,12 @@ export async function getPostBySlug(slug: string) {
         ? { savedPosts: { where: { userId: user.id }, select: { id: true } } }
         : {}),
       _count: {
-        select: { viewLog: true, likes: true },
+        select: { viewLog: true, likes: true, shares: true },
+      },
+      likes: {
+        where: user?.id ? { userId: user.id } : { OR: [] },
+        select: { id: true },
+        take: 1,
       },
     },
   });

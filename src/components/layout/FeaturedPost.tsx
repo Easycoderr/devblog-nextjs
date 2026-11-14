@@ -11,7 +11,12 @@ export type PostWithMeta = Prisma.PostGetPayload<{
     _count: {
       select: {
         viewLog: true;
+        shares: true;
+        likes: true;
       };
+    };
+    likes: {
+      select: { id: true };
     };
   };
 }>;

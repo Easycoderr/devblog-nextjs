@@ -31,14 +31,22 @@ async function getPosts(page: number = 1, searchQuery?: PostSearchQueryTypes) {
           ? { savedPosts: { where: { userId: user.id }, select: { id: true } } }
           : {}),
         _count: {
-          select: { viewLog: true },
+          select: { viewLog: true, likes: true, shares: true },
+        },
+        likes: {
+          where: user?.id ? { userId: user.id } : { OR: [] },
+          select: { id: true },
+          take: 1,
         },
       },
     }),
     prisma.post.count({ where: whereClause }),
   ]);
 
-  return { posts, totalPages: Math.ceil(totalCount / POSTS_PER_PAGE) };
+  return {
+    posts,
+    totalPages: Math.ceil(totalCount / POSTS_PER_PAGE),
+  };
 }
 
 export default getPosts;

@@ -2,8 +2,6 @@ import NavigateBackButton from "../../../components/ui/NavigateBackButton";
 import PostActions from "./PostActions";
 import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
-import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
-import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
 import type { UserType } from "@/types/userType";
 import type { PostDetailsData } from "./PostDetails";
 type PostDetailsHeaderProps = {
@@ -11,20 +9,9 @@ type PostDetailsHeaderProps = {
   post: PostDetailsData;
 };
 async function PostDetailsHeader({ user, post }: PostDetailsHeaderProps) {
-  const [likeResult, shareResult] = await Promise.all([
-    getLikesByPostId(post.id),
-    getSharesByPostId(post.id),
-  ]);
-  if (
-    !likeResult ||
-    !shareResult ||
-    !likeResult._count ||
-    !shareResult._count
-  ) {
-    return null;
-  }
-  const { _count: postLikes, userLike } = likeResult;
-  const { _count: postShares } = shareResult;
+  const isLiked = post.likes.length > 0;
+  const totalLikes = post._count.likes || 0;
+  const totalShares = post._count.shares || 0;
   return (
     <div className="flex justify-between items-center">
       <NavigateBackButton>Back to blogs</NavigateBackButton>
@@ -32,13 +19,13 @@ async function PostDetailsHeader({ user, post }: PostDetailsHeaderProps) {
         {/* like and share */}
         <div className="flex gap-4">
           <LikeButton
-            totalLikes={postLikes.likes}
-            userLike={userLike}
+            totalLikes={totalLikes}
+            isLiked={isLiked}
             userId={user?.id}
-            post={post}
+            postId={post.id}
           />
           <ShareButton
-            totalShares={postShares.shares}
+            totalShares={totalShares}
             postId={post.id}
             slug={post.slug}
             title={post.title}

@@ -25,15 +25,15 @@ export async function likePost(
       },
     });
   } else {
-    const like = await prisma.like.create({
+    await prisma.like.create({
       data: {
         userId,
         postId,
       },
     });
-    console.log(like);
+
     await createNotification("LIKE", post.id);
   }
-  revalidatePath("/blogs");
+  revalidatePath("/");
   return { success: true, message: "Post liked successfully" };
 }

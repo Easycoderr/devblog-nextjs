@@ -5,21 +5,15 @@ import ShareButton from "./ShareButton";
 import LikeButton from "./LikeButton";
 import { PostCardPostData } from "./PostCard";
 import { UserType } from "@/types/userType";
-import { Like } from "@prisma/client";
+
 type PostCardFooterProps = {
   post: PostCardPostData;
   user: UserType;
-  totalShares: number;
-  totalLikes: number;
-  userLike?: Like | null;
 };
-function PostCardFooter({
-  post,
-  user,
-  totalShares,
-  totalLikes,
-  userLike,
-}: PostCardFooterProps) {
+function PostCardFooter({ post, user }: PostCardFooterProps) {
+  const isLiked = post.likes.length > 0;
+  const totalLikes = post._count.likes || 0;
+  const totalShares = post._count.shares || 0;
   return (
     <div className="text-sm mt-auto px-3 pb-3">
       <div className="flex justify-between">
@@ -33,17 +27,17 @@ function PostCardFooter({
         {/* like and share */}
         <div className="flex gap-3 items-center place-content-center text-sm">
           <ShareButton
-            totalShares={totalShares}
             postId={post.id}
+            totalShares={totalShares}
             slug={post.slug}
             title={post.title}
             text={post.description}
           />
           <LikeButton
-            userLike={userLike}
-            totalLikes={totalLikes}
             userId={user?.id}
-            post={post}
+            isLiked={isLiked}
+            totalLikes={totalLikes}
+            postId={post.id}
           />
         </div>
       </div>

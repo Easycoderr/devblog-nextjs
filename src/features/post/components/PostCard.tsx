@@ -2,10 +2,8 @@ import PostCardFooter from "./PostCardFooter";
 import dateCalculation from "@/lib/utils/dateCalculation";
 import PostCardHeader from "./PostCardHeader";
 import PostCardAvatar from "./PostCardAvatar";
-import { getLikesByPostId } from "@/lib/actions/post/getLikesByPostId";
-import { getSharesByPostId } from "@/lib/actions/post/getSharesByPostId";
 import type { UserType } from "@/types/userType";
-// import { Prisma } from "@prisma/client";
+
 export type PostCardPostData = {
   id: string;
   createdAt: Date;
@@ -18,33 +16,24 @@ export type PostCardPostData = {
   imageUrl: string;
   imageId: string;
   authorId: string;
+
   savedPosts: {
     id: string;
   }[];
   _count: {
     viewLog: number;
     likes?: number;
+    shares: number;
   };
+  likes: {
+    id: string;
+  }[];
 };
 export type PostCardProps = {
   post: PostCardPostData;
   user: UserType | null;
 };
-async function PostCard({ post, user }: PostCardProps) {
-  const [likesResult, sharesResult] = await Promise.all([
-    getLikesByPostId(post.id),
-    getSharesByPostId(post.id),
-  ]);
-  if (
-    !likesResult ||
-    !sharesResult ||
-    !likesResult._count ||
-    !sharesResult._count
-  ) {
-    return null;
-  }
-  const { _count: postLikes, userLike } = likesResult;
-  const { _count: postShares } = sharesResult;
+function PostCard({ post, user }: PostCardProps) {
   const { readTime, title, createdAt, authorId } = post;
   const description = post.description.slice(0, 80);
   return (
@@ -70,13 +59,7 @@ async function PostCard({ post, user }: PostCardProps) {
           </span>
         </div>
       </div>
-      <PostCardFooter
-        totalShares={postShares.shares}
-        post={post}
-        userLike={userLike}
-        totalLikes={postLikes.likes}
-        user={user}
-      />
+      <PostCardFooter post={post} user={user} />
     </div>
   );
 }

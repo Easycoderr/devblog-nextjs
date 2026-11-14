@@ -4,23 +4,22 @@ import { ThumbsUp } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
-import type { Like } from "@prisma/client";
-import type { PostData } from "@/types/postTypes";
-
 type LikeButtonProps = {
-  post: PostData;
-  userId?: string | null;
+  isLiked: boolean;
+  postId: string;
   totalLikes: number;
-  userLike?: Like | null;
+  userId?: string | null;
 };
-function LikeButton({ userLike, totalLikes, userId, post }: LikeButtonProps) {
+function LikeButton({ userId, postId, totalLikes, isLiked }: LikeButtonProps) {
   const [isPending, startTransition] = useTransition();
   async function handleLikePost() {
     if (!userId) {
       toast.error("Register to like and comment on posts.");
     } else {
+      console.log("USER ID:", userId);
+      console.log("POST ID:", postId);
       startTransition(async () => {
-        await likePost(post.id);
+        await likePost(postId);
       });
     }
   }
@@ -32,7 +31,7 @@ function LikeButton({ userLike, totalLikes, userId, post }: LikeButtonProps) {
         onClick={handleLikePost}
       >
         <ThumbsUp
-          className={`${userLike ? "text-primary fill-primary" : "text-muted-foreground"} ${isPending && "opacity-75"} active:scale-105 transition-all duration-200`}
+          className={`${isLiked ? "text-primary fill-primary" : "text-muted-foreground"} ${isPending && "opacity-75"} active:scale-105 transition-all duration-200`}
           size={20}
         />
       </button>

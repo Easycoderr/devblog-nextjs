@@ -1,7 +1,10 @@
 "use server";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 const POSTS_PER_PAGE = 8;
 async function getLikedPostsByUserId(userId: string, currPage: number) {
+  const session = await auth();
+  const user = session?.user;
   const skip = (currPage - 1) * POSTS_PER_PAGE;
   try {
     const [likedPosts, totalCount] = await prisma.$transaction([
@@ -18,7 +21,12 @@ async function getLikedPostsByUserId(userId: string, currPage: number) {
         include: {
           savedPosts: { where: { userId }, select: { id: true } },
           _count: {
-            select: { viewLog: true, likes: true },
+            select: { viewLog: true, likes: true, shares: true },
+          },
+          likes: {
+            where: user?.id ? { userId: user.id } : { OR: [] },
+            select: { id: true },
+            take: 1,
           },
         },
         orderBy: {

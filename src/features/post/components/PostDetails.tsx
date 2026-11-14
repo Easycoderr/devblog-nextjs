@@ -1,7 +1,6 @@
 import dateCalculation from "@/lib/utils/dateCalculation";
 import Image from "next/image";
 import CommentSection from "./CommentSection";
-import MarkdownRenderer from "./MarkdownRenderer";
 import PostCardAvatar from "./PostCardAvatar";
 import categoryColorPicker from "@/lib/utils/categoryColorPicker";
 import { Eye } from "lucide-react";
@@ -13,7 +12,8 @@ import TiptapArticleRenderer from "./editor/TiptapArticleRenderer";
 export type PostDetailsData = Prisma.PostGetPayload<{
   include: {
     savedPosts: true;
-    _count: { select: { viewLog: true; likes: true } };
+    _count: { select: { viewLog: true; likes: true; shares: true } };
+    likes: { select: { id: true } };
   };
 }>;
 async function PostDetails({ post }: { post: PostDetailsData }) {
@@ -81,18 +81,7 @@ async function PostDetails({ post }: { post: PostDetailsData }) {
 
       <div className="w-full h-0.5 bg-border col-span-2 rounded-full"></div>
       {/* content */}
-      <article
-      //         className="
-      //         break-all
-      //         text-pretty
-      //         prose prose-pre:bg-transparent
-      // prose-pre:p-0 md:col-span-2 max-w-none prose-lg
-      //     prose-headings:text-foreground
-      //     prose-p:text-muted-foreground
-      //     prose-strong:text-foreground
-      //     prose-li:text-muted-foreground
-      //   "
-      >
+      <article>
         <TiptapArticleRenderer content={JSON.parse(content)} />
       </article>
       {/* comments */}

@@ -21,7 +21,12 @@ async function getPostsByUserId(userId: string, currPage: number) {
               }
             : {}),
           _count: {
-            select: { viewLog: true },
+            select: { viewLog: true, shares: true, likes: true },
+          },
+          likes: {
+            where: user?.id ? { userId: user.id } : { OR: [] },
+            select: { id: true },
+            take: 1,
           },
         },
       }),
