@@ -18,7 +18,7 @@ async function PostCardHeader({ post, user }: PostCardHeaderProps) {
           className="object-cover"
           src={imageUrl}
           fill
-          sizes="200px"
+          sizes="auto, (max-width: 639px) calc(100vw - 32px), (max-width: 767px) 608px, (max-width: 1023px) 372px, (max-width: 1279px) 238px, (max-width: 1535px) 302px, 346px"
           alt={title}
           quality={70}
         />
