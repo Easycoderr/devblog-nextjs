@@ -18,22 +18,22 @@ export async function likePost(
   });
 
   if (!post) return { success: false, message: "Post not found!" };
+\
   if (post.likes.length > 0) {
     await prisma.like.delete({
-      where: {
-        id: post.likes[0].id,
-      },
-    });
+      where: { id: post.likes[0].id },
+  });
   } else {
     await prisma.like.create({
-      data: {
-        userId,
-        postId,
-      },
+      data: { userId, postId },
     });
 
     await createNotification("LIKE", post.id);
   }
+
   revalidatePath("/");
+  revalidatePath("/blogs");
+  revalidatePath(`/blogs/${post.slug}`);
+
   return { success: true, message: "Post liked successfully" };
 }
