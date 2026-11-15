@@ -8,7 +8,7 @@ type PostCardHeaderProps = {
   user: UserType;
   post: PostCardPostData;
 };
-async function PostCardHeader({ post, user }: PostCardHeaderProps) {
+function PostCardHeader({ post, user }: PostCardHeaderProps) {
   const { category, title, imageUrl, _count } = post;
   const categoryColor = categoryColorPicker(category);
   return (
