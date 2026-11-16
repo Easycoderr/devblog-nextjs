@@ -14,7 +14,7 @@ function Footer() {
           {/* logo */}
           <div className="flex flex-col items-center">
             <span className="mb-3">
-              <Logo w={140} h={140} />
+              <Logo width={140} />
             </span>
             <p className="leading-relaxed text-center">
               A platform for developers to share knowledge and grow together.

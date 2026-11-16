@@ -19,21 +19,19 @@ function UserAvatar({
     default: "text-xs text-text flex items-center gap-1",
     secondary: "text-xs text-text flex items-center gap-1",
   };
-  const sizes = String((Number(size) * 14) / 8);
+
   const { name, avatar, userName } = user || {};
   return (
     <div className={style[variant]}>
       {avatar ? (
-        <div
-          className={`relative rounded-full h-6 h-${size} w-${size} overflow-hidden border border-border`}
-        >
+        <div className="relative h-8 w-8 shrink-0 rounded-full overflow-hidden border border-border">
           <Image
             fill
-            sizes={`${sizes}px}`}
+            sizes="32px"
             src={avatar}
             className="object-cover"
             alt={`${name}-user`}
-            quality={100}
+            quality={70}
           />
         </div>
       ) : (

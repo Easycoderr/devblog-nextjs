@@ -72,7 +72,7 @@ function Header({ user, notifications }: HeaderProps) {
             <div className="flex gap-10 items-center z-20">
               {/* logo */}
               <div className="ml-6">
-                <Logo w={160} h={160} />
+                <Logo width={160} />
               </div>
               <HeaderDeskNav
                 links={links}

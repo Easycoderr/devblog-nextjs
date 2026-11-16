@@ -1,11 +1,13 @@
 import Image from "next/image";
 
-function Logo({ w, h }: { w: number; h: number }) {
+function Logo({ width }: { width: number }) {
+  const height = Math.round((width * 127) / 384);
+
   return (
     <Image
       src="/images/logo.png"
-      width={w}
-      height={h}
+      width={width}
+      height={height}
       alt="devBlog logo"
       quality={70}
     />
