@@ -28,6 +28,14 @@ async function getPostsByUserId(userId: string, currPage: number) {
             select: { id: true },
             take: 1,
           },
+          author: {
+            select: {
+              id: true,
+              name: true,
+              userName: true,
+              avatar: true,
+            },
+          },
         },
       }),
       prisma.post.count({ where: { authorId: userId } }),

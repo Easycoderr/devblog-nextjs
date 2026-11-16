@@ -18,6 +18,14 @@ export type PostWithMeta = Prisma.PostGetPayload<{
     likes: {
       select: { id: true };
     };
+    author: {
+      select: {
+        id: true;
+        name: true;
+        userName: true;
+        avatar: true;
+      };
+    };
   };
 }>;
 

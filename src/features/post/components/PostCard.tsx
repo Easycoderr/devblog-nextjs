@@ -28,6 +28,13 @@ export type PostCardPostData = {
   likes: {
     id: string;
   }[];
+
+  author: {
+    id: string;
+    name: string | null;
+    avatar: string | null;
+    userName: string;
+  };
 };
 export type PostCardProps = {
   post: PostCardPostData;
@@ -52,7 +59,7 @@ function PostCard({ post, user }: PostCardProps) {
       <div className="space-y-2 mt-auto px-3">
         <div className="flex flex-wrap items-center gap-1">
           {/* <Calendar className="text-green-500" size={17} /> */}
-          <PostCardAvatar authorId={authorId} />
+          <PostCardAvatar author={post?.author} />
           <span className="text-xs text-muted-foreground">•</span>
           <span className="text-xs text-muted-foreground">
             {dateCalculation(createdAt)} • {readTime} min read

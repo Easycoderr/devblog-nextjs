@@ -18,11 +18,11 @@ export async function likePost(
   });
 
   if (!post) return { success: false, message: "Post not found!" };
-\
+
   if (post.likes.length > 0) {
     await prisma.like.delete({
       where: { id: post.likes[0].id },
-  });
+    });
   } else {
     await prisma.like.create({
       data: { userId, postId },

@@ -38,6 +38,15 @@ async function getPosts(page: number = 1, searchQuery?: PostSearchQueryTypes) {
           select: { id: true },
           take: 1,
         },
+
+        author: {
+          select: {
+            id: true,
+            avatar: true,
+            name: true,
+            userName: true,
+          },
+        },
       },
     }),
     prisma.post.count({ where: whereClause }),

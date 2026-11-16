@@ -19,6 +19,14 @@ export async function getPostBySlug(slug: string) {
         select: { id: true },
         take: 1,
       },
+      author: {
+        select: {
+          id: true,
+          name: true,
+          userName: true,
+          avatar: true,
+        },
+      },
     },
   });
   return post;

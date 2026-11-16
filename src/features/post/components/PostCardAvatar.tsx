@@ -1,15 +1,14 @@
 import UserAvatar from "@/components/ui/UserAvatar";
-import getAuthorById from "@/lib/actions/post/getAuthorById";
-
-async function PostCardAvatar({
-  authorId,
-  size,
-}: {
-  authorId: string;
+type PostCardAvatarProps = {
+  author: {
+    id: string;
+    name: string | null;
+    avatar: string | null;
+    userName: string;
+  };
   size?: string;
-}) {
-  const author = await getAuthorById(authorId);
-  if (!author) return null;
+};
+async function PostCardAvatar({ size, author }: PostCardAvatarProps) {
   return (
     <div className="text-foreground">
       <UserAvatar user={author} size={size} />

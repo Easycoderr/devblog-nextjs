@@ -14,6 +14,14 @@ export type PostDetailsData = Prisma.PostGetPayload<{
     savedPosts: true;
     _count: { select: { viewLog: true; likes: true; shares: true } };
     likes: { select: { id: true } };
+    author: {
+      select: {
+        id: true;
+        name: true;
+        userName: true;
+        avatar: true;
+      };
+    };
   };
 }>;
 async function PostDetails({ post }: { post: PostDetailsData }) {
@@ -53,7 +61,7 @@ async function PostDetails({ post }: { post: PostDetailsData }) {
         {/* category + date */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 mt-auto">
-            <PostCardAvatar authorId={authorId} size="14" />
+            <PostCardAvatar author={post.author} size="14" />
             <span className="text-sm text-muted-foreground"> •</span>
             <p className="text-sm text-muted-foreground flex items-center gap-1">
               <span>{dateCalculation(date)}</span>

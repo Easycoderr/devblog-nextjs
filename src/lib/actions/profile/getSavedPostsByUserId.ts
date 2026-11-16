@@ -29,6 +29,14 @@ async function getSavedPostsByUserId(userId: string, currPage: number) {
             select: { id: true },
             take: 1,
           },
+          author: {
+            select: {
+              id: true,
+              name: true,
+              userName: true,
+              avatar: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc", // Shows the newest posts first
