@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
-
+@custom-variant dark (&:where(.dark, .dark *));
 @theme {
   /* Tailwind v4 utility colors */
   --color-background: #f8fafc;
@@ -35,7 +35,7 @@
 
   --font-inter: var(--font-inter);
   --font-sora: var(--font-sora);
-  --font-space: var(--font-spaceGrotesk);
+
   --font-sans: var(--font-inter);
 }
 

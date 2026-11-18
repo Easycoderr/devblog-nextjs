@@ -7,8 +7,9 @@ import type { PostCardPostData } from "./PostCard";
 type PostCardHeaderProps = {
   user: UserType;
   post: PostCardPostData;
+  isLcp: boolean;
 };
-function PostCardHeader({ post, user }: PostCardHeaderProps) {
+function PostCardHeader({ post, user, isLcp }: PostCardHeaderProps) {
   const { category, title, imageUrl, _count } = post;
   const categoryColor = categoryColorPicker(category);
   return (
@@ -21,6 +22,8 @@ function PostCardHeader({ post, user }: PostCardHeaderProps) {
           sizes="auto, (max-width: 639px) calc(100vw - 32px), (max-width: 767px) 608px, (max-width: 1023px) 372px, (max-width: 1279px) 238px, (max-width: 1535px) 302px, 346px"
           alt={title}
           quality={70}
+          loading={isLcp ? "eager" : "lazy"}
+          fetchPriority={isLcp ? "high" : "auto"}
         />
         <div className="absolute bottom-2 left-2 flex gap-4 text-xs capitalize tracking-wide font-sora font-medium  items-center">
           <span className={`${categoryColor} px-2 py-0.5 rounded-full`}>

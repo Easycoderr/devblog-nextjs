@@ -23,8 +23,13 @@ async function UserProfileLikedPosts({
     <>
       {likedPosts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-          {likedPosts.map((post) => (
-            <PostCard key={post.id} post={post} user={currUser} />
+          {likedPosts.map((post, index) => (
+            <PostCard
+              key={post.id}
+              post={post}
+              user={currUser}
+              isLcp={index === 0}
+            />
           ))}
         </div>
       ) : (

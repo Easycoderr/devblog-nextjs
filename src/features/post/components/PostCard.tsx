@@ -40,12 +40,12 @@ export type PostCardProps = {
   post: PostCardPostData;
   user: UserType | null;
 };
-function PostCard({ post, user }: PostCardProps) {
+function PostCard({ post, user, isLcp }: PostCardProps & { isLcp: boolean }) {
   const { readTime, title, createdAt, authorId } = post;
   const description = post.description.slice(0, 80);
   return (
     <div className="group relative grid grid-rows-[auto_auto_1fr_auto_auto] overflow-hidden transition-all duration-all flex-col gap-2 bg-card shadow hover:shadow-lg rounded-lg">
-      <PostCardHeader post={post} user={user} />
+      <PostCardHeader post={post} user={user} isLcp={isLcp} />
 
       {/* title */}
       <h3 className="text-xl text-foreground mb-1 tracking-tight font-semibold px-3">

@@ -27,8 +27,8 @@ async function PostList({ searchParams }: PostListProps) {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-4 gap-6">
         {/* Articles */}
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} user={user} />
+        {posts.map((post, index) => (
+          <PostCard key={post.id} post={post} user={user} isLcp={index === 0} />
         ))}
       </div>
       {/* pagination */}

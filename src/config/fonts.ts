@@ -8,7 +8,3 @@ export const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
 });
-export const spaceGrotesk = Space_Grotesk({
-  variable: "--font-spaceGrotesk",
-  subsets: ["latin"],
-});
