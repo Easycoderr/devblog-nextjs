@@ -1,5 +1,3 @@
-"use client";
-
 import { Copy } from "lucide-react";
 
 export default function CodeCard() {

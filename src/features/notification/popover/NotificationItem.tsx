@@ -5,24 +5,23 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
-import type { NotificationType } from "@/components/layout/Header";
-import dateCalculation from "@/lib/utils/dateCalculation";
+import type { NotificationWithDate } from "@/components/layout/Header";
+
 import NotificationContent from "./NotificationContent";
 import selectHref from "../selectHref";
 import readNotification from "@/lib/actions/notification/readNotification";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { EllipsisVertical } from "lucide-react";
 
 function NotificationItem({
   notifications,
   setOpen,
 }: {
-  notifications: NotificationType;
+  notifications: NotificationWithDate;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const router = useRouter();
-  const { id, commentId, actor, post, actorId, postId, type, createdAt, read } =
+  const { id, commentId, actor, post, actorId, type, read, formattedDate } =
     notifications;
   if (!actor) return null;
   const selectedHref = selectHref(type, actorId, post?.slug, commentId);
@@ -54,9 +53,7 @@ function NotificationItem({
         </Avatar>
         <NotificationContent actor={actor} type={type} />
       </div>
-      <span className="text-muted-foreground text-xs">
-        {dateCalculation(createdAt)}
-      </span>
+      <span className="text-muted-foreground text-xs">{formattedDate}</span>
       {read || (
         <span className="bg-destructive h-2.5 w-2.5 rounded-full absolute top-0 right-0"></span>
       )}

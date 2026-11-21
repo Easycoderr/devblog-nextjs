@@ -1,0 +1,58 @@
+.editor {
+  color: var(--color-foreground);
+}
+
+.editor p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.editor h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.editor h2 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.editor ul,
+.editor ol {
+  padding-left: 1.5rem;
+}
+
+.editor ul {
+  list-style-type: disc;
+}
+
+.editor ol {
+  list-style-type: decimal;
+}
+
+.editor blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-primary);
+  font-style: italic;
+}
+
+.editor :global(.tiptap p.is-editor-empty:first-child)::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--color-muted-foreground);
+  pointer-events: none;
+  height: 0;
+}
+
+.editor :global(.ProseMirror) {
+  min-height: 280px;
+  padding: 1rem;
+  box-sizing: border-box;
+  outline: none;
+  background-color: var(--color-input);
+}

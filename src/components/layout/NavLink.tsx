@@ -15,10 +15,6 @@ function NavLink({
   id,
   activeSection,
 }: NavLinkProps) {
-  // console.log(
-  //   `Link: ${id}, ActiveSec: ${activeSection}, Path: ${pathname}, Href: ${href}`,
-  // );
-
   const isActive =
     id === activeSection || (activeSection !== "about" && href === pathname);
   return (

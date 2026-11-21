@@ -24,9 +24,10 @@ export type NotificationType = Prisma.NotificationGetPayload<{
     actor: { select: { userName: true; name: true; avatar: true } };
   };
 }>;
+export type NotificationWithDate = NotificationType & { formattedDate: string };
 type HeaderProps = {
   user: UserWithMeta | null;
-  notifications: NotificationType[];
+  notifications: NotificationWithDate[];
 };
 
 const links = [
@@ -54,7 +55,7 @@ function Header({ user, notifications }: HeaderProps) {
       setSticky(false);
     }
     return () => observer.disconnect();
-  }, [sticky, pathname]);
+  }, [pathname]);
 
   return (
     <header

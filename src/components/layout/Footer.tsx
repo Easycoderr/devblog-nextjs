@@ -1,9 +1,7 @@
-"use client";
 import Link from "next/link";
 import Logo from "../ui/Logo";
-
+import FooterCopyRight from "./FooterCopyRight";
 function Footer() {
-  const year = new Date().getFullYear();
   return (
     <footer
       id="footer"
@@ -49,10 +47,7 @@ function Footer() {
             </Link>
           </div>
 
-          {/* register buttons */}
-          <div className="text-sm mx-auto text-muted-foreground">
-            &copy; <span>{year}</span> DevBlog. All rights reserved.
-          </div>
+          <FooterCopyRight />
         </div>
       </div>
     </footer>

@@ -11,7 +11,13 @@ function HeroSection() {
         <div className="flex items-center lg:items-start flex-col gap-8">
           <div className="flex items-center justify-center">
             <h1 className="flex flex-col gap-1">
-              <TextAnimation
+              <p className="bg-linear-to-l text-4xl md:text-5xl xl:text-6xl font-sora tracking-tight font-bold text-foreground">
+                Write Better Code.
+              </p>
+              <p className="bg-linear-to-l text-4xl md:text-5xl xl:text-6xl font-sora tracking-tight font-bold text-primary">
+                Share Better Ideas.
+              </p>
+              {/* <TextAnimation
                 text="Write Better Code."
                 className="bg-linear-to-l text-4xl md:text-5xl xl:text-6xl font-sora tracking-tight font-bold text-foreground"
               />
@@ -19,7 +25,7 @@ function HeroSection() {
                 direction="down"
                 text="Share Better Ideas."
                 className="bg-linear-to-l text-4xl md:text-5xl xl:text-6xl font-sora tracking-tight font-bold text-primary"
-              />
+              /> */}
             </h1>
           </div>
           <p className="text-foreground leading-relaxed tracking-wide text-md md:text-lg text-center lg:text-left max-w-xl font-medium">

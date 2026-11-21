@@ -8,7 +8,7 @@ import {
 } from "../../../components/ui/popover";
 import { Button } from "../../../components/ui/button";
 import { Bell, BellDot } from "lucide-react";
-import type { NotificationType } from "../../../components/layout/Header";
+import type { NotificationWithDate } from "../../../components/layout/Header";
 
 import NotificationItem from "../popover/NotificationItem";
 import { useOptimistic, useState } from "react";
@@ -18,7 +18,7 @@ import MarkAllUsReadButton from "./MarkAllUsReadButton";
 function Notifications({
   notifications,
 }: {
-  notifications: NotificationType[];
+  notifications: NotificationWithDate[];
 }) {
   const [optimisticNotifications, setOptimisticNotifications] = useOptimistic(
     notifications,

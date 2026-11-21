@@ -10,9 +10,9 @@ import type { JSONContent } from "@tiptap/core";
 import CustomImage from "./CustomImage";
 import ImageBubbleMenu from "./ImageBubbleMenu";
 import { Placeholder } from "@tiptap/extensions";
-import { memo, useState } from "react";
-import extractTiptapText from "@/lib/utils/extractTiptapText";
+import { memo } from "react";
 import EditorStats from "./EditorStats";
+import styles from "./ArticleEditor.module.css";
 
 type ArticleEditorProps = {
   content?: JSONContent;
@@ -61,7 +61,9 @@ function ArticleEditor({ content, onChange, onBlur }: ArticleEditorProps) {
   }
 
   return (
-    <div className="tiptap-editor overflow-hidden rounded-xl border border-border">
+    <div
+      className={`${styles.editor} overflow-hidden rounded-xl border border-border`}
+    >
       <EditorToolbar editor={editor} />
       <div className="tiptap">
         <ImageBubbleMenu editor={editor} />
